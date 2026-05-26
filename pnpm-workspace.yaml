@@ -1,6 +1,7 @@
 packages:
   - 'server'
   - 'app'
+  - 'bot'
   - 'cli'
   - 'services'
   - 'routers'

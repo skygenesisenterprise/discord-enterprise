@@ -7,17 +7,7 @@
   "workspaces": [
     "app",
     "server",
-    "cli",
-    "services",
-    "tools",
-    "routers",
-    "options",
-    "package",
-    "snap",
-    "tests",
-    "messages",
-    "prisma",
-    "monitoring"
+    "bot"
   ],
   "scripts": {
     "dev": "concurrently \"pnpm --filter app dev\" \"pnpm --filter server dev\"",

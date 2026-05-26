@@ -1,53 +1,131 @@
 services:
-  company-website:
+  postgres:
+    image: postgres:16-alpine
+    container_name: discord-enterprise-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: discord_enterprise
+      POSTGRES_USER: sge
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sge -d discord_enterprise"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - discord_network
+
+  api:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: skygenesisenterprise/company-website:latest
-    container_name: company-website
+    image: discord-enterprise:dev
+    container_name: discord-enterprise-api-dev
     restart: unless-stopped
-    ports:
-      - "3000:3000"
-    expose:
-      - "8080"
-      - "5432"
     environment:
-      NODE_ENV: development
-      ENVIRONMENT: development
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: aether
-      DB_NAME: etheria_account
-      DB_PASSWORD: ${DB_PASSWORD:-password}
-      DATABASE_URL: postgresql://aether:${DB_PASSWORD:-password}@localhost:5432/etheria_account
-      JWT_SECRET: ${JWT_SECRET:-default-secret-change-in-production}
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://sge:${POSTGRES_PASSWORD}@postgres:5432/discord_enterprise
       SERVER_PORT: 8080
-      NEXT_PUBLIC_API_URL: http://localhost:3000
-      NEXT_PUBLIC_ENVIRONMENT: development
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
-      GIN_MODE: debug
-      USE_EMBEDDED_DB: "true"
+      API_INTERNAL_URL: http://api:8080
+      ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
     volumes:
       - ./server:/app/server
-      - ./.air.toml:/app/.air.toml
-      - ./app:/app/app:Delegated
-      - ./scripts:/app/scripts
-      - /app/app/node_modules
-      - ./logs:/app/logs
-      - /var/run/docker.sock:/var/run/docker.sock
-      - postgres_data:/var/lib/postgresql/data
+      - ./go.mod:/app/go.mod:ro
+      - ./go.sum:/app/go.sum:ro
+    expose:
+      - "8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health 2>/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "20m"
-        max-file: "5"
-    entrypoint: ["/entrypoint.sh"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/v1/health >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    command: ["pnpm", "--filter", "server", "start"]
+    networks:
+      - discord_network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: discord-enterprise:dev
+    container_name: discord-enterprise-bot-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: postgresql://sge:${POSTGRES_PASSWORD}@postgres:5432/discord_enterprise
+      API_INTERNAL_URL: http://api:8080
+      ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
+    volumes:
+      - ./bot:/app/bot
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - |
+        until pg_isready -h postgres -p 5432 -U sge -d discord_enterprise; do
+          echo "Waiting for postgres..."
+          sleep 2
+        done
+        until wget -qO- http://api:8080/api/v1/health >/dev/null 2>&1; do
+          echo "Waiting for api..."
+          sleep 2
+        done
+        pnpm --filter bot start
+    networks:
+      - discord_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: discord-enterprise:dev
+    container_name: discord-enterprise-web-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      API_INTERNAL_URL: http://api:8080
+      NEXT_PUBLIC_API_URL: /api
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
+      ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
+    volumes:
+      - ./app:/app/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ >/dev/null 2>&1 || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    command: ["pnpm", "--filter", "app", "start"]
+    networks:
+      - discord_network
 
 volumes:
   postgres_data:
+
+networks:
+  discord_network:
+    name: discord_network
