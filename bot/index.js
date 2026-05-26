@@ -1,0 +1,60 @@
+import { readdir } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { env } from "./config/env.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds],
+});
+
+client.commands = new Collection();
+
+async function loadCommands() {
+  const commandsPath = path.join(__dirname, "commands");
+  const commandFiles = (await readdir(commandsPath)).filter((file) => file.endsWith(".js"));
+
+  for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = await import(pathToFileURL(filePath).href);
+
+    if (!command.data || !command.execute) {
+      console.warn(`[WARNING] La commande ${file} n'exporte pas data + execute.`);
+      continue;
+    }
+
+    client.commands.set(command.data.name, command);
+  }
+}
+
+async function loadEvents() {
+  const eventsPath = path.join(__dirname, "events");
+  const eventFiles = (await readdir(eventsPath)).filter((file) => file.endsWith(".js"));
+
+  for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file);
+    const event = await import(pathToFileURL(filePath).href);
+
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(...args));
+    } else {
+      client.on(event.name, (...args) => event.execute(...args));
+    }
+  }
+}
+
+async function bootstrap() {
+  try {
+    await loadCommands();
+    await loadEvents();
+    await client.login(env.token);
+  } catch (error) {
+    console.error("Échec du démarrage du bot:", error);
+    process.exit(1);
+  }
+}
+
+void bootstrap();
