@@ -48,6 +48,16 @@ async function loadEvents() {
 
 async function bootstrap() {
   try {
+    if (!env.isConfigured) {
+      console.warn(
+        `[WARN] Discord bot config incomplete. Missing: ${env.missingRequiredVars.join(", ")}`,
+      );
+      console.warn("[WARN] Fill in .env or the root .env.example-derived values, then save a file to restart.");
+
+      setInterval(() => {}, 1 << 30);
+      return;
+    }
+
     await loadCommands();
     await loadEvents();
     await client.login(env.token);

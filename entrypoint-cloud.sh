@@ -8,6 +8,10 @@ set -e
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/go/bin:/root/go/bin:/root/.local/share/corepack"
 export NODE_ENV="${NODE_ENV:-production}"
 
+if [ "$#" -gt 0 ]; then
+    exec "$@"
+fi
+
 # =============================================================================
 # Configuration
 # =============================================================================

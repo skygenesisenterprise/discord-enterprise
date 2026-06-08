@@ -58,8 +58,8 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      DATABASE_URL: postgresql://sge:${POSTGRES_PASSWORD}@postgres:5432/discord_enterprise
-      API_INTERNAL_URL: http://api:8080
+      DATABASE_URL: postgresql://aether:${DB_PASSWORD:-password}@discord-enterprise:5432/etheria_account
+      API_INTERNAL_URL: http://discord-enterprise:8080
       ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
       DISCORD_TOKEN: ${DISCORD_TOKEN}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
@@ -67,25 +67,21 @@ services:
     volumes:
       - ./bot:/app/bot
     depends_on:
-      postgres:
-        condition: service_healthy
-      api:
+      discord-enterprise:
         condition: service_healthy
     command:
       - sh
       - -c
       - |
-        until pg_isready -h postgres -p 5432 -U sge -d discord_enterprise; do
-          echo "Waiting for postgres..."
+        until pg_isready -h discord-enterprise -p 5432 -U aether -d etheria_account; do
+          echo "Waiting for discord-enterprise database..."
           sleep 2
         done
-        until wget -qO- http://api:8080/api/v1/health >/dev/null 2>&1; do
-          echo "Waiting for api..."
+        until wget -qO- http://discord-enterprise:8080/api/v1/health >/dev/null 2>&1; do
+          echo "Waiting for discord-enterprise API..."
           sleep 2
         done
         pnpm --filter bot start
-    networks:
-      - discord_network
 
 volumes:
   postgres_data:

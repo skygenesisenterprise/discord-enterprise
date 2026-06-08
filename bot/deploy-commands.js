@@ -2,7 +2,7 @@ import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { REST, Routes } from "discord.js";
-import { env } from "./config/env.js";
+import { assertDiscordEnv, env } from "./config/env.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +29,7 @@ async function collectCommands() {
 
 async function deployGuildCommands() {
   try {
+    assertDiscordEnv();
     const commands = await collectCommands();
     const rest = new REST({ version: "10" }).setToken(env.token);
 

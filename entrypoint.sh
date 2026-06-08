@@ -8,6 +8,10 @@ set -e
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/go/bin:/go/bin:/root/go/bin:$HOME/.local/share/corepack/shims:$HOME/.local/bin"
 export NODE_ENV="${NODE_ENV:-development}"
 
+if [ "$#" -gt 0 ]; then
+    exec "$@"
+fi
+
 # =============================================================================
 # Configuration
 # =============================================================================

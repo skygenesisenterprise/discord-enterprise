@@ -24,7 +24,9 @@ WORKDIR /app
 
 RUN npm install -g corepack --force && corepack enable && corepack prepare pnpm@9.15.4 --activate
 
-COPY app/package.json app/pnpm-lock.yaml* ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY app/package.json ./app/
+COPY bot/package.json ./bot/
 
 RUN pnpm install
 
@@ -91,7 +93,12 @@ COPY --from=node-builder /app/app/messages ./messages
 
 # ── Node Modules & Prisma ───────────────────────────────────────────────────────
 COPY --from=node-builder /app/node_modules ./node_modules
+COPY --from=node-builder /app/bot/node_modules ./bot/node_modules
 COPY --from=node-builder /app/prisma/      ./prisma/
+COPY package.json ./package.json
+COPY pnpm-lock.yaml ./pnpm-lock.yaml
+COPY pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY bot/ ./bot/
 
 # ── Go API Server Binary ───────────────────────────────────────────────────────
 COPY --from=go-builder /app/server/etheriatimes-api ./server/etheriatimes-api
