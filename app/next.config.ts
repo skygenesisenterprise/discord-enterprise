@@ -8,7 +8,7 @@ const isDocsDev = process.env.DOCS_DEV === "true";
 const isProduction = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["skygenesisenterprise.com", "192.168.1.3"],
+  allowedDevOrigins: ["guild.skygenesisenterprise.com", "192.168.1.3"],
   outputFileTracingExcludes: {
     "*": ["test/**"],
   },
@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
 
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "skygenesisenterprise.com", pathname: "/**" },
+      { protocol: "https", hostname: "guild.skygenesisenterprise.com", pathname: "/**" },
       { protocol: "https", hostname: "api.dicebear.com", pathname: "/**" },
       { protocol: "https", hostname: "avatars.githubusercontent.com", pathname: "/**" },
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },

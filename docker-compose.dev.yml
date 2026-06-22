@@ -1,91 +1,154 @@
 services:
-  discord-enterprise:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_DB: ${PG_DB}
+    expose:
+      - 5432
+
+  redis:
+    image: docker.io/library/redis:8-alpine
+    command:
+      - redis-server
+      - --loglevel
+      - warning
+      - --save
+      - "60"
+      - "1"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - redis:/data
+    expose:
+      - 6379
+
+  server:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: skygenesisenterprise/discord-enterprise:latest
-    container_name: discord-enterprise
+    image: skygenesisenterprise/discord-enterprise:latest-dev
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - 3000:3000
     expose:
-      - "8080"
-      - "5432"
+      - 8080
+    command: server
     environment:
-      NODE_ENV: development
-      ENVIRONMENT: development
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: aether
-      DB_NAME: etheria_account
-      DB_PASSWORD: ${DB_PASSWORD:-password}
-      DATABASE_URL: postgresql://aether:${DB_PASSWORD:-password}@localhost:5432/etheria_account
-      JWT_SECRET: ${JWT_SECRET:-default-secret-change-in-production}
-      SERVER_PORT: 8080
-      NEXT_PUBLIC_API_URL: http://localhost:3000
-      NEXT_PUBLIC_ENVIRONMENT: development
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
-      GIN_MODE: debug
-      USE_EMBEDDED_DB: "true"
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      SECRET_KEY: ${SECRET_KEY}
+      LISTEN__TRUSTED_PROXY_CIDRS: 0.0.0.0/0,::/0
+      HOST: ${DOMAIN_HOST}
+      POSTGRESQL__HOST: postgresql
+      POSTGRESQL__USER: ${PG_USER}
+      POSTGRESQL__NAME: ${PG_DB}
+      POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ./server:/app/server
-      - ./.air.toml:/app/.air.toml
-      - ./app:/app/app:Delegated
-      - ./scripts:/app/scripts
-      - /app/app/node_modules
-      - ./logs:/app/logs
-      - /var/run/docker.sock:/var/run/docker.sock
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health 2>/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "20m"
-        max-file: "5"
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_started
     entrypoint: ["/entrypoint.sh"]
 
-  bot:
+  worker:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    image: skygenesisenterprise/discord-enterprise-bot:latest
-    container_name: discord-enterprise-bot
+    image: skygenesisenterprise/discord-enterprise:latest-dev
     restart: unless-stopped
+    expose:
+      - 8080
+    command: worker
     environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      DATABASE_URL: postgresql://aether:${DB_PASSWORD:-password}@discord-enterprise:5432/etheria_account
-      API_INTERNAL_URL: http://discord-enterprise:8080
-      ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
-      DISCORD_TOKEN: ${DISCORD_TOKEN}
-      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
-      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      SECRET_KEY: ${SECRET_KEY}
+      HOST: ${DOMAIN_HOST}
+      POSTGRESQL__HOST: postgresql
+      POSTGRESQL__USER: ${PG_USER}
+      POSTGRESQL__NAME: ${PG_DB}
+      POSTGRESQL__PASSWORD: ${PG_PASS}
     volumes:
-      - ./bot:/app/bot
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
     depends_on:
-      discord-enterprise:
+      postgresql:
         condition: service_healthy
-    command:
-      - sh
-      - -c
-      - |
-        until pg_isready -h discord-enterprise -p 5432 -U aether -d etheria_account; do
-          echo "Waiting for discord-enterprise database..."
-          sleep 2
-        done
-        until wget -qO- http://discord-enterprise:8080/api/v1/health >/dev/null 2>&1; do
-          echo "Waiting for discord-enterprise API..."
-          sleep 2
-        done
-        pnpm --filter bot start
+      redis:
+        condition: service_started
+    entrypoint: ["/entrypoint.sh"]
+
+  discord:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: skygenesisenterprise/discord-enterprise:latest-dev
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: bot
+    environment:
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      SECRET_KEY: ${SECRET_KEY}
+      HOST: ${DOMAIN_HOST}
+      POSTGRESQL__HOST: postgresql
+      POSTGRESQL__USER: ${PG_USER}
+      POSTGRESQL__NAME: ${PG_DB}
+      POSTGRESQL__PASSWORD: ${PG_PASS}
+    volumes:
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    entrypoint: ["/entrypoint.sh"]
 
 volumes:
-  postgres_data:
-
-networks:
-  discord_network:
-    name: discord_network
+  database:
+  redis:
+  media:
+  certs:
+  custom-templates:

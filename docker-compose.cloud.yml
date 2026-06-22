@@ -1,96 +1,130 @@
 services:
-  discord-enterprise:
-    build:
-      context: .
-      dockerfile: Dockerfile.cloud
-    image: skygenesisenterprise/discord-enterprise:latest
-    container_name: discord-enterprise
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    expose:
-      - "8080"
-      - "5432"
-    environment:
-      NODE_ENV: development
-      ENVIRONMENT: development
-      DB_HOST: ${DB_HOST:-localhost}
-      DB_PORT: ${DB_PORT:-5432}
-      DB_USER: ${DB_USER:-aether}
-      DB_NAME: ${DB_NAME:-etheria_account}
-      DB_PASSWORD: ${DB_PASSWORD:-password}
-      DATABASE_URL: postgresql://${DB_USER:-aether}:${DB_PASSWORD:-password}@${DB_HOST:-localhost}:${DB_PORT:-5432}/${DB_NAME:-etheria_account}
-      JWT_SECRET: ${JWT_SECRET:-default-secret-change-in-production}
-      SERVER_PORT: 8080
-      NEXT_PUBLIC_API_URL: http://localhost:3000
-      NEXT_PUBLIC_ENVIRONMENT: development
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*}
-      GIN_MODE: debug
-      USE_EMBEDDED_DB: "true"
-    volumes:
-      - ./server:/app/server
-      - ./.air.toml:/app/.air.toml
-      - ./app:/app/app:Delegated
-      - ./scripts:/app/scripts
-      - /app/app/node_modules
-      - ./logs:/app/logs
-      - /var/run/docker.sock:/var/run/docker.sock
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health 2>/dev/null || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "20m"
-        max-file: "5"
-    entrypoint: ["/entrypoint.sh"]
-
-  bot:
-    build:
-      context: .
-      dockerfile: Dockerfile.cloud
-    image: skygenesisenterprise/discord-enterprise-bot:latest
-    container_name: discord-enterprise-bot
-    restart: unless-stopped
-    environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      DB_HOST: ${BOT_DB_HOST:-discord-enterprise}
-      DB_PORT: ${BOT_DB_PORT:-5432}
-      DB_USER: ${BOT_DB_USER:-aether}
-      DB_NAME: ${BOT_DB_NAME:-etheria_account}
-      DB_PASSWORD: ${BOT_DB_PASSWORD:-${DB_PASSWORD:-password}}
-      DATABASE_URL: postgresql://${BOT_DB_USER:-aether}:${BOT_DB_PASSWORD:-${DB_PASSWORD:-password}}@${BOT_DB_HOST:-discord-enterprise}:${BOT_DB_PORT:-5432}/${BOT_DB_NAME:-etheria_account}
-      API_INTERNAL_URL: http://discord-enterprise:8080
-      ADMIN_SECRET: ${ADMIN_SECRET:-change-me}
-      DISCORD_TOKEN: ${DISCORD_TOKEN}
-      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
-      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
-    volumes:
-      - ./bot:/app/bot
-    depends_on:
-      discord-enterprise:
-        condition: service_healthy
+  redis:
+    image: docker.io/library/redis:8-alpine
     command:
-      - sh
-      - -c
-      - |
-        until pg_isready -h "$$DB_HOST" -p "$$DB_PORT" -U "$$DB_USER" -d "$$DB_NAME"; do
-          echo "Waiting for discord-enterprise database..."
-          sleep 2
-        done
-        until wget -qO- http://discord-enterprise:8080/api/v1/health >/dev/null 2>&1; do
-          echo "Waiting for discord-enterprise API..."
-          sleep 2
-        done
-        pnpm --filter bot start
+      - redis-server
+      - --loglevel
+      - warning
+      - --requirepass
+      - "${REDIS_PASSWORD:-redis-default-password}"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"${REDIS_PASSWORD:-redis-default-password}\" ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    volumes:
+      - redis:/data
+    expose:
+      - 6379
+    environment: 
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis-default-password}
+      REDIS_URL: redis://default:${REDIS_PASSWORD:-redis-default-password}@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      DATABASE_URL: ${DATABASE_URL}
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.cloud
+    image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
+    env_file:
+      - .env
+    restart: unless-stopped
+    expose:
+      - 3000
+      - 8080
+    command: server
+    environment:
+      NODE_ENV: production
+      USE_EMBEDDED_DB: "false"
+      LISTEN__TRUSTED_PROXY_CIDRS: 0.0.0.0/0,::/0
+      HOST: ${DOMAIN_HOST:-localhost}
+      FRONTEND_PORT: 3000
+      API_PORT: 8080
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis-default-password}
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:${REDIS_PASSWORD:-redis-default-password}@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      REDIS_DEFAULT_TTL: 300
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
+    depends_on:
+      redis:
+        condition: service_started
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.cloud
+    image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
+    env_file:
+      - .env
+    restart: unless-stopped
+    expose:
+      - 8080
+    command: worker
+    environment:
+      NODE_ENV: production
+      USE_EMBEDDED_DB: "false"
+      HOST: ${DOMAIN_HOST:-localhost}
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis-default-password}
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:${REDIS_PASSWORD:-redis-default-password}@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
+    depends_on:
+      redis:
+        condition: service_started
+
+  discord:
+    build:
+      context: .
+      dockerfile: Dockerfile.cloud
+    image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: bot
+    environment:
+      NODE_ENV: production
+      USE_EMBEDDED_DB: "false"
+      HOST: ${DOMAIN_HOST:-localhost}
+      REDIS_ENABLED: "true"
+      REDIS_REQUIRED: "false"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-redis-default-password}
+      REDIS_DB: "0"
+      REDIS_URL: redis://default:${REDIS_PASSWORD:-redis-default-password}@redis:6379/0
+      REDIS_KEY_PREFIX: discord-enterprise:v1
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - media:/media
+      - certs:/certs
+      - custom-templates:/templates
+    depends_on:
+      redis:
+        condition: service_started
 
 volumes:
-  postgres_data:
-
-networks:
-  discord_network:
-    name: discord_network
+  redis:
+  media:
+  certs:
+  custom-templates:

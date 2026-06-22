@@ -36,9 +36,26 @@ type Config struct {
 	Server   ServerConfig
 	Log      LogConfig
 	Mail     MailConfig
+	Redis    RedisConfig
 
 	Port      string
 	SystemKey string
+}
+
+type RedisConfig struct {
+	Enabled        bool
+	Required       bool
+	URL            string
+	Host           string
+	Port           string
+	Password       string
+	DB             int
+	KeyPrefix      string
+	DefaultTTL     int
+	ConnectTimeout int
+	ReadTimeout    int
+	WriteTimeout   int
+	MaxRetries     int
 }
 
 type StalwartConfig struct {
@@ -185,6 +202,22 @@ func Load() *Config {
 				},
 			},
 		},
+	}
+
+	cfg.Redis = RedisConfig{
+		Enabled:        getEnvBool("REDIS_ENABLED", false),
+		Required:       getEnvBool("REDIS_REQUIRED", false),
+		URL:            getEnv("REDIS_URL", ""),
+		Host:           getEnv("REDIS_HOST", "localhost"),
+		Port:           getEnv("REDIS_PORT", "6379"),
+		Password:       getEnv("REDIS_PASSWORD", ""),
+		DB:             getEnvInt("REDIS_DB", 0),
+		KeyPrefix:      getEnv("REDIS_KEY_PREFIX", "company-website:v1"),
+		DefaultTTL:     getEnvInt("REDIS_DEFAULT_TTL", 300),
+		ConnectTimeout: getEnvInt("REDIS_CONNECT_TIMEOUT", 5),
+		ReadTimeout:    getEnvInt("REDIS_READ_TIMEOUT", 3),
+		WriteTimeout:   getEnvInt("REDIS_WRITE_TIMEOUT", 3),
+		MaxRetries:     getEnvInt("REDIS_MAX_RETRIES", 3),
 	}
 
 	cfg.Port = strconv.Itoa(cfg.Server.Port)

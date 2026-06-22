@@ -1,13 +1,8 @@
 packages:
-  - 'server'
   - 'app'
   - 'bot'
-  - 'cli'
-  - 'services'
-  - 'routers'
   - 'tools'
   - 'tests'
-  - 'options'
   - 'package'
   - 'snap'
   - 'prisma'
