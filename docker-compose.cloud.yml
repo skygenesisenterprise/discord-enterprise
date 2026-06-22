@@ -31,6 +31,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cloud
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
     restart: unless-stopped
     env_file:
@@ -80,6 +82,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cloud
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
     restart: unless-stopped
     env_file:
@@ -124,6 +128,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cloud
+      args:
+        DATABASE_URL: ${DATABASE_URL}
     image: skygenesisenterprise/discord-enterprise:${APP_IMAGE_TAG:-cloud}
     restart: unless-stopped
     env_file:
