@@ -1,0 +1,3 @@
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";import{addAudit}from"../utils/store.js";
+export const data=new SlashCommandBuilder().setName("unban").setDescription("Débannit un utilisateur.").setDefaultMemberPermissions(PermissionFlagsBits.BanMembers).addStringOption(o=>o.setName("user_id").setDescription("Identifiant Discord").setRequired(true)).addStringOption(o=>o.setName("reason").setDescription("Raison"));
+export async function execute(i){const id=i.options.getString("user_id",true);await i.guild.members.unban(id,i.options.getString("reason")??undefined);addAudit({guildId:i.guildId,action:"unban",actor:i.user.tag,target:id});await i.reply({content:`Utilisateur ${id} débanni.`,ephemeral:true});}

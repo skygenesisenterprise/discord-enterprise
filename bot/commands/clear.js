@@ -1,0 +1,3 @@
+import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
+export const data=new SlashCommandBuilder().setName("clear").setDescription("Supprime des messages récents.").setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages).addIntegerOption(o=>o.setName("amount").setDescription("Nombre de messages").setRequired(true).setMinValue(1).setMaxValue(100));
+export async function execute(i){if(!i.channel?.bulkDelete)return i.reply({content:"Salon incompatible.",ephemeral:true});const n=i.options.getInteger("amount",true);const deleted=await i.channel.bulkDelete(n,true);await i.reply({content:`${deleted.size} message(s) supprimé(s).`,ephemeral:true});}
