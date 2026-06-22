@@ -1,4 +1,5 @@
 import { ActivityType } from "discord.js";
+import { announceDeployment } from "../services/deployment-service.js";
 
 export const name = "ready";
 export const once = true;
@@ -19,4 +20,5 @@ export async function execute(client) {
   });
 
   console.log(`Bot connecté en tant que ${client.user.tag}`);
+  await announceDeployment(client).catch((error) => console.error(error));
 }
