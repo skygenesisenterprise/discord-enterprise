@@ -9,12 +9,17 @@ import { env } from "../config/env.js";
 
 const RECONNECT_TIMEOUT_MS = 5_000;
 
-function getTargetVoiceChannel(client) {
+async function getTargetVoiceChannel(client) {
   if (!env.voiceChannelId) {
     return null;
   }
 
-  return client.channels.cache.get(env.voiceChannelId) ?? null;
+  const cachedChannel = client.channels.cache.get(env.voiceChannelId);
+  if (cachedChannel) {
+    return cachedChannel;
+  }
+
+  return client.channels.fetch(env.voiceChannelId).catch(() => null);
 }
 
 function ensureVoiceConnectionListeners(connection, client) {
@@ -48,7 +53,7 @@ export async function connectToConfiguredVoiceChannel(client) {
     return null;
   }
 
-  const channel = getTargetVoiceChannel(client);
+  const channel = await getTargetVoiceChannel(client);
 
   if (!channel) {
     console.warn(
@@ -89,7 +94,7 @@ export async function ensureConfiguredVoicePresence(client) {
     return;
   }
 
-  const channel = getTargetVoiceChannel(client);
+  const channel = await getTargetVoiceChannel(client);
   if (!channel) {
     return;
   }
