@@ -1,10 +1,13 @@
 {
   "name": "@discord-enterprise/bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "deploy:commands": "node deploy-commands.js",
+    "prestart": "node deploy-commands.js",
     "start": "node index.js",
+    "predev": "node deploy-commands.js",
     "dev": "node --watch index.js"
   },
   "dependencies": {
