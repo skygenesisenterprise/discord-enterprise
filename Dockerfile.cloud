@@ -20,6 +20,8 @@ RUN CGO_ENABLED=1 GOOS=linux \
 # ══════════════════════════════════════════════════════════════════════════════
 FROM node:25-alpine AS node-builder
 
+ARG DATABASE_URL
+
 WORKDIR /app
 
 RUN npm install -g corepack --force && corepack enable && corepack prepare pnpm@9.15.4 --activate
@@ -41,10 +43,11 @@ RUN cd /tmp/prisma \
 COPY server/prisma/schema.prisma server/prisma/prisma.config.ts /tmp/prisma/
 COPY server/prisma/migrations/ /tmp/prisma/migrations/
 
+RUN test -n "$DATABASE_URL" \
+    || (echo "DATABASE_URL build argument is required for Prisma generation" >&2 && exit 1)
+
 RUN cd /tmp/prisma \
-    && export DATABASE_URL="$(sed -n 's/^DATABASE_URL=//p' .env | head -n 1)" \
-    && [ -n "$DATABASE_URL" ] \
-    && npx prisma generate
+    && DATABASE_URL="$DATABASE_URL" npx prisma generate
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Stage final — Image de production (Single Container)
