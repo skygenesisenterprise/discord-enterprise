@@ -32,15 +32,27 @@ async function deployGuildCommands() {
     assertDiscordEnv();
     const commands = await collectCommands();
     const rest = new REST({ version: "10" }).setToken(env.token);
+    const scope = env.commandScope.toLowerCase();
 
-    await rest.put(Routes.applicationGuildCommands(env.clientId, env.guildId), {
-      body: commands,
-    });
+    if (!["global", "guild", "both"].includes(scope)) {
+      throw new Error(
+        `DISCORD_COMMAND_SCOPE invalide: ${env.commandScope}. Valeurs attendues: global, guild, both.`,
+      );
+    }
 
-    console.log(`${commands.length} commande(s) guild déployée(s).`);
-    console.log(
-      "Pour passer en global plus tard: utilisez Routes.applicationCommands(env.clientId) dans ce script.",
-    );
+    if (scope === "global" || scope === "both") {
+      await rest.put(Routes.applicationCommands(env.clientId), {
+        body: commands,
+      });
+      console.log(`${commands.length} commande(s) globale(s) déployée(s).`);
+    }
+
+    if (scope === "guild" || scope === "both") {
+      await rest.put(Routes.applicationGuildCommands(env.clientId, env.guildId), {
+        body: commands,
+      });
+      console.log(`${commands.length} commande(s) guilde déployée(s).`);
+    }
   } catch (error) {
     console.error("Erreur pendant le déploiement des commandes:", error);
     process.exit(1);

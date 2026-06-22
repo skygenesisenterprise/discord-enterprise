@@ -210,6 +210,7 @@ Once running, you can access:
 - **API Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
 - **Discord Bot**: Configure via `.env` with your bot token
 - **Discord Voice Presence**: Set `DISCORD_VOICE_CHANNEL_ID` to keep the bot connected to a voice channel
+- **Discord Welcome Messages**: Set `DISCORD_WELCOME_CHANNEL_ID` for public welcomes and keep `DISCORD_WELCOME_DM_ENABLED=true` for automatic DMs
 - **vaultctl CLI**: `pnpm cli` or `go run ./cmd`
 
 ### 🐳 Docker Quick Start
