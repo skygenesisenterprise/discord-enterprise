@@ -1,24 +1,41 @@
+import {
+  handleSupportButtonInteraction,
+  handleSupportModalSubmit,
+} from "../commands/support.js";
+
 export const name = "interactionCreate";
 
 export async function execute(interaction) {
-  if (!interaction.isChatInputCommand()) {
-    return;
-  }
-
-  const command = interaction.client.commands.get(interaction.commandName);
-
-  if (!command) {
-    await interaction.reply({
-      content: "Commande inconnue.",
-      ephemeral: true,
-    });
-    return;
-  }
-
   try {
+    if (await handleSupportButtonInteraction(interaction)) {
+      return;
+    }
+
+    if (await handleSupportModalSubmit(interaction)) {
+      return;
+    }
+
+    if (!interaction.isChatInputCommand()) {
+      return;
+    }
+
+    const command = interaction.client.commands.get(interaction.commandName);
+
+    if (!command) {
+      await interaction.reply({
+        content: "Commande inconnue.",
+        ephemeral: true,
+      });
+      return;
+    }
+
     await command.execute(interaction);
   } catch (error) {
-    console.error(`Erreur sur /${interaction.commandName}:`, error);
+    const interactionLabel = interaction.isChatInputCommand()
+      ? `/${interaction.commandName}`
+      : interaction.customId ?? interaction.type;
+
+    console.error(`Erreur sur l'interaction ${interactionLabel}:`, error);
 
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
