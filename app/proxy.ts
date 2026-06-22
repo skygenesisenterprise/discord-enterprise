@@ -1,9 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { routing } from "@/i18n/routing";
-import { getLocaleFromCountry } from "@/lib/country-language";
+import { routing } from "./i18n/routing";
 
 type Locale = (typeof routing.locales)[number];
+
+const countryToLocale: Record<string, Locale> = {
+  FR: "fr",
+  EN: "en",
+  ES: "es",
+  DE: "de",
+  JP: "ja",
+};
 
 function getCountryFromRequest(request: NextRequest): string | null {
   const cloudflareCountry = request.headers.get("cf-ipcountry");
@@ -12,13 +19,20 @@ function getCountryFromRequest(request: NextRequest): string | null {
   return cloudflareCountry || vercelCountry || fastlyCountry || null;
 }
 
+function getLocaleFromCountry(country: string | null): Locale {
+  if (country && country in countryToLocale) {
+    return countryToLocale[country];
+  }
+  return routing.defaultLocale;
+}
+
 function isValidLocale(locale: string): locale is Locale {
   return routing.locales.includes(locale as Locale);
 }
 
 const AUTH_PATHS = ["/login", "/register"];
-const PROTECTED_PATHS = ["/example"];
-const NO_LOCALE_PATHS = ["/discord", "/dashboard", "/docs", "/downloads", "/health", "/mfa", "/authorize"];
+const PROTECTED_PATHS = ["/dashboard", "/user"];
+const NO_LOCALE_PATHS = ["/pgp", "/discord", "/dashboard", "/user"];
 
 function isValidJWT(token: string | undefined): boolean {
   if (!token) return false;
@@ -26,26 +40,14 @@ function isValidJWT(token: string | undefined): boolean {
   return parts.length === 3;
 }
 
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const segments = pathname.split("/").filter(Boolean);
   const firstSegment = segments[0];
 
-  if (process.env.DOCS_DEV === "true") {
-    const isDocsAsset =
-      pathname.startsWith("/docs") ||
-      pathname.startsWith("/api/search") ||
-      pathname.startsWith("/og/docs") ||
-      pathname === "/favicon.ico";
-
-    if (!isDocsAsset) {
-      return NextResponse.redirect(new URL("/docs", request.url));
-    }
-  }
-
   if (pathname === "/" || pathname === "") {
     const country = getCountryFromRequest(request);
-    const locale = getLocaleFromCountry(country, routing.locales, routing.defaultLocale);
+    const locale = getLocaleFromCountry(country);
     return NextResponse.redirect(new URL(`/${locale}`, request.url));
   }
 
@@ -89,7 +91,7 @@ export default function middleware(request: NextRequest) {
       return NextResponse.next();
     }
     const country = getCountryFromRequest(request);
-    const locale = getLocaleFromCountry(country, routing.locales, routing.defaultLocale);
+    const locale = getLocaleFromCountry(country);
     return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
   }
 

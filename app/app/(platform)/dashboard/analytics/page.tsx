@@ -46,7 +46,7 @@ const memberGrowthData = [
   { date: 'Apr', members: 13890, joined: 520, left: 50 },
   { date: 'May', members: 14350, joined: 510, left: 50 },
   { date: 'Jun', members: 14920, joined: 620, left: 50 },
-  { date: 'Jul', members: 15420, members: 15420, joined: 550, left: 50 },
+  { date: 'Jul', members: 15420, joined: 15420, left: 50 },
 ]
 
 const messageActivityData = [
@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Select defaultValue="7d">
-            <SelectTrigger className="h-8 w-[120px]">
+            <SelectTrigger className="h-8 w-30">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -171,7 +171,7 @@ export default function AnalyticsPage() {
             <CardTitle className="text-base font-medium">Member Growth</CardTitle>
             <CardDescription>Total members over time</CardDescription>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={memberGrowthData}>
                 <defs>
@@ -214,7 +214,7 @@ export default function AnalyticsPage() {
             <CardTitle className="text-base font-medium">Message Activity</CardTitle>
             <CardDescription>Messages per hour (24h average)</CardDescription>
           </CardHeader>
-          <CardContent className="h-[300px]">
+          <CardContent className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={messageActivityData}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
@@ -250,7 +250,7 @@ export default function AnalyticsPage() {
             <CardTitle className="text-base font-medium">Moderation Statistics</CardTitle>
             <CardDescription>Weekly moderation actions</CardDescription>
           </CardHeader>
-          <CardContent className="h-[280px]">
+          <CardContent className="h-70">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={moderationStatsData}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
@@ -302,7 +302,7 @@ export default function AnalyticsPage() {
             <CardTitle className="text-base font-medium">Role Distribution</CardTitle>
             <CardDescription>Members by role type</CardDescription>
           </CardHeader>
-          <CardContent className="h-[280px]">
+          <CardContent className="h-70">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -319,7 +319,7 @@ export default function AnalyticsPage() {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: number) => value.toLocaleString()}
+                  formatter={(value) => Number(value).toLocaleString()}
                   contentStyle={{
                     backgroundColor: 'var(--background)',
                     border: '1px solid var(--border)',
