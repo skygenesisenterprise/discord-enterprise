@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import {
   handleSupportButtonInteraction,
   handleSupportModalSubmit,
@@ -24,7 +25,7 @@ export async function execute(interaction) {
     if (!command) {
       await interaction.reply({
         content: "Commande inconnue.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
@@ -40,14 +41,14 @@ export async function execute(interaction) {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content: "Une erreur est survenue pendant l'exécution de la commande.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return;
     }
 
     await interaction.reply({
       content: "Une erreur est survenue pendant l'exécution de la commande.",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
   }
 }

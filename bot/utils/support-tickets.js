@@ -12,7 +12,8 @@ function normalizeChannelName(value) {
 }
 
 export function buildTicketChannelName(username) {
-  return normalizeChannelName(`ticket-${username}`) || "ticket-support";
+  const suffix = Date.now().toString().slice(-6);
+  return normalizeChannelName(`ticket-${username}-${suffix}`) || `ticket-support-${suffix}`;
 }
 
 export function isSupportTicket(channelId) {
@@ -23,18 +24,29 @@ export function getSupportTicket(channelId) {
   return tickets.get(channelId);
 }
 
-export function findOpenTicketByOwner(guildId, userId) {
-  for (const [channelId, ticket] of tickets.entries()) {
-    if (ticket.guildId === guildId && ticket.owner === userId) {
-      return { channelId, ticket };
-    }
-  }
-
-  return null;
-}
-
 export function closeSupportTicket(channelId) {
   tickets.delete(channelId);
+}
+
+export function closeSupportTicketIfExists(channelId) {
+  if (!tickets.has(channelId)) {
+    return false;
+  }
+
+  tickets.delete(channelId);
+  return true;
+}
+
+export function claimSupportTicket(channelId, userId, userTag) {
+  const ticket = tickets.get(channelId);
+  if (!ticket) {
+    return null;
+  }
+
+  ticket.claimedBy = userId;
+  ticket.claimedByTag = userTag;
+  ticket.claimedAt = new Date();
+  return ticket;
 }
 
 export function isSupportStaff(interaction) {
@@ -42,13 +54,13 @@ export function isSupportStaff(interaction) {
     || interaction.memberPermissions?.has(PermissionFlagsBits.ModerateMembers);
 }
 
-export async function createSupportTicket(interaction, subject) {
+export async function createSupportTicket(interaction) {
   const parent = resolveSupportCategory(interaction.guild);
   const channel = await interaction.guild.channels.create({
     name: buildTicketChannelName(interaction.user.username),
     type: ChannelType.GuildText,
     parent: parent?.id,
-    topic: `Support ticket for ${interaction.user.tag} | ${subject}`,
+    topic: `Support ticket for ${interaction.user.tag}`,
     permissionOverwrites: [
       {
         id: interaction.guild.roles.everyone.id,
@@ -70,7 +82,6 @@ export async function createSupportTicket(interaction, subject) {
   tickets.set(channel.id, {
     guildId: interaction.guildId,
     owner: interaction.user.id,
-    subject,
     createdAt: new Date(),
   });
 
@@ -79,7 +90,6 @@ export async function createSupportTicket(interaction, subject) {
     action: "ticket_create",
     actor: interaction.user.tag,
     target: channel.name,
-    reason: subject,
   });
 
   return channel;

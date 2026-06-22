@@ -42,8 +42,9 @@ COPY server/prisma/schema.prisma server/prisma/prisma.config.ts /tmp/prisma/
 COPY server/prisma/migrations/ /tmp/prisma/migrations/
 
 RUN cd /tmp/prisma \
-    && DATABASE_URL="postgresql://build:build@localhost:5432/build" \
-       npx prisma generate
+    && export DATABASE_URL="$(sed -n 's/^DATABASE_URL=//p' .env | head -n 1)" \
+    && [ -n "$DATABASE_URL" ] \
+    && npx prisma generate
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Stage final — Image de production (Single Container)

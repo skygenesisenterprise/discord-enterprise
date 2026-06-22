@@ -3,23 +3,20 @@ import {
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
-  ModalBuilder,
-  PermissionFlagsBits,
+  MessageFlags,
   SlashCommandBuilder,
-  TextInputBuilder,
-  TextInputStyle,
 } from "discord.js";
 import {
+  claimSupportTicket,
   closeSupportTicket,
   createSupportTicket,
-  findOpenTicketByOwner,
   getSupportTicket,
   isSupportStaff,
 } from "../utils/support-tickets.js";
 
 const OPEN_TICKET_BUTTON_ID = "support:open-ticket";
-const OPEN_TICKET_MODAL_ID = "support:open-ticket-modal";
-const OPEN_TICKET_REASON_FIELD_ID = "reason";
+const CLAIM_TICKET_BUTTON_ID = "support:claim-ticket";
+const CLOSE_TICKET_BUTTON_ID = "support:close-ticket";
 
 export const data = new SlashCommandBuilder()
   .setName("support")
@@ -89,7 +86,7 @@ export async function sendSupportPanel(channel) {
     .setDescription(
       [
         "Cliquez sur le bouton ci-dessous pour ouvrir un ticket privé.",
-        "Une fenêtre vous demandera d'indiquer la raison avant la création du salon.",
+        "Le salon sera créé immédiatement.",
       ].join("\n"),
     )
     .setColor(0x5865f2);
@@ -108,60 +105,90 @@ export async function sendSupportPanel(channel) {
 }
 
 export async function handleSupportButtonInteraction(interaction) {
-  if (!interaction.isButton() || interaction.customId !== OPEN_TICKET_BUTTON_ID) {
+  if (!interaction.isButton()) {
     return false;
   }
 
-  const modal = new ModalBuilder()
-    .setCustomId(OPEN_TICKET_MODAL_ID)
-    .setTitle("Ouvrir un ticket");
+  if (interaction.customId === CLAIM_TICKET_BUTTON_ID) {
+    const ticket = getSupportTicket(interaction.channelId);
+    if (!ticket) {
+      await interaction.reply({
+        content: "Ce salon n’est pas un ticket géré par le bot.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return true;
+    }
 
-  const reasonInput = new TextInputBuilder()
-    .setCustomId(OPEN_TICKET_REASON_FIELD_ID)
-    .setLabel("Raison du ticket")
-    .setStyle(TextInputStyle.Paragraph)
-    .setMaxLength(500)
-    .setRequired(true)
-    .setPlaceholder("Décrivez brièvement votre demande.");
+    if (!isSupportStaff(interaction)) {
+      await interaction.reply({
+        content: "Seul un membre du staff peut prendre ce ticket.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return true;
+    }
 
-  const row = new ActionRowBuilder().addComponents(reasonInput);
-  modal.addComponents(row);
-
-  await interaction.showModal(modal);
-  return true;
-}
-
-export async function handleSupportModalSubmit(interaction) {
-  if (!interaction.isModalSubmit() || interaction.customId !== OPEN_TICKET_MODAL_ID) {
-    return false;
-  }
-
-  const existingTicket = findOpenTicketByOwner(interaction.guildId, interaction.user.id);
-
-  if (existingTicket) {
-    const existingChannel = interaction.guild.channels.cache.get(existingTicket.channelId);
+    claimSupportTicket(interaction.channelId, interaction.user.id, interaction.user.tag);
     await interaction.reply({
-      content: existingChannel
-        ? `Vous avez déjà un ticket ouvert: ${existingChannel}.`
-        : "Vous avez déjà un ticket ouvert.",
-      ephemeral: true,
+      content: `${interaction.user} a pris en charge ce ticket.`,
     });
     return true;
   }
 
-  const subject = interaction.fields.getTextInputValue(OPEN_TICKET_REASON_FIELD_ID).trim();
-  const channel = await createSupportTicket(interaction, subject);
+  if (interaction.customId === CLOSE_TICKET_BUTTON_ID) {
+    const ticket = getSupportTicket(interaction.channelId);
+    if (!ticket) {
+      await interaction.reply({
+        content: "Ce salon n’est pas un ticket géré par le bot.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return true;
+    }
+
+    if (ticket.owner !== interaction.user.id && !isSupportStaff(interaction)) {
+      await interaction.reply({
+        content: "Seul l'auteur du ticket ou un modérateur peut le fermer.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return true;
+    }
+
+    await interaction.reply({
+      content: "Fermeture du ticket…",
+      flags: MessageFlags.Ephemeral,
+    });
+
+    closeSupportTicket(interaction.channelId);
+    setTimeout(() => interaction.channel.delete().catch(() => {}), 1000);
+    return true;
+  }
+
+  if (interaction.customId !== OPEN_TICKET_BUTTON_ID) {
+    return false;
+  }
+
+  const channel = await createSupportTicket(interaction);
 
   await channel.send({
     embeds: [
       new EmbedBuilder()
         .setTitle("Nouveau ticket")
-        .setDescription(subject)
         .addFields(
           { name: "Demandeur", value: `${interaction.user}`, inline: true },
           { name: "Statut", value: "Ouvert", inline: true },
         )
         .setColor(0x57f287),
+    ],
+    components: [
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(CLAIM_TICKET_BUTTON_ID)
+          .setLabel("Prendre le ticket")
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId(CLOSE_TICKET_BUTTON_ID)
+          .setLabel("Fermer ce ticket")
+          .setStyle(ButtonStyle.Danger),
+      ),
     ],
   });
 
@@ -171,4 +198,8 @@ export async function handleSupportModalSubmit(interaction) {
   });
 
   return true;
+}
+
+export async function handleSupportModalSubmit() {
+  return false;
 }
