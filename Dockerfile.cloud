@@ -89,6 +89,7 @@ COPY --from=go-builder /app/server/etheriatimes-api ./server/etheriatimes-api
 
 # ── Entry Point ────────────────────────────────────────────────────────────────
 COPY entrypoint-cloud.sh /entrypoint-cloud.sh
+RUN chmod +x /entrypoint-cloud.sh
 
 EXPOSE 3000
 
