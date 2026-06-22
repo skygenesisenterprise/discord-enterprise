@@ -209,6 +209,7 @@ Once running, you can access:
 - **Health Check**: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health)
 - **API Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
 - **Discord Bot**: Configure via `.env` with your bot token
+- **Discord Voice Presence**: Set `DISCORD_VOICE_CHANNEL_ID` to keep the bot connected to a voice channel
 - **vaultctl CLI**: `pnpm cli` or `go run ./cmd`
 
 ### 🐳 Docker Quick Start

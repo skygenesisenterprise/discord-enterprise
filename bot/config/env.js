@@ -21,6 +21,7 @@ export const env = {
   clientId: process.env.DISCORD_CLIENT_ID ?? "",
   guildId: process.env.DISCORD_GUILD_ID ?? "",
   updatesChannelId: process.env.DISCORD_UPDATES_CHANNEL_ID ?? "",
+  voiceChannelId: process.env.DISCORD_VOICE_CHANNEL_ID ?? "",
   version: process.env.APP_VERSION ?? "1.1.0",
   commitSha: process.env.GIT_COMMIT_SHA ?? process.env.COMMIT_SHA ?? "unknown",
   buildDate: process.env.BUILD_DATE ?? "unknown",

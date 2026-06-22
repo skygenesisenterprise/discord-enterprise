@@ -1,5 +1,6 @@
 import { ActivityType } from "discord.js";
 import { announceDeployment } from "../services/deployment-service.js";
+import { connectToConfiguredVoiceChannel } from "../services/voice-service.js";
 
 export const name = "ready";
 export const once = true;
@@ -20,5 +21,8 @@ export async function execute(client) {
   });
 
   console.log(`Bot connecté en tant que ${client.user.tag}`);
+  await connectToConfiguredVoiceChannel(client).catch((error) => {
+    console.error("[VOICE] Impossible de connecter le bot au salon vocal configuré:", error);
+  });
   await announceDeployment(client).catch((error) => console.error(error));
 }
