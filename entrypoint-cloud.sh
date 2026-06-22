@@ -241,7 +241,7 @@ run_prisma_schema_deploy() {
             log_info "Pushing Prisma schema to external database"
             log_warn "Prisma db push may alter the external database schema directly"
             # shellcheck disable=SC2086
-            DATABASE_URL="${DATABASE_URL}" ${prisma_bin} db push --accept-data-loss --skip-generate
+            DATABASE_URL="${DATABASE_URL}" ${prisma_bin} db push --accept-data-loss
             ;;
     esac
 
