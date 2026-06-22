@@ -8,7 +8,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildModeration,
+  ],
 });
 
 client.commands = new Collection();
@@ -16,16 +21,12 @@ client.commands = new Collection();
 async function loadCommands() {
   const commandsPath = path.join(__dirname, "commands");
   const commandFiles = (await readdir(commandsPath)).filter((file) => file.endsWith(".js"));
-
   for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    const command = await import(pathToFileURL(filePath).href);
-
+    const command = await import(pathToFileURL(path.join(commandsPath, file)).href);
     if (!command.data || !command.execute) {
       console.warn(`[WARNING] La commande ${file} n'exporte pas data + execute.`);
       continue;
     }
-
     client.commands.set(command.data.name, command);
   }
 }
@@ -33,31 +34,20 @@ async function loadCommands() {
 async function loadEvents() {
   const eventsPath = path.join(__dirname, "events");
   const eventFiles = (await readdir(eventsPath)).filter((file) => file.endsWith(".js"));
-
   for (const file of eventFiles) {
-    const filePath = path.join(eventsPath, file);
-    const event = await import(pathToFileURL(filePath).href);
-
-    if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args));
-    } else {
-      client.on(event.name, (...args) => event.execute(...args));
-    }
+    const event = await import(pathToFileURL(path.join(eventsPath, file)).href);
+    if (event.once) client.once(event.name, (...args) => event.execute(...args));
+    else client.on(event.name, (...args) => event.execute(...args));
   }
 }
 
 async function bootstrap() {
   try {
     if (!env.isConfigured) {
-      console.warn(
-        `[WARN] Discord bot config incomplete. Missing: ${env.missingRequiredVars.join(", ")}`,
-      );
-      console.warn("[WARN] Fill in .env or the root .env.example-derived values, then save a file to restart.");
-
+      console.warn(`[WARN] Discord bot config incomplete. Missing: ${env.missingRequiredVars.join(", ")}`);
       setInterval(() => {}, 1 << 30);
       return;
     }
-
     await loadCommands();
     await loadEvents();
     await client.login(env.token);
@@ -66,5 +56,4 @@ async function bootstrap() {
     process.exit(1);
   }
 }
-
 void bootstrap();
