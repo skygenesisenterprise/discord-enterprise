@@ -1,72 +1,52 @@
-import { cn } from '@/lib/utils'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { formatDistanceToNow } from 'date-fns'
+import * as React from "react";
 
-interface ActivityItem {
-  id: string
-  type: 'moderation' | 'member' | 'ticket' | 'system' | 'command'
-  title: string
-  description: string
-  timestamp: Date
-  user?: {
-    name: string
-    avatar?: string
-  }
-}
+import { cn } from "@/lib/utils";
+import type { DashboardActivityItem } from "@/types/dashboard";
 
 interface ActivityFeedProps {
-  items: ActivityItem[]
-  className?: string
+  items: DashboardActivityItem[];
+  className?: string;
 }
 
-const typeColors = {
-  moderation: 'bg-destructive/10 text-destructive',
-  member: 'bg-chart-2/10 text-chart-2',
-  ticket: 'bg-chart-1/10 text-chart-1',
-  system: 'bg-muted text-muted-foreground',
-  command: 'bg-chart-4/10 text-chart-4',
-}
+const toneBorder: Record<string, string> = {
+  online: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  warning: "border-amber-200 bg-amber-50 text-amber-700",
+  critical: "border-rose-200 bg-rose-50 text-rose-700",
+  info: "border-sky-200 bg-sky-50 text-sky-700",
+  neutral: "border-slate-200 bg-slate-100 text-slate-600",
+};
 
-export function ActivityFeed({ items, className }: ActivityFeedProps) {
+export function ActivityFeed({
+  items,
+  className,
+}: ActivityFeedProps): React.JSX.Element {
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-3", className)}>
       {items.map((item) => (
-        <div
+        <article
           key={item.id}
-          className="flex items-start gap-3 rounded-lg p-3 transition-colors hover:bg-muted/50"
+          className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
         >
-          {item.user ? (
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={item.user.avatar} alt={item.user.name} />
-              <AvatarFallback className="text-xs">
-                {item.user.name
-                  .split(' ')
-                  .map((n) => n[0])
-                  .join('')
-                  .toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-          ) : (
-            <div
-              className={cn(
-                'flex h-8 w-8 items-center justify-center rounded-full',
-                typeColors[item.type]
-              )}
-            >
-              <span className="text-xs font-medium">{item.type[0].toUpperCase()}</span>
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span
+                  className={cn(
+                    "inline-flex rounded-full border px-2 py-0.5 text-[11px] uppercase tracking-[0.18em]",
+                    toneBorder[item.tone ?? "neutral"],
+                  )}
+                >
+                  {item.category}
+                </span>
+                {item.actor ? <span className="text-xs text-slate-500">{item.actor}</span> : null}
+              </div>
+              <h3 className="mt-3 text-sm font-semibold text-slate-950">{item.title}</h3>
+              <p className="mt-2 text-sm text-slate-600">{item.description}</p>
             </div>
-          )}
-          <div className="flex-1 space-y-1">
-            <div className="flex items-center justify-between gap-2">
-              <p className="text-sm font-medium leading-none">{item.title}</p>
-              <span className="text-xs text-muted-foreground whitespace-nowrap">
-                {formatDistanceToNow(item.timestamp, { addSuffix: true })}
-              </span>
-            </div>
-            <p className="text-sm text-muted-foreground">{item.description}</p>
+            <span className="shrink-0 text-xs text-slate-500">{item.timestamp}</span>
           </div>
-        </div>
+        </article>
       ))}
     </div>
-  )
+  );
 }
