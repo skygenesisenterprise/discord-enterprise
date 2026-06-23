@@ -2,13 +2,11 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  ChannelType,
   EmbedBuilder,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from "discord.js";
 
-const RULES_CHANNEL_NAME = "rules";
 const ACCESS_VERIFICATION_URL = "https://sso.skygenesisenterprise.com";
 const EMBED_COLOR = 0x2b6cb0;
 
@@ -27,34 +25,32 @@ const SERVER_RULES = [
 
 export const data = new SlashCommandBuilder()
   .setName("welcome")
-  .setDescription("Publie le panneau d'accueil et de verification dans le salon rules.")
-  .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
+  .setDescription("Publie le panneau d'accueil et de verification sur le serveur.")
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+  .addChannelOption((option) =>
+    option
+      .setName("channel")
+      .setDescription("Salon cible. Par defaut: le salon courant.")
+      .setRequired(false),
+  );
 
 export async function execute(interaction) {
-  const rulesChannel = findRulesChannel(interaction.guild);
+  const targetChannel = interaction.options.getChannel("channel") ?? interaction.channel;
 
-  if (!rulesChannel) {
+  if (!targetChannel || !targetChannel.isTextBased() || targetChannel.isDMBased()) {
     await interaction.reply({
-      content: "Aucun salon texte nomme #rules n'a ete trouve sur ce serveur.",
+      content: "Le salon cible doit etre un salon textuel du serveur.",
       ephemeral: true,
     });
     return;
   }
 
-  await sendWelcomePanel(rulesChannel, interaction.guild.name);
+  await sendWelcomePanel(targetChannel, interaction.guild.name);
 
   await interaction.reply({
-    content: `Le panneau d'accueil a ete publie dans ${rulesChannel}.`,
+    content: `Le panneau d'accueil a ete publie dans ${targetChannel}.`,
     ephemeral: true,
   });
-}
-
-function findRulesChannel(guild) {
-  return guild.channels.cache.find(
-    (channel) =>
-      channel.type === ChannelType.GuildText
-      && channel.name.toLowerCase() === RULES_CHANNEL_NAME,
-  );
 }
 
 function buildRulesDescription() {
