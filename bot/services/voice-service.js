@@ -11,7 +11,10 @@ const RECONNECT_TIMEOUT_MS = 5_000;
 const READY_TIMEOUT_MS = 20_000;
 const INITIAL_CONNECT_RETRIES = 3;
 const RETRY_DELAY_MS = 3_000;
-const reconnectingGuilds = new Set();
+const FAILED_RECONNECT_COOLDOWN_MS = 60_000;
+
+const connectionAttempts = new Map();
+const reconnectCooldowns = new Map();
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,7 +25,13 @@ function destroyVoiceConnection(connection) {
     return;
   }
 
-  connection.destroy();
+  try {
+    connection.destroy();
+  } catch (error) {
+    if (!String(error?.message ?? error).includes("already been destroyed")) {
+      throw error;
+    }
+  }
 }
 
 function getVoiceChannelJoinFailureReason(channel) {
@@ -65,22 +74,6 @@ async function getTargetVoiceChannel(client) {
   return client.channels.fetch(env.voiceChannelId).catch(() => null);
 }
 
-async function reconnectVoice(client, guildId) {
-  if (!client.isReady() || reconnectingGuilds.has(guildId)) {
-    return;
-  }
-
-  reconnectingGuilds.add(guildId);
-
-  try {
-    await connectToConfiguredVoiceChannel(client);
-  } catch (error) {
-    console.error("[VOICE] Reconnexion vocale impossible:", error);
-  } finally {
-    reconnectingGuilds.delete(guildId);
-  }
-}
-
 function ensureVoiceConnectionListeners(connection, client) {
   if (connection.__discordEnterpriseVoiceListenersAttached) {
     return;
@@ -96,9 +89,78 @@ function ensureVoiceConnectionListeners(connection, client) {
       ]);
     } catch {
       destroyVoiceConnection(connection);
-      await reconnectVoice(client, connection.joinConfig.guildId);
+
+      setTimeout(() => {
+        void ensureConfiguredVoicePresence(client).catch((error) => {
+          console.error("[VOICE] Reconnexion vocale impossible:", error);
+        });
+      }, RETRY_DELAY_MS);
     }
   });
+}
+
+async function performVoiceConnection(client, channel) {
+  const guildId = channel.guild.id;
+  const existingConnection = getVoiceConnection(guildId);
+
+  if (
+    existingConnection?.joinConfig.channelId === channel.id &&
+    existingConnection.state.status !== VoiceConnectionStatus.Destroyed
+  ) {
+    ensureVoiceConnectionListeners(existingConnection, client);
+
+    if (existingConnection.state.status === VoiceConnectionStatus.Ready) {
+      return existingConnection;
+    }
+
+    try {
+      await entersState(existingConnection, VoiceConnectionStatus.Ready, READY_TIMEOUT_MS);
+      return existingConnection;
+    } catch {
+      destroyVoiceConnection(existingConnection);
+    }
+  } else if (existingConnection) {
+    destroyVoiceConnection(existingConnection);
+  }
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= INITIAL_CONNECT_RETRIES; attempt += 1) {
+    const connection = joinVoiceChannel({
+      channelId: channel.id,
+      guildId,
+      adapterCreator: channel.guild.voiceAdapterCreator,
+      selfDeaf: true,
+      selfMute: false,
+    });
+
+    ensureVoiceConnectionListeners(connection, client);
+
+    try {
+      await entersState(connection, VoiceConnectionStatus.Ready, READY_TIMEOUT_MS);
+      reconnectCooldowns.delete(guildId);
+      console.log(`[VOICE] Connecté au salon vocal ${channel.guild.name} / ${channel.name}`);
+      return connection;
+    } catch (error) {
+      lastError = error;
+      destroyVoiceConnection(connection);
+
+      if (attempt < INITIAL_CONNECT_RETRIES) {
+        console.warn(
+          `[VOICE] Échec de connexion au salon vocal ${channel.guild.name} / ${channel.name} (tentative ${attempt}/${INITIAL_CONNECT_RETRIES}). Nouvelle tentative dans ${Math.round(RETRY_DELAY_MS / 1000)}s.`,
+        );
+        await sleep(RETRY_DELAY_MS);
+      }
+    }
+  }
+
+  reconnectCooldowns.set(guildId, Date.now() + FAILED_RECONNECT_COOLDOWN_MS);
+
+  const errorMessage = lastError instanceof Error ? lastError.message : String(lastError);
+  throw new Error(
+    `[VOICE] Impossible de connecter le bot au salon vocal ${channel.guild.name} / ${channel.name} après ${INITIAL_CONNECT_RETRIES} tentatives: ${errorMessage}`,
+    { cause: lastError ?? undefined },
+  );
 }
 
 export async function connectToConfiguredVoiceChannel(client) {
@@ -128,74 +190,45 @@ export async function connectToConfiguredVoiceChannel(client) {
     return null;
   }
 
-  const existingConnection = getVoiceConnection(channel.guild.id);
-  if (
-    existingConnection?.joinConfig.channelId === channel.id &&
-    existingConnection.state.status !== VoiceConnectionStatus.Destroyed
-  ) {
-    ensureVoiceConnectionListeners(existingConnection, client);
-
-    if (existingConnection.state.status === VoiceConnectionStatus.Ready) {
-      return existingConnection;
-    }
+  const guildId = channel.guild.id;
+  const activeAttempt = connectionAttempts.get(guildId);
+  if (activeAttempt) {
+    return activeAttempt;
   }
 
-  let lastError = null;
-
-  for (let attempt = 1; attempt <= INITIAL_CONNECT_RETRIES; attempt += 1) {
-    const activeConnection = getVoiceConnection(channel.guild.id);
-    if (activeConnection && activeConnection !== existingConnection) {
-      destroyVoiceConnection(activeConnection);
-    }
-
-    const connection = joinVoiceChannel({
-      channelId: channel.id,
-      guildId: channel.guild.id,
-      adapterCreator: channel.guild.voiceAdapterCreator,
-      selfDeaf: true,
-      selfMute: false,
-    });
-
-    ensureVoiceConnectionListeners(connection, client);
-
-    try {
-      await entersState(connection, VoiceConnectionStatus.Ready, READY_TIMEOUT_MS);
-      console.log(`[VOICE] Connecté au salon vocal ${channel.guild.name} / ${channel.name}`);
-      return connection;
-    } catch (error) {
-      lastError = error;
-      destroyVoiceConnection(connection);
-
-      if (attempt < INITIAL_CONNECT_RETRIES) {
-        console.warn(
-          `[VOICE] Échec de connexion au salon vocal ${channel.guild.name} / ${channel.name} (tentative ${attempt}/${INITIAL_CONNECT_RETRIES}). Nouvelle tentative dans ${Math.round(RETRY_DELAY_MS / 1000)}s.`,
-        );
-        await sleep(RETRY_DELAY_MS);
-      }
-    }
+  const cooldownUntil = reconnectCooldowns.get(guildId) ?? 0;
+  if (cooldownUntil > Date.now()) {
+    return null;
   }
 
-  const errorMessage = lastError instanceof Error ? lastError.message : String(lastError);
-  throw new Error(
-    `[VOICE] Impossible de connecter le bot au salon vocal ${channel.guild.name} / ${channel.name} après ${INITIAL_CONNECT_RETRIES} tentatives: ${errorMessage}`,
-    { cause: lastError ?? undefined },
-  );
+  let attemptPromise;
+  attemptPromise = performVoiceConnection(client, channel).finally(() => {
+    if (connectionAttempts.get(guildId) === attemptPromise) {
+      connectionAttempts.delete(guildId);
+    }
+  });
+
+  connectionAttempts.set(guildId, attemptPromise);
+  return attemptPromise;
 }
 
 export async function ensureConfiguredVoicePresence(client) {
-  if (!env.voiceChannelId) {
-    return;
+  if (!env.voiceChannelId || !client.isReady()) {
+    return null;
   }
 
   const channel = await getTargetVoiceChannel(client);
   if (!channel) {
-    return;
+    return null;
   }
 
   const me = channel.guild.members.me ?? (await channel.guild.members.fetchMe());
   if (me.voice.channelId === channel.id) {
-    return;
+    const connection = getVoiceConnection(channel.guild.id);
+    if (connection?.state.status === VoiceConnectionStatus.Ready) {
+      return connection;
+    }
   }
 
-  await connectToConfiguredVoiceChannel(client);
+  return connectToConfiguredVoiceChannel(client);
 }
