@@ -1,6 +1,5 @@
 import { ActivityType } from "discord.js";
 import { announceDeployment } from "../services/deployment-service.js";
-import { connectToConfiguredVoiceChannel } from "../services/voice-service.js";
 
 export const name = "clientReady";
 export const once = true;
@@ -16,13 +15,17 @@ export async function execute(client) {
     memberCount = client.guilds.cache.reduce((total, guild) => total + (guild.memberCount ?? 0), 0);
   }
 
-  client.user.setActivity(`See ${memberCount} Member${memberCount > 1 ? "s" : ""}`, {
-    type: ActivityType.Watching,
+  client.user.setPresence({
+    activities: [
+      {
+        name: `See ${memberCount} Member${memberCount > 1 ? "s" : ""}`,
+        type: ActivityType.Streaming,
+        url: "https://www.twitch.tv/discord",
+      },
+    ],
+    status: "online",
   });
 
   console.log(`Bot connecté en tant que ${client.user.tag}`);
-  await connectToConfiguredVoiceChannel(client).catch((error) => {
-    console.error("[VOICE] Impossible de connecter le bot au salon vocal configuré:", error);
-  });
   await announceDeployment(client).catch((error) => console.error(error));
 }

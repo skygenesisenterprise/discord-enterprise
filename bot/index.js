@@ -3,7 +3,6 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import { env } from "./config/env.js";
-import { ensureConfiguredVoicePresence } from "./services/voice-service.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +13,6 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.GuildModeration,
-    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
@@ -53,11 +51,6 @@ async function bootstrap() {
     await loadCommands();
     await loadEvents();
     await client.login(env.token);
-    client.on("shardResume", () => {
-      void ensureConfiguredVoicePresence(client).catch((error) => {
-        console.error("[VOICE] Impossible de restaurer la présence vocale après reprise:", error);
-      });
-    });
   } catch (error) {
     console.error("Échec du démarrage du bot:", error);
     process.exit(1);

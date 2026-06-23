@@ -22,7 +22,6 @@ export const env = {
   guildId: process.env.DISCORD_GUILD_ID ?? "",
   supportCategoryId: process.env.DISCORD_SUPPORT_CATEGORY_ID ?? "",
   updatesChannelId: process.env.DISCORD_UPDATES_CHANNEL_ID ?? "",
-  voiceChannelId: process.env.DISCORD_VOICE_CHANNEL_ID ?? "",
   welcomeChannelId: process.env.DISCORD_WELCOME_CHANNEL_ID ?? "",
   welcomeDmEnabled: process.env.DISCORD_WELCOME_DM_ENABLED !== "false",
   commandScope: process.env.DISCORD_COMMAND_SCOPE ?? "global",
