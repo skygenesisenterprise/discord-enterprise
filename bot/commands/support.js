@@ -14,6 +14,7 @@ import {
   getSupportTicket,
   isSupportStaff,
 } from "../utils/support-tickets.js";
+import { env } from "../config/env.js";
 
 const OPEN_TICKET_BUTTON_ID = "support:open-ticket";
 const CLAIM_TICKET_BUTTON_ID = "support:claim-ticket";
@@ -283,6 +284,7 @@ export async function handleSupportButtonInteraction(interaction) {
     resetSupportDraft(interaction.user.id);
 
     await channel.send({
+      content: buildSupportTeamMention(),
       embeds: [
         buildCreatedTicketEmbed(interaction, draft),
       ],
@@ -293,11 +295,16 @@ export async function handleSupportButtonInteraction(interaction) {
             .setLabel("Prendre le ticket")
             .setStyle(ButtonStyle.Primary),
           new ButtonBuilder()
-            .setCustomId(CLOSE_TICKET_BUTTON_ID)
-            .setLabel("Fermer ce ticket")
-            .setStyle(ButtonStyle.Danger),
+          .setCustomId(CLOSE_TICKET_BUTTON_ID)
+          .setLabel("Fermer ce ticket")
+          .setStyle(ButtonStyle.Danger),
         ),
       ],
+      allowedMentions: env.modoRoleId
+        ? {
+            roles: [env.modoRoleId],
+          }
+        : undefined,
     });
 
     await interaction.update({
@@ -420,4 +427,12 @@ function getLanguageLabel(value) {
 
 function getTopicLabel(value) {
   return SUPPORT_TOPICS.find((topic) => topic.value === value)?.label ?? null;
+}
+
+function buildSupportTeamMention() {
+  if (!env.modoRoleId) {
+    return "L'equipe support a ete notifiee.";
+  }
+
+  return `<@&${env.modoRoleId}> nouveau ticket de support cree.`;
 }
