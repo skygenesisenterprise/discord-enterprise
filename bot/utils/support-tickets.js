@@ -54,13 +54,15 @@ export function isSupportStaff(interaction) {
     || interaction.memberPermissions?.has(PermissionFlagsBits.ModerateMembers);
 }
 
-export async function createSupportTicket(interaction) {
+export async function createSupportTicket(interaction, details = {}) {
   const parent = resolveSupportCategory(interaction.guild);
+  const languageLabel = details.language ? String(details.language).toUpperCase() : null;
+  const topicLabel = details.topic ?? null;
   const channel = await interaction.guild.channels.create({
     name: buildTicketChannelName(interaction.user.username),
     type: ChannelType.GuildText,
     parent: parent?.id,
-    topic: `Support ticket for ${interaction.user.tag}`,
+    topic: buildTicketTopic(interaction.user.tag, languageLabel, topicLabel),
     permissionOverwrites: [
       {
         id: interaction.guild.roles.everyone.id,
@@ -82,6 +84,8 @@ export async function createSupportTicket(interaction) {
   tickets.set(channel.id, {
     guildId: interaction.guildId,
     owner: interaction.user.id,
+    language: details.language ?? null,
+    topic: details.topic ?? null,
     createdAt: new Date(),
   });
 
@@ -93,6 +97,20 @@ export async function createSupportTicket(interaction) {
   });
 
   return channel;
+}
+
+function buildTicketTopic(userTag, language, topic) {
+  const segments = [`Support ticket for ${userTag}`];
+
+  if (language) {
+    segments.push(`language=${language}`);
+  }
+
+  if (topic) {
+    segments.push(`topic=${topic}`);
+  }
+
+  return segments.join(" | ");
 }
 
 function resolveSupportCategory(guild) {
