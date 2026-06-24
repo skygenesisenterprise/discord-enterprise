@@ -60,8 +60,6 @@ services:
     env_file:
       - .env
     command: server
-    ports:
-      - "3000:3000"
     expose:
       - "3000"
       - "8080"
