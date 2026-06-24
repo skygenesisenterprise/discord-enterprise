@@ -3,11 +3,16 @@ import {
   handleSupportButtonInteraction,
   handleSupportModalSubmit,
 } from "../commands/support.js";
+import { handleWelcomeButtonInteraction } from "../commands/welcome.js";
 
 export const name = "interactionCreate";
 
 export async function execute(interaction) {
   try {
+    if (await handleWelcomeButtonInteraction(interaction)) {
+      return;
+    }
+
     if (await handleSupportButtonInteraction(interaction)) {
       return;
     }
