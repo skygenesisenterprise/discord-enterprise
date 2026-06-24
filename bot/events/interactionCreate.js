@@ -1,15 +1,21 @@
 import { MessageFlags } from "discord.js";
-import {
-  handleSupportButtonInteraction,
-  handleSupportModalSubmit,
-} from "../commands/support.js";
+import { handleSupportButtonInteraction, handleSupportModalSubmit } from "../commands/support.js";
 import { handleWelcomeButtonInteraction } from "../commands/welcome.js";
+import { handlePanelInteraction, handlePanelModalSubmit } from "../commands/panel.js";
 
 export const name = "interactionCreate";
 
 export async function execute(interaction) {
   try {
     if (await handleWelcomeButtonInteraction(interaction)) {
+      return;
+    }
+
+    if (await handlePanelInteraction(interaction)) {
+      return;
+    }
+
+    if (await handlePanelModalSubmit(interaction)) {
       return;
     }
 
@@ -39,7 +45,7 @@ export async function execute(interaction) {
   } catch (error) {
     const interactionLabel = interaction.isChatInputCommand()
       ? `/${interaction.commandName}`
-      : interaction.customId ?? interaction.type;
+      : (interaction.customId ?? interaction.type);
 
     console.error(`Erreur sur l'interaction ${interactionLabel}:`, error);
 

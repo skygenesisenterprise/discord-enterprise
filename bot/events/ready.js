@@ -1,4 +1,6 @@
 import { ActivityType } from "discord.js";
+import { ensureStaffPanel } from "../commands/panel.js";
+import { env } from "../config/env.js";
 import { announceDeployment } from "../services/deployment-service.js";
 
 export const name = "clientReady";
@@ -27,5 +29,12 @@ export async function execute(client) {
   });
 
   console.log(`Bot connecté en tant que ${client.user.tag}`);
+
+  if (primaryGuild && env.panelChannelId) {
+    await ensureStaffPanel(primaryGuild).catch((error) => {
+      console.error("[PANEL] Impossible de restaurer le panneau staff:", error);
+    });
+  }
+
   await announceDeployment(client).catch((error) => console.error(error));
 }

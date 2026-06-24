@@ -25,6 +25,7 @@ function ensureStoreFile() {
           memberEvents: {},
           welcomeSettings: {},
           goodbyeSettings: {},
+          panelSettings: {},
         },
         null,
         2
@@ -51,6 +52,7 @@ function loadStore() {
       memberEvents: {},
       welcomeSettings: {},
       goodbyeSettings: {},
+      panelSettings: {},
     };
   }
 }
@@ -67,6 +69,7 @@ function persistStore() {
     memberEvents: Object.fromEntries(memberEvents),
     welcomeSettings: Object.fromEntries(welcomeSettings),
     goodbyeSettings: Object.fromEntries(goodbyeSettings),
+    panelSettings: Object.fromEntries(panelSettings),
   };
 
   const tmpPath = `${storePath}.tmp`;
@@ -93,6 +96,7 @@ export const xp = new Map(Object.entries(initialStore.xp ?? {}));
 export const memberEvents = new Map(Object.entries(initialStore.memberEvents ?? {}));
 export const welcomeSettings = new Map(Object.entries(initialStore.welcomeSettings ?? {}));
 export const goodbyeSettings = new Map(Object.entries(initialStore.goodbyeSettings ?? {}));
+export const panelSettings = new Map(Object.entries(initialStore.panelSettings ?? {}));
 
 export function areMemberEventsEnabled(guildId) {
   return memberEvents.get(guildId) !== false;
@@ -134,6 +138,23 @@ export function updateGoodbyeSettings(guildId, settings) {
 
 export function resetGoodbyeSettings(guildId) {
   goodbyeSettings.delete(guildId);
+  persistStore();
+}
+
+export function getPanelSettings(guildId) {
+  return panelSettings.get(guildId) ?? {};
+}
+
+export function updatePanelSettings(guildId, settings) {
+  panelSettings.set(guildId, {
+    ...getPanelSettings(guildId),
+    ...settings,
+  });
+  persistStore();
+}
+
+export function resetPanelSettings(guildId) {
+  panelSettings.delete(guildId);
   persistStore();
 }
 

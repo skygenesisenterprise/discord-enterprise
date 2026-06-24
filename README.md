@@ -219,6 +219,9 @@ Once running, you can access:
 - **Health Check**: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health)
 - **API Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
 - **Discord Bot**: Configure via `.env` with your bot token
+- **Discord Staff Panel**: Set `DISCORD_PANEL_CHANNEL_ID`, then run
+  `/panel setup`. The bot keeps one persistent staff control message in that
+  channel and repairs it automatically on startup.
 - **Discord Welcome Messages**: Set `DISCORD_RULES_CHANNEL_ID`,
   `DISCORD_WELCOME_CHANNEL_ID`, `DISCORD_ROLE_MEMBER_ID`, and
   `DISCORD_ROLE_AGENTS_ID`. `/welcome panel` publishes the human verification
