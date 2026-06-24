@@ -24,14 +24,14 @@ export const data = new SlashCommandBuilder()
   )
   .addStringOption((option) =>
     option
-      .setName("summary")
-      .setDescription("Resume court affiche en haut de l'embed"),
-  )
-  .addStringOption((option) =>
-    option
       .setName("message")
       .setDescription("Contenu detaille de l'annonce")
       .setRequired(true),
+  )
+  .addStringOption((option) =>
+    option
+      .setName("summary")
+      .setDescription("Resume court affiche en haut de l'embed"),
   )
   .addRoleOption((option) =>
     option.setName("role").setDescription("Premier role a mentionner"),
