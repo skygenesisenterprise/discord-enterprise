@@ -22,11 +22,14 @@ function ensureStoreFile() {
           tickets: {},
           auditLog: [],
           xp: {},
+          memberEvents: {},
+          welcomeSettings: {},
+          goodbyeSettings: {},
         },
         null,
-        2,
+        2
       ),
-      "utf8",
+      "utf8"
     );
   }
 }
@@ -45,6 +48,9 @@ function loadStore() {
       tickets: {},
       auditLog: [],
       xp: {},
+      memberEvents: {},
+      welcomeSettings: {},
+      goodbyeSettings: {},
     };
   }
 }
@@ -58,6 +64,9 @@ function persistStore() {
     tickets: Object.fromEntries(tickets),
     auditLog,
     xp: Object.fromEntries(xp),
+    memberEvents: Object.fromEntries(memberEvents),
+    welcomeSettings: Object.fromEntries(welcomeSettings),
+    goodbyeSettings: Object.fromEntries(goodbyeSettings),
   };
 
   const tmpPath = `${storePath}.tmp`;
@@ -75,12 +84,58 @@ function reviveDateEntries(entries) {
 }
 
 export const warnings = new Map(
-  Object.entries(initialStore.warnings ?? {}).map(([key, value]) => [key, reviveDateEntries(value)]),
+  Object.entries(initialStore.warnings ?? {}).map(([key, value]) => [key, reviveDateEntries(value)])
 );
 export const incidents = new Map(Object.entries(initialStore.incidents ?? {}));
 export const tickets = new Map(Object.entries(initialStore.tickets ?? {}));
 export const auditLog = reviveDateEntries(initialStore.auditLog ?? []);
 export const xp = new Map(Object.entries(initialStore.xp ?? {}));
+export const memberEvents = new Map(Object.entries(initialStore.memberEvents ?? {}));
+export const welcomeSettings = new Map(Object.entries(initialStore.welcomeSettings ?? {}));
+export const goodbyeSettings = new Map(Object.entries(initialStore.goodbyeSettings ?? {}));
+
+export function areMemberEventsEnabled(guildId) {
+  return memberEvents.get(guildId) !== false;
+}
+
+export function setMemberEventsEnabled(guildId, enabled) {
+  memberEvents.set(guildId, enabled);
+  persistStore();
+}
+
+export function getWelcomeSettings(guildId) {
+  return welcomeSettings.get(guildId) ?? {};
+}
+
+export function updateWelcomeSettings(guildId, settings) {
+  welcomeSettings.set(guildId, {
+    ...getWelcomeSettings(guildId),
+    ...settings,
+  });
+  persistStore();
+}
+
+export function resetWelcomeSettings(guildId) {
+  welcomeSettings.delete(guildId);
+  persistStore();
+}
+
+export function getGoodbyeSettings(guildId) {
+  return goodbyeSettings.get(guildId) ?? {};
+}
+
+export function updateGoodbyeSettings(guildId, settings) {
+  goodbyeSettings.set(guildId, {
+    ...getGoodbyeSettings(guildId),
+    ...settings,
+  });
+  persistStore();
+}
+
+export function resetGoodbyeSettings(guildId) {
+  goodbyeSettings.delete(guildId);
+  persistStore();
+}
 
 export function saveStore() {
   persistStore();

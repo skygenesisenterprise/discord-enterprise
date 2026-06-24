@@ -209,7 +209,11 @@ Once running, you can access:
 - **Health Check**: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health)
 - **API Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
 - **Discord Bot**: Configure via `.env` with your bot token
-- **Discord Welcome Messages**: Set `DISCORD_WELCOME_CHANNEL_ID` for public welcomes and keep `DISCORD_WELCOME_DM_ENABLED=true` for automatic DMs
+- **Discord Welcome Messages**: Set `DISCORD_WELCOME_CHANNEL_ID` and `DISCORD_ROLE_MEMBER_ID`
+  as deployment defaults, then manage each server with `/welcome` and `/goodbye`.
+  Messages support `{member}`, `{username}`, `{userTag}`, `{server}`, and `{memberCount}`.
+  Use `/welcome panel` to publish the verification panel, `/welcome preview` or
+  `/goodbye preview` before activation, and `/member-events` as a global compatibility switch.
 - **vaultctl CLI**: `pnpm cli` or `go run ./cmd`
 
 ### 🐳 Docker Quick Start

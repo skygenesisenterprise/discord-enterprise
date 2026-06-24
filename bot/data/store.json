@@ -3,5 +3,8 @@
   "incidents": {},
   "tickets": {},
   "auditLog": [],
-  "xp": {}
+  "xp": {},
+  "memberEvents": {},
+  "welcomeSettings": {},
+  "goodbyeSettings": {}
 }

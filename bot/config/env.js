@@ -23,6 +23,7 @@ export const env = {
   modoRoleId: process.env.DISCORD_MODO_ROLE_ID ?? "",
   supportCategoryId: process.env.DISCORD_SUPPORT_CATEGORY_ID ?? "",
   verifiedRoleId: process.env.DISCORD_ROLE_VERIFIED_ID ?? "",
+  memberRoleId: process.env.DISCORD_ROLE_MEMBER_ID ?? "",
   updatesChannelId: process.env.DISCORD_UPDATES_CHANNEL_ID ?? "",
   levelChannelId: process.env.DISCORD_LEVEL_CHANNEL_ID ?? "",
   welcomeChannelId: process.env.DISCORD_WELCOME_CHANNEL_ID ?? "",
@@ -40,7 +41,7 @@ export const env = {
 export function assertDiscordEnv() {
   if (!env.isConfigured) {
     throw new Error(
-      `Missing required environment variables: ${env.missingRequiredVars.join(", ")}`,
+      `Missing required environment variables: ${env.missingRequiredVars.join(", ")}`
     );
   }
 }
