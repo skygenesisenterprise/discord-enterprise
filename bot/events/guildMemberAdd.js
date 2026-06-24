@@ -3,6 +3,7 @@ import {
   renderMemberMessage,
   resolveWelcomeSettings,
 } from "../utils/member-messages.js";
+import { env } from "../config/env.js";
 
 async function assignMemberRoles(member, roleIds) {
   if (!roleIds.length) {
@@ -85,13 +86,24 @@ export const name = "guildMemberAdd";
 export async function execute(member) {
   const settings = resolveWelcomeSettings(member.guild.id);
 
-  if (!settings.enabled || (settings.ignoreBots && member.user.bot)) {
+  if (!settings.enabled) {
     return;
+  }
+
+  const roleIds = member.user.bot ? (env.agentsRoleId ? [env.agentsRoleId] : []) : settings.roleIds;
+
+  if (member.user.bot && !env.agentsRoleId) {
+    console.warn(
+      `[WELCOME] Aucun role agent attribue a ${member.user.tag}: DISCORD_ROLE_AGENTS_ID n'est pas configure.`
+    );
   }
 
   const content = renderMemberMessage(settings.message, member);
   const operations = [
-    ["attribution des roles membres", assignMemberRoles(member, settings.roleIds)],
+    [
+      member.user.bot ? "attribution du role agent" : "attribution du role membre",
+      assignMemberRoles(member, roleIds),
+    ],
     ["envoi du message prive", sendWelcomeDm(member, settings, content)],
     ["envoi du message d'accueil", sendWelcomeChannelMessage(member, settings, content)],
   ];

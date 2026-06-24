@@ -11,16 +11,10 @@ import {
 import { env } from "../config/env.js";
 import {
   buildMemberMessagePayload,
-  parseHexColor,
+  DEFAULT_WELCOME_MESSAGE,
   renderMemberMessage,
-  resolveWelcomeSettings,
 } from "../utils/member-messages.js";
-import {
-  addAudit,
-  resetWelcomeSettings,
-  setMemberEventsEnabled,
-  updateWelcomeSettings,
-} from "../utils/store.js";
+import { addAudit, setMemberEventsEnabled, updateWelcomeSettings } from "../utils/store.js";
 
 const WELCOME_VERIFY_BUTTON_ID = "welcome:verify";
 const PRIMARY_EMBED_COLOR = 0x5865f2;
@@ -44,108 +38,20 @@ export const data = new SlashCommandBuilder()
   .setDescription("Configure l'accueil automatique des nouveaux membres.")
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
   .addSubcommand((subcommand) =>
-    subcommand.setName("enable").setDescription("Active l'accueil automatique.")
-  )
-  .addSubcommand((subcommand) =>
-    subcommand.setName("disable").setDescription("Desactive l'accueil automatique.")
-  )
-  .addSubcommand((subcommand) =>
-    subcommand.setName("status").setDescription("Affiche la configuration actuelle.")
-  )
-  .addSubcommand((subcommand) =>
     subcommand
-      .setName("channel")
-      .setDescription("Definit le salon des messages de bienvenue.")
-      .addChannelOption((option) =>
-        option
-          .setName("channel")
-          .setDescription("Salon cible")
-          .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
-          .setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("message")
-      .setDescription("Definit le message de bienvenue.")
-      .addStringOption((option) =>
-        option
-          .setName("content")
-          .setDescription("Variables: {member}, {username}, {userTag}, {server}, {memberCount}")
-          .setMaxLength(2000)
-          .setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand.setName("preview").setDescription("Affiche un apercu du message.")
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("role-add")
-      .setDescription("Ajoute un role attribue automatiquement.")
+      .setName("setup")
+      .setDescription("Configure les roles et l'embed dans le salon welcome.")
       .addRoleOption((option) =>
-        option.setName("role").setDescription("Role a attribuer").setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("role-remove")
-      .setDescription("Retire un role de l'attribution automatique.")
-      .addRoleOption((option) =>
-        option.setName("role").setDescription("Role a retirer").setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("dm")
-      .setDescription("Active ou desactive le message prive de bienvenue.")
-      .addBooleanOption((option) =>
-        option.setName("enabled").setDescription("Etat du message prive").setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("bots")
-      .setDescription("Configure l'accueil des comptes bots.")
-      .addBooleanOption((option) =>
         option
-          .setName("ignore")
-          .setDescription("Ignorer les bots lors de leur arrivee")
+          .setName("role")
+          .setDescription("Role attribue automatiquement aux nouveaux membres")
           .setRequired(true)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand
-      .setName("format")
-      .setDescription("Choisit un message texte ou un embed.")
-      .addStringOption((option) =>
-        option
-          .setName("type")
-          .setDescription("Format du message")
-          .addChoices({ name: "Texte", value: "text" }, { name: "Embed", value: "embed" })
-          .setRequired(true)
-      )
-      .addStringOption((option) =>
-        option
-          .setName("color")
-          .setDescription("Couleur hexadecimale de l'embed, par exemple #5865F2")
-          .setRequired(false)
       )
   )
   .addSubcommand((subcommand) =>
     subcommand
       .setName("panel")
-      .setDescription("Publie le panneau de verification existant.")
-      .addChannelOption((option) =>
-        option
-          .setName("channel")
-          .setDescription("Salon cible. Par defaut: le salon courant.")
-          .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement)
-          .setRequired(false)
-      )
-  )
-  .addSubcommand((subcommand) =>
-    subcommand.setName("reset").setDescription("Retablit la configuration par defaut.")
+      .setDescription("Publie le panneau humain dans le salon rules configure.")
   );
 
 export async function execute(interaction) {
@@ -158,182 +64,156 @@ export async function execute(interaction) {
   }
 
   const subcommand = interaction.options.getSubcommand();
-  const guildId = interaction.guild.id;
 
   if (subcommand === "panel") {
-    const targetChannel = interaction.options.getChannel("channel") ?? interaction.channel;
+    const targetChannel = await fetchConfiguredTextChannel(interaction.guild, env.rulesChannelId);
 
-    if (!targetChannel || !targetChannel.isTextBased() || targetChannel.isDMBased()) {
+    if (!targetChannel) {
       await interaction.reply({
-        content: "Le salon cible doit etre un salon textuel du serveur.",
+        content:
+          "Le salon des regles est introuvable. Configurez `DISCORD_RULES_CHANNEL_ID` avec l'identifiant du salon rules.",
         ephemeral: true,
       });
+      return;
+    }
+
+    const permissionError = getChannelPermissionError(targetChannel, interaction.guild.members.me);
+
+    if (permissionError) {
+      await interaction.reply({ content: permissionError, ephemeral: true });
       return;
     }
 
     await sendWelcomePanel(targetChannel);
     await interaction.reply({
-      content: `Le panneau d'accueil a ete publie dans ${targetChannel}.`,
+      content: `Le panneau de regles destine aux utilisateurs humains a ete publie dans ${targetChannel}.`,
       ephemeral: true,
     });
     return;
   }
 
-  if (subcommand === "status") {
-    const settings = resolveWelcomeSettings(guildId);
-    const roles = settings.roleIds.length
-      ? settings.roleIds.map((roleId) => `<@&${roleId}>`).join(", ")
-      : "Aucun";
+  const channel = await fetchConfiguredTextChannel(interaction.guild, env.welcomeChannelId);
+  const role = interaction.options.getRole("role", true);
+  const botMember = interaction.guild.members.me;
 
+  if (!channel) {
     await interaction.reply({
-      content: [
-        `**Accueil automatique:** ${settings.enabled ? "active" : "desactive"}`,
-        `**Salon:** ${settings.channelId ? `<#${settings.channelId}>` : "Non configure"}`,
-        `**Format:** ${settings.format}`,
-        `**Message prive:** ${settings.dmEnabled ? "active" : "desactive"}`,
-        `**Bots ignores:** ${settings.ignoreBots ? "oui" : "non"}`,
-        `**Roles automatiques:** ${roles}`,
-        `**Message:** ${settings.message}`,
-      ].join("\n"),
+      content:
+        "Le salon de bienvenue est introuvable. Configurez `DISCORD_WELCOME_CHANNEL_ID` avec l'identifiant du salon welcome.",
       ephemeral: true,
     });
     return;
   }
 
-  if (subcommand === "preview") {
-    const settings = resolveWelcomeSettings(guildId);
-    const member = await interaction.guild.members.fetch(interaction.user.id);
-    const content = renderMemberMessage(settings.message, member);
+  const permissionError = getChannelPermissionError(channel, botMember);
+
+  if (permissionError) {
+    await interaction.reply({ content: permissionError, ephemeral: true });
+    return;
+  }
+
+  if (
+    !botMember ||
+    !botMember.permissions.has(PermissionFlagsBits.ManageRoles) ||
+    role.id === interaction.guild.id ||
+    role.managed ||
+    role.position >= botMember.roles.highest.position
+  ) {
     await interaction.reply({
-      ...buildMemberMessagePayload(content, settings, `Bienvenue sur ${interaction.guild.name}`),
+      content:
+        "Ce role ne peut pas etre attribue par le bot. Placez le role du bot au-dessus du role membre.",
       ephemeral: true,
     });
     return;
   }
 
-  if (subcommand === "enable" || subcommand === "disable") {
-    const enabled = subcommand === "enable";
-    setMemberEventsEnabled(guildId, true);
-    updateWelcomeSettings(guildId, { enabled });
-    await replyWithAudit(
-      interaction,
-      enabled ? "welcome_enable" : "welcome_disable",
-      `L'accueil automatique est **${enabled ? "active" : "desactive"}**.`
-    );
-    return;
-  }
-
-  if (subcommand === "channel") {
-    const channel = interaction.options.getChannel("channel", true);
-    updateWelcomeSettings(guildId, { channelId: channel.id });
-    await replyWithAudit(
-      interaction,
-      "welcome_channel",
-      `Le salon de bienvenue est maintenant ${channel}.`
-    );
-    return;
-  }
-
-  if (subcommand === "message") {
-    const message = interaction.options.getString("content", true);
-    updateWelcomeSettings(guildId, { message });
-    await replyWithAudit(
-      interaction,
-      "welcome_message",
-      "Le message de bienvenue a ete mis a jour."
-    );
-    return;
-  }
-
-  if (subcommand === "dm") {
-    const dmEnabled = interaction.options.getBoolean("enabled", true);
-    updateWelcomeSettings(guildId, { dmEnabled });
-    await replyWithAudit(
-      interaction,
-      "welcome_dm",
-      `Le message prive est **${dmEnabled ? "active" : "desactive"}**.`
-    );
-    return;
-  }
-
-  if (subcommand === "bots") {
-    const ignoreBots = interaction.options.getBoolean("ignore", true);
-    updateWelcomeSettings(guildId, { ignoreBots });
-    await replyWithAudit(
-      interaction,
-      "welcome_bots",
-      `Les comptes bots sont maintenant **${ignoreBots ? "ignores" : "accueillis"}**.`
-    );
-    return;
-  }
-
-  if (subcommand === "format") {
-    const format = interaction.options.getString("type", true);
-    const colorInput = interaction.options.getString("color");
-    const color = parseHexColor(colorInput);
-
-    if (colorInput && color === null) {
-      await interaction.reply({
-        content: "La couleur doit utiliser six caracteres hexadecimaux, par exemple `#5865F2`.",
-        ephemeral: true,
-      });
-      return;
-    }
-
-    updateWelcomeSettings(guildId, {
-      format,
-      ...(color !== null ? { color } : {}),
+  if (
+    interaction.guild.ownerId !== interaction.user.id &&
+    role.position >= interaction.member.roles.highest.position
+  ) {
+    await interaction.reply({
+      content: "Vous ne pouvez pas configurer un role egal ou superieur a votre role principal.",
+      ephemeral: true,
     });
-    await replyWithAudit(interaction, "welcome_format", `Le format est maintenant **${format}**.`);
     return;
   }
 
-  if (subcommand === "role-add" || subcommand === "role-remove") {
-    const role = interaction.options.getRole("role", true);
+  const settings = {
+    enabled: true,
+    channelId: channel.id,
+    roleIds: [role.id],
+    message: DEFAULT_WELCOME_MESSAGE,
+    format: "embed",
+    color: PRIMARY_EMBED_COLOR,
+    dmEnabled: false,
+    ignoreBots: false,
+  };
 
-    if (role.id === guildId || role.managed) {
-      await interaction.reply({
-        content: "Ce role ne peut pas etre attribue automatiquement.",
-        ephemeral: true,
-      });
-      return;
-    }
+  setMemberEventsEnabled(interaction.guild.id, true);
+  updateWelcomeSettings(interaction.guild.id, settings);
 
-    const currentRoleIds = resolveWelcomeSettings(guildId).roleIds;
-    const roleIds =
-      subcommand === "role-add"
-        ? [...new Set([...currentRoleIds, role.id])]
-        : currentRoleIds.filter((roleId) => roleId !== role.id);
+  const member = await interaction.guild.members.fetch(interaction.user.id);
+  const content = renderMemberMessage(DEFAULT_WELCOME_MESSAGE, member);
+  await channel.send(
+    buildMemberMessagePayload(content, settings, `Bienvenue sur ${interaction.guild.name}`)
+  );
 
-    updateWelcomeSettings(guildId, { roleIds });
-    await replyWithAudit(
-      interaction,
-      subcommand === "role-add" ? "welcome_role_add" : "welcome_role_remove",
-      subcommand === "role-add"
-        ? `Le role ${role} sera attribue aux nouveaux membres.`
-        : `Le role ${role} ne sera plus attribue automatiquement.`
-    );
-    return;
-  }
-
-  if (subcommand === "reset") {
-    resetWelcomeSettings(guildId);
-    setMemberEventsEnabled(guildId, true);
-    await replyWithAudit(
-      interaction,
-      "welcome_reset",
-      "La configuration de bienvenue utilise de nouveau les valeurs par defaut et les variables d'environnement."
-    );
-  }
-}
-
-async function replyWithAudit(interaction, action, content) {
   addAudit({
     guildId: interaction.guild.id,
-    action,
+    action: "welcome_setup",
     actor: interaction.user.tag,
+    target: channel.id,
+    reason: role.id,
   });
-  await interaction.reply({ content, ephemeral: true });
+
+  await interaction.reply({
+    content: [
+      "Le systeme de bienvenue est configure et active.",
+      `Salon: ${channel}`,
+      `Role des utilisateurs: ${role}`,
+      `Role des bots: ${env.agentsRoleId ? `<@&${env.agentsRoleId}>` : "non configure (DISCORD_ROLE_AGENTS_ID)"}`,
+      "Un apercu de l'embed par defaut vient d'etre publie.",
+    ].join("\n"),
+    ephemeral: true,
+  });
+}
+
+async function fetchConfiguredTextChannel(guild, channelId) {
+  if (!channelId) {
+    return null;
+  }
+
+  const channel =
+    guild.channels.cache.get(channelId) ??
+    (await guild.channels.fetch(channelId).catch(() => null));
+
+  if (
+    !channel ||
+    !channel.isTextBased() ||
+    channel.isDMBased() ||
+    ![ChannelType.GuildText, ChannelType.GuildAnnouncement].includes(channel.type)
+  ) {
+    return null;
+  }
+
+  return channel;
+}
+
+function getChannelPermissionError(channel, botMember) {
+  const permissions = botMember ? channel.permissionsFor(botMember) : null;
+
+  if (
+    !permissions?.has(PermissionFlagsBits.ViewChannel) ||
+    !permissions.has(PermissionFlagsBits.SendMessages)
+  ) {
+    return "Le bot doit disposer des permissions `Voir le salon` et `Envoyer des messages` dans ce salon.";
+  }
+
+  if (!permissions.has(PermissionFlagsBits.EmbedLinks)) {
+    return "Le bot doit disposer de la permission `Integrer des liens` dans ce salon.";
+  }
+
+  return null;
 }
 
 export async function handleWelcomeButtonInteraction(interaction) {

@@ -17,7 +17,7 @@ export function resolveWelcomeSettings(guildId) {
     channelId: stored.channelId ?? env.welcomeChannelId,
     message: stored.message ?? DEFAULT_WELCOME_MESSAGE,
     dmEnabled: stored.dmEnabled ?? env.welcomeDmEnabled,
-    ignoreBots: stored.ignoreBots ?? true,
+    ignoreBots: stored.ignoreBots ?? false,
     format: stored.format === "embed" ? "embed" : "text",
     color: stored.color ?? DEFAULT_COLOR,
     roleIds: Array.isArray(stored.roleIds)

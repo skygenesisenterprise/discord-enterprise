@@ -38,12 +38,14 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 ### 🎯 **Major Features**
 
 #### 🤖 **Discord Bot** (NEW)
+
 - ✅ Slash commands: about, help, ping, rules, serverinfo, status, userinfo
 - ✅ Event handling: ready, interactionCreate
 - ✅ Automatic guild command deployment
 - ✅ ESM JavaScript architecture with discord.js v14
 
 #### 🖥️ **vaultctl CLI Console** (NEW)
+
 - ✅ OPNsense-style interactive menu system
 - ✅ System management: status, shutdown, reboot, info
 - ✅ Service management with systemd integration
@@ -54,12 +56,14 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 - ✅ PAM authentication and SSH integration
 
 #### 📧 **Email Suite** (NEW)
+
 - ✅ Full IMAP (993), SMTP (587), POP3 (995) implementation
 - ✅ Stalwart mail server integration
 - ✅ OAuth providers: Google, Microsoft, Proton
 - ✅ Complete email database schema: MailAccounts, Mailboxes, Threads, Emails, Recipients, Attachments
 
 #### 🏗️ **Enhanced Architecture** (IMPROVED)
+
 - ✅ pnpm monorepo with 11 workspace packages
 - ✅ Go 1.25 + Gin 1.11 backend with GORM + PostgreSQL
 - ✅ Next.js 16 + React 19 with App Router and TypeScript 6
@@ -77,12 +81,14 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 ### ✅ **Currently Implemented**
 
 #### 🤖 **Discord Bot**
+
 - ✅ Slash command framework with deployment scripts
 - ✅ Guild information and moderation commands
 - ✅ Event-driven architecture
 - ✅ Docker container support
 
 #### 🌐 **Web Dashboard**
+
 - ✅ Next.js 16 with App Router and TypeScript strict mode
 - ✅ shadcn/ui component library with 30+ Radix primitives
 - ✅ Multi-language i18n support (next-intl)
@@ -93,6 +99,7 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 - ✅ Route-based auth protection (AuthGuard, ProtectedRoute)
 
 #### ⚙️ **Go REST API**
+
 - ✅ Full REST API at `/api/v1/` with 20+ resource endpoints
 - ✅ CRUD for: categories, media, pages, dossiers, services, users, API keys, webhooks, newsletters
 - ✅ Status/incident/maintenance management
@@ -104,6 +111,7 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 - ✅ Calendar, meetings, todos services
 
 #### 🖥️ **vaultctl CLI Console**
+
 - ✅ Interactive menu system with ASCII banners
 - ✅ System, service, network, security, maintenance actions
 - ✅ PAM authentication and session management
@@ -111,12 +119,14 @@ A next-generation enterprise management platform featuring a **Discord bot for g
 - ✅ Multi-stage Docker build
 
 #### 🗄️ **Database**
+
 - ✅ Prisma schema with 45+ models (users, orgs, email, CMS, calendar, etc.)
 - ✅ GORM integration for Go runtime
 - ✅ User roles: USER, EDITOR, ADMIN, OWNER
 - ✅ Subscription tiers: FREE, ESSENTIAL, PREMIUM, ENTERPRISE
 
 #### 🏗️ **Infrastructure**
+
 - ✅ Docker Compose (dev + cloud profiles)
 - ✅ Kubernetes manifests (deployment, service, configmap, ingress)
 - ✅ Redis caching (dev, test, prod)
@@ -209,11 +219,12 @@ Once running, you can access:
 - **Health Check**: [http://localhost:8080/api/v1/health](http://localhost:8080/api/v1/health)
 - **API Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
 - **Discord Bot**: Configure via `.env` with your bot token
-- **Discord Welcome Messages**: Set `DISCORD_WELCOME_CHANNEL_ID` and `DISCORD_ROLE_MEMBER_ID`
-  as deployment defaults, then manage each server with `/welcome` and `/goodbye`.
-  Messages support `{member}`, `{username}`, `{userTag}`, `{server}`, and `{memberCount}`.
-  Use `/welcome panel` to publish the verification panel, `/welcome preview` or
-  `/goodbye preview` before activation, and `/member-events` as a global compatibility switch.
+- **Discord Welcome Messages**: Set `DISCORD_RULES_CHANNEL_ID`,
+  `DISCORD_WELCOME_CHANNEL_ID`, `DISCORD_ROLE_MEMBER_ID`, and
+  `DISCORD_ROLE_AGENTS_ID`. `/welcome panel` publishes the human verification
+  panel in the rules channel. `/welcome setup` enables arrival embeds in the
+  welcome channel; humans receive the selected member role and bots receive the
+  agents role.
 - **vaultctl CLI**: `pnpm cli` or `go run ./cmd`
 
 ### 🐳 Docker Quick Start
@@ -576,7 +587,7 @@ We're looking for contributors to help build this comprehensive enterprise orche
 
 ### 💬 **Get Help**
 
-- 📖 **[Documentation](app/app/(docs)/)** — Comprehensive guides and API docs
+- 📖 **[Documentation](<app/app/(docs)/>)** — Comprehensive guides and API docs
 - 🐛 **[GitHub Issues](https://github.com/skygenesisenterprise/discord-enterprise/issues)** — Bug reports and feature requests
 - 💡 **[GitHub Discussions](https://github.com/skygenesisenterprise/discord-enterprise/discussions)** — General questions and ideas
 - 📧 **Email** — support@skygenesisenterprise.com
@@ -595,27 +606,27 @@ When reporting bugs, please include:
 
 ## 📊 Project Status
 
-| Component | Status | Technology | Notes |
-|-----------|--------|------------|-------|
-| **Web Dashboard** | ✅ Working | Next.js 16 + React 19 + TypeScript 6 | shadcn/ui, i18n, Fumadocs |
-| **Go REST API** | ✅ Working | Gin 1.11 + GORM 1.31 | 20+ resource endpoints |
-| **Discord Bot** | ✅ Working | discord.js 14 | Slash commands, guild admin |
-| **vaultctl CLI** | ✅ Working | Go + Cobra | OPNsense-style console |
-| **Database Schema** | ✅ Working | Prisma 7 + PostgreSQL 16 | 45+ models, 1267 lines |
-| **Email Suite** | ✅ Working | IMAP/SMTP/POP3 + Stalwart | OAuth: Google, Microsoft, Proton |
-| **Authentication** | ✅ Working | JWT + OAuth | Login, register, MFA |
-| **Docker Deployment** | ✅ Working | Multi-stage + Compose | Dev + cloud profiles |
-| **Kubernetes** | ✅ Working | Manifests + Terraform | Deployment, service, ingress |
-| **Monitoring** | ✅ Working | Prometheus + Grafana + Loki | Full observability stack |
-| **CI/CD** | ✅ Working | GitHub Actions | 17 workflows |
-| **Calendar & Todos** | ✅ Working | Server services | Full CRUD |
-| **CMS** | ✅ Working | Categories, Articles, Media | Full content management |
-| **Webhooks & API Keys** | ✅ Working | CRUD + admin | Rate limited |
-| **Advanced RBAC** | 🔄 In Progress | Go/TS | Fine-grained permissions |
-| **Plugin System** | 🔄 In Progress | Go | External action loading |
-| **Real-Time Monitoring** | 🔄 In Progress | WebSocket | Live metrics dashboard |
-| **Mobile App** | 📋 Planned | Capacitor | iOS/Android companion |
-| **Testing Suite** | 📋 Planned | Playwright + Go | E2E + unit tests |
+| Component                | Status         | Technology                           | Notes                            |
+| ------------------------ | -------------- | ------------------------------------ | -------------------------------- |
+| **Web Dashboard**        | ✅ Working     | Next.js 16 + React 19 + TypeScript 6 | shadcn/ui, i18n, Fumadocs        |
+| **Go REST API**          | ✅ Working     | Gin 1.11 + GORM 1.31                 | 20+ resource endpoints           |
+| **Discord Bot**          | ✅ Working     | discord.js 14                        | Slash commands, guild admin      |
+| **vaultctl CLI**         | ✅ Working     | Go + Cobra                           | OPNsense-style console           |
+| **Database Schema**      | ✅ Working     | Prisma 7 + PostgreSQL 16             | 45+ models, 1267 lines           |
+| **Email Suite**          | ✅ Working     | IMAP/SMTP/POP3 + Stalwart            | OAuth: Google, Microsoft, Proton |
+| **Authentication**       | ✅ Working     | JWT + OAuth                          | Login, register, MFA             |
+| **Docker Deployment**    | ✅ Working     | Multi-stage + Compose                | Dev + cloud profiles             |
+| **Kubernetes**           | ✅ Working     | Manifests + Terraform                | Deployment, service, ingress     |
+| **Monitoring**           | ✅ Working     | Prometheus + Grafana + Loki          | Full observability stack         |
+| **CI/CD**                | ✅ Working     | GitHub Actions                       | 17 workflows                     |
+| **Calendar & Todos**     | ✅ Working     | Server services                      | Full CRUD                        |
+| **CMS**                  | ✅ Working     | Categories, Articles, Media          | Full content management          |
+| **Webhooks & API Keys**  | ✅ Working     | CRUD + admin                         | Rate limited                     |
+| **Advanced RBAC**        | 🔄 In Progress | Go/TS                                | Fine-grained permissions         |
+| **Plugin System**        | 🔄 In Progress | Go                                   | External action loading          |
+| **Real-Time Monitoring** | 🔄 In Progress | WebSocket                            | Live metrics dashboard           |
+| **Mobile App**           | 📋 Planned     | Capacitor                            | iOS/Android companion            |
+| **Testing Suite**        | 📋 Planned     | Playwright + Go                      | E2E + unit tests                 |
 
 ---
 
