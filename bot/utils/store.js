@@ -26,6 +26,7 @@ function ensureStoreFile() {
           welcomeSettings: {},
           goodbyeSettings: {},
           panelSettings: {},
+          notificationChannels: {},
         },
         null,
         2
@@ -53,6 +54,7 @@ function loadStore() {
       welcomeSettings: {},
       goodbyeSettings: {},
       panelSettings: {},
+      notificationChannels: {},
     };
   }
 }
@@ -70,6 +72,7 @@ function persistStore() {
     welcomeSettings: Object.fromEntries(welcomeSettings),
     goodbyeSettings: Object.fromEntries(goodbyeSettings),
     panelSettings: Object.fromEntries(panelSettings),
+    notificationChannels: Object.fromEntries(notificationChannels),
   };
 
   const tmpPath = `${storePath}.tmp`;
@@ -97,6 +100,7 @@ export const memberEvents = new Map(Object.entries(initialStore.memberEvents ?? 
 export const welcomeSettings = new Map(Object.entries(initialStore.welcomeSettings ?? {}));
 export const goodbyeSettings = new Map(Object.entries(initialStore.goodbyeSettings ?? {}));
 export const panelSettings = new Map(Object.entries(initialStore.panelSettings ?? {}));
+export const notificationChannels = new Map(Object.entries(initialStore.notificationChannels ?? {}));
 
 export function areMemberEventsEnabled(guildId) {
   return memberEvents.get(guildId) !== false;
@@ -165,5 +169,34 @@ export function saveStore() {
 export function addAudit(entry) {
   auditLog.unshift({ id: crypto.randomUUID(), at: new Date(), ...entry });
   if (auditLog.length > 500) auditLog.length = 500;
+  persistStore();
+}
+
+const NOTIFICATION_TYPES = ["server_info", "infra_info", "social_network", "status"];
+
+export function getNotificationTypes() {
+  return NOTIFICATION_TYPES;
+}
+
+export function getNotificationChannels(guildId) {
+  return notificationChannels.get(guildId) ?? {};
+}
+
+export function setNotificationChannel(guildId, type, channelId) {
+  const channels = getNotificationChannels(guildId);
+  channels[type] = channelId;
+  notificationChannels.set(guildId, channels);
+  persistStore();
+}
+
+export function removeNotificationChannel(guildId, type) {
+  const channels = getNotificationChannels(guildId);
+  delete channels[type];
+  notificationChannels.set(guildId, channels);
+  persistStore();
+}
+
+export function resetNotificationChannels(guildId) {
+  notificationChannels.delete(guildId);
   persistStore();
 }

@@ -1,3 +1,0 @@
-import { SlashCommandBuilder } from "discord.js";
-export const data=new SlashCommandBuilder().setName("roles").setDescription("Affiche les rôles d’un membre ou du serveur.").addUserOption(o=>o.setName("user").setDescription("Membre facultatif"));
-export async function execute(i){const m=i.options.getMember("user");const roles=m?[...m.roles.cache.values()].filter(r=>r.id!==i.guildId):[...i.guild.roles.cache.values()].filter(r=>r.id!==i.guildId);await i.reply({content:roles.length?roles.sort((a,b)=>b.position-a.position).slice(0,50).map(r=>`${r} — ${r.members.size} membre(s)`).join("\n"):"Aucun rôle.",ephemeral:true});}

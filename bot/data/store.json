@@ -7,5 +7,6 @@
   "memberEvents": {},
   "welcomeSettings": {},
   "goodbyeSettings": {},
-  "panelSettings": {}
+  "panelSettings": {},
+  "notificationChannels": {}
 }

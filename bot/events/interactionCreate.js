@@ -1,4 +1,5 @@
 import { MessageFlags } from "discord.js";
+import { handleServiceButtonInteraction } from "../commands/service.js";
 import { handleSupportButtonInteraction, handleSupportModalSubmit } from "../commands/support.js";
 import { handleWelcomeButtonInteraction } from "../commands/welcome.js";
 import { handlePanelInteraction, handlePanelModalSubmit } from "../commands/panel.js";
@@ -16,6 +17,10 @@ export async function execute(interaction) {
     }
 
     if (await handlePanelModalSubmit(interaction)) {
+      return;
+    }
+
+    if (await handleServiceButtonInteraction(interaction)) {
       return;
     }
 
