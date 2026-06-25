@@ -1,3 +1,0 @@
-import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";import{warnings}from"../utils/store.js";
-export const data=new SlashCommandBuilder().setName("warnings").setDescription("Affiche les avertissements d’un membre.").setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers).addUserOption(o=>o.setName("user").setDescription("Membre").setRequired(true));
-export async function execute(i){const u=i.options.getUser("user",true),list=warnings.get(`${i.guildId}:${u.id}`)??[];await i.reply({content:list.length?list.map(x=>`• ${x.id} — ${x.reason} — ${x.moderator} — <t:${Math.floor(x.at.getTime()/1000)}:R>`).join("\n"):`Aucun avertissement pour ${u.tag}.`,ephemeral:true});}

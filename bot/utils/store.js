@@ -27,6 +27,7 @@ function ensureStoreFile() {
           goodbyeSettings: {},
           panelSettings: {},
           notificationChannels: {},
+          polls: {},
         },
         null,
         2
@@ -55,6 +56,7 @@ function loadStore() {
       goodbyeSettings: {},
       panelSettings: {},
       notificationChannels: {},
+      polls: {},
     };
   }
 }
@@ -73,6 +75,7 @@ function persistStore() {
     goodbyeSettings: Object.fromEntries(goodbyeSettings),
     panelSettings: Object.fromEntries(panelSettings),
     notificationChannels: Object.fromEntries(notificationChannels),
+    polls: Object.fromEntries(polls),
   };
 
   const tmpPath = `${storePath}.tmp`;
@@ -101,6 +104,7 @@ export const welcomeSettings = new Map(Object.entries(initialStore.welcomeSettin
 export const goodbyeSettings = new Map(Object.entries(initialStore.goodbyeSettings ?? {}));
 export const panelSettings = new Map(Object.entries(initialStore.panelSettings ?? {}));
 export const notificationChannels = new Map(Object.entries(initialStore.notificationChannels ?? {}));
+export const polls = new Map(Object.entries(initialStore.polls ?? {}));
 
 export function areMemberEventsEnabled(guildId) {
   return memberEvents.get(guildId) !== false;
@@ -198,5 +202,19 @@ export function removeNotificationChannel(guildId, type) {
 
 export function resetNotificationChannels(guildId) {
   notificationChannels.delete(guildId);
+  persistStore();
+}
+
+export function getPoll(key) {
+  return polls.get(key) ?? null;
+}
+
+export function setPoll(key, data) {
+  polls.set(key, data);
+  persistStore();
+}
+
+export function removePoll(key) {
+  polls.delete(key);
   persistStore();
 }
