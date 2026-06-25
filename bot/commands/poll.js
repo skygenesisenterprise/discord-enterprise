@@ -1,5 +1,5 @@
 import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import { addAudit, getPoll, removePoll, setPoll } from "../utils/store.js";
+import { addAudit, getPoll, setPoll } from "../utils/store.js";
 
 const EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
 
@@ -76,7 +76,6 @@ export const data = new SlashCommandBuilder()
     sub
       .setName("end")
       .setDescription("Termine un sondage et affiche les resultats.")
-      .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
       .addStringOption((o) =>
         o.setName("message_id")
           .setDescription("ID du message du sondage")
@@ -187,6 +186,11 @@ async function handleEnd(interaction) {
   const messageId = interaction.options.getString("message_id", true);
   const key = `${interaction.guildId}:${messageId}`;
   const poll = getPoll(key);
+
+  if (!interaction.memberPermissions?.has(PermissionFlagsBits.ManageMessages)) {
+    await interaction.reply({ content: "Vous n'avez pas la permission de gerer les messages.", ephemeral: true });
+    return;
+  }
 
   if (!poll) {
     await interaction.reply({ content: "Aucun sondage actif trouve avec cet ID.", ephemeral: true });
