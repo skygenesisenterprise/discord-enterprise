@@ -94,8 +94,23 @@ async function handleSetup(interaction) {
     reason: type,
   });
 
+  const embed = new EmbedBuilder()
+    .setColor(0x57f287)
+    .setTitle(`${LABELS[type].emoji} Module ${LABELS[type].label} active`)
+    .setDescription(
+      [
+        `Ce salon est desormais configure pour recevoir les notifications **${LABELS[type].label}**.`,
+        "",
+        `${LABELS[type].description}`,
+      ].join("\n")
+    )
+    .setFooter({ text: `Configure par ${interaction.user.tag}` })
+    .setTimestamp();
+
+  await channel.send({ embeds: [embed] });
+
   await interaction.reply({
-    content: `Notifications **${LABELS[type]?.label ?? type}** configurees dans ${channel}.`,
+    content: `Notifications **${LABELS[type].label}** configurees dans ${channel}. Un message de confirmation a ete publie.`,
     ephemeral: true,
   });
 }
