@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@loglayer/transport-pino':
-        specifier: ^2.2.16
-        version: 2.2.16(pino@10.3.1)
+        specifier: ^3.2.0
+        version: 3.2.0(pino@10.3.1)
       '@prisma/client':
         specifier: ^7.8.0
         version: 7.8.0(prisma@7.2.0(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.9.3))(typescript@5.9.3)
@@ -1088,12 +1088,6 @@ packages:
   '@loglayer/shared@4.3.0':
     resolution: {integrity: sha512-jlNeh0+uOGlKMhKk1Sx9Qdk7ni+I3hHZz2LB7Lp8BmUnqHD0TGRhsp2rV/zMiszSYUwI8XGvNrZttpxBL05U5A==}
     engines: {node: '>=18'}
-
-  '@loglayer/transport-pino@2.2.16':
-    resolution: {integrity: sha512-VMukURdx2KhNb94qI2OwqMMvyABpIfVCgeNwlUPe47eI23bWDlqVK+cJk6XJIxAVsb4Qixuku55YuTVihvq6dA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      pino: '*'
 
   '@loglayer/transport-pino@3.2.0':
     resolution: {integrity: sha512-Hg8ogflMZy/v7ogkbRPHzUEp4LSlLkEaNk2Qh5Q8NCBUBGPj496Xb5pBnWfg3f00Vz1A4Rg53pka1REMHRfXYw==}
@@ -7090,11 +7084,6 @@ snapshots:
   '@loglayer/shared@4.2.0': {}
 
   '@loglayer/shared@4.3.0': {}
-
-  '@loglayer/transport-pino@2.2.16(pino@10.3.1)':
-    dependencies:
-      '@loglayer/transport': 2.3.12
-      pino: 10.3.1
 
   '@loglayer/transport-pino@3.2.0(pino@10.3.1)':
     dependencies:
