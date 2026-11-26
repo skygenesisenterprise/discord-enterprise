@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@loglayer/transport-pino':
-        specifier: ^2.2.16
-        version: 2.2.16(pino@10.3.1)
+        specifier: ^3.3.0
+        version: 3.3.0(pino@10.3.1)
       '@prisma/client':
         specifier: ^7.8.0
         version: 7.8.0(prisma@7.2.0(@types/react@19.2.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.9.3))(typescript@5.9.3)
@@ -61,8 +61,8 @@ importers:
         specifier: ^5.2.2
         version: 5.4.0(react-hook-form@7.80.0(react@19.2.6))
       '@loglayer/transport-pino':
-        specifier: ^3.2.0
-        version: 3.2.0(pino@10.3.1)
+        specifier: ^3.3.0
+        version: 3.3.0(pino@10.3.1)
       '@next/third-parties':
         specifier: 16.2.9
         version: 16.2.9(next@16.2.6(@babel/core@7.29.7)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
@@ -1085,18 +1085,12 @@ packages:
     resolution: {integrity: sha512-DJlibZzcPqJWJDQroLSxyHKhVYyKMwwvUzpCNi9I0GWINl71qZB0cJoIYvPths+mjcmHVV/7zBVOjjPqZnfVhQ==}
     engines: {node: '>=18'}
 
-  '@loglayer/shared@4.3.0':
-    resolution: {integrity: sha512-jlNeh0+uOGlKMhKk1Sx9Qdk7ni+I3hHZz2LB7Lp8BmUnqHD0TGRhsp2rV/zMiszSYUwI8XGvNrZttpxBL05U5A==}
+  '@loglayer/shared@4.4.0':
+    resolution: {integrity: sha512-9C6zpO9RXjfjddR+Bbk+h5NiLDL2wNlno5jLplzhw+Jaj2gO2Dv53rxrgdRmBP5/DgSHNCZu6FdOq8ankSYdGA==}
     engines: {node: '>=18'}
 
-  '@loglayer/transport-pino@2.2.16':
-    resolution: {integrity: sha512-VMukURdx2KhNb94qI2OwqMMvyABpIfVCgeNwlUPe47eI23bWDlqVK+cJk6XJIxAVsb4Qixuku55YuTVihvq6dA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      pino: '*'
-
-  '@loglayer/transport-pino@3.2.0':
-    resolution: {integrity: sha512-Hg8ogflMZy/v7ogkbRPHzUEp4LSlLkEaNk2Qh5Q8NCBUBGPj496Xb5pBnWfg3f00Vz1A4Rg53pka1REMHRfXYw==}
+  '@loglayer/transport-pino@3.3.0':
+    resolution: {integrity: sha512-nCWQtkgQkF/mN2R91IKKM8byJgsk2eJg96Jq0X4wlffts5WdLJKfM27wUXKczH8tF2qEcOzTcoo0LpPGG466uw==}
     engines: {node: '>=18'}
     peerDependencies:
       pino: '*'
@@ -1109,8 +1103,8 @@ packages:
     resolution: {integrity: sha512-5bvbfaInIQCg/k9A60TyxfQeQuNUO5fstStHcpMJH+tYnTZn5mgzPOvqe/+9DYJhEiZhx0IWZidqygL1gnmvvQ==}
     engines: {node: '>=18'}
 
-  '@loglayer/transport@3.2.0':
-    resolution: {integrity: sha512-UMnlJggWIAYzZv8PN9dR3v7qMDG7vKVyPJjyfypBa8Y2yLk/4XzDp2fAvSd1OJKWQh03lO7GfGpo87SSYoIANg==}
+  '@loglayer/transport@3.3.0':
+    resolution: {integrity: sha512-fFh4XaX24FiyZtpzOjBP2PScA3sQk1rfka287FsYXkGMm2/n74BOVj6/D/oLaiI+cJMy7fv3dtyy5sUtNil5UQ==}
     engines: {node: '>=18'}
 
   '@manypkg/find-root@1.1.0':
@@ -2471,6 +2465,7 @@ packages:
   '@sapphire/shapeshift@4.0.0':
     resolution: {integrity: sha512-d9dUmWVA7MMiKobL3VpLF8P2aeanRTu6ypG2OIaEv/ZHH/SUQ2iHOVyi5wAPjQ+HmnMuL0whK9ez8I/raWbtIg==}
     engines: {node: '>=v16'}
+    deprecated: Shapeshift was created when other validation libraries had significant limitations in performance and error reporting. Those advantages have diminished as libraries such as Zod have become faster and improved their error messages, while also gaining broader environment support, a larger community, and custom error printers.
 
   '@sapphire/snowflake@3.5.3':
     resolution: {integrity: sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ==}
@@ -3050,6 +3045,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3817,6 +3813,7 @@ packages:
   eslint@9.39.2:
     resolution: {integrity: sha512-LEyamqS7W5HB3ujJyvi0HQK/dtVINZvd5mAAp9eT5S/ujByGjiZLCzPcHVzuXbpJDJF/cxwHlfceVUDZ2lnSTw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -4310,6 +4307,7 @@ packages:
   image-size@2.0.2:
     resolution: {integrity: sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==}
     engines: {node: '>=16.x'}
+    deprecated: Use latest 2.x please
     hasBin: true
 
   immer@10.2.0:
@@ -7089,16 +7087,11 @@ snapshots:
 
   '@loglayer/shared@4.2.0': {}
 
-  '@loglayer/shared@4.3.0': {}
+  '@loglayer/shared@4.4.0': {}
 
-  '@loglayer/transport-pino@2.2.16(pino@10.3.1)':
+  '@loglayer/transport-pino@3.3.0(pino@10.3.1)':
     dependencies:
-      '@loglayer/transport': 2.3.12
-      pino: 10.3.1
-
-  '@loglayer/transport-pino@3.2.0(pino@10.3.1)':
-    dependencies:
-      '@loglayer/transport': 3.2.0
+      '@loglayer/transport': 3.3.0
       pino: 10.3.1
 
   '@loglayer/transport@2.3.12':
@@ -7109,9 +7102,9 @@ snapshots:
     dependencies:
       '@loglayer/shared': 4.2.0
 
-  '@loglayer/transport@3.2.0':
+  '@loglayer/transport@3.3.0':
     dependencies:
-      '@loglayer/shared': 4.3.0
+      '@loglayer/shared': 4.4.0
 
   '@manypkg/find-root@1.1.0':
     dependencies:
