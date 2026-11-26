@@ -21,8 +21,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
       loglayer:
-        specifier: ^8.2.0
-        version: 8.2.0
+        specifier: ^9.4.0
+        version: 9.4.0
       pino:
         specifier: ^10.3.1
         version: 10.3.1
@@ -193,8 +193,8 @@ importers:
         specifier: 1.4.2
         version: 1.4.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       loglayer:
-        specifier: ^9.1.0
-        version: 9.2.0
+        specifier: ^9.4.0
+        version: 9.4.0
       lucide-react:
         specifier: ^1.17.0
         version: 1.21.0(react@19.2.6)
@@ -1053,40 +1053,28 @@ packages:
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
 
-  '@loglayer/context-manager@1.1.14':
-    resolution: {integrity: sha512-F99SKlG3yG33UKwGitT1Xq0ru/AyAQe6rgKDVgdrzF7nHPXAdOb2cW5+ycyixhqlrkAEuyI+jLwF6PPCFx2ktQ==}
+  '@loglayer/context-manager@2.3.0':
+    resolution: {integrity: sha512-bStCSDKUk88ZHTloOR+eE+Jfnfcs+jfI2hNSrcchorwi2UHS8AYHWMm9o2Ov3tSQ4v64je9JDeTVLgoeL+JHvw==}
     engines: {node: '>=18'}
 
-  '@loglayer/context-manager@2.1.0':
-    resolution: {integrity: sha512-LCohf1MeDGHL5pvSl2TcmQZmyx/xfMozgmRt2zCjNC3yLymWjyHZYrkzaZ6Uv3fCy3o8wKhfj9Z+Yqln51ucBA==}
+  '@loglayer/log-level-manager@2.3.0':
+    resolution: {integrity: sha512-tkiKKa5yBnWqCLUWFZraNAotaHxGlb8yqTUpYS1o5Qv3XeTPoNkI87oDwI8V8m63yvKLPrXsZtNas2pIiFldCQ==}
     engines: {node: '>=18'}
 
-  '@loglayer/log-level-manager@1.0.4':
-    resolution: {integrity: sha512-CXXJtr40Gptntwy2mfJdwUF+IaNlf5373M9Vnalqk0e5AFFrVoTxqKcRIGQHnXi+ZHTiP62wOFwx3ahxO3leSA==}
-    engines: {node: '>=18'}
-
-  '@loglayer/log-level-manager@2.1.0':
-    resolution: {integrity: sha512-c7WzwuUllVIxF51AR/OZ5eetqGLM+O8WUVyKbyUBZJ+k7qN4K/3i4civnZVHqLqrh7LSwYcFzn6CkUIoI66iaQ==}
-    engines: {node: '>=18'}
-
-  '@loglayer/plugin@2.2.6':
-    resolution: {integrity: sha512-HjUpCxdlvYVMvb7nVEg5xOs+R9RSe08DQ2/Zm3O3SjhKUk7hRrUDQj00eaudeqeem1kugyLJPsUN6Q4mFaBPFA==}
-    engines: {node: '>=18'}
-
-  '@loglayer/plugin@3.1.0':
-    resolution: {integrity: sha512-gL4K7J31Fk+8VkRJZOcxvVxQwH/0/e7uzOAVVLOKpZDdqcsAtSNpAnXcqEQOCLA1cqKe1u7ODCk6XGJY4732oQ==}
+  '@loglayer/plugin@3.3.0':
+    resolution: {integrity: sha512-qSEgukxOXrQsUPPUbcrOBGymowBfobTK+vC3+eDRx1dEqlhCl1YxTn8zIJjQKV+nZJyCRTzgPTvEfvceFO+QnQ==}
     engines: {node: '>=18'}
 
   '@loglayer/shared@3.2.0':
     resolution: {integrity: sha512-HSqb/vF1I0TteulEPbfU5qBYuv3xRTOYJlWttNBNqR4XU8sqxw/0azqDuGsfr4J8aJTD018jJz09OrkrA8xoOw==}
     engines: {node: '>=18'}
 
-  '@loglayer/shared@4.2.0':
-    resolution: {integrity: sha512-DJlibZzcPqJWJDQroLSxyHKhVYyKMwwvUzpCNi9I0GWINl71qZB0cJoIYvPths+mjcmHVV/7zBVOjjPqZnfVhQ==}
-    engines: {node: '>=18'}
-
   '@loglayer/shared@4.3.0':
     resolution: {integrity: sha512-jlNeh0+uOGlKMhKk1Sx9Qdk7ni+I3hHZz2LB7Lp8BmUnqHD0TGRhsp2rV/zMiszSYUwI8XGvNrZttpxBL05U5A==}
+    engines: {node: '>=18'}
+
+  '@loglayer/shared@4.4.0':
+    resolution: {integrity: sha512-9C6zpO9RXjfjddR+Bbk+h5NiLDL2wNlno5jLplzhw+Jaj2gO2Dv53rxrgdRmBP5/DgSHNCZu6FdOq8ankSYdGA==}
     engines: {node: '>=18'}
 
   '@loglayer/transport-pino@2.2.16':
@@ -1105,12 +1093,12 @@ packages:
     resolution: {integrity: sha512-fnGRWGBRaO1yqhE8TXob0D42qWjihmpVCyP0nyyFYE6LibugvwScEvDW+w9xLlXunLbvCR0eYmzhdcF8ksVTYw==}
     engines: {node: '>=18'}
 
-  '@loglayer/transport@3.1.0':
-    resolution: {integrity: sha512-5bvbfaInIQCg/k9A60TyxfQeQuNUO5fstStHcpMJH+tYnTZn5mgzPOvqe/+9DYJhEiZhx0IWZidqygL1gnmvvQ==}
-    engines: {node: '>=18'}
-
   '@loglayer/transport@3.2.0':
     resolution: {integrity: sha512-UMnlJggWIAYzZv8PN9dR3v7qMDG7vKVyPJjyfypBa8Y2yLk/4XzDp2fAvSd1OJKWQh03lO7GfGpo87SSYoIANg==}
+    engines: {node: '>=18'}
+
+  '@loglayer/transport@3.3.0':
+    resolution: {integrity: sha512-fFh4XaX24FiyZtpzOjBP2PScA3sQk1rfka287FsYXkGMm2/n74BOVj6/D/oLaiI+cJMy7fv3dtyy5sUtNil5UQ==}
     engines: {node: '>=18'}
 
   '@manypkg/find-root@1.1.0':
@@ -2471,6 +2459,7 @@ packages:
   '@sapphire/shapeshift@4.0.0':
     resolution: {integrity: sha512-d9dUmWVA7MMiKobL3VpLF8P2aeanRTu6ypG2OIaEv/ZHH/SUQ2iHOVyi5wAPjQ+HmnMuL0whK9ez8I/raWbtIg==}
     engines: {node: '>=v16'}
+    deprecated: Shapeshift was created when other validation libraries had significant limitations in performance and error reporting. Those advantages have diminished as libraries such as Zod have become faster and improved their error messages, while also gaining broader environment support, a larger community, and custom error printers.
 
   '@sapphire/snowflake@3.5.3':
     resolution: {integrity: sha512-jjmJywLAFoWeBi1W7994zZyiNWPIiqRRNAmSERxyg93xRGzNYvGjlZ0gR6x0F4gPRi2+0O6S71kOZYyr3cxaIQ==}
@@ -3050,6 +3039,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3817,6 +3807,7 @@ packages:
   eslint@9.39.2:
     resolution: {integrity: sha512-LEyamqS7W5HB3ujJyvi0HQK/dtVINZvd5mAAp9eT5S/ujByGjiZLCzPcHVzuXbpJDJF/cxwHlfceVUDZ2lnSTw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -4310,6 +4301,7 @@ packages:
   image-size@2.0.2:
     resolution: {integrity: sha512-IRqXKlaXwgSMAMtpNzZa1ZAe8m+Sa1770Dhk8VkSsP9LS+iHD62Zd8FQKs8fbPiagBE7BzoFX23cxFnwshpV6w==}
     engines: {node: '>=16.x'}
+    deprecated: Use latest 2.x please
     hasBin: true
 
   immer@10.2.0:
@@ -4701,12 +4693,8 @@ packages:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
     engines: {node: '>=18'}
 
-  loglayer@8.2.0:
-    resolution: {integrity: sha512-zN0MJxiz38rTv+xaZ5/nph9MMzCRer3jyOqDf5N1qBA118uTr+WVs8EboKmMUD9x3YpiiPWhB53qi8DWdl9Iig==}
-    engines: {node: '>=18'}
-
-  loglayer@9.2.0:
-    resolution: {integrity: sha512-1sruHFki9WS89rzsb8lCeldfnpdzg5b6Z8csSwvzDRPyytIz20GlATbTlXGSyQWWRp84XuHNe56ulJUpVzvhaA==}
+  loglayer@9.4.0:
+    resolution: {integrity: sha512-abAZY0TkGw1LOA8n0yGJbRi9R0upRWymYBZItWfiktXMTHqdgCpHukONoX/Byfbt1RfRdw/GjT/PwrztePYOcw==}
     engines: {node: '>=18'}
 
   long@5.3.2:
@@ -7061,35 +7049,23 @@ snapshots:
 
   '@kurkle/color@0.3.4': {}
 
-  '@loglayer/context-manager@1.1.14':
+  '@loglayer/context-manager@2.3.0':
     dependencies:
-      '@loglayer/shared': 3.2.0
+      '@loglayer/shared': 4.4.0
 
-  '@loglayer/context-manager@2.1.0':
+  '@loglayer/log-level-manager@2.3.0':
     dependencies:
-      '@loglayer/shared': 4.2.0
+      '@loglayer/shared': 4.4.0
 
-  '@loglayer/log-level-manager@1.0.4':
+  '@loglayer/plugin@3.3.0':
     dependencies:
-      '@loglayer/shared': 3.2.0
-
-  '@loglayer/log-level-manager@2.1.0':
-    dependencies:
-      '@loglayer/shared': 4.2.0
-
-  '@loglayer/plugin@2.2.6':
-    dependencies:
-      '@loglayer/shared': 3.2.0
-
-  '@loglayer/plugin@3.1.0':
-    dependencies:
-      '@loglayer/shared': 4.2.0
+      '@loglayer/shared': 4.4.0
 
   '@loglayer/shared@3.2.0': {}
 
-  '@loglayer/shared@4.2.0': {}
-
   '@loglayer/shared@4.3.0': {}
+
+  '@loglayer/shared@4.4.0': {}
 
   '@loglayer/transport-pino@2.2.16(pino@10.3.1)':
     dependencies:
@@ -7105,13 +7081,13 @@ snapshots:
     dependencies:
       '@loglayer/shared': 3.2.0
 
-  '@loglayer/transport@3.1.0':
-    dependencies:
-      '@loglayer/shared': 4.2.0
-
   '@loglayer/transport@3.2.0':
     dependencies:
       '@loglayer/shared': 4.3.0
+
+  '@loglayer/transport@3.3.0':
+    dependencies:
+      '@loglayer/shared': 4.4.0
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -10960,21 +10936,13 @@ snapshots:
       strip-ansi: 7.1.2
       wrap-ansi: 9.0.2
 
-  loglayer@8.2.0:
+  loglayer@9.4.0:
     dependencies:
-      '@loglayer/context-manager': 1.1.14
-      '@loglayer/log-level-manager': 1.0.4
-      '@loglayer/plugin': 2.2.6
-      '@loglayer/shared': 3.2.0
-      '@loglayer/transport': 2.3.12
-
-  loglayer@9.2.0:
-    dependencies:
-      '@loglayer/context-manager': 2.1.0
-      '@loglayer/log-level-manager': 2.1.0
-      '@loglayer/plugin': 3.1.0
-      '@loglayer/shared': 4.2.0
-      '@loglayer/transport': 3.1.0
+      '@loglayer/context-manager': 2.3.0
+      '@loglayer/log-level-manager': 2.3.0
+      '@loglayer/plugin': 3.3.0
+      '@loglayer/shared': 4.4.0
+      '@loglayer/transport': 3.3.0
 
   long@5.3.2: {}
 
