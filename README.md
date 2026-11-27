@@ -7,7 +7,7 @@
 <p>Information, utility, help and configuration commands for your server. One bot, one shared framework, one image, one data volume — with least-privilege Discord intents and no moderation or message-content access.</p>
 
 <p>
-  <a href="https://docs.discord-enterprise.com">Documentation</a> ·
+  <a href="https://learn.skygenesisenterprise.com">Documentation</a> ·
   <a href="https://github.com/skygenesisenterprise/discord-enterprise">Source</a> ·
   <a href="https://discord.gg/GUkDugVh34">Discord</a> ·
   <a href="https://github.com/skygenesisenterprise/discord-enterprise/issues">Issues</a>

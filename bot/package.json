@@ -13,7 +13,7 @@
     "typecheck": "node --check index.js"
   },
   "dependencies": {
-    "@discord-enterprise/discord-framework": "file:../../packages/discord-framework",
+    "@discord-enterprise/discord-framework": "file:../packages/discord-framework",
     "discord.js": "^14.27.0",
     "dotenv": "^17.2.3"
   },

@@ -1,82 +1,48 @@
+# Discord Enterprise — pnpm workspace.
+#
+# Every entry maps to a real package.json in this repository. The directories
+# inherited from the former multi-product layout (`apps/*`, `web`,
+# `packages/node`, `bot/*`) no longer exist and are intentionally absent.
+#
+#   .                            root package — shared tooling and dependencies
+#   bot                          @discord-enterprise/discord-enterprise (the bot)
+#   docs                         @discord-enterprise/docs (Fumadocs site)
+#   packages/discord-framework   @discord-enterprise/discord-framework
+#   packages/server              @discord-enterprise/server
+#   packages/server/src/emails   @discord-enterprise/emails (template preview)
+
 packages:
-  - apps/*
+  - .
+  - bot
+  - docs
   - packages/*
-  - '!packages/node'
-  - packages/node/packages/react
-  - packages/node/packages/react-docs-astro
-  - web
-  - web/apps/*
-  - bot/*
+  - packages/server/src/emails
 
-catalog:
-  '@oxlint/plugins': 1.94.0
-  '@phosphor-icons/react': 2.1.10
-  '@tailwindcss/cli': 4.3.5
-  '@tailwindcss/vite': 4.3.3
-  '@types/node': 24.19.2
-  '@types/react': 18.3.5
-  '@types/react-dom': 18.3.0
-  '@vitest/browser-playwright': 5.1.0
-  '@vitest/ui': 5.1.0
-  clsx: 2.1.1
-  happy-dom: 21.0.4
-  playwright: 1.65.1
-  react: 19.2.7
-  react-dom: 19.2.7
-  tailwind-merge: 2.6.1
-  tailwindcss: 4.3.5
-  tsx: 4.22.4
-  typescript: 7.0.2
-  vite: 8.3.5
-  vite-plus: 1.7.0
-  vitest: 5.1.0
-  wrangler: 4.165.0
+# No manifest declares a `catalog:` dependency: each package.json owns its own
+# version ranges. Defining a catalog here would be dead configuration.
 
+# Only the native modules that are actually part of the dependency graph may
+# run build scripts: bcrypt, node-pty, ssh2 (with cpu-features) and esbuild.
 allowBuilds:
-  '@parcel/watcher': true
-  '@scarf/scarf': true
-  '@tree-sitter-grammars/tree-sitter-yaml': true
-  '@vscode/vsce-sign': true
   bcrypt: true
-  core-js: true
-  core-js-pure: true
   cpu-features: true
-  electron-winstaller: true
   esbuild: true
-  free-email-domains: true
-  msgpackr-extract: true
   node-pty: true
-  protobufjs: true
-  sharp: true
   ssh2: true
-  tree-sitter: true
-  tree-sitter-json: true
-  workerd: true
 
+# Runtime pins consumed by the packages above: better-auth's two helpers and
+# the security ranges for transitive protobufjs/tar. The former React 18 and
+# esbuild 0.20 overrides were dropped — this workspace uses React 19 and
+# esbuild 0.28.
 overrides:
   '@better-fetch/fetch': 1.3.1
-  '@types/react': 18.3.5
-  '@types/react-dom': 18.3.0
   better-call: 1.3.7
-  esbuild: 0.20.2
   protobufjs: '>=7.5.5 <8.0.0'
   tar: '>=7.5.19 <8.0.0'
 
 peerDependencyRules:
   ignoreMissing:
-    - prisma
-    - '@prisma/client'
-    - '@prisma/engines'
-    - '@electric-sql/pglite'
     - typescript
-    - drizzle-kit
 
-permissions:
-  '@trpc/client':
-    skills: true
-  '@trpc/next':
-    skills: true
-  '@trpc/server':
-    skills: true
-  dotenv:
-    skills: true
+# No agent-skills configuration exists in this repository, so there is no
+# `permissions` section to grant.
