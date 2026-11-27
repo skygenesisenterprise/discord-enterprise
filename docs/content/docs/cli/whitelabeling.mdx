@@ -1,0 +1,66 @@
+---
+title: "Whitelabeling"
+description: "Rebrand the instance: application name, logos, favicon and links. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Rebrand the instance: application name, logos, favicon and links.
+
+`astron-collection whitelabeling` exposes **4 commands**. They map one-to-one onto the `whitelabeling.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection whitelabeling --help` to list these commands in your terminal, or
+	`astron-collection whitelabeling <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection whitelabeling get`
+
+Calls `GET /api/trpc/whitelabeling.get`.
+
+```bash
+astron-collection whitelabeling get [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection whitelabeling get-public`
+
+Calls `GET /api/trpc/whitelabeling.getPublic`.
+
+```bash
+astron-collection whitelabeling get-public [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection whitelabeling reset`
+
+Calls `POST /api/trpc/whitelabeling.reset`.
+
+```bash
+astron-collection whitelabeling reset [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection whitelabeling update`
+
+Calls `POST /api/trpc/whitelabeling.update`.
+
+```bash
+astron-collection whitelabeling update --whitelabelingConfig <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--whitelabelingConfig <json>` | object | Yes | — |
+| `--profile <name>` | string | No | — |

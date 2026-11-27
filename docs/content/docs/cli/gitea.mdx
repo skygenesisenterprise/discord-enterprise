@@ -1,0 +1,151 @@
+---
+title: "Gitea"
+description: "Gitea connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Gitea connections, plus branch and repository lookups.
+
+`astron-collection gitea` exposes **8 commands**. They map one-to-one onto the `gitea.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection gitea --help` to list these commands in your terminal, or
+	`astron-collection gitea <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection gitea create`
+
+Calls `POST /api/trpc/gitea.create`.
+
+```bash
+astron-collection gitea create --giteaUrl <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | No | — |
+| `--giteaUrl <value>` | string | Yes | — |
+| `--giteaInternalUrl <value>` | string | No | — |
+| `--redirectUri <value>` | string | No | — |
+| `--clientId <value>` | string | No | — |
+| `--clientSecret <value>` | string | No | — |
+| `--gitProviderId <value>` | string | No | — |
+| `--accessToken <value>` | string | No | — |
+| `--refreshToken <value>` | string | No | — |
+| `--expiresAt <value>` | number | No | — |
+| `--scopes <value>` | string | No | — |
+| `--lastAuthenticatedAt <value>` | number | No | — |
+| `--name <value>` | string | Yes | — |
+| `--giteaUsername <value>` | string | No | — |
+| `--organizationName <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea get-gitea-branches`
+
+Calls `GET /api/trpc/gitea.getGiteaBranches`.
+
+```bash
+astron-collection gitea get-gitea-branches --owner <value> --repositoryName <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--owner <value>` | string | Yes | — |
+| `--repositoryName <value>` | string | Yes | — |
+| `--giteaId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea get-gitea-repositories`
+
+Calls `GET /api/trpc/gitea.getGiteaRepositories`.
+
+```bash
+astron-collection gitea get-gitea-repositories --giteaId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea get-gitea-url`
+
+Calls `GET /api/trpc/gitea.getGiteaUrl`.
+
+```bash
+astron-collection gitea get-gitea-url --giteaId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea gitea-providers`
+
+Calls `GET /api/trpc/gitea.giteaProviders`.
+
+```bash
+astron-collection gitea gitea-providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea one`
+
+Calls `GET /api/trpc/gitea.one`.
+
+```bash
+astron-collection gitea one --giteaId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea test-connection`
+
+Calls `POST /api/trpc/gitea.testConnection`.
+
+```bash
+astron-collection gitea test-connection [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | No | — |
+| `--organizationName <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitea update`
+
+Calls `POST /api/trpc/gitea.update`.
+
+```bash
+astron-collection gitea update --giteaId <value> --giteaUrl <value> --gitProviderId <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--giteaId <value>` | string | Yes | — |
+| `--giteaUrl <value>` | string | Yes | — |
+| `--giteaInternalUrl <value>` | string | No | — |
+| `--redirectUri <value>` | string | No | — |
+| `--clientId <value>` | string | No | — |
+| `--clientSecret <value>` | string | No | — |
+| `--gitProviderId <value>` | string | Yes | — |
+| `--accessToken <value>` | string | No | — |
+| `--refreshToken <value>` | string | No | — |
+| `--expiresAt <value>` | number | No | — |
+| `--scopes <value>` | string | No | — |
+| `--lastAuthenticatedAt <value>` | number | No | — |
+| `--name <value>` | string | Yes | — |
+| `--giteaUsername <value>` | string | No | — |
+| `--organizationName <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

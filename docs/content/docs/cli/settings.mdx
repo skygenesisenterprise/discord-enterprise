@@ -1,0 +1,745 @@
+---
+title: "Settings"
+description: "Instance-wide settings: Traefik, Docker cleanup, monitoring, GPUs, updates and SSH. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Instance-wide settings: Traefik, Docker cleanup, monitoring, GPUs, updates and SSH.
+
+`astron-collection settings` exposes **57 commands**. They map one-to-one onto the `settings.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection settings --help` to list these commands in your terminal, or
+	`astron-collection settings <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection settings assign-domain-server`
+
+Calls `POST /api/trpc/settings.assignDomainServer`.
+
+```bash
+astron-collection settings assign-domain-server --host <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--host <value>` | string | Yes | — |
+| `--certificateType <value>` | string | No | `letsencrypt`, `none`, `custom` |
+| `--customCertResolver <value>` | string | No | — |
+| `--letsEncryptEmail <value>` | string | No | `` |
+| `--https [boolean]` | boolean | No | — |
+| `--no-https` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings check-gpustatus`
+
+Calls `GET /api/trpc/settings.checkGPUStatus`.
+
+```bash
+astron-collection settings check-gpustatus [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings check-infrastructure-health`
+
+Calls `GET /api/trpc/settings.checkInfrastructureHealth`.
+
+```bash
+astron-collection settings check-infrastructure-health [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-all`
+
+Calls `POST /api/trpc/settings.cleanAll`.
+
+```bash
+astron-collection settings clean-all [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-all-deployment-queue`
+
+Calls `POST /api/trpc/settings.cleanAllDeploymentQueue`.
+
+```bash
+astron-collection settings clean-all-deployment-queue [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-docker-builder`
+
+Calls `POST /api/trpc/settings.cleanDockerBuilder`.
+
+```bash
+astron-collection settings clean-docker-builder [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-docker-prune`
+
+Calls `POST /api/trpc/settings.cleanDockerPrune`.
+
+```bash
+astron-collection settings clean-docker-prune [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-monitoring`
+
+Calls `POST /api/trpc/settings.cleanMonitoring`.
+
+```bash
+astron-collection settings clean-monitoring [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-sshprivate-key`
+
+Calls `POST /api/trpc/settings.cleanSSHPrivateKey`.
+
+```bash
+astron-collection settings clean-sshprivate-key [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-stopped-containers`
+
+Calls `POST /api/trpc/settings.cleanStoppedContainers`.
+
+```bash
+astron-collection settings clean-stopped-containers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-unused-images`
+
+Calls `POST /api/trpc/settings.cleanUnusedImages`.
+
+```bash
+astron-collection settings clean-unused-images [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings clean-unused-volumes`
+
+Calls `POST /api/trpc/settings.cleanUnusedVolumes`.
+
+```bash
+astron-collection settings clean-unused-volumes [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-control-plane-runtime`
+
+Calls `GET /api/trpc/settings.getControlPlaneRuntime`.
+
+```bash
+astron-collection settings get-control-plane-runtime [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-docker-disk-usage`
+
+Calls `GET /api/trpc/settings.getDockerDiskUsage`.
+
+```bash
+astron-collection settings get-docker-disk-usage [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-ip`
+
+Calls `GET /api/trpc/settings.getIp`.
+
+```bash
+astron-collection settings get-ip [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-log-cleanup-status`
+
+Calls `GET /api/trpc/settings.getLogCleanupStatus`.
+
+```bash
+astron-collection settings get-log-cleanup-status [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-astron-collection-cloud-ips`
+
+Calls `GET /api/trpc/settings.getAstronCollectionCloudIps`.
+
+```bash
+astron-collection settings get-astron-collection-cloud-ips [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-astron-collection-version`
+
+Calls `GET /api/trpc/settings.getAstronCollectionVersion`.
+
+```bash
+astron-collection settings get-astron-collection-version [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-open-api-document`
+
+Calls `GET /api/trpc/settings.getOpenApiDocument`.
+
+```bash
+astron-collection settings get-open-api-document [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-product`
+
+Calls `GET /api/trpc/settings.getProduct`.
+
+```bash
+astron-collection settings get-product [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-release-tag`
+
+Calls `GET /api/trpc/settings.getReleaseTag`.
+
+```bash
+astron-collection settings get-release-tag [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-traefik-overview`
+
+Calls `GET /api/trpc/settings.getTraefikOverview`.
+
+```bash
+astron-collection settings get-traefik-overview [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-traefik-ports`
+
+Calls `GET /api/trpc/settings.getTraefikPorts`.
+
+```bash
+astron-collection settings get-traefik-ports [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-update-data`
+
+Calls `POST /api/trpc/settings.getUpdateData`.
+
+```bash
+astron-collection settings get-update-data [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-update-status`
+
+Calls `GET /api/trpc/settings.getUpdateStatus`.
+
+```bash
+astron-collection settings get-update-status [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-web-server-ip-candidates`
+
+Calls `GET /api/trpc/settings.getWebServerIpCandidates`.
+
+```bash
+astron-collection settings get-web-server-ip-candidates [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings get-web-server-settings`
+
+Calls `GET /api/trpc/settings.getWebServerSettings`.
+
+```bash
+astron-collection settings get-web-server-settings [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings have-activate-requests`
+
+Calls `GET /api/trpc/settings.haveActivateRequests`.
+
+```bash
+astron-collection settings have-activate-requests [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings have-traefik-dashboard-port-enabled`
+
+Calls `GET /api/trpc/settings.haveTraefikDashboardPortEnabled`.
+
+```bash
+astron-collection settings have-traefik-dashboard-port-enabled [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings health`
+
+Calls `GET /api/trpc/settings.health`.
+
+```bash
+astron-collection settings health [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings is-cloud`
+
+Calls `GET /api/trpc/settings.isCloud`.
+
+```bash
+astron-collection settings is-cloud [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings is-user-subscribed`
+
+Calls `GET /api/trpc/settings.isUserSubscribed`.
+
+```bash
+astron-collection settings is-user-subscribed [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-directories`
+
+Calls `GET /api/trpc/settings.readDirectories`.
+
+```bash
+astron-collection settings read-directories [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-middleware-traefik-config`
+
+Calls `GET /api/trpc/settings.readMiddlewareTraefikConfig`.
+
+```bash
+astron-collection settings read-middleware-traefik-config [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-traefik-config`
+
+Calls `GET /api/trpc/settings.readTraefikConfig`.
+
+```bash
+astron-collection settings read-traefik-config [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-traefik-env`
+
+Calls `GET /api/trpc/settings.readTraefikEnv`.
+
+```bash
+astron-collection settings read-traefik-env [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-traefik-file`
+
+Calls `GET /api/trpc/settings.readTraefikFile`.
+
+```bash
+astron-collection settings read-traefik-file --path <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--path <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings read-web-server-traefik-config`
+
+Calls `GET /api/trpc/settings.readWebServerTraefikConfig`.
+
+```bash
+astron-collection settings read-web-server-traefik-config [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings reload-server`
+
+Calls `POST /api/trpc/settings.reloadServer`.
+
+```bash
+astron-collection settings reload-server [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings reload-traefik`
+
+Calls `POST /api/trpc/settings.reloadTraefik`.
+
+```bash
+astron-collection settings reload-traefik [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings save-sshprivate-key`
+
+Calls `POST /api/trpc/settings.saveSSHPrivateKey`.
+
+```bash
+astron-collection settings save-sshprivate-key --sshPrivateKey <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--sshPrivateKey <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings setup-gpu`
+
+Calls `POST /api/trpc/settings.setupGPU`.
+
+```bash
+astron-collection settings setup-gpu [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings toggle-dashboard`
+
+Calls `POST /api/trpc/settings.toggleDashboard`.
+
+```bash
+astron-collection settings toggle-dashboard [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--enableDashboard [boolean]` | boolean | No | — |
+| `--no-enableDashboard` | boolean | No | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings toggle-requests`
+
+Calls `POST /api/trpc/settings.toggleRequests`.
+
+```bash
+astron-collection settings toggle-requests --enable [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--enable [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-builds-concurrency`
+
+Calls `POST /api/trpc/settings.updateBuildsConcurrency`.
+
+```bash
+astron-collection settings update-builds-concurrency --buildsConcurrency <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--buildsConcurrency <value>` | number | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-docker-cleanup`
+
+Calls `POST /api/trpc/settings.updateDockerCleanup`.
+
+```bash
+astron-collection settings update-docker-cleanup --enableDockerCleanup [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--enableDockerCleanup [boolean]` | boolean | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-enforce-sso`
+
+Calls `POST /api/trpc/settings.updateEnforceSSO`.
+
+```bash
+astron-collection settings update-enforce-sso --enforceSSO [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--enforceSSO [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-log-cleanup`
+
+Calls `POST /api/trpc/settings.updateLogCleanup`.
+
+```bash
+astron-collection settings update-log-cleanup --cronExpression <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--cronExpression <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-middleware-traefik-config`
+
+Calls `POST /api/trpc/settings.updateMiddlewareTraefikConfig`.
+
+```bash
+astron-collection settings update-middleware-traefik-config --traefikConfig <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--traefikConfig <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-remote-servers-only`
+
+Calls `POST /api/trpc/settings.updateRemoteServersOnly`.
+
+```bash
+astron-collection settings update-remote-servers-only --remoteServersOnly [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--remoteServersOnly [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-server`
+
+Calls `POST /api/trpc/settings.updateServer`.
+
+```bash
+astron-collection settings update-server [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-server-ip`
+
+Calls `POST /api/trpc/settings.updateServerIp`.
+
+```bash
+astron-collection settings update-server-ip --serverIp <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverIp <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-traefik-config`
+
+Calls `POST /api/trpc/settings.updateTraefikConfig`.
+
+```bash
+astron-collection settings update-traefik-config --traefikConfig <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--traefikConfig <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-traefik-file`
+
+Calls `POST /api/trpc/settings.updateTraefikFile`.
+
+```bash
+astron-collection settings update-traefik-file --path <value> --traefikConfig <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--path <value>` | string | Yes | — |
+| `--traefikConfig <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-traefik-ports`
+
+Calls `POST /api/trpc/settings.updateTraefikPorts`.
+
+```bash
+astron-collection settings update-traefik-ports --additionalPorts <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--additionalPorts <json>` | array | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings update-web-server-traefik-config`
+
+Calls `POST /api/trpc/settings.updateWebServerTraefikConfig`.
+
+```bash
+astron-collection settings update-web-server-traefik-config --traefikConfig <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--traefikConfig <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection settings write-traefik-env`
+
+Calls `POST /api/trpc/settings.writeTraefikEnv`.
+
+```bash
+astron-collection settings write-traefik-env --env <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--env <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

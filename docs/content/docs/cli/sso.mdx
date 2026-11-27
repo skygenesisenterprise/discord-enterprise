@@ -1,0 +1,243 @@
+---
+title: "SSO"
+description: "Single sign-on providers, enforcement and trusted origins. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Single sign-on providers, enforcement and trusted origins.
+
+`astron-collection sso` exposes **16 commands**. They map one-to-one onto the `sso.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection sso --help` to list these commands in your terminal, or
+	`astron-collection sso <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection sso add-trusted-origin`
+
+Calls `POST /api/trpc/sso.addTrustedOrigin`.
+
+```bash
+astron-collection sso add-trusted-origin --origin <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--origin <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso delete-provider`
+
+Calls `POST /api/trpc/sso.deleteProvider`.
+
+```bash
+astron-collection sso delete-provider --providerId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso descriptors`
+
+Calls `GET /api/trpc/sso.descriptors`.
+
+```bash
+astron-collection sso descriptors [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso enforce-sso`
+
+Calls `GET /api/trpc/sso.enforceSSO`.
+
+```bash
+astron-collection sso enforce-sso [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso get-trusted-origins`
+
+Calls `GET /api/trpc/sso.getTrustedOrigins`.
+
+```bash
+astron-collection sso get-trusted-origins [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso health`
+
+Calls `GET /api/trpc/sso.health`.
+
+```bash
+astron-collection sso health --providerId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso list-providers`
+
+Calls `GET /api/trpc/sso.listProviders`.
+
+```bash
+astron-collection sso list-providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso one`
+
+Calls `GET /api/trpc/sso.one`.
+
+```bash
+astron-collection sso one --providerId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso provider-kind`
+
+Calls `GET /api/trpc/sso.providerKind`.
+
+```bash
+astron-collection sso provider-kind --email <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--email <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso register`
+
+Calls `POST /api/trpc/sso.register`.
+
+```bash
+astron-collection sso register --providerId <value> --issuer <value> --domains <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--issuer <value>` | string | Yes | — |
+| `--domains <json>` | array | Yes | — |
+| `--oidcConfig <json>` | object | No | — |
+| `--samlConfig <json>` | object | No | — |
+| `--ldapConfig <json>` | object | No | — |
+| `--oauthConfig <json>` | object | No | — |
+| `--organizationId <value>` | string | No | — |
+| `--overrideUserInfo [boolean]` | boolean | No | — |
+| `--no-overrideUserInfo` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso remove-trusted-origin`
+
+Calls `POST /api/trpc/sso.removeTrustedOrigin`.
+
+```bash
+astron-collection sso remove-trusted-origin --origin <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--origin <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso show-sign-in-with-sso`
+
+Calls `GET /api/trpc/sso.showSignInWithSSO`.
+
+```bash
+astron-collection sso show-sign-in-with-sso [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso social-provider`
+
+Calls `GET /api/trpc/sso.socialProvider`.
+
+```bash
+astron-collection sso social-provider [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso test-connection`
+
+Calls `POST /api/trpc/sso.testConnection`.
+
+```bash
+astron-collection sso test-connection --issuer <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | No | — |
+| `--issuer <value>` | string | Yes | — |
+| `--oidcConfig <json>` | object | No | — |
+| `--samlConfig <json>` | object | No | — |
+| `--ldapConfig <json>` | object | No | — |
+| `--oauthConfig <json>` | object | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso update`
+
+Calls `POST /api/trpc/sso.update`.
+
+```bash
+astron-collection sso update --providerId <value> --issuer <value> --domains <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--issuer <value>` | string | Yes | — |
+| `--domains <json>` | array | Yes | — |
+| `--oidcConfig <json>` | object | No | — |
+| `--samlConfig <json>` | object | No | — |
+| `--ldapConfig <json>` | object | No | — |
+| `--oauthConfig <json>` | object | No | — |
+| `--organizationId <value>` | string | No | — |
+| `--overrideUserInfo [boolean]` | boolean | No | — |
+| `--no-overrideUserInfo` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection sso update-trusted-origin`
+
+Calls `POST /api/trpc/sso.updateTrustedOrigin`.
+
+```bash
+astron-collection sso update-trusted-origin --oldOrigin <value> --newOrigin <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--oldOrigin <value>` | string | Yes | — |
+| `--newOrigin <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |

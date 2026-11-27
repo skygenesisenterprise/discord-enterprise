@@ -1,0 +1,312 @@
+---
+title: "Servers"
+description: "Add remote servers over SSH, validate them and read their metrics and services. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Add remote servers over SSH, validate them and read their metrics and services.
+
+`astron-collection server` exposes **21 commands**. They map one-to-one onto the `server.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection server --help` to list these commands in your terminal, or
+	`astron-collection server <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection server all`
+
+Calls `GET /api/trpc/server.all`.
+
+```bash
+astron-collection server all [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server all-for-permissions`
+
+Calls `GET /api/trpc/server.allForPermissions`.
+
+```bash
+astron-collection server all-for-permissions [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server build-servers`
+
+Calls `GET /api/trpc/server.buildServers`.
+
+```bash
+astron-collection server build-servers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server count`
+
+Calls `GET /api/trpc/server.count`.
+
+```bash
+astron-collection server count [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server create`
+
+Calls `POST /api/trpc/server.create`.
+
+```bash
+astron-collection server create --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | Yes | — |
+| `--ipAddress <value>` | string | Yes | — |
+| `--port <value>` | number | Yes | — |
+| `--username <value>` | string | Yes | — |
+| `--sshKeyId <value>` | string | Yes | — |
+| `--serverType <value>` | string | Yes | `deploy`, `build` |
+| `--enableDockerCleanup [boolean]` | boolean | No | — |
+| `--no-enableDockerCleanup` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server create-with-password`
+
+Calls `POST /api/trpc/server.createWithPassword`.
+
+```bash
+astron-collection server create-with-password --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --serverType <value> --sshPassword <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | Yes | — |
+| `--ipAddress <value>` | string | Yes | — |
+| `--port <value>` | number | Yes | — |
+| `--username <value>` | string | Yes | — |
+| `--serverType <value>` | string | Yes | `deploy`, `build` |
+| `--enableDockerCleanup [boolean]` | boolean | No | — |
+| `--no-enableDockerCleanup` | boolean | No | — |
+| `--sshPassword <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server get-default-command`
+
+Calls `GET /api/trpc/server.getDefaultCommand`.
+
+```bash
+astron-collection server get-default-command --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server get-monitoring-workspaces`
+
+Calls `GET /api/trpc/server.getMonitoringWorkspaces`.
+
+```bash
+astron-collection server get-monitoring-workspaces [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server get-server-metrics`
+
+Calls `GET /api/trpc/server.getServerMetrics`.
+
+```bash
+astron-collection server get-server-metrics --url <value> --token <value> --dataPoints <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--url <value>` | string | Yes | — |
+| `--token <value>` | string | Yes | — |
+| `--dataPoints <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server get-server-time`
+
+Calls `GET /api/trpc/server.getServerTime`.
+
+```bash
+astron-collection server get-server-time [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server get-services`
+
+Calls `GET /api/trpc/server.getServices`.
+
+```bash
+astron-collection server get-services --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server one`
+
+Calls `GET /api/trpc/server.one`.
+
+```bash
+astron-collection server one --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server public-ip`
+
+Calls `GET /api/trpc/server.publicIp`.
+
+```bash
+astron-collection server public-ip [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server remove`
+
+Calls `POST /api/trpc/server.remove`.
+
+```bash
+astron-collection server remove --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server security`
+
+Calls `GET /api/trpc/server.security`.
+
+```bash
+astron-collection server security --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server setup`
+
+Calls `POST /api/trpc/server.setup`.
+
+```bash
+astron-collection server setup --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server setup-monitoring`
+
+Calls `POST /api/trpc/server.setupMonitoring`.
+
+```bash
+astron-collection server setup-monitoring --serverId <value> --metricsConfig <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--metricsConfig <json>` | object | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server update`
+
+Calls `POST /api/trpc/server.update`.
+
+```bash
+astron-collection server update --name <value> --description <value> --serverId <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | Yes | — |
+| `--serverId <value>` | string | Yes | — |
+| `--ipAddress <value>` | string | Yes | — |
+| `--port <value>` | number | Yes | — |
+| `--username <value>` | string | Yes | — |
+| `--sshKeyId <value>` | string | Yes | — |
+| `--serverType <value>` | string | Yes | `deploy`, `build` |
+| `--enableDockerCleanup [boolean]` | boolean | No | — |
+| `--no-enableDockerCleanup` | boolean | No | — |
+| `--command <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server update-builds-concurrency`
+
+Calls `POST /api/trpc/server.updateBuildsConcurrency`.
+
+```bash
+astron-collection server update-builds-concurrency --serverId <value> --buildsConcurrency <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--buildsConcurrency <value>` | number | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server validate`
+
+Calls `GET /api/trpc/server.validate`.
+
+```bash
+astron-collection server validate --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection server with-sshkey`
+
+Calls `GET /api/trpc/server.withSSHKey`.
+
+```bash
+astron-collection server with-sshkey [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |

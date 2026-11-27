@@ -1,0 +1,55 @@
+---
+title: "SCIM"
+description: "SCIM provisioning providers and tokens used for directory sync. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+SCIM provisioning providers and tokens used for directory sync.
+
+`astron-collection scim` exposes **3 commands**. They map one-to-one onto the `scim.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection scim --help` to list these commands in your terminal, or
+	`astron-collection scim <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection scim delete-provider`
+
+Calls `POST /api/trpc/scim.deleteProvider`.
+
+```bash
+astron-collection scim delete-provider --providerId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection scim generate-token`
+
+Calls `POST /api/trpc/scim.generateToken`.
+
+```bash
+astron-collection scim generate-token --providerId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--providerId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection scim list-providers`
+
+Calls `GET /api/trpc/scim.listProviders`.
+
+```bash
+astron-collection scim list-providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |

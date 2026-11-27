@@ -1,0 +1,291 @@
+---
+title: "Registries"
+description: "Container registries used to pull private images. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Container registries used to pull private images.
+
+`astron-collection registry` exposes **17 commands**. They map one-to-one onto the `registry.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection registry --help` to list these commands in your terminal, or
+	`astron-collection registry <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection registry all`
+
+Calls `GET /api/trpc/registry.all`.
+
+```bash
+astron-collection registry all [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry capabilities`
+
+Calls `GET /api/trpc/registry.capabilities`.
+
+```bash
+astron-collection registry capabilities --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry create`
+
+Calls `POST /api/trpc/registry.create`.
+
+```bash
+astron-collection registry create --registryName <value> --registryUrl <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryName <value>` | string | Yes | — |
+| `--providerType <value>` | string | No | `docker-hub`, `ghcr`, `gitlab`, `ecr`, `gar`, `acr`, `quay`, `artifactory`, `harbor`, `zot`, `distribution`, `nexus`, `generic-oci` |
+| `--username <value>` | string | No | — |
+| `--password <value>` | string | No | — |
+| `--registryUrl <value>` | string | Yes | — |
+| `--namespace <value>` | string | No | — |
+| `--imagePrefix <value>` | string | No | — |
+| `--authMethod <value>` | string | No | `none`, `basic`, `token` |
+| `--credentialSource <value>` | string | No | `secret`, `inline` |
+| `--vaultSecretId <value>` | string | No | — |
+| `--allowAnonymous [boolean]` | boolean | No | — |
+| `--no-allowAnonymous` | boolean | No | — |
+| `--registryType <value>` | string | No | `cloud`, `selfHosted` |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry delete-image`
+
+Calls `POST /api/trpc/registry.deleteImage`.
+
+```bash
+astron-collection registry delete-image --registryId <value> --repository <value> --digest <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--repository <value>` | string | Yes | — |
+| `--digest <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry descriptors`
+
+Calls `GET /api/trpc/registry.descriptors`.
+
+```bash
+astron-collection registry descriptors [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry get-digest`
+
+Calls `GET /api/trpc/registry.getDigest`.
+
+```bash
+astron-collection registry get-digest --registryId <value> --repository <value> --reference <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--repository <value>` | string | Yes | — |
+| `--reference <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry get-manifest`
+
+Calls `GET /api/trpc/registry.getManifest`.
+
+```bash
+astron-collection registry get-manifest --registryId <value> --repository <value> --reference <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--repository <value>` | string | Yes | — |
+| `--reference <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry health`
+
+Calls `GET /api/trpc/registry.health`.
+
+```bash
+astron-collection registry health --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry list-repositories`
+
+Calls `GET /api/trpc/registry.listRepositories`.
+
+```bash
+astron-collection registry list-repositories --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry list-tags`
+
+Calls `GET /api/trpc/registry.listTags`.
+
+```bash
+astron-collection registry list-tags --registryId <value> --repository <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--repository <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry one`
+
+Calls `GET /api/trpc/registry.one`.
+
+```bash
+astron-collection registry one --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry remove`
+
+Calls `POST /api/trpc/registry.remove`.
+
+```bash
+astron-collection registry remove --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry secret-options`
+
+Calls `GET /api/trpc/registry.secretOptions`.
+
+```bash
+astron-collection registry secret-options [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry test-connection`
+
+Calls `POST /api/trpc/registry.testConnection`.
+
+```bash
+astron-collection registry test-connection [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | No | — |
+| `--providerType <value>` | string | No | `docker-hub`, `ghcr`, `gitlab`, `ecr`, `gar`, `acr`, `quay`, `artifactory`, `harbor`, `zot`, `distribution`, `nexus`, `generic-oci` |
+| `--registryUrl <value>` | string | No | — |
+| `--namespace <value>` | string | No | — |
+| `--authMethod <value>` | string | No | `none`, `basic`, `token` |
+| `--credentialSource <value>` | string | No | `secret`, `inline` |
+| `--vaultSecretId <value>` | string | No | — |
+| `--username <value>` | string | No | — |
+| `--password <value>` | string | No | — |
+| `--allowAnonymous [boolean]` | boolean | No | — |
+| `--no-allowAnonymous` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry test-registry`
+
+Calls `POST /api/trpc/registry.testRegistry`.
+
+```bash
+astron-collection registry test-registry [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | No | — |
+| `--providerType <value>` | string | No | `docker-hub`, `ghcr`, `gitlab`, `ecr`, `gar`, `acr`, `quay`, `artifactory`, `harbor`, `zot`, `distribution`, `nexus`, `generic-oci` |
+| `--registryUrl <value>` | string | No | — |
+| `--namespace <value>` | string | No | — |
+| `--authMethod <value>` | string | No | `none`, `basic`, `token` |
+| `--credentialSource <value>` | string | No | `secret`, `inline` |
+| `--vaultSecretId <value>` | string | No | — |
+| `--username <value>` | string | No | — |
+| `--password <value>` | string | No | — |
+| `--allowAnonymous [boolean]` | boolean | No | — |
+| `--no-allowAnonymous` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry test-registry-by-id`
+
+Calls `POST /api/trpc/registry.testRegistryById`.
+
+```bash
+astron-collection registry test-registry-by-id --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection registry update`
+
+Calls `POST /api/trpc/registry.update`.
+
+```bash
+astron-collection registry update --registryId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--registryId <value>` | string | Yes | — |
+| `--registryName <value>` | string | No | — |
+| `--providerType <value>` | string | No | `docker-hub`, `ghcr`, `gitlab`, `ecr`, `gar`, `acr`, `quay`, `artifactory`, `harbor`, `zot`, `distribution`, `nexus`, `generic-oci` |
+| `--registryUrl <value>` | string | No | — |
+| `--namespace <value>` | string | No | — |
+| `--imagePrefix <value>` | string | No | — |
+| `--authMethod <value>` | string | No | `none`, `basic`, `token` |
+| `--credentialSource <value>` | string | No | `secret`, `inline` |
+| `--vaultSecretId <value>` | string | No | — |
+| `--username <value>` | string | No | — |
+| `--password <value>` | string | No | — |
+| `--allowAnonymous [boolean]` | boolean | No | — |
+| `--no-allowAnonymous` | boolean | No | — |
+| `--createdAt <value>` | string | No | — |
+| `--registryType <value>` | string | No | `cloud`, `selfHosted` |
+| `--organizationId <value>` | string | No | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

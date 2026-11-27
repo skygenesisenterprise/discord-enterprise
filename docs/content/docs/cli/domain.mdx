@@ -1,0 +1,197 @@
+---
+title: "Domains"
+description: "Attach domains to applications and Compose stacks, and generate or validate them. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Attach domains to applications and Compose stacks, and generate or validate them.
+
+`astron-collection domain` exposes **11 commands**. They map one-to-one onto the `domain.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection domain --help` to list these commands in your terminal, or
+	`astron-collection domain <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection domain by-application-id`
+
+Calls `GET /api/trpc/domain.byApplicationId`.
+
+```bash
+astron-collection domain by-application-id --applicationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--applicationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain by-compose-id`
+
+Calls `GET /api/trpc/domain.byComposeId`.
+
+```bash
+astron-collection domain by-compose-id --composeId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--composeId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain can-generate-traefik-me-domains`
+
+Calls `GET /api/trpc/domain.canGenerateTraefikMeDomains`.
+
+```bash
+astron-collection domain can-generate-traefik-me-domains --serverId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain create`
+
+Calls `POST /api/trpc/domain.create`.
+
+```bash
+astron-collection domain create --host <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--host <value>` | string | Yes | — |
+| `--path <value>` | string | No | — |
+| `--port <value>` | number | No | — |
+| `--customEntrypoint <value>` | string | No | — |
+| `--https [boolean]` | boolean | No | — |
+| `--no-https` | boolean | No | — |
+| `--applicationId <value>` | string | No | — |
+| `--certificateType <value>` | string | No | `letsencrypt`, `none`, `custom` |
+| `--customCertResolver <value>` | string | No | — |
+| `--composeId <value>` | string | No | — |
+| `--serviceName <value>` | string | No | — |
+| `--domainType <value>` | string | No | `compose`, `application`, `preview` |
+| `--previewDeploymentId <value>` | string | No | — |
+| `--internalPath <value>` | string | No | — |
+| `--stripPath [boolean]` | boolean | No | — |
+| `--no-stripPath` | boolean | No | — |
+| `--middlewares <json>` | array | No | — |
+| `--forwardAuthEnabled [boolean]` | boolean | No | — |
+| `--no-forwardAuthEnabled` | boolean | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain delete`
+
+Calls `POST /api/trpc/domain.delete`.
+
+```bash
+astron-collection domain delete --domainId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--domainId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain generate-domain`
+
+Calls `POST /api/trpc/domain.generateDomain`.
+
+```bash
+astron-collection domain generate-domain --appName <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--appName <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain internal-dns`
+
+Calls `GET /api/trpc/domain.internalDns`.
+
+```bash
+astron-collection domain internal-dns [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain one`
+
+Calls `GET /api/trpc/domain.one`.
+
+```bash
+astron-collection domain one --domainId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--domainId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain toggle-enable`
+
+Calls `POST /api/trpc/domain.toggleEnable`.
+
+```bash
+astron-collection domain toggle-enable --domainId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--domainId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain update`
+
+Calls `POST /api/trpc/domain.update`.
+
+```bash
+astron-collection domain update --host <value> --domainId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--host <value>` | string | Yes | — |
+| `--path <value>` | string | No | — |
+| `--port <value>` | number | No | — |
+| `--customEntrypoint <value>` | string | No | — |
+| `--https [boolean]` | boolean | No | — |
+| `--no-https` | boolean | No | — |
+| `--certificateType <value>` | string | No | `letsencrypt`, `none`, `custom` |
+| `--customCertResolver <value>` | string | No | — |
+| `--serviceName <value>` | string | No | — |
+| `--domainType <value>` | string | No | `compose`, `application`, `preview` |
+| `--internalPath <value>` | string | No | — |
+| `--stripPath [boolean]` | boolean | No | — |
+| `--no-stripPath` | boolean | No | — |
+| `--middlewares <json>` | array | No | — |
+| `--forwardAuthEnabled [boolean]` | boolean | No | — |
+| `--no-forwardAuthEnabled` | boolean | No | — |
+| `--enabled [boolean]` | boolean | No | — |
+| `--no-enabled` | boolean | No | — |
+| `--domainId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection domain validate-domain`
+
+Calls `POST /api/trpc/domain.validateDomain`.
+
+```bash
+astron-collection domain validate-domain --domain <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--domain <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

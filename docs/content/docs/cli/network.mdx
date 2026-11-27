@@ -1,0 +1,161 @@
+---
+title: "Networks"
+description: "Docker networks: create, import, inspect and resynchronise them across servers. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Docker networks: create, import, inspect and resynchronise them across servers.
+
+`astron-collection network` exposes **10 commands**. They map one-to-one onto the `network.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection network --help` to list these commands in your terminal, or
+	`astron-collection network <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection network all`
+
+Calls `GET /api/trpc/network.all`.
+
+```bash
+astron-collection network all [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network create`
+
+Calls `POST /api/trpc/network.create`.
+
+```bash
+astron-collection network create --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--driver <value>` | string | No | `bridge`, `overlay` |
+| `--internal [boolean]` | boolean | No | — |
+| `--no-internal` | boolean | No | — |
+| `--attachable [boolean]` | boolean | No | — |
+| `--no-attachable` | boolean | No | — |
+| `--enableIPv4 [boolean]` | boolean | No | — |
+| `--no-enableIPv4` | boolean | No | — |
+| `--enableIPv6 [boolean]` | boolean | No | — |
+| `--no-enableIPv6` | boolean | No | — |
+| `--mtu <value>` | number | No | — |
+| `--ipam <json>` | object | No | — |
+| `--serverId <value>` | string | No | — |
+| `--networkProviderId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network import`
+
+Calls `POST /api/trpc/network.import`.
+
+```bash
+astron-collection network import --names <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--names <json>` | array | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network inspect`
+
+Calls `GET /api/trpc/network.inspect`.
+
+```bash
+astron-collection network inspect --networkId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--networkId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network inventory`
+
+Calls `GET /api/trpc/network.inventory`.
+
+```bash
+astron-collection network inventory [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network networks-to-sync`
+
+Calls `GET /api/trpc/network.networksToSync`.
+
+```bash
+astron-collection network networks-to-sync [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network one`
+
+Calls `GET /api/trpc/network.one`.
+
+```bash
+astron-collection network one --networkId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--networkId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network recreate`
+
+Calls `POST /api/trpc/network.recreate`.
+
+```bash
+astron-collection network recreate --networkId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--networkId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network remove`
+
+Calls `POST /api/trpc/network.remove`.
+
+```bash
+astron-collection network remove --networkId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--networkId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection network resync`
+
+Calls `POST /api/trpc/network.resync`.
+
+```bash
+astron-collection network resync --networkId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--networkId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |

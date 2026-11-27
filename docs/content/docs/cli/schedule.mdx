@@ -1,0 +1,130 @@
+---
+title: "Schedules"
+description: "Cron jobs that run a shell command inside a deployed service. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Cron jobs that run a shell command inside a deployed service.
+
+`astron-collection schedule` exposes **6 commands**. They map one-to-one onto the `schedule.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection schedule --help` to list these commands in your terminal, or
+	`astron-collection schedule <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection schedule create`
+
+Calls `POST /api/trpc/schedule.create`.
+
+```bash
+astron-collection schedule create --name <value> --cronExpression <value> --command <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--scheduleId <value>` | string | No | — |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | No | — |
+| `--cronExpression <value>` | string | Yes | — |
+| `--appName <value>` | string | No | — |
+| `--serviceName <value>` | string | No | — |
+| `--shellType <value>` | string | No | `bash`, `sh` |
+| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `astron-collection-server` |
+| `--command <value>` | string | Yes | — |
+| `--script <value>` | string | No | — |
+| `--applicationId <value>` | string | No | — |
+| `--composeId <value>` | string | No | — |
+| `--serverId <value>` | string | No | — |
+| `--organizationId <value>` | string | No | — |
+| `--enabled [boolean]` | boolean | No | — |
+| `--no-enabled` | boolean | No | — |
+| `--timezone <value>` | string | No | — |
+| `--createdAt <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection schedule delete`
+
+Calls `POST /api/trpc/schedule.delete`.
+
+```bash
+astron-collection schedule delete --scheduleId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--scheduleId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection schedule list`
+
+Calls `GET /api/trpc/schedule.list`.
+
+```bash
+astron-collection schedule list --id <value> --scheduleType <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--id <value>` | string | Yes | — |
+| `--scheduleType <value>` | string | Yes | `application`, `compose`, `server`, `astron-collection-server` |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection schedule one`
+
+Calls `GET /api/trpc/schedule.one`.
+
+```bash
+astron-collection schedule one --scheduleId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--scheduleId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection schedule run-manually`
+
+Calls `POST /api/trpc/schedule.runManually`.
+
+```bash
+astron-collection schedule run-manually --scheduleId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--scheduleId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection schedule update`
+
+Calls `POST /api/trpc/schedule.update`.
+
+```bash
+astron-collection schedule update --scheduleId <value> --name <value> --cronExpression <value> --command <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--scheduleId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | No | — |
+| `--cronExpression <value>` | string | Yes | — |
+| `--appName <value>` | string | No | — |
+| `--serviceName <value>` | string | No | — |
+| `--shellType <value>` | string | No | `bash`, `sh` |
+| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `astron-collection-server` |
+| `--command <value>` | string | Yes | — |
+| `--script <value>` | string | No | — |
+| `--applicationId <value>` | string | No | — |
+| `--composeId <value>` | string | No | — |
+| `--serverId <value>` | string | No | — |
+| `--organizationId <value>` | string | No | — |
+| `--enabled [boolean]` | boolean | No | — |
+| `--no-enabled` | boolean | No | — |
+| `--timezone <value>` | string | No | — |
+| `--createdAt <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

@@ -1,0 +1,71 @@
+---
+title: "Preview deployments"
+description: "Per-branch deployments created when preview deployments are enabled. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Per-branch deployments created when preview deployments are enabled.
+
+`astron-collection preview-deployment` exposes **4 commands**. They map one-to-one onto the `preview-deployment.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection preview-deployment --help` to list these commands in your terminal, or
+	`astron-collection preview-deployment <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection preview-deployment all`
+
+Calls `GET /api/trpc/previewDeployment.all`.
+
+```bash
+astron-collection preview-deployment all --applicationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--applicationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection preview-deployment delete`
+
+Calls `POST /api/trpc/previewDeployment.delete`.
+
+```bash
+astron-collection preview-deployment delete --previewDeploymentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--previewDeploymentId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection preview-deployment one`
+
+Calls `GET /api/trpc/previewDeployment.one`.
+
+```bash
+astron-collection preview-deployment one --previewDeploymentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--previewDeploymentId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection preview-deployment redeploy`
+
+Calls `POST /api/trpc/previewDeployment.redeploy`.
+
+```bash
+astron-collection preview-deployment redeploy --previewDeploymentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--previewDeploymentId <value>` | string | Yes | — |
+| `--title <value>` | string | No | — |
+| `--description <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

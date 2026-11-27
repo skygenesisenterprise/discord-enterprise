@@ -1,109 +1,74 @@
-# Dependencies
+# Dependency and build artifacts
 node_modules
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+**/node_modules
+**/.next
+**/dist
+**/*.tsbuildinfo
+.turbo
+coverage
 
-# Build outputs
-dist
-build
-.next
-.nuxt
-.vite
+# Runtime state written by the API into the bind-mounted source tree (Traefik
+# config, logs, SSH keys). The dev container creates `apps/astron/.docker/ssh`
+# as root with 0700, which otherwise makes `docker build` fail with
+# "open .../ssh: permission denied" while loading the build context.
+apps/astron/.docker
+apps/astron/.docker/**
+**/.docker
+**/.docker/**
 
-# Environment files
+# Status engine runtime state (SQLite database, snapshot, backups). The
+# container keeps it in a volume, never in the build context.
+apps/status/data
+apps/status/.status-data
+packages/status/data
+.make-product
+
+# Desktop (Electron) and website packaging artifacts: several GB of local build
+# output that the server image never needs. Without these the build context is
+# ~2.4GB instead of a few MB. The desktop client now lives inside the Astron Collection
+# app package, under `apps/astron-collection/electron/`.
+apps/astron-collection/electron/release
+apps/astron-collection/electron/out
+web/apps/docs/out
+web/apps/website/.next
+
+# Version control and CI
+.git
+.gitignore
+.github
+
+# Bot runtime state: SQLite files and local caches must never be baked into an
+# image — each bot mounts its own named volume at /app/bot/<bot>/data.
+bot/*/data
+bot/*/.data
+
+# Local environment files (keep the committed *.example files). `**/.env` is
+# required here: each bot has its own `.env` next to its Dockerfile, and the bot
+# build context is the repository root. Without it those secrets are copied by
+# `COPY bot/<bot>/ ./`.
 .env
+.env.production
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+**/.env
+**/.env.production
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+!.env.example
+!**/.env.example
 
-# IDE and editor files
+# Editor / OS noise
+.DS_Store
 .vscode
 .idea
-*.swp
-*.swo
-*~
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Git
-.git
-.gitignore
-
-# Docker
-Dockerfile*
-docker-compose*.yml
-.dockerignore
-
-# Documentation
-README.md
-docs/
-*.md
-
-# Tests
-coverage
-.nyc_output
-test-results
-playwright-report
-
-# Logs
-logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Lock files (keep only package-lock.json for Docker)
-yarn.lock
-bun.lock
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# Storybook build outputs
-storybook-static
-
-# Temporary folders
-tmp/
-temp/
-
-# Cache directories
-.cache
-.parcel-cache
-.eslintcache
-.stylelintcache
-
-# Husky
-.husky/_
-
-# Local development
-.env-template
-scripts/setup-env.cjs
-scripts/check-env.cjs
+# Docs and non-runtime assets are not needed to build the image.
+README.md

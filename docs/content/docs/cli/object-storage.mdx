@@ -1,0 +1,239 @@
+---
+title: "Object storage"
+description: "S3-compatible providers and buckets used as backup destinations, including usage and health. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+S3-compatible providers and buckets used as backup destinations, including usage and health.
+
+`astron-collection object-storage` exposes **15 commands**. They map one-to-one onto the `object-storage.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection object-storage --help` to list these commands in your terminal, or
+	`astron-collection object-storage <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection object-storage bucket`
+
+Calls `GET /api/trpc/objectStorage.bucket`.
+
+```bash
+astron-collection object-storage bucket --objectStorageBucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageBucketId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage buckets`
+
+Calls `GET /api/trpc/objectStorage.buckets`.
+
+```bash
+astron-collection object-storage buckets [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage buckets-by-provider`
+
+Calls `GET /api/trpc/objectStorage.bucketsByProvider`.
+
+```bash
+astron-collection object-storage buckets-by-provider --objectStorageProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage create-bucket`
+
+Calls `POST /api/trpc/objectStorage.createBucket`.
+
+```bash
+astron-collection object-storage create-bucket --name <value> --objectStorageProviderId <value> --bucket <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--bucket <value>` | string | Yes | — |
+| `--region <value>` | string | No | — |
+| `--endpoint <value>` | string | No | — |
+| `--versioning [boolean]` | boolean | No | — |
+| `--no-versioning` | boolean | No | — |
+| `--lifecycle <json>` | array | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage create-provider`
+
+Calls `POST /api/trpc/objectStorage.createProvider`.
+
+```bash
+astron-collection object-storage create-provider --name <value> --providerType <value> --category <value> --config <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--category <value>` | string | Yes | `external`, `self-hosted`, `internal` |
+| `--config <json>` | object | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage descriptors`
+
+Calls `GET /api/trpc/objectStorage.descriptors`.
+
+```bash
+astron-collection object-storage descriptors [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage provider`
+
+Calls `GET /api/trpc/objectStorage.provider`.
+
+```bash
+astron-collection object-storage provider --objectStorageProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage provider-health`
+
+Calls `GET /api/trpc/objectStorage.providerHealth`.
+
+```bash
+astron-collection object-storage provider-health --objectStorageProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage providers`
+
+Calls `GET /api/trpc/objectStorage.providers`.
+
+```bash
+astron-collection object-storage providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage remove-bucket`
+
+Calls `POST /api/trpc/objectStorage.removeBucket`.
+
+```bash
+astron-collection object-storage remove-bucket --objectStorageBucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageBucketId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage remove-provider`
+
+Calls `POST /api/trpc/objectStorage.removeProvider`.
+
+```bash
+astron-collection object-storage remove-provider --objectStorageProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage test-bucket`
+
+Calls `POST /api/trpc/objectStorage.testBucket`.
+
+```bash
+astron-collection object-storage test-bucket --objectStorageBucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageBucketId <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage test-connection`
+
+Calls `POST /api/trpc/objectStorage.testConnection`.
+
+```bash
+astron-collection object-storage test-connection [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--objectStorageProviderId <value>` | string | No | — |
+| `--providerType <value>` | string | No | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--category <value>` | string | No | `external`, `self-hosted`, `internal` |
+| `--config <json>` | object | No | — |
+| `--bucket <value>` | string | No | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage update-bucket`
+
+Calls `POST /api/trpc/objectStorage.updateBucket`.
+
+```bash
+astron-collection object-storage update-bucket --name <value> --objectStorageProviderId <value> --bucket <value> --objectStorageBucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--bucket <value>` | string | Yes | — |
+| `--region <value>` | string | No | — |
+| `--endpoint <value>` | string | No | — |
+| `--versioning [boolean]` | boolean | No | — |
+| `--no-versioning` | boolean | No | — |
+| `--lifecycle <json>` | array | No | — |
+| `--objectStorageBucketId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection object-storage update-provider`
+
+Calls `POST /api/trpc/objectStorage.updateProvider`.
+
+```bash
+astron-collection object-storage update-provider --name <value> --providerType <value> --category <value> --config <json> --objectStorageProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--category <value>` | string | Yes | `external`, `self-hosted`, `internal` |
+| `--config <json>` | object | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--objectStorageProviderId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |

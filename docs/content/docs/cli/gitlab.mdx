@@ -1,0 +1,127 @@
+---
+title: "GitLab"
+description: "GitLab connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+GitLab connections, plus branch and repository lookups.
+
+`astron-collection gitlab` exposes **7 commands**. They map one-to-one onto the `gitlab.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection gitlab --help` to list these commands in your terminal, or
+	`astron-collection gitlab <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection gitlab create`
+
+Calls `POST /api/trpc/gitlab.create`.
+
+```bash
+astron-collection gitlab create --authId <value> --name <value> --gitlabUrl <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--applicationId <value>` | string | No | — |
+| `--secret <value>` | string | No | — |
+| `--groupName <value>` | string | No | — |
+| `--gitProviderId <value>` | string | No | — |
+| `--redirectUri <value>` | string | No | — |
+| `--authId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--gitlabUrl <value>` | string | Yes | — |
+| `--gitlabInternalUrl <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab get-gitlab-branches`
+
+Calls `GET /api/trpc/gitlab.getGitlabBranches`.
+
+```bash
+astron-collection gitlab get-gitlab-branches --owner <value> --repo <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--id <value>` | number | No | — |
+| `--owner <value>` | string | Yes | — |
+| `--repo <value>` | string | Yes | — |
+| `--gitlabId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab get-gitlab-repositories`
+
+Calls `GET /api/trpc/gitlab.getGitlabRepositories`.
+
+```bash
+astron-collection gitlab get-gitlab-repositories --gitlabId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--gitlabId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab gitlab-providers`
+
+Calls `GET /api/trpc/gitlab.gitlabProviders`.
+
+```bash
+astron-collection gitlab gitlab-providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab one`
+
+Calls `GET /api/trpc/gitlab.one`.
+
+```bash
+astron-collection gitlab one --gitlabId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--gitlabId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab test-connection`
+
+Calls `POST /api/trpc/gitlab.testConnection`.
+
+```bash
+astron-collection gitlab test-connection --gitlabId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--gitlabId <value>` | string | Yes | — |
+| `--groupName <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection gitlab update`
+
+Calls `POST /api/trpc/gitlab.update`.
+
+```bash
+astron-collection gitlab update --name <value> --gitlabId <value> --gitlabUrl <value> --gitProviderId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--applicationId <value>` | string | No | — |
+| `--secret <value>` | string | No | — |
+| `--groupName <value>` | string | No | — |
+| `--redirectUri <value>` | string | No | — |
+| `--name <value>` | string | Yes | — |
+| `--gitlabId <value>` | string | Yes | — |
+| `--gitlabUrl <value>` | string | Yes | — |
+| `--gitProviderId <value>` | string | Yes | — |
+| `--gitlabInternalUrl <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

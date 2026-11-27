@@ -1,3 +1,27 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-export const data = new SlashCommandBuilder().setName("avatar").setDescription("Affiche l’avatar d’un utilisateur.").addUserOption(o=>o.setName("user").setDescription("Utilisateur ciblé"));
-export async function execute(i){const u=i.options.getUser("user")??i.user;const url=u.displayAvatarURL({size:4096});await i.reply({embeds:[new EmbedBuilder().setTitle(`Avatar de ${u.username}`).setImage(url).setURL(url)]});}
+import { SlashCommandBuilder } from "discord.js";
+
+import { defineCommand } from "@astron-collection/discord-framework";
+import { infoEmbed } from "@astron-collection/discord-framework/ui";
+
+export default defineCommand({
+  data: new SlashCommandBuilder()
+    .setName("avatar")
+    .setDescription("Show a user's avatar.")
+    .setDescriptionLocalizations({ fr: "Afficher l'avatar d'un utilisateur." })
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("User whose avatar to show")
+        .setDescriptionLocalizations({ fr: "Utilisateur dont afficher l'avatar" })
+        .setRequired(false),
+    ),
+  category: "information",
+  execute: async (interaction) => {
+    const user = interaction.options.getUser("user") ?? interaction.user;
+    const url = user.displayAvatarURL({ size: 512, extension: "png" });
+
+    await interaction.reply({
+      embeds: [infoEmbed(`Avatar — ${user.tag}`, null, { image: url })],
+    });
+  },
+});

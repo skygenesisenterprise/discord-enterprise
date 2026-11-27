@@ -1,0 +1,121 @@
+---
+title: "Environments"
+description: "Applications and databases live inside an environment, and environments belong to a project. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Applications and databases live inside an environment, and environments belong to a project.
+
+`astron-collection environment` exposes **7 commands**. They map one-to-one onto the `environment.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection environment --help` to list these commands in your terminal, or
+	`astron-collection environment <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection environment by-project-id`
+
+Calls `GET /api/trpc/environment.byProjectId`.
+
+```bash
+astron-collection environment by-project-id --projectId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--projectId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment create`
+
+Calls `POST /api/trpc/environment.create`.
+
+```bash
+astron-collection environment create --name <value> --projectId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | No | — |
+| `--projectId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment duplicate`
+
+Calls `POST /api/trpc/environment.duplicate`.
+
+```bash
+astron-collection environment duplicate --environmentId <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--environmentId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--description <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment one`
+
+Calls `GET /api/trpc/environment.one`.
+
+```bash
+astron-collection environment one --environmentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--environmentId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment remove`
+
+Calls `POST /api/trpc/environment.remove`.
+
+```bash
+astron-collection environment remove --environmentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--environmentId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment search`
+
+Calls `GET /api/trpc/environment.search`.
+
+```bash
+astron-collection environment search [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--q <value>` | string | No | — |
+| `--name <value>` | string | No | — |
+| `--description <value>` | string | No | — |
+| `--projectId <value>` | string | No | — |
+| `--limit <value>` | number | No | — |
+| `--offset <value>` | number | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection environment update`
+
+Calls `POST /api/trpc/environment.update`.
+
+```bash
+astron-collection environment update --environmentId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--environmentId <value>` | string | Yes | — |
+| `--name <value>` | string | No | — |
+| `--description <value>` | string | No | — |
+| `--projectId <value>` | string | No | — |
+| `--env <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

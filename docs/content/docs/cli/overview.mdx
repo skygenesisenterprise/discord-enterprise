@@ -1,0 +1,53 @@
+---
+title: "Overview"
+description: "Aggregated counters for the dashboard: services, backups and domains. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Aggregated counters for the dashboard: services, backups and domains.
+
+`astron-collection overview` exposes **3 commands**. They map one-to-one onto the `overview.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection overview --help` to list these commands in your terminal, or
+	`astron-collection overview <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection overview backups`
+
+Calls `GET /api/trpc/overview.backups`.
+
+```bash
+astron-collection overview backups [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection overview domains`
+
+Calls `GET /api/trpc/overview.domains`.
+
+```bash
+astron-collection overview domains [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection overview services`
+
+Calls `GET /api/trpc/overview.services`.
+
+```bash
+astron-collection overview services [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |

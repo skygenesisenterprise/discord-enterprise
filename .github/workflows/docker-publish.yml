@@ -1,401 +1,576 @@
-name: Docker
+name: Docker Publish
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# Publishes every Astron Collection product image to the GitHub Container
+# Registry, one product per release tag.
+#
+#   GitHub Actions -> Buildx -> GHCR -> cosign (keyless) -> GitHub Release
+#
+# A release tag always looks like `v<major>.<minor>.<patch>-<suffix>` and each
+# suffix publishes exactly one image, so products are released independently:
+#
+#   v1.3.0-app             -> ghcr.io/<owner>/astron-manager
+#   v1.3.0-cloud           -> ghcr.io/<owner>/astron-manager (-cloud tag)
+#   v1.3.0-status          -> ghcr.io/<owner>/astron-collection-status
+#   v1.3.0-mcp             -> ghcr.io/<owner>/astron-collection-mcp
+#   v1.3.0-github          -> ghcr.io/<owner>/astron-collection-github
+#   v1.3.0-astron          -> ghcr.io/<owner>/astron
+#   v1.3.0-protect         -> ghcr.io/<owner>/astron-protect
+#   v1.3.0-logger          -> ghcr.io/<owner>/astron-logger
+#   v1.3.0-automations     -> ghcr.io/<owner>/astron-automations
+#   v1.3.0-player          -> ghcr.io/<owner>/astron-player
+#   v1.3.0-guild           -> ghcr.io/<owner>/astron-guild
+#
+# The catalog in `select` is the single place to add or change a product: it
+# carries the image, the build context, the Dockerfile, the target and the
+# release metadata. `select` filters it down to the entry the pushed tag names,
+# so a tag push shows exactly one publish job instead of the whole catalog.
+#
+# Both platform contexts publish the same official image, `astron-manager`, from
+# the `platform` target of the root Dockerfile, which ships the client *and* the
+# API artifacts. `-app` builds the self-hosted context, `-cloud` builds the cloud
+# context; only the build args differ. The container role is chosen at runtime
+# with `ASTRON_COLLECTION_ROLE=client|api`. PostgreSQL and Redis stay upstream
+# images and are never built or pushed here.
+#
+# The bots are independent products: own Dockerfile, own build context, own
+# release cycle. A bot whose directory does not exist yet (`bot/automation`) is
+# listed in the catalog is skipped with a notice instead of failing the run, so
+# it can never block another product.
+#
+# Tag policy — every image gets all of these, and only for its own product:
+#   v1.3.0        immutable version tag (never overwritten, see `guard`)
+#   sha-<short>   commit traceability
+#   latest        floating tag of that product only
+# `astron-manager` additionally carries `v1.3.0-app` (self) and `v1.3.0-cloud`
+# (cloud): the two builds share one image repository, so each context needs its
+# own immutable tag. The self-hosted updater
+# (packages/server/src/services/update.ts) pulls `v1.2.3-app` as its image tag.
+# Only the self build publishes `sha-<short>` and `latest` to avoid two different
+# artifacts fighting over the same floating tags.
+#
+# Only `-app` is published as GitHub's `latest` release: a running server
+# resolves `/releases/latest` through the Releases API, and install scripts are
+# resolved from it. The other products set `make_latest: false` so they never take
+# that place.
+#
+# Pull requests never run this workflow: it is tag-only, so `packages: write` is
+# granted to the publish job and is unreachable from a fork.
 
 on:
   push:
-    # Publish Docker images only for tags ending with -docker
-    tags: ["v*.*.*-docker"]
-  pull_request:
-    branches: ["main"]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Version to build (e.g., 1.0.0)"
-        required: true
-        type: string
+    tags:
+      - "v*.*.*-app"
+      - "v*.*.*-cloud"
+      - "v*.*.*-status"
+      - "v*.*.*-mcp"
+      - "v*.*.*-github"
+      - "v*.*.*-astron"
+      - "v*.*.*-protect"
+      - "v*.*.*-logger"
+      - "v*.*.*-automations"
+      - "v*.*.*-player"
+      - "v*.*.*-guild"
+
+concurrency:
+  group: docker-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+# Least privilege by default; each job opts into the one permission it needs.
+permissions:
+  contents: read
 
 env:
-  # GitHub Container Registry
-  REGISTRY: ghcr.io
-  # Use skygenesisenterprise/aether-identity as the full image path
-  IMAGE_NAME: skygenesisenterprise/aether-identity
-  # Docker Hub Registry
-  DOCKERHUB_REGISTRY: docker.io
-  DOCKERHUB_IMAGE_NAME: skygenesisenterprise/aether-identity
+  # ghcr.io/<owner>/<image>. Override with the IMAGE_PREFIX repository variable
+  # to publish under a different owner (or a mirror on forks).
+  IMAGE_PREFIX: ${{ vars.IMAGE_PREFIX || format('ghcr.io/{0}', github.repository_owner) }}
 
 jobs:
-  build:
+  # ---------------------------------------------------------------------------
+  # 1. Turn the pushed tag into exactly one product.
+  #
+  # The tag is validated against `v<major>.<minor>.<patch>-<suffix>` before
+  # anything reads it, so no unvalidated tag content ever reaches a build, a file
+  # path or a release title.
+  # ---------------------------------------------------------------------------
+  select:
+    name: Resolve the product published by the tag
     runs-on: ubuntu-latest
-    # Only run on tags ending with -docker or on PRs for testing
-    if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-docker') || github.event_name == 'pull_request'
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-
+    timeout-minutes: 5
     outputs:
-      version: ${{ steps.version.outputs.version }}
-      package_version: ${{ steps.version.outputs.package_version }}
-
+      matrix: ${{ steps.resolve.outputs.matrix }}
+      enabled: ${{ steps.resolve.outputs.enabled }}
+      version: ${{ steps.resolve.outputs.version }}
+      image: ${{ steps.resolve.outputs.image }}
+      release_title: ${{ steps.resolve.outputs.release_title }}
+      release_assets: ${{ steps.resolve.outputs.release_assets }}
+      release_latest: ${{ steps.resolve.outputs.release_latest }}
     steps:
-      - name: Print trigger information
-        run: |
-          echo "Event name: ${{ github.event_name }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Ref name: ${{ github.ref_name }}"
-          echo "Ref type: ${{ github.ref_type }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Workflow: ${{ github.workflow }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Is tag: ${{ startsWith(github.ref, 'refs/tags/') }}"
-          echo "Ends with -docker: ${{ endsWith(github.ref, '-docker') }}"
-          echo "Should run: ${{ startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-docker') || github.event_name == 'pull_request' }}"
-          echo "Registry: ${{ env.REGISTRY }}"
-          echo "Image name: ${{ env.IMAGE_NAME }}"
-          echo "Full image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+      - uses: actions/checkout@v6
 
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Extract version from tag
-        id: version
+      - name: Resolve ${{ github.ref_name }}
+        id: resolve
+        shell: bash
+        env:
+          TAG_NAME: ${{ github.ref_name }}
         run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            INPUT_VERSION="${{ github.event.inputs.version }}"
-            # Remove -docker suffix if present for the clean version
-            CLEAN_VERSION="${INPUT_VERSION%-docker}"
-            VERSION="v${CLEAN_VERSION#v}"
-            PACKAGE_VERSION="${VERSION#v}"
-          else
-            TAG="${{ github.ref_name }}"
-            # Remove -docker suffix and keep v prefix for clean version
-            CLEAN_VERSION="${TAG%-docker}"
-            VERSION="${CLEAN_VERSION}"
-            PACKAGE_VERSION="${CLEAN_VERSION#v}"
+          set -euo pipefail
+
+          out() { printf '%s=%s\n' "$1" "$2" >> "$GITHUB_OUTPUT"; }
+
+          # Strict convention: only a well-formed release tag is ever processed.
+          if [[ ! "$TAG_NAME" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)-([a-z][a-z0-9-]*)$ ]]; then
+            echo "::error::'$TAG_NAME' is not a release tag (expected vX.Y.Z-suffix)"
+            exit 1
           fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "package_version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
-          echo "Tag version: $VERSION"
-          echo "Package version: $PACKAGE_VERSION"
+          version="v${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[3]}"
+          suffix="-${BASH_REMATCH[4]}"
+          out version "$version"
+          out enabled "false"
+          out matrix "[]"
 
-      - name: Verify Dockerfile exists
-        run: |
-          echo "Checking for Dockerfile..."
-          if [ -f "server/infra/Dockerfile.dev" ]; then
-            echo "✅ Dockerfile found at server/infra/Dockerfile.dev"
-            echo "Dockerfile content preview:"
-            head -20 server/infra/Dockerfile.dev
-          else
-            echo "❌ No Dockerfile found at server/infra/Dockerfile.dev"
-            echo "Available files:"
-            find . -name "Dockerfile*" -type f
+          # ---------------------------------------------------------------------
+          # Catalog of publishable products. Adding a product means adding an
+          # entry here and its suffix to the tag filters above.
+          #
+          #   image           GHCR image name (without the registry/owner prefix)
+          #   tag_suffix      release tag suffix that publishes this image
+          #   context / file  Docker build context and Dockerfile
+          #   target          Dockerfile stage; omit for a single-stage Dockerfile
+          #   platforms       defaults to linux/amd64,linux/arm64
+          #   build_args      extra `--build-arg`, newline separated
+          #   compat_suffix   extra tag to publish for backward compatibility
+          #   version_tag_suffix  extra suffix on the immutable version tag, used when
+          #                       two builds share one image (the cloud context)
+          #   release_name    title of the GitHub Release ("Astron Collection {name} {version}")
+          #   release_assets  whether the release carries the install scripts
+          #   fallback        build context used when the primary one is absent
+          # ---------------------------------------------------------------------
+          read -r -d '' CATALOG <<'JSON' || true
+          [
+            {
+              "image": "astron-manager",
+              "tag_suffix": "-app",
+              "context": ".",
+              "file": "./Dockerfile",
+              "target": "platform",
+              "platforms": "linux/amd64",
+              "build_args": "ASTRON_COLLECTION_FLAVOR=selfhosted\nASTRON_COLLECTION_PRODUCT=self",
+              "compat_suffix": "-app",
+              "description": "Astron Manager self-hosted platform (client and API in one image)",
+              "release_name": "App",
+              "release_assets": true
+            },
+            {
+              "image": "astron-manager",
+              "tag_suffix": "-cloud",
+              "version_tag_suffix": "-cloud",
+              "context": ".",
+              "file": "./Dockerfile",
+              "target": "platform",
+              "platforms": "linux/amd64",
+              "build_args": "ASTRON_COLLECTION_FLAVOR=cloud\nASTRON_COLLECTION_PRODUCT=cloud",
+              "description": "Astron Manager Cloud - hosted context (client and API in one image)",
+              "release_name": "Cloud",
+              "release_assets": true
+            },
+            {
+              "image": "astron-collection-status",
+              "tag_suffix": "-status",
+              "context": ".",
+              "file": "./Dockerfile",
+              "target": "status",
+              "description": "Astron Collection Status - status page, incidents and uptime history",
+              "release_name": "Status",
+              "release_assets": false
+            },
+            {
+              "image": "astron-collection-mcp",
+              "tag_suffix": "-mcp",
+              "context": ".",
+              "file": "./packages/mcp/Dockerfile",
+              "description": "Astron Collection MCP server",
+              "release_name": "MCP",
+              "release_assets": false
+            },
+            {
+              "image": "astron-collection-github",
+              "tag_suffix": "-github",
+              "context": ".",
+              "file": "./packages/github/Dockerfile",
+              "description": "Astron Collection GitHub integration",
+              "release_name": "GitHub",
+              "release_assets": false
+            },
+            {
+              "image": "astron",
+              "tag_suffix": "-astron",
+              "context": ".",
+              "file": "./bot/astron/Dockerfile",
+              "build_args": "ASTRON_COLLECTION_VERSION=${VERSION}",
+              "description": "Astron Collection official Discord bot (astron)",
+              "release_name": "Astron",
+              "release_assets": false
+            },
+            {
+              "image": "astron-protect",
+              "tag_suffix": "-protect",
+              "context": ".",
+              "file": "./bot/protect/Dockerfile",
+              "description": "Astron Collection official Discord bot (protect)",
+              "release_name": "Protect",
+              "release_assets": false
+            },
+            {
+              "image": "astron-logger",
+              "tag_suffix": "-logger",
+              "context": ".",
+              "file": "./bot/logger/Dockerfile",
+              "description": "Astron Collection official Discord bot (logger)",
+              "release_name": "Logger",
+              "release_assets": false
+            },
+            {
+              "image": "astron-automations",
+              "tag_suffix": "-automations",
+              "context": ".",
+              "file": "./bot/automations/Dockerfile",
+              "description": "Astron Collection official Discord bot (automations)",
+              "release_name": "Automations",
+              "release_assets": false
+            },
+            {
+              "image": "astron-player",
+              "tag_suffix": "-player",
+              "context": ".",
+              "file": "./bot/player/Dockerfile",
+              "description": "Astron Collection official Discord bot (player)",
+              "release_name": "Player",
+              "release_assets": false
+            },
+            {
+              "image": "astron-guild",
+              "tag_suffix": "-guild",
+              "context": ".",
+              "file": "./bot/guild/Dockerfile",
+              "description": "Astron Collection official Discord bot (guild)",
+              "release_name": "Guild",
+              "release_assets": false
+            }
+          ]
+          JSON
+
+          selected=$(jq -c --arg suffix "$suffix" '[ .[] | select(.tag_suffix == $suffix) ]' <<< "$CATALOG")
+
+          matches=$(jq 'length' <<< "$selected")
+          if [ "$matches" -eq 0 ]; then
+            echo "::error::no product in the catalog publishes '$suffix'"
+            exit 1
+          fi
+          if [ "$matches" -ne 1 ]; then
+            echo "::error::$matches products publish '$suffix'; a tag must select exactly one"
             exit 1
           fi
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "20"
+          image=$(jq -r '.[0].image' <<< "$selected")
+          out image "$image"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 9
-
-      - name: Build cross-platform binaries
-        run: |
-          echo "🔨 Building cross-platform binaries for Aether Identity..."
-
-          # Create dist directory
-          mkdir -p dist
-
-          # Define platforms
-          platforms=(
-            "linux/amd64"
-            "linux/arm64" 
-            "windows/amd64"
-            "darwin/amd64"
-            "darwin/arm64"
+          # --- Build context ---------------------------------------------------
+          # The primary context wins; `fallback` covers a product that was renamed
+          # but not moved yet (the guild bot lives in bot/guild). Nothing is
+          # invented: if neither exists, the product is reported and skipped.
+          mapfile -t candidates < <(
+            jq -r '.[0]
+              | ([{context: .context, file: .file}]
+                 + (if has("fallback") and .fallback != null then [.fallback] else [] end))
+              | .[] | "\(.context)\t\(.file)"' <<< "$selected"
           )
 
-          # Build Go server binary
-          echo "Building Go server..."
-          cd server
-          for platform in "${platforms[@]}"; do
-            IFS='/' read -r GOOS GOARCH <<< "$platform"
-            
-            output_name="aether-identity-server"
-            if [ "$GOOS" = "windows" ]; then
-              output_name+=".exe"
+          context=""
+          file=""
+          for candidate in "${candidates[@]}"; do
+            candidate_context="${candidate%%$'\t'*}"
+            candidate_file="${candidate##*$'\t'}"
+            if [ -d "$candidate_context" ] && [ -f "$candidate_file" ]; then
+              context="$candidate_context"
+              file="$candidate_file"
+              break
             fi
-            
-            echo "Building server for $GOOS/$GOARCH..."
-            GOOS=$GOOS GOARCH=$GOARCH go build \
-              -ldflags="-s -w -X main.version=${{ steps.version.outputs.package_version }}" \
-              -o "../dist/${GOOS}-${GOARCH}-${output_name}" \
-              .
-          done
-          cd ..
-
-          # Build Next.js frontend (platform-independent)
-          echo "Building Next.js frontend..."
-          cd app
-          pnpm install
-          pnpm build
-
-          # Create frontend package
-          mkdir -p ../dist/frontend
-          cp -r .next/standalone ../dist/frontend/
-          cp -r .next/static ../dist/frontend/
-          cp package.json ../dist/frontend/
-          cd ..
-
-          echo "✅ Cross-platform binaries built successfully!"
-          ls -la dist/
-
-      - name: Create platform-specific archives
-        run: |
-          echo "📦 Creating platform-specific archives..."
-
-          VERSION="${{ steps.version.outputs.package_version }}"
-
-          # Create archives for each platform
-          platforms=("linux/amd64" "linux/arm64" "windows/amd64" "darwin/amd64" "darwin/arm64")
-
-          for platform in "${platforms[@]}"; do
-            IFS='/' read -r GOOS GOARCH <<< "$platform"
-            
-            # Create archive directory
-            archive_dir="aether-identity-${VERSION}-${GOOS}-${GOARCH}"
-            mkdir -p "dist/${archive_dir}"
-            
-            # Copy binaries
-            if [ "$GOOS" = "windows" ]; then
-              cp "dist/${GOOS}-${GOARCH}-aether-identity-server.exe" "dist/${archive_dir}/"
-            else
-              cp "dist/${GOOS}-${GOARCH}-aether-identity-server" "dist/${archive_dir}/"
-            fi
-            
-            # Copy frontend
-            cp -r dist/frontend/* "dist/${archive_dir}/"
-            
-            # Copy configuration files
-            cp docker-compose.yml docker-entrypoint.sh "dist/${archive_dir}/" 2>/dev/null || true
-            cp -r prisma/ "dist/${archive_dir}/" 2>/dev/null || true
-            
-          # Create README for the archive
-            cat > "dist/${archive_dir}/README.md" << EOF
-          # Aether Identity v${VERSION}
-
-          Platform: ${GOOS}/${GOARCH}
-
-          ## Installation
-
-          1. Extract the archive
-          2. Run the server: \`\`\`./aether-identity-server\`\`\`
-
-          ## Components
-
-          - **aether-identity-server**: Main backend server (Go)
-          - **frontend/**: Next.js web application
-
-          ## Configuration
-
-          See \`prisma/\` directory for database configuration.
-          EOF
-
-            # Create the archive
-            cd dist
-            if [ "$GOOS" = "windows" ]; then
-              zip -r "${archive_dir}.zip" "${archive_dir}"
-            else
-              tar -czf "${archive_dir}.tar.gz" "${archive_dir}"
-            fi
-            cd ..
-            
-            # Clean up archive directory
-            rm -rf "dist/${archive_dir}"
           done
 
-          echo "✅ Platform archives created!"
-          ls -la dist/*.tar.gz dist/*.zip 2>/dev/null || true
+          if [ -z "$context" ]; then
+            echo "::notice::skipping $image: neither '$(jq -r '.[0].file' <<< "$selected")' nor its fallback is in the tree yet"
+            out enabled "false"
+            out release_title "Astron Collection $(jq -r '.[0].release_name' <<< "$selected") $version (skipped)"
+            {
+              echo "### Skipped: $image"
+              echo ""
+              echo "The release tag '$TAG_NAME' names this product, but its build context does not exist yet. Nothing was built, pushed or released."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
+          # --- Build target ----------------------------------------------------
+          target=$(jq -r '.[0].target // ""' <<< "$selected")
+          if [ -n "$target" ]; then
+            # An image can be listed before its stage lands; failing here with the
+            # stage name is clearer than a buildx "target not found" later.
+            if ! grep -qiE "^FROM[[:space:]]+.*[[:space:]]AS[[:space:]]+${target}[[:space:]]*$" "$file"; then
+              echo "::error::$file does not define the '$target' stage required by '$TAG_NAME'"
+              echo "::error::available stages: $(grep -oiE '^FROM[[:space:]]+.*[[:space:]]AS[[:space:]]+[a-z0-9._-]+' "$file" | awk '{print $NF}' | paste -sd, -)"
+              exit 1
+            fi
+          fi
+
+          matrix=$(jq -c \
+            --arg context "$context" \
+            --arg file "$file" \
+            --arg target "$target" \
+            --arg version "$version" \
+            '.[0] | [{
+              image: .image,
+              context: $context,
+              file: $file,
+              target: $target,
+              platforms: (.platforms // "linux/amd64,linux/arm64"),
+              build_args: ((.build_args // "") | gsub("\\$\\{VERSION\\}"; $version)),
+              compat_suffix: (.compat_suffix // ""),
+              version_tag_suffix: (.version_tag_suffix // ""),
+              description: .description
+            }]' <<< "$selected")
+
+          out enabled "true"
+          out matrix "$matrix"
+          out release_title "Astron Collection $(jq -r '.[0].release_name' <<< "$selected") $version"
+          out release_assets "$(jq -r '.[0].release_assets // false' <<< "$selected")"
+
+          # Only the self-hosted release may become GitHub's `latest`: running
+          # servers and the installer resolve `/releases/latest`.
+          if [ "$suffix" = "-app" ]; then
+            out release_latest "true"
+          else
+            out release_latest "false"
+          fi
+
+          jq -r '.[] | "::notice::publishing \(.image) from \(.file) (\(.target // "default stage"))"' <<< "$matrix"
+          {
+            echo "### Publishing $image"
+            echo ""
+            echo "| Version | Context | Dockerfile | Target | Platforms |"
+            echo "| --- | --- | --- | --- | --- |"
+            jq -r '.[] | "| $version | \(.context) | \(.file) | \(.target // "default") | \(.platforms) |"' <<< "$matrix"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # 2. Build and publish that single product.
+  #
+  # Everything a product needs lives here once, so a new product is a catalog
+  # entry, not a copy of the pipeline. Failures are contained to this product.
+  # ---------------------------------------------------------------------------
+  publish:
+    name: ${{ matrix.image }}
+    needs: select
+    if: needs.select.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      packages: write
+      # Keyless cosign signing mints a short-lived OIDC token from Fulcio;
+      # without this the sign step fails with "no OIDC token found".
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.select.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v6
         with:
-          name: aether-identity-binaries
-          path: |
-            dist/*.tar.gz
-            dist/*.zip
-          retention-days: 30
+          # cosign (keyless) needs the tag history to resolve the commit an
+          # image was built from.
+          fetch-depth: 0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - uses: docker/setup-buildx-action@v4
 
-      # Login against GitHub Container Registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+      - name: Log in to ${{ env.IMAGE_PREFIX }}
+        uses: docker/login-action@v4
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ env.IMAGE_PREFIX }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Login against Docker Hub except on PR
-      # https://github.com/docker/login-action
-      - name: Log into Docker Hub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+      # A published version is immutable: re-running a tag must never replace the
+      # artifact other installations already pulled. The run then finishes as a
+      # no-op (so the release can still be created) instead of failing.
+      - name: Check that ${{ needs.select.outputs.version }} is not published yet
+        id: guard
+        shell: bash
+        env:
+          IMAGE_REF: ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}
+          VERSION: ${{ needs.select.outputs.version }}
+          VERSION_TAG_SUFFIX: ${{ matrix.version_tag_suffix }}
+        run: |
+          set -euo pipefail
+          ref="${IMAGE_REF}:${VERSION}${VERSION_TAG_SUFFIX}"
+          if docker buildx imagetools inspect "$ref" >/dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::${ref} already exists; this run publishes nothing and does not overwrite it. Bump the version to publish a new image."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
-      - name: Extract Docker metadata for GHCR
+      - name: Derive tags and OCI labels
         id: meta
-        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
+        uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}
           tags: |
-            type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
-            type=raw,value=latest,enable={{is_default_branch}}
-          flavor: |
-            latest=auto
+            type=raw,value=${{ needs.select.outputs.version }}${{ matrix.version_tag_suffix }}
+            type=raw,value=${{ needs.select.outputs.version }}-app,enable=${{ matrix.compat_suffix == '-app' }}
+            type=sha,format=short,prefix=sha-,enable=${{ matrix.version_tag_suffix == '' }}
+            type=raw,value=latest,enable=${{ matrix.version_tag_suffix == '' }}
+          labels: |
+            org.opencontainers.image.title=${{ matrix.image }}
+            org.opencontainers.image.description=${{ matrix.description }}
+            org.opencontainers.image.version=${{ needs.select.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.url=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.documentation=${{ github.server_url }}/${{ github.repository }}#readme
+            org.opencontainers.image.vendor=skygenesisenterprise
+            org.opencontainers.image.licenses=Apache-2.0
 
-      # Extract metadata for Docker Hub
-      - name: Extract Docker metadata for Docker Hub
-        id: meta-dockerhub
-        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
+      - name: Build and push ${{ matrix.image }}
+        id: build
+        if: steps.guard.outputs.published != 'true'
+        uses: docker/build-push-action@v7
         with:
-          images: ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_IMAGE_NAME }}
-          tags: |
-            type=raw,value=${{ steps.version.outputs.version }},enable=${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
-            type=raw,value=latest,enable={{is_default_branch}}
-          flavor: |
-            latest=auto
-
-      # Build and push Docker image with Buildx (don't push on PR)
-      # Uses configuration from infrastructure/docker/docker-compose.dev.yml
-      # https://github.com/docker/build-push-action
-      - name: Build and push Docker image to GHCR
-        id: build-and-push
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v6.18.0
-        with:
-          context: ./server
-          file: ./server/infra/Dockerfile.dev
-          push: ${{ github.event_name != 'pull_request' }}
+          context: ${{ matrix.context }}
+          file: ${{ matrix.file }}
+          target: ${{ matrix.target }}
+          platforms: ${{ matrix.platforms }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          build-args: |
+            ASTRON_COLLECTION_VERSION=${{ needs.select.outputs.version }}
+            ${{ matrix.build_args }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}
           provenance: false
 
-      # Build and push Docker image to Docker Hub
-      - name: Build and push Docker image to Docker Hub
-        if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v6.18.0
-        with:
-          context: ./server
-          file: ./server/infra/Dockerfile.dev
-          push: true
-          tags: ${{ steps.meta-dockerhub.outputs.tags }}
-          labels: ${{ steps.meta-dockerhub.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          provenance: false
+      - name: Install cosign
+        if: steps.guard.outputs.published != 'true'
+        uses: sigstore/cosign-installer@v3
 
-      # Sign the resulting Docker image digest except on PRs.
-      # This will only write to the public Rekor transparency log when the Docker
-      # repository is public to avoid leaking data.  If you would like to publish
-      # transparency data even for private images, pass --force to cosign below.
-      # https://github.com/sigstore/cosign
-      - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
+      # The digest is what consumers pin to, so it is signed once instead of
+      # burning a Fulcio certificate for every tag.
+      - name: Sign the published digest (keyless)
+        if: steps.guard.outputs.published != 'true'
+        shell: bash
         env:
-          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        # This step uses the identity token to provision an ephemeral certificate
-        # against the sigstore community Fulcio instance.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+          IMAGE_REF: ${{ env.IMAGE_PREFIX }}/${{ matrix.image }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DIGEST}" ]; then
+            echo "::error::the build produced no digest; refusing to report a published image"
+            exit 1
+          fi
+          cosign sign --yes "${IMAGE_REF}@${DIGEST}"
+          echo "signed=${IMAGE_REF}@${DIGEST}" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Summarize the publication
+        if: always()
+        shell: bash
+        env:
+          IMAGE: ${{ matrix.image }}
+          PLATFORMS: ${{ matrix.platforms }}
+          ALREADY: ${{ steps.guard.outputs.published }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+          VERSION: ${{ needs.select.outputs.version }}
+        run: |
+          set -euo pipefail
+          {
+            echo "### $IMAGE"
+            echo ""
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Version | \`$VERSION\` |"
+            echo "| Platforms | \`$PLATFORMS\` |"
+            if [ "$ALREADY" = "true" ]; then
+              echo "| Result | Already published - left untouched |"
+            else
+              echo "| Digest | \`${DIGEST:-n/a}\` |"
+              echo "| Signature | cosign keyless |"
+            fi
+            echo ""
+            echo "Tags:"
+            echo ""
+            echo '```'
+            printf '%s\n' "$TAGS"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ---------------------------------------------------------------------------
+  # 3. Publish this product's release.
+  #
+  # One release per product, never a single global one. The image must be
+  # pullable first, otherwise a server seeing the release could be offered a
+  # missing tag. Idempotent: re-running updates the existing release.
+  # ---------------------------------------------------------------------------
   release:
-    name: Create GitHub Release
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/') && endsWith(github.ref, '-docker') && github.event_name != 'pull_request'
+    name: ${{ needs.select.outputs.release_title }}
+    needs: [select, publish]
+    if: needs.select.outputs.enabled == 'true' && needs.publish.result == 'success'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: write
-      packages: write
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
+        if: needs.select.outputs.release_assets == 'true'
         uses: actions/checkout@v6
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v8
         with:
-          path: artifacts
+          fetch-depth: 0
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v3
+      # The install scripts ride along with the installable products. They are
+      # attached only when present, so a release never fails because an asset is
+      # missing from the tree.
+      - name: Prepare the install assets
+        id: assets
+        shell: bash
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_ASSETS: ${{ needs.select.outputs.release_assets }}
+        run: |
+          set -euo pipefail
+          files=""
+          if [ "$RELEASE_ASSETS" = "true" ]; then
+            if [ -f install.sh ]; then
+              cp install.sh install-astron-collection.sh
+              files="${files}install.sh"$'\n'"install-astron-collection.sh"$'\n'
+            fi
+            if [ -f install.ps1 ]; then
+              files="${files}install.ps1"$'\n'
+            fi
+            if [ -z "$files" ]; then
+              echo "::notice::no install script in the repository root; this release carries no assets"
+            fi
+          fi
+          {
+            echo "files<<ASSETS"
+            printf '%s' "$files"
+            echo "ASSETS"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish the ${{ needs.select.outputs.release_title }} release
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-          name: Aether Identity v${{ needs.build.outputs.package_version }}
-          body: |
-            ## Aether Identity v${{ needs.build.outputs.package_version }}
-
-            🐳 **Docker Images**:
-            - **GitHub Container Registry**: `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}`
-            - **Docker Hub**: `${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_IMAGE_NAME }}:${{ needs.build.outputs.version }}`
-
-            📦 **Platform Binaries**:
-            - Linux (x86_64, ARM64)
-            - Windows (x86_64)
-            - macOS (x86_64, ARM64)
-
-            ### 🚀 Quick Start
-
-            #### Docker (Recommended):
-            ```bash
-            # From GitHub Container Registry
-            docker run -p 3000:3000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build.outputs.version }}
-
-            # From Docker Hub
-            docker run -p 3000:3000 ${{ env.DOCKERHUB_REGISTRY }}/${{ env.DOCKERHUB_IMAGE_NAME }}:${{ needs.build.outputs.version }}
-            ```
-
-            #### Binary:
-            Download the appropriate archive for your platform and extract.
-            Then run:
-            ```bash
-            ./aether-identity-server
-            ```
-
-            ### 📋 Components
-
-            - **aether-identity-server**: Main backend server
-            - **frontend**: Next.js web application
-
-            ---
-
-            🐛 **Report Issues**: [GitHub Issues](https://github.com/skygenesisenterprise/aether-identity/issues)
-            💡 **Get Help**: [GitHub Discussions](https://github.com/skygenesisenterprise/aether-identity/discussions)
-
-            📦 **Made with ❤️ by [Sky Genesis Enterprise](https://skygenesisenterprise.com)**
-          draft: false
-          prerelease: false
-          files: |
-            artifacts/**/*.tar.gz
-            artifacts/**/*.zip
+          name: ${{ needs.select.outputs.release_title }}
+          generate_release_notes: true
+          # Keeps `/releases/latest` - what the installer and the running servers
+          # resolve - on the self-hosted release.
+          make_latest: ${{ needs.select.outputs.release_latest }}
+          fail_on_unmatched_files: false
+          files: ${{ steps.assets.outputs.files }}

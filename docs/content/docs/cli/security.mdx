@@ -1,0 +1,73 @@
+---
+title: "Security"
+description: "Per-application HTTP basic auth and response security headers. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Per-application HTTP basic auth and response security headers.
+
+`astron-collection security` exposes **4 commands**. They map one-to-one onto the `security.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection security --help` to list these commands in your terminal, or
+	`astron-collection security <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection security create`
+
+Calls `POST /api/trpc/security.create`.
+
+```bash
+astron-collection security create --applicationId <value> --username <value> --password <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--applicationId <value>` | string | Yes | — |
+| `--username <value>` | string | Yes | — |
+| `--password <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection security delete`
+
+Calls `POST /api/trpc/security.delete`.
+
+```bash
+astron-collection security delete --securityId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--securityId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection security one`
+
+Calls `GET /api/trpc/security.one`.
+
+```bash
+astron-collection security one --securityId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--securityId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection security update`
+
+Calls `POST /api/trpc/security.update`.
+
+```bash
+astron-collection security update --securityId <value> --username <value> --password <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--securityId <value>` | string | Yes | — |
+| `--username <value>` | string | Yes | — |
+| `--password <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |

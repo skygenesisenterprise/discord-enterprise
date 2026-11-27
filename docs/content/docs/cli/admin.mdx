@@ -1,0 +1,30 @@
+---
+title: "Admin"
+description: "Administrative operations that apply to the whole instance. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Administrative operations that apply to the whole instance.
+
+`astron-collection admin` exposes **1 command**. They map one-to-one onto the `admin.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection admin --help` to list these commands in your terminal, or
+	`astron-collection admin <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection admin setup-monitoring`
+
+Calls `POST /api/trpc/admin.setupMonitoring`.
+
+```bash
+astron-collection admin setup-monitoring --metricsConfig <json> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--metricsConfig <json>` | object | Yes | — |
+| `--profile <name>` | string | No | — |

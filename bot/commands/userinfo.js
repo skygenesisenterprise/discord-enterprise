@@ -1,61 +1,63 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 
-const STATUS_EMOJIS = {
-  online: "🟢",
-  idle: "🟡",
-  dnd: "🔴",
-  offline: "⚫",
-};
+import {
+  defineCommand,
+  EPHEMERAL,
+  timestamp,
+} from "@astron-collection/discord-framework";
+import { infoEmbed } from "@astron-collection/discord-framework/ui";
 
-export const data = new SlashCommandBuilder()
-  .setName("userinfo")
-  .setDescription("Affiche les informations detaillees d'un utilisateur.")
-  .addUserOption((o) =>
-    o.setName("user").setDescription("Utilisateur cible (defaut: vous)").setRequired(false)
-  );
+export async function executeUserInfo(interaction, { services }) {
+  const user = interaction.options.getUser("user") ?? interaction.user;
+  const member =
+    interaction.guild && typeof interaction.guild.members?.fetch === "function"
+      ? await interaction.guild.members.fetch(user.id).catch(() => null)
+      : null;
 
-export async function execute(interaction) {
-  if (!interaction.inCachedGuild()) {
-    await interaction.reply({ content: "Cette commande doit etre utilisee dans un serveur.", ephemeral: true });
+  if (interaction.guild && !member) {
+    await interaction.reply({ content: "Ce membre n'est pas dans le serveur.", flags: EPHEMERAL });
     return;
   }
 
-  const user = interaction.options.getUser("user") ?? interaction.user;
-  const member = await interaction.guild.members.fetch(user.id).catch(() => null);
+  const info = services.info.userInfo(user, member);
 
-  const created = Math.floor(user.createdTimestamp / 1000);
-  const joined = member?.joinedAt ? Math.floor(member.joinedAt.getTime() / 1000) : null;
-  const status = member?.presence?.status ?? "offline";
-  const isBot = user.bot ? "Oui" : "Non";
-  const isBoosting = member?.premiumSince ? `<t:${Math.floor(member.premiumSince.getTime() / 1000)}:F>` : "Non";
-  const roles = member?.roles.cache.filter((r) => r.id !== interaction.guild.id).sort((a, b) => b.position - a.position);
-  const rolesList = roles?.size > 0 ? roles.map((r) => r.toString()).join(" ") : "Aucun";
-  const topRoleColor = member?.roles.highest.color ?? 0x5865f2;
-
-  const embed = new EmbedBuilder()
-    .setColor(topRoleColor)
-    .setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() })
-    .setThumbnail(user.displayAvatarURL({ size: 1024 }))
-    .addFields(
-      { name: "Informations generales", value: [
-        `**ID:** \`${user.id}\``,
-        `**Affichage:** ${member?.displayName ?? user.username}`,
-        `**Bot:** ${isBot}`,
-        `**Statut:** ${STATUS_EMOJIS[status]} ${status}`,
-      ].join("\n"), inline: false },
-      { name: "Dates", value: [
-        `**Compte cree:** <t:${created}:F> (<t:${created}:R>)`,
-        joined ? `**A rejoint:** <t:${joined}:F> (<t:${joined}:R>)` : "**A rejoint:** Inconnu",
-      ].join("\n"), inline: false },
-      { name: "Boosting", value: isBoosting, inline: true },
-      { name: "Roles", value: roles?.size > 0 ? `${roles.size} role(s)\n${rolesList}` : "Aucun role", inline: false },
-    )
-    .setFooter({ text: `ID: ${user.id}` })
-    .setTimestamp();
-
-  if (user.banner) {
-    embed.setImage(user.bannerURL({ size: 1024 }));
-  }
-
-  await interaction.reply({ embeds: [embed], ephemeral: true });
+  await interaction.reply({
+    embeds: [
+      infoEmbed(info.tag, null, {
+        thumbnail: info.avatar,
+        fields: [
+          { name: "ID", value: info.id, inline: true },
+          { name: "Account type", value: info.bot ? "Bot" : "Human", inline: true },
+          { name: "Created", value: timestamp(info.createdAt, "D"), inline: true },
+          ...(info.joinedAt
+            ? [{ name: "Joined", value: timestamp(info.joinedAt, "D"), inline: true }]
+            : []),
+          ...(info.nickname ? [{ name: "Nickname", value: info.nickname, inline: true }] : []),
+          ...(info.highestRole
+            ? [{ name: "Highest role", value: info.highestRole, inline: true }]
+            : []),
+          ...(info.roles.length
+            ? [{ name: `Roles (${info.roles.length})`, value: info.roles.slice(0, 25).join(", "), inline: false }]
+            : []),
+        ],
+        footer: "Astron",
+      }),
+    ],
+  });
 }
+
+export default defineCommand({
+  data: new SlashCommandBuilder()
+    .setName("userinfo")
+    .setDescription("Show information about a user.")
+    .setDescriptionLocalizations({ fr: "Afficher les informations d'un utilisateur." })
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("User to inspect; defaults to you")
+        .setDescriptionLocalizations({ fr: "Utilisateur à inspecter ; par défaut, vous" })
+        .setRequired(false),
+    ),
+  category: "information",
+  execute: executeUserInfo,
+});

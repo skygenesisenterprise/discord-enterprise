@@ -1,0 +1,130 @@
+---
+title: "Bitbucket"
+description: "Bitbucket connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Bitbucket connections, plus branch and repository lookups.
+
+`astron-collection bitbucket` exposes **7 commands**. They map one-to-one onto the `bitbucket.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection bitbucket --help` to list these commands in your terminal, or
+	`astron-collection bitbucket <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection bitbucket bitbucket-providers`
+
+Calls `GET /api/trpc/bitbucket.bitbucketProviders`.
+
+```bash
+astron-collection bitbucket bitbucket-providers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket create`
+
+Calls `POST /api/trpc/bitbucket.create`.
+
+```bash
+astron-collection bitbucket create --authId <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--bitbucketId <value>` | string | No | — |
+| `--bitbucketUsername <value>` | string | No | — |
+| `--bitbucketEmail <value>` | string | No | — |
+| `--appPassword <value>` | string | No | — |
+| `--apiToken <value>` | string | No | — |
+| `--bitbucketWorkspaceName <value>` | string | No | — |
+| `--gitProviderId <value>` | string | No | — |
+| `--authId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket get-bitbucket-branches`
+
+Calls `GET /api/trpc/bitbucket.getBitbucketBranches`.
+
+```bash
+astron-collection bitbucket get-bitbucket-branches --owner <value> --repo <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--owner <value>` | string | Yes | — |
+| `--repo <value>` | string | Yes | — |
+| `--bitbucketId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket get-bitbucket-repositories`
+
+Calls `GET /api/trpc/bitbucket.getBitbucketRepositories`.
+
+```bash
+astron-collection bitbucket get-bitbucket-repositories --bitbucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--bitbucketId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket one`
+
+Calls `GET /api/trpc/bitbucket.one`.
+
+```bash
+astron-collection bitbucket one --bitbucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--bitbucketId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket test-connection`
+
+Calls `POST /api/trpc/bitbucket.testConnection`.
+
+```bash
+astron-collection bitbucket test-connection --bitbucketId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--bitbucketId <value>` | string | Yes | — |
+| `--bitbucketUsername <value>` | string | No | — |
+| `--bitbucketEmail <value>` | string | No | — |
+| `--workspaceName <value>` | string | No | — |
+| `--apiToken <value>` | string | No | — |
+| `--appPassword <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection bitbucket update`
+
+Calls `POST /api/trpc/bitbucket.update`.
+
+```bash
+astron-collection bitbucket update --bitbucketId <value> --gitProviderId <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--bitbucketId <value>` | string | Yes | — |
+| `--bitbucketUsername <value>` | string | No | — |
+| `--bitbucketEmail <value>` | string | No | — |
+| `--appPassword <value>` | string | No | — |
+| `--apiToken <value>` | string | No | — |
+| `--bitbucketWorkspaceName <value>` | string | No | — |
+| `--gitProviderId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--organizationId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

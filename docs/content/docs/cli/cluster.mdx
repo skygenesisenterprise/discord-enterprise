@@ -1,0 +1,70 @@
+---
+title: "Cluster"
+description: "Add and remove Swarm workers and managers. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Add and remove Swarm workers and managers.
+
+`astron-collection cluster` exposes **4 commands**. They map one-to-one onto the `cluster.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection cluster --help` to list these commands in your terminal, or
+	`astron-collection cluster <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection cluster add-manager`
+
+Calls `GET /api/trpc/cluster.addManager`.
+
+```bash
+astron-collection cluster add-manager [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection cluster add-worker`
+
+Calls `GET /api/trpc/cluster.addWorker`.
+
+```bash
+astron-collection cluster add-worker [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection cluster get-nodes`
+
+Calls `GET /api/trpc/cluster.getNodes`.
+
+```bash
+astron-collection cluster get-nodes [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection cluster remove-worker`
+
+Calls `POST /api/trpc/cluster.removeWorker`.
+
+```bash
+astron-collection cluster remove-worker --nodeId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--nodeId <value>` | string | Yes | — |
+| `--serverId <value>` | string | No | — |
+| `--profile <name>` | string | No | — |

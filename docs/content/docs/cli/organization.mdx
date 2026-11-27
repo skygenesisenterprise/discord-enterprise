@@ -1,0 +1,163 @@
+---
+title: "Organizations"
+description: "Organizations, members, invitations and the active organization. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Organizations, members, invitations and the active organization.
+
+`astron-collection organization` exposes **11 commands**. They map one-to-one onto the `organization.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection organization --help` to list these commands in your terminal, or
+	`astron-collection organization <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection organization active`
+
+Calls `GET /api/trpc/organization.active`.
+
+```bash
+astron-collection organization active [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization all`
+
+Calls `GET /api/trpc/organization.all`.
+
+```bash
+astron-collection organization all [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization all-invitations`
+
+Calls `GET /api/trpc/organization.allInvitations`.
+
+```bash
+astron-collection organization all-invitations [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization create`
+
+Calls `POST /api/trpc/organization.create`.
+
+```bash
+astron-collection organization create --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--name <value>` | string | Yes | — |
+| `--logo <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization delete`
+
+Calls `POST /api/trpc/organization.delete`.
+
+```bash
+astron-collection organization delete --organizationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--organizationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization invite-member`
+
+Calls `POST /api/trpc/organization.inviteMember`.
+
+```bash
+astron-collection organization invite-member --email <value> --role <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--email <value>` | string | Yes | — |
+| `--role <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization one`
+
+Calls `GET /api/trpc/organization.one`.
+
+```bash
+astron-collection organization one --organizationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--organizationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization remove-invitation`
+
+Calls `POST /api/trpc/organization.removeInvitation`.
+
+```bash
+astron-collection organization remove-invitation --invitationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--invitationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization set-default`
+
+Calls `POST /api/trpc/organization.setDefault`.
+
+```bash
+astron-collection organization set-default --organizationId <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--organizationId <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization update`
+
+Calls `POST /api/trpc/organization.update`.
+
+```bash
+astron-collection organization update --organizationId <value> --name <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--organizationId <value>` | string | Yes | — |
+| `--name <value>` | string | Yes | — |
+| `--logo <value>` | string | No | — |
+| `--defaultRole <value>` | string | No | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection organization update-member-role`
+
+Calls `POST /api/trpc/organization.updateMemberRole`.
+
+```bash
+astron-collection organization update-member-role --memberId <value> --role <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--memberId <value>` | string | Yes | — |
+| `--role <value>` | string | Yes | — |
+| `--profile <name>` | string | No | — |

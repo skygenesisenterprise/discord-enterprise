@@ -1,0 +1,206 @@
+---
+title: "Stripe"
+description: "Billing for Astron Collection Cloud: plans, invoices, checkout and the customer portal. Generated from the `astron-collection` command surface."
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+Billing for Astron Collection Cloud: plans, invoices, checkout and the customer portal.
+
+`astron-collection stripe` exposes **15 commands**. They map one-to-one onto the `stripe.*` API operations, so anything reachable from the dashboard is reachable from here.
+
+<Callout>
+	Run `astron-collection stripe --help` to list these commands in your terminal, or
+	`astron-collection stripe <command> --help` for a single command.
+</Callout>
+
+## Commands
+
+### `astron-collection stripe can-create-more-servers`
+
+Calls `GET /api/trpc/stripe.canCreateMoreServers`.
+
+```bash
+astron-collection stripe can-create-more-servers [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe create-checkout-session`
+
+Calls `POST /api/trpc/stripe.createCheckoutSession`.
+
+```bash
+astron-collection stripe create-checkout-session --tier <value> --productId <value> --serverQuantity <value> --isAnnual [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--tier <value>` | string | Yes | `legacy`, `hobby`, `startup` |
+| `--productId <value>` | string | Yes | — |
+| `--serverQuantity <value>` | number | Yes | — |
+| `--isAnnual [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe create-customer-portal-session`
+
+Calls `POST /api/trpc/stripe.createCustomerPortalSession`.
+
+```bash
+astron-collection stripe create-customer-portal-session [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-billing-contact`
+
+Calls `GET /api/trpc/stripe.getBillingContact`.
+
+```bash
+astron-collection stripe get-billing-contact [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-billing-overview`
+
+Calls `GET /api/trpc/stripe.getBillingOverview`.
+
+```bash
+astron-collection stripe get-billing-overview [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-billing-status`
+
+Calls `GET /api/trpc/stripe.getBillingStatus`.
+
+```bash
+astron-collection stripe get-billing-status [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-current-plan`
+
+Calls `GET /api/trpc/stripe.getCurrentPlan`.
+
+```bash
+astron-collection stripe get-current-plan [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-invoices`
+
+Calls `GET /api/trpc/stripe.getInvoices`.
+
+```bash
+astron-collection stripe get-invoices [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-payment-methods`
+
+Calls `GET /api/trpc/stripe.getPaymentMethods`.
+
+```bash
+astron-collection stripe get-payment-methods [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-plans`
+
+Calls `GET /api/trpc/stripe.getPlans`.
+
+```bash
+astron-collection stripe get-plans [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-products`
+
+Calls `GET /api/trpc/stripe.getProducts`.
+
+```bash
+astron-collection stripe get-products [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe get-usage`
+
+Calls `GET /api/trpc/stripe.getUsage`.
+
+```bash
+astron-collection stripe get-usage [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe start-free-trial`
+
+Calls `POST /api/trpc/stripe.startFreeTrial`.
+
+```bash
+astron-collection stripe start-free-trial --tier <value> [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--tier <value>` | string | Yes | `hobby`, `startup` |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe update-invoice-notifications`
+
+Calls `POST /api/trpc/stripe.updateInvoiceNotifications`.
+
+```bash
+astron-collection stripe update-invoice-notifications --enabled [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--enabled [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
+
+### `astron-collection stripe upgrade-subscription`
+
+Calls `POST /api/trpc/stripe.upgradeSubscription`.
+
+```bash
+astron-collection stripe upgrade-subscription --tier <value> --serverQuantity <value> --isAnnual [options]
+```
+
+| Option | Type | Required | Allowed values |
+| --- | --- | --- | --- |
+| `--tier <value>` | string | Yes | `hobby`, `startup` |
+| `--serverQuantity <value>` | number | Yes | — |
+| `--isAnnual [boolean]` | boolean | Yes | — |
+| `--profile <name>` | string | No | — |
