@@ -1,27 +1,27 @@
 ---
 title: "Docker"
-description: "Containers, the Docker daemon configuration, events and container files. Generated from the `astron-collection` command surface."
+description: "Containers, the Docker daemon configuration, events and container files. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Containers, the Docker daemon configuration, events and container files.
 
-`astron-collection docker` exposes **20 commands**. They map one-to-one onto the `docker.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise docker` exposes **20 commands**. They map one-to-one onto the `docker.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection docker --help` to list these commands in your terminal, or
-	`astron-collection docker <command> --help` for a single command.
+	Run `discord-enterprise docker --help` to list these commands in your terminal, or
+	`discord-enterprise docker <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection docker delete-container-file`
+### `discord-enterprise docker delete-container-file`
 
 Calls `POST /api/trpc/docker.deleteContainerFile`.
 
 ```bash
-astron-collection docker delete-container-file --containerId <value> --path <value> [options]
+discord-enterprise docker delete-container-file --containerId <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -31,12 +31,12 @@ astron-collection docker delete-container-file --containerId <value> --path <val
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-config`
+### `discord-enterprise docker get-config`
 
 Calls `GET /api/trpc/docker.getConfig`.
 
 ```bash
-astron-collection docker get-config --containerId <value> [options]
+discord-enterprise docker get-config --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -45,12 +45,12 @@ astron-collection docker get-config --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-containers`
+### `discord-enterprise docker get-containers`
 
 Calls `GET /api/trpc/docker.getContainers`.
 
 ```bash
-astron-collection docker get-containers [options]
+discord-enterprise docker get-containers [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -58,12 +58,12 @@ astron-collection docker get-containers [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-containers-by-app-label`
+### `discord-enterprise docker get-containers-by-app-label`
 
 Calls `GET /api/trpc/docker.getContainersByAppLabel`.
 
 ```bash
-astron-collection docker get-containers-by-app-label --appName <value> --type <value> [options]
+discord-enterprise docker get-containers-by-app-label --appName <value> --type <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -73,12 +73,12 @@ astron-collection docker get-containers-by-app-label --appName <value> --type <v
 | `--type <value>` | string | Yes | `standalone`, `swarm` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-containers-by-app-name-match`
+### `discord-enterprise docker get-containers-by-app-name-match`
 
 Calls `GET /api/trpc/docker.getContainersByAppNameMatch`.
 
 ```bash
-astron-collection docker get-containers-by-app-name-match --appName <value> [options]
+discord-enterprise docker get-containers-by-app-name-match --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -88,12 +88,12 @@ astron-collection docker get-containers-by-app-name-match --appName <value> [opt
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-engine-info`
+### `discord-enterprise docker get-engine-info`
 
 Calls `GET /api/trpc/docker.getEngineInfo`.
 
 ```bash
-astron-collection docker get-engine-info [options]
+discord-enterprise docker get-engine-info [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -101,12 +101,12 @@ astron-collection docker get-engine-info [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-events`
+### `discord-enterprise docker get-events`
 
 Calls `GET /api/trpc/docker.getEvents`.
 
 ```bash
-astron-collection docker get-events [options]
+discord-enterprise docker get-events [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -115,24 +115,24 @@ astron-collection docker get-events [options]
 | `--minutes <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-fleet-containers`
+### `discord-enterprise docker get-fleet-containers`
 
 Calls `GET /api/trpc/docker.getFleetContainers`.
 
 ```bash
-astron-collection docker get-fleet-containers [options]
+discord-enterprise docker get-fleet-containers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-server-health`
+### `discord-enterprise docker get-server-health`
 
 Calls `GET /api/trpc/docker.getServerHealth`.
 
 ```bash
-astron-collection docker get-server-health [options]
+discord-enterprise docker get-server-health [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -141,12 +141,12 @@ astron-collection docker get-server-health [options]
 | `--sinceHours <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-service-containers-by-app-name`
+### `discord-enterprise docker get-service-containers-by-app-name`
 
 Calls `GET /api/trpc/docker.getServiceContainersByAppName`.
 
 ```bash
-astron-collection docker get-service-containers-by-app-name --appName <value> [options]
+discord-enterprise docker get-service-containers-by-app-name --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -155,12 +155,12 @@ astron-collection docker get-service-containers-by-app-name --appName <value> [o
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker get-stack-containers-by-app-name`
+### `discord-enterprise docker get-stack-containers-by-app-name`
 
 Calls `GET /api/trpc/docker.getStackContainersByAppName`.
 
 ```bash
-astron-collection docker get-stack-containers-by-app-name --appName <value> [options]
+discord-enterprise docker get-stack-containers-by-app-name --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -169,12 +169,12 @@ astron-collection docker get-stack-containers-by-app-name --appName <value> [opt
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker kill-container`
+### `discord-enterprise docker kill-container`
 
 Calls `POST /api/trpc/docker.killContainer`.
 
 ```bash
-astron-collection docker kill-container --containerId <value> [options]
+discord-enterprise docker kill-container --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -183,12 +183,12 @@ astron-collection docker kill-container --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker list-container-files`
+### `discord-enterprise docker list-container-files`
 
 Calls `GET /api/trpc/docker.listContainerFiles`.
 
 ```bash
-astron-collection docker list-container-files --containerId <value> --path <value> [options]
+discord-enterprise docker list-container-files --containerId <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -198,12 +198,12 @@ astron-collection docker list-container-files --containerId <value> --path <valu
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker read-container-file`
+### `discord-enterprise docker read-container-file`
 
 Calls `GET /api/trpc/docker.readContainerFile`.
 
 ```bash
-astron-collection docker read-container-file --containerId <value> --path <value> [options]
+discord-enterprise docker read-container-file --containerId <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -213,12 +213,12 @@ astron-collection docker read-container-file --containerId <value> --path <value
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker remove-container`
+### `discord-enterprise docker remove-container`
 
 Calls `POST /api/trpc/docker.removeContainer`.
 
 ```bash
-astron-collection docker remove-container --containerId <value> [options]
+discord-enterprise docker remove-container --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -227,12 +227,12 @@ astron-collection docker remove-container --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker restart-container`
+### `discord-enterprise docker restart-container`
 
 Calls `POST /api/trpc/docker.restartContainer`.
 
 ```bash
-astron-collection docker restart-container --containerId <value> [options]
+discord-enterprise docker restart-container --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -241,12 +241,12 @@ astron-collection docker restart-container --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker start-container`
+### `discord-enterprise docker start-container`
 
 Calls `POST /api/trpc/docker.startContainer`.
 
 ```bash
-astron-collection docker start-container --containerId <value> [options]
+discord-enterprise docker start-container --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -255,12 +255,12 @@ astron-collection docker start-container --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker stop-container`
+### `discord-enterprise docker stop-container`
 
 Calls `POST /api/trpc/docker.stopContainer`.
 
 ```bash
-astron-collection docker stop-container --containerId <value> [options]
+discord-enterprise docker stop-container --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -269,24 +269,24 @@ astron-collection docker stop-container --containerId <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker upload-file-to-container`
+### `discord-enterprise docker upload-file-to-container`
 
 Calls `POST /api/trpc/docker.uploadFileToContainer`.
 
 ```bash
-astron-collection docker upload-file-to-container [options]
+discord-enterprise docker upload-file-to-container [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker write-container-file`
+### `discord-enterprise docker write-container-file`
 
 Calls `POST /api/trpc/docker.writeContainerFile`.
 
 ```bash
-astron-collection docker write-container-file --containerId <value> --path <value> --content <value> [options]
+discord-enterprise docker write-container-file --containerId <value> --path <value> --content <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

@@ -7,10 +7,10 @@ import {
 	type InstanceCertificateInfo,
 	type InstanceIdentityDocument,
 	type InstanceIdentityStatus,
-	isAstronCollectionCapability,
-	isAstronCollectionProduct,
-	ASTRON_COLLECTION_IDENTITY_EXTENSION_OID,
-	type AstronCollectionCapability,
+	isDiscordEnterpriseCapability,
+	isDiscordEnterpriseProduct,
+	DISCORD_ENTERPRISE_IDENTITY_EXTENSION_OID,
+	type DiscordEnterpriseCapability,
 } from "./types";
 
 /**
@@ -40,17 +40,17 @@ const validateIdentityDocument = (
 		typeof document.instanceId !== "string" ||
 		!document.instanceId ||
 		typeof document.product !== "string" ||
-		!isAstronCollectionProduct(document.product) ||
+		!isDiscordEnterpriseProduct(document.product) ||
 		!Array.isArray(document.capabilities) ||
 		typeof document.subjectKeyFingerprint !== "string" ||
 		typeof document.createdAt !== "string"
 	) {
-		throw new Error("The Astron Collection instance identity document is malformed");
+		throw new Error("The Discord Enterprise instance identity document is malformed");
 	}
 
 	const capabilities = document.capabilities.filter(
-		(value): value is AstronCollectionCapability =>
-			typeof value === "string" && isAstronCollectionCapability(value),
+		(value): value is DiscordEnterpriseCapability =>
+			typeof value === "string" && isDiscordEnterpriseCapability(value),
 	);
 
 	return {
@@ -64,7 +64,7 @@ const validateIdentityDocument = (
 };
 
 /**
- * Extracts the Astron Collection identity document from an instance certificate. Throws
+ * Extracts the Discord Enterprise identity document from an instance certificate. Throws
  * when the certificate does not carry a valid document.
  */
 export const parseIdentityDocument = (
@@ -73,12 +73,12 @@ export const parseIdentityDocument = (
 	// @types/node-forge mistypes the `id` option as a number; at runtime forge
 	// looks it up as the dotted OID string, so the cast is required.
 	const extension = certificate.getExtension({
-		id: ASTRON_COLLECTION_IDENTITY_EXTENSION_OID,
+		id: DISCORD_ENTERPRISE_IDENTITY_EXTENSION_OID,
 	} as unknown as { id: number }) as { value?: unknown } | undefined;
 
 	if (!extension || typeof extension.value !== "string") {
 		throw new Error(
-			"The certificate has no Astron Collection instance identity extension",
+			"The certificate has no Discord Enterprise instance identity extension",
 		);
 	}
 
@@ -87,7 +87,7 @@ export const parseIdentityDocument = (
 		parsed = JSON.parse(extension.value);
 	} catch {
 		throw new Error(
-			"The Astron Collection instance identity extension is not valid JSON",
+			"The Discord Enterprise instance identity extension is not valid JSON",
 		);
 	}
 
@@ -102,7 +102,7 @@ export const parseIdentityDocumentJson = (
 	try {
 		parsed = JSON.parse(raw);
 	} catch {
-		throw new Error("The Astron Collection instance identity document is not valid JSON");
+		throw new Error("The Discord Enterprise instance identity document is not valid JSON");
 	}
 	return validateIdentityDocument(parsed);
 };

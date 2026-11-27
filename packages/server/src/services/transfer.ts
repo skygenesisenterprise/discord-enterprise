@@ -1,37 +1,37 @@
 import path from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import { db } from "@astron-collection/server/db";
+import { paths } from "@discord-enterprise/server/constants";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiTransferService,
 	deployments,
 	network,
 	type ServiceType,
-} from "@astron-collection/server/db/schema";
-import { removeService } from "@astron-collection/server/utils/docker/utils";
+} from "@discord-enterprise/server/db/schema";
+import { removeService } from "@discord-enterprise/server/utils/docker/utils";
 import {
 	removeDirectoryCode,
 	removeMonitoringDirectory,
-} from "@astron-collection/server/utils/filesystem/directory";
+} from "@discord-enterprise/server/utils/filesystem/directory";
 import {
 	execAsync,
 	execAsyncRemote,
-} from "@astron-collection/server/utils/process/execAsync";
-import { pipeBetweenServers } from "@astron-collection/server/utils/process/remoteStream";
+} from "@discord-enterprise/server/utils/process/execAsync";
+import { pipeBetweenServers } from "@discord-enterprise/server/utils/process/remoteStream";
 import {
 	readConfig,
 	readRemoteConfig,
 	removeTraefikConfig,
 	writeConfig,
 	writeConfigRemote,
-} from "@astron-collection/server/utils/traefik/application";
-import { manageDomain } from "@astron-collection/server/utils/traefik/domain";
-import { removeForwardAuthMiddleware } from "@astron-collection/server/utils/traefik/forward-auth";
+} from "@discord-enterprise/server/utils/traefik/application";
+import { manageDomain } from "@discord-enterprise/server/utils/traefik/domain";
+import { removeForwardAuthMiddleware } from "@discord-enterprise/server/utils/traefik/forward-auth";
 import {
 	deleteAllMiddlewares,
 	removePathMiddlewares,
-} from "@astron-collection/server/utils/traefik/middleware";
-import { createRedirectMiddleware } from "@astron-collection/server/utils/traefik/redirect";
-import { createSecurityMiddleware } from "@astron-collection/server/utils/traefik/security";
+} from "@discord-enterprise/server/utils/traefik/middleware";
+import { createRedirectMiddleware } from "@discord-enterprise/server/utils/traefik/redirect";
+import { createSecurityMiddleware } from "@discord-enterprise/server/utils/traefik/security";
 import { TRPCError } from "@trpc/server";
 import { eq, inArray, sql } from "drizzle-orm";
 import { quote } from "shell-quote";
@@ -487,8 +487,8 @@ export const transferService = async (
 		}
 	}
 
-	const sourceName = service.server?.name ?? "Astron Collection Server";
-	const targetName = targetServer?.name ?? "Astron Collection Server";
+	const sourceName = service.server?.name ?? "Discord Enterprise Server";
+	const targetName = targetServer?.name ?? "Discord Enterprise Server";
 	const originalNetworkIds =
 		"networkIds" in service ? service.networkIds : undefined;
 	let switched = false;

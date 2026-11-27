@@ -1,5 +1,5 @@
-import { db } from "@astron-collection/server/db";
-import { gitProvider, member } from "@astron-collection/server/db/schema";
+import { db } from "@discord-enterprise/server/db";
+import { gitProvider, member } from "@discord-enterprise/server/db/schema";
 import {
 	type GitProviderAdapter,
 	type GitProviderCapabilityMatrix,
@@ -12,7 +12,7 @@ import {
 	getGitProviderAdapter,
 	gitProviderAuthorizationMessages,
 	gitProviderLabels,
-} from "@astron-collection/server/utils/providers";
+} from "@discord-enterprise/server/utils/providers";
 import { TRPCError } from "@trpc/server";
 import { and, eq } from "drizzle-orm";
 

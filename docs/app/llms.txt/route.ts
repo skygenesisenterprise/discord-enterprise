@@ -5,7 +5,7 @@ import { source } from "@/lib/source";
 // no-op change for the standalone server.
 export const dynamic = "force-static";
 
-const baseUrl = "https://docs.astron-collection.com";
+const baseUrl = "https://docs.discord-enterprise.com";
 
 export function GET() {
 	const pages = source.getPages();
@@ -14,9 +14,9 @@ export function GET() {
 	);
 
 	const lines = [
-		"# Astron Collection Documentation",
+		"# Discord Enterprise Documentation",
 		"",
-		"> Astron Collection is an open-source, self-hostable Platform as a Service (PaaS) that simplifies the deployment and management of applications, databases, and services.",
+		"> Discord Enterprise is an open-source, self-hostable Platform as a Service (PaaS) that simplifies the deployment and management of applications, databases, and services.",
 		"",
 		"## Docs",
 		"",

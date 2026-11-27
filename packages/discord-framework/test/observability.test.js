@@ -38,7 +38,7 @@ describe("logger", () => {
 
 describe("metrics", () => {
   it("renders counters, gauges and histograms in Prometheus format", () => {
-    const metrics = createMetrics({ prefix: "astron" });
+    const metrics = createMetrics({ prefix: "discord-enterprise" });
 
     metrics.inc("events_total", { type: "member.joined" });
     metrics.inc("events_total", { type: "member.joined" }, 2);
@@ -47,13 +47,13 @@ describe("metrics", () => {
 
     const output = metrics.prometheus();
 
-    assert.match(output, /# TYPE astron_events_total counter/);
-    assert.match(output, /astron_events_total\{type="member\.joined"\} 3/);
-    assert.match(output, /astron_guilds 4/);
-    assert.match(output, /astron_command_duration_ms_bucket\{command="ping",le="10"\} 0/);
-    assert.match(output, /astron_command_duration_ms_bucket\{command="ping",le="50"\} 1/);
-    assert.match(output, /astron_command_duration_ms_bucket\{command="ping",le="\+Inf"\} 1/);
-    assert.match(output, /astron_command_duration_ms_count\{command="ping"\} 1/);
+    assert.match(output, /# TYPE discord_enterprise_events_total counter/);
+    assert.match(output, /discord_enterprise_events_total\{type="member\.joined"\} 3/);
+    assert.match(output, /discord_enterprise_guilds 4/);
+    assert.match(output, /discord_enterprise_command_duration_ms_bucket\{command="ping",le="10"\} 0/);
+    assert.match(output, /discord_enterprise_command_duration_ms_bucket\{command="ping",le="50"\} 1/);
+    assert.match(output, /discord_enterprise_command_duration_ms_bucket\{command="ping",le="\+Inf"\} 1/);
+    assert.match(output, /discord_enterprise_command_duration_ms_count\{command="ping"\} 1/);
   });
 });
 

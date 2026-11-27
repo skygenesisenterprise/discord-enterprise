@@ -24,11 +24,11 @@ export type TemplateProps = {
 };
 
 export const BuildFailedEmail = ({
-	projectName = "astron-collection",
+	projectName = "discord-enterprise",
 	applicationName = "frontend",
 	applicationType = "application",
 	errorMessage = "Error array.length is not a function",
-	buildLink = "https://astron-collection.com/projects/astron-collection-test/applications/astron-collection-test",
+	buildLink = "https://discord-enterprise.com/projects/discord-enterprise-test/applications/discord-enterprise-test",
 	date = "2023-05-01T00:00:00.000Z",
 }: TemplateProps) => {
 	const previewText = `Build failed for ${applicationName}`;
@@ -42,11 +42,11 @@ export const BuildFailedEmail = ({
 						<Section className="mt-[32px]">
 							<Img
 								src={
-									"https://raw.githubusercontent.com/skygenesisenterprise/astron-collection/refs/heads/master/apps/astron-collection/logo.png"
+									"https://raw.githubusercontent.com/skygenesisenterprise/discord-enterprise/refs/heads/master/apps/discord-enterprise/logo.png"
 								}
 								width="100"
 								height="50"
-								alt="Astron Collection"
+								alt="Discord Enterprise"
 								className="my-0 mx-auto"
 							/>
 						</Section>

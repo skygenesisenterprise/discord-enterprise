@@ -1,7 +1,7 @@
 import type {
 	TrafficDeviceType,
 	TrafficStatusClass,
-} from "@astron-collection/server/db/schema/traffic";
+} from "@discord-enterprise/server/db/schema/traffic";
 
 /**
  * Normalisation layer of the HTTP observability pipeline.
@@ -38,7 +38,7 @@ export interface TrafficHttpEvent {
 	bytesOut: number;
 	/** Total request duration (`Duration`, converted from nanoseconds). */
 	durationMs: number;
-	/** `ServiceName`, used to recognise Astron Collection's own control plane. */
+	/** `ServiceName`, used to recognise Discord Enterprise's own control plane. */
 	serviceName: string | null;
 	protocol: string | null;
 }
@@ -50,8 +50,8 @@ export interface ParsedTrafficLog {
 	invalidLines: number;
 }
 
-/** The Traefik service name of Astron Collection's own dashboard, when observed locally. */
-export const ASTRON_COLLECTION_SERVICE_NAME = "astron-collection-service-app@file";
+/** The Traefik service name of Discord Enterprise's own dashboard, when observed locally. */
+export const DISCORD_ENTERPRISE_SERVICE_NAME = "discord-enterprise-service-app@file";
 
 const MAX_ROUTE_LENGTH = 240;
 const MAX_ROUTE_SEGMENTS = 8;
@@ -341,7 +341,7 @@ export interface ResolvableProperty {
  * Resolve a request host to the property that owns it.
  *
  * Exact domain first, then the longest matching parent domain when sub-domains
- * are allowed, so `docs.astron-collection.com` wins over a declared `astron-collection.com` when
+ * are allowed, so `docs.discord-enterprise.com` wins over a declared `discord-enterprise.com` when
  * both are watched separately.
  */
 export const resolvePropertyId = (

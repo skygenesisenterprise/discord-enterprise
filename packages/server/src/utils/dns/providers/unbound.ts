@@ -1,5 +1,5 @@
-import type { unboundDnsConfigSchema } from "@astron-collection/server/db/schema";
-import { execAsyncRemote } from "@astron-collection/server/utils/process/execAsync";
+import type { unboundDnsConfigSchema } from "@discord-enterprise/server/db/schema";
+import { execAsyncRemote } from "@discord-enterprise/server/utils/process/execAsync";
 import type { z } from "zod";
 import { stripTrailingDot, toSubdomain } from "../http";
 import type { DnsClient, DnsRecord, DnsZone } from "../types";

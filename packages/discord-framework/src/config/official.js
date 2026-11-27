@@ -1,5 +1,5 @@
 /**
- * Official Astron Collection presence constants.
+ * Official Discord Enterprise presence constants.
  *
  * The voice channel below is a presence marker on the official guild: bots join
  * it silently and never play audio in it. It is defined once here so no bot
@@ -7,15 +7,15 @@
  * for a staging guild.
  *
  * The official guild id is the central constant `OFFICIAL_GUILD_ID`, overridable
- * with `ASTRON_OFFICIAL_GUILD_ID` for a staging guild. It is validated before any
+ * with `DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID` for a staging guild. It is validated before any
  * connection attempt, and a channel resolved in another guild is refused: a bot
  * never joins a third-party guild.
  */
 
-/** Official Astron Collection guild. */
+/** Official Discord Enterprise guild. */
 export const OFFICIAL_GUILD_ID = "1369779785273839749";
 
-/** Official Astron Collection presence voice channel. */
+/** Official Discord Enterprise presence voice channel. */
 export const OFFICIAL_PRESENCE_CHANNEL_ID = "1564590674194473000";
 
 const SNOWFLAKE = /^\d{17,20}$/;

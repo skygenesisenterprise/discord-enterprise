@@ -10,7 +10,7 @@ import {
   parseBotConfig,
   toEnvPrefix,
 } from "../src/config/env.js";
-import { ConfigurationError, normalizeError, userMessageFor, AstronError } from "../src/errors.js";
+import { ConfigurationError, normalizeError, userMessageFor, DiscordEnterpriseError } from "../src/errors.js";
 import { createLogger, redact, scrubString } from "../src/logger.js";
 import { BOT, GUILD_ID, PRESENCE_CHANNEL_ID, collectLogs } from "./helpers.js";
 
@@ -26,8 +26,8 @@ describe("bot configuration", () => {
   it("reads credentials scoped to the bot, before the shared ones", () => {
     const config = parseBotConfig(
       {
-        ASTRON_MAIN_DISCORD_TOKEN: "main-token",
-        ASTRON_MAIN_DISCORD_CLIENT_ID: "111111111111111111",
+        DISCORD_ENTERPRISE_MAIN_DISCORD_TOKEN: "main-token",
+        DISCORD_ENTERPRISE_MAIN_DISCORD_CLIENT_ID: "111111111111111111",
         DISCORD_TOKEN: "shared-token",
         DISCORD_CLIENT_ID: "999999999999999999",
       },
@@ -36,7 +36,7 @@ describe("bot configuration", () => {
 
     assert.equal(config.token, "main-token");
     assert.equal(config.clientId, "111111111111111111");
-    assert.equal(config.tokenEnvVar, "ASTRON_MAIN_DISCORD_TOKEN");
+    assert.equal(config.tokenEnvVar, "DISCORD_ENTERPRISE_MAIN_DISCORD_TOKEN");
     assert.equal(config.usesSharedCredentials, false);
     assert.equal(config.warnings.length, 0);
   });
@@ -52,7 +52,7 @@ describe("bot configuration", () => {
     assert.equal(config.usesSharedCredentials, true);
     assert.deepEqual(
       config.warnings.map((warning) => warning.variable).sort(),
-      ["ASTRON_PROTECT_DISCORD_CLIENT_ID", "ASTRON_PROTECT_DISCORD_TOKEN"].sort(),
+      ["DISCORD_ENTERPRISE_PROTECT_DISCORD_CLIENT_ID", "DISCORD_ENTERPRISE_PROTECT_DISCORD_TOKEN"].sort(),
     );
   });
 
@@ -60,14 +60,14 @@ describe("bot configuration", () => {
     assert.equal(toEnvPrefix("main"), "MAIN");
     assert.equal(toEnvPrefix("guild-center"), "GUILD_CENTER");
     assert.deepEqual(credentialEnvKeys("guild-center").token, [
-      "ASTRON_GUILD_CENTER_DISCORD_TOKEN",
+      "DISCORD_ENTERPRISE_GUILD_CENTER_DISCORD_TOKEN",
       "DISCORD_TOKEN",
     ]);
 
     const config = parseBotConfig(
       {
-        ASTRON_GUILD_CENTER_DISCORD_TOKEN: "guild-token",
-        ASTRON_GUILD_CENTER_DISCORD_CLIENT_ID: "222222222222222222",
+        DISCORD_ENTERPRISE_GUILD_CENTER_DISCORD_TOKEN: "guild-token",
+        DISCORD_ENTERPRISE_GUILD_CENTER_DISCORD_CLIENT_ID: "222222222222222222",
       },
       { bot: "guild-center" },
     );
@@ -96,7 +96,7 @@ describe("bot configuration", () => {
       {
         DISCORD_TOKEN: "token",
         DISCORD_CLIENT_ID: "123456789012345678",
-        ASTRON_OFFICIAL_GUILD_ID: GUILD_ID,
+        DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID: GUILD_ID,
       },
       { bot: BOT },
     );
@@ -112,8 +112,8 @@ describe("bot configuration", () => {
       {
         DISCORD_TOKEN: "token",
         DISCORD_CLIENT_ID: "1",
-        ASTRON_OFFICIAL_GUILD_ID: GUILD_ID,
-        ASTRON_VOICE_PRESENCE_ENABLED: "false",
+        DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID: GUILD_ID,
+        DISCORD_ENTERPRISE_VOICE_PRESENCE_ENABLED: "false",
       },
       { bot: BOT },
     );
@@ -125,22 +125,22 @@ describe("bot configuration", () => {
 
   it("falls back on an unknown command scope and warns", () => {
     const config = parseBotConfig(
-      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", ASTRON_COMMAND_SCOPE: "everywhere" },
+      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", DISCORD_ENTERPRISE_COMMAND_SCOPE: "everywhere" },
       { bot: BOT },
     );
 
     assert.equal(config.commandScope, "global");
-    assert.ok(config.warnings.some((warning) => warning.variable === "ASTRON_COMMAND_SCOPE"));
+    assert.ok(config.warnings.some((warning) => warning.variable === "DISCORD_ENTERPRISE_COMMAND_SCOPE"));
   });
 
   it("warns when guild scope has no guild id", () => {
     const config = parseBotConfig(
-      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", ASTRON_COMMAND_SCOPE: "guild" },
+      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", DISCORD_ENTERPRISE_COMMAND_SCOPE: "guild" },
       { bot: BOT },
     );
 
     assert.equal(config.commandScope, "guild");
-    assert.ok(config.warnings.some((warning) => warning.variable === "ASTRON_COMMAND_GUILD_ID"));
+    assert.ok(config.warnings.some((warning) => warning.variable === "DISCORD_ENTERPRISE_COMMAND_GUILD_ID"));
   });
 
   it("accepts the legacy DISCORD_COMMAND_SCOPE variable", () => {
@@ -160,12 +160,12 @@ describe("bot configuration", () => {
 
   it("falls back on an unknown log level", () => {
     const config = parseBotConfig(
-      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", ASTRON_LOG_LEVEL: "verbose" },
+      { DISCORD_TOKEN: "token", DISCORD_CLIENT_ID: "1", DISCORD_ENTERPRISE_LOG_LEVEL: "verbose" },
       { bot: BOT },
     );
 
     assert.equal(config.logLevel, "info");
-    assert.ok(config.warnings.some((warning) => warning.variable === "ASTRON_LOG_LEVEL"));
+    assert.ok(config.warnings.some((warning) => warning.variable === "DISCORD_ENTERPRISE_LOG_LEVEL"));
   });
 });
 
@@ -240,7 +240,7 @@ describe("structured logging", () => {
 
 describe("error normalization", () => {
   it("keeps expected refusals distinguishable", () => {
-    const error = new AstronError("nope", { code: "X", expected: true, userMessage: "Refusé." });
+    const error = new DiscordEnterpriseError("nope", { code: "X", expected: true, userMessage: "Refusé." });
     const normalized = normalizeError(error);
 
     assert.equal(normalized.expected, true);

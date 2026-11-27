@@ -1,8 +1,8 @@
-# @astron-collection/discord-framework
+# @discord-enterprise/discord-framework
 
-Technical foundation shared by the Astron Collection Discord bots. It contains
+Technical foundation shared by the Discord Enterprise Discord bots. It contains
 **no business logic**: no command, no event, no guild setting, no domain rule of
-`astron`, `protect`, `logger`, `guild`, `automations` or `player` lives here.
+`discord-enterprise`, `protect`, `logger`, `guild`, `automations` or `player` lives here.
 
 ```
 bot/<name>/          own catalogue: commands, events, services, repositories, config
@@ -19,7 +19,7 @@ packages/discord-framework/   shared technical mechanisms
 | `src/commands/registry.js` | per-bot registry, duplicate detection, **foreign-bot rejection** |
 | `src/commands/loader.js` | command/event discovery inside one directory, per-file error containment |
 | `src/interactions/router.js` | routing for slash/user/message commands, buttons, selects, modals, autocomplete |
-| `src/interactions/custom-id.js` | versioned `astron:v1:<namespace>:<action>[:<value>]` ids, strict parsing |
+| `src/interactions/custom-id.js` | versioned `discord-enterprise:v1:<namespace>:<action>[:<value>]` ids, strict parsing |
 | `src/interactions/components.js` | per-bot button/select/modal handler registry |
 | `src/permissions.js` | layered authorization, fail-closed |
 | `src/errors.js` | expected vs unexpected errors, safe user messages |
@@ -49,7 +49,7 @@ legacy shape (`export const data` + `export function execute`) is adapted by
 
 ```js
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
-import { defineCommand } from "@astron-collection/discord-framework";
+import { defineCommand } from "@discord-enterprise/discord-framework";
 
 export default defineCommand({
   data: new SlashCommandBuilder().setName("ban").setDescription("Bannir un membre."),
@@ -100,7 +100,7 @@ Four layers, never merged:
 
 1. native Discord permissions of the user — checked at execution;
 2. native Discord permissions of the bot — checked at execution;
-3. Astron business rules — the bot's `policy` callback;
+3. Discord Enterprise business rules — the bot's `policy` callback;
 4. registration-time declaration — Discord visibility only.
 
 A missing holder, a throwing policy, or an unreadable permission set is a
@@ -148,7 +148,7 @@ Guards:
   written for another Application ID is refused
   (`DEPLOY_APPLICATION_MISMATCH`) instead of silently replacing another
   distribution's catalogue.
-- **explicit scope** — `global`, `guild` (requires `ASTRON_COMMAND_GUILD_ID`) or
+- **explicit scope** — `global`, `guild` (requires `DISCORD_ENTERPRISE_COMMAND_GUILD_ID`) or
   `none`.
 - **validation** — an invalid catalogue fails before any REST call.
 
@@ -163,9 +163,9 @@ client is ready, silently (`selfDeaf`, `selfMute`), and only in the official
 guild:
 
 - the channel id is the central constant `OFFICIAL_PRESENCE_CHANNEL_ID`
-  (`1564590674194473000`), overridable with `ASTRON_PRESENCE_VOICE_CHANNEL_ID`;
+  (`1564590674194473000`), overridable with `DISCORD_ENTERPRISE_PRESENCE_VOICE_CHANNEL_ID`;
 - the official guild is the central constant `OFFICIAL_GUILD_ID`
-  (`1369779785273839749`), overridable with `ASTRON_OFFICIAL_GUILD_ID`; a channel
+  (`1369779785273839749`), overridable with `DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID`; a channel
   resolved in another guild is refused;
 - the channel must exist, be in that guild, be a voice/stage channel, and grant
   `ViewChannel` + `Connect`; otherwise presence is refused and logged;
@@ -177,7 +177,7 @@ guild:
 - `state()` / `health()` expose `status`, `guildId`, `guildIdSource`, `channelId`,
   `attempts`, `connectedAt`, `lastError`, `sessions`.
 
-A bot that plays audio (Astron Player) takes a lease:
+A bot that plays audio (Discord Enterprise Player) takes a lease:
 
 ```js
 const lease = voice.sessions.acquire({ guildId, owner: "player" });
@@ -199,16 +199,16 @@ when one is used.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `ASTRON_<BOT>_DISCORD_TOKEN` | — (required) | That bot's token (`ASTRON_MAIN_DISCORD_TOKEN`) |
-| `ASTRON_<BOT>_DISCORD_CLIENT_ID` | — (required) | That bot's Application ID |
+| `DISCORD_ENTERPRISE_<BOT>_DISCORD_TOKEN` | — (required) | That bot's token (`DISCORD_ENTERPRISE_MAIN_DISCORD_TOKEN`) |
+| `DISCORD_ENTERPRISE_<BOT>_DISCORD_CLIENT_ID` | — (required) | That bot's Application ID |
 | `DISCORD_TOKEN`, `DISCORD_CLIENT_ID` | — | Deprecated shared fallback (warned when used) |
-| `ASTRON_COMMAND_SCOPE` | `global` | `global` \| `guild` \| `none` |
-| `ASTRON_COMMAND_GUILD_ID` | — | Required for `guild` scope |
-| `DISCORD_COMMAND_SCOPE` | — | Deprecated alias of `ASTRON_COMMAND_SCOPE` |
-| `ASTRON_LOG_LEVEL` / `LOG_LEVEL` | `info` | `debug` \| `info` \| `warn` \| `error` |
-| `ASTRON_VOICE_PRESENCE_ENABLED` | `true` | Enable the official presence |
-| `ASTRON_OFFICIAL_GUILD_ID` | `1369779785273839749` | Official guild (central constant; override only for staging) |
-| `ASTRON_PRESENCE_VOICE_CHANNEL_ID` | `1564590674194473000` | Official presence channel |
+| `DISCORD_ENTERPRISE_COMMAND_SCOPE` | `global` | `global` \| `guild` \| `none` |
+| `DISCORD_ENTERPRISE_COMMAND_GUILD_ID` | — | Required for `guild` scope |
+| `DISCORD_COMMAND_SCOPE` | — | Deprecated alias of `DISCORD_ENTERPRISE_COMMAND_SCOPE` |
+| `DISCORD_ENTERPRISE_LOG_LEVEL` / `LOG_LEVEL` | `info` | `debug` \| `info` \| `warn` \| `error` |
+| `DISCORD_ENTERPRISE_VOICE_PRESENCE_ENABLED` | `true` | Enable the official presence |
+| `DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID` | `1369779785273839749` | Official guild (central constant; override only for staging) |
+| `DISCORD_ENTERPRISE_PRESENCE_VOICE_CHANNEL_ID` | `1564590674194473000` | Official presence channel |
 | `NODE_ENV`, `APP_VERSION`, `GIT_COMMIT_SHA`, `BUILD_DATE` | — | Release metadata |
 | `DISCORD_WELCOME_DM_ENABLED` | `true` | Bot behaviour |
 | `DISCORD_ANNOUNCE_DEPLOYMENTS` | `true` | Deployment announcement |

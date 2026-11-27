@@ -1,39 +1,39 @@
 ---
 title: "Custom roles"
-description: "Organization roles built from a set of permission statements. Generated from the `astron-collection` command surface."
+description: "Organization roles built from a set of permission statements. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Organization roles built from a set of permission statements.
 
-`astron-collection custom-role` exposes **6 commands**. They map one-to-one onto the `custom-role.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise custom-role` exposes **6 commands**. They map one-to-one onto the `custom-role.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection custom-role --help` to list these commands in your terminal, or
-	`astron-collection custom-role <command> --help` for a single command.
+	Run `discord-enterprise custom-role --help` to list these commands in your terminal, or
+	`discord-enterprise custom-role <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection custom-role all`
+### `discord-enterprise custom-role all`
 
 Calls `GET /api/trpc/customRole.all`.
 
 ```bash
-astron-collection custom-role all [options]
+discord-enterprise custom-role all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection custom-role create`
+### `discord-enterprise custom-role create`
 
 Calls `POST /api/trpc/customRole.create`.
 
 ```bash
-astron-collection custom-role create --roleName <value> --permissions <json> [options]
+discord-enterprise custom-role create --roleName <value> --permissions <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,24 +42,24 @@ astron-collection custom-role create --roleName <value> --permissions <json> [op
 | `--permissions <json>` | object | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection custom-role get-statements`
+### `discord-enterprise custom-role get-statements`
 
 Calls `GET /api/trpc/customRole.getStatements`.
 
 ```bash
-astron-collection custom-role get-statements [options]
+discord-enterprise custom-role get-statements [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection custom-role members-by-role`
+### `discord-enterprise custom-role members-by-role`
 
 Calls `GET /api/trpc/customRole.membersByRole`.
 
 ```bash
-astron-collection custom-role members-by-role --roleName <value> [options]
+discord-enterprise custom-role members-by-role --roleName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -67,12 +67,12 @@ astron-collection custom-role members-by-role --roleName <value> [options]
 | `--roleName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection custom-role remove`
+### `discord-enterprise custom-role remove`
 
 Calls `POST /api/trpc/customRole.remove`.
 
 ```bash
-astron-collection custom-role remove --roleName <value> [options]
+discord-enterprise custom-role remove --roleName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -80,12 +80,12 @@ astron-collection custom-role remove --roleName <value> [options]
 | `--roleName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection custom-role update`
+### `discord-enterprise custom-role update`
 
 Calls `POST /api/trpc/customRole.update`.
 
 ```bash
-astron-collection custom-role update --roleName <value> --permissions <json> [options]
+discord-enterprise custom-role update --roleName <value> --permissions <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |

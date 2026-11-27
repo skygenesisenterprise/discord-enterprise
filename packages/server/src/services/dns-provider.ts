@@ -1,18 +1,18 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateDnsProvider,
 	type DnsProviderConfig,
 	dnsProvider,
 	dnsProviderTypes,
-} from "@astron-collection/server/db/schema";
-import type { DnsRecordInput } from "@astron-collection/server/utils/dns";
+} from "@discord-enterprise/server/db/schema";
+import type { DnsRecordInput } from "@discord-enterprise/server/utils/dns";
 import {
 	getDnsCapabilities,
 	getDnsClient,
 	getDnsProviderCategory,
 	parseZoneFile,
 	serializeZoneFile,
-} from "@astron-collection/server/utils/dns";
+} from "@discord-enterprise/server/utils/dns";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";
@@ -44,7 +44,7 @@ const SENSITIVE_FIELDS: Record<DnsProviderConfig["providerType"], string[]> = {
 	coredns: ["password"],
 	unbound: [],
 	custom: ["apiToken"],
-	"astron-collection-internal": [],
+	"discord-enterprise-internal": [],
 };
 
 export const maskDnsProviderConfig = (
@@ -215,7 +215,7 @@ const withAdapterScope = (
 	config: DnsProviderConfig,
 	provider?: Pick<DnsProvider, "dnsProviderId" | "organizationId">,
 ) =>
-	config.providerType === "astron-collection-internal"
+	config.providerType === "discord-enterprise-internal"
 		? {
 				...config,
 				dnsProviderId: provider?.dnsProviderId ?? "",

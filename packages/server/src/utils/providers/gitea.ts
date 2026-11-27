@@ -1,11 +1,11 @@
 import { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import {
 	findGiteaById,
 	type Gitea,
 	updateGitea,
-} from "@astron-collection/server/services/gitea";
-import type { InferResultType } from "@astron-collection/server/types/with";
+} from "@discord-enterprise/server/services/gitea";
+import type { InferResultType } from "@discord-enterprise/server/types/with";
 import { TRPCError } from "@trpc/server";
 import { quote } from "shell-quote";
 import {
@@ -57,7 +57,7 @@ export const refreshGiteaToken = async (giteaProviderId: string) => {
 		}
 
 		// Token is expired or about to expire, refresh it
-		// Use internal URL when Gitea is on same instance as Astron Collection
+		// Use internal URL when Gitea is on same instance as Discord Enterprise
 		const baseUrl = giteaProvider.giteaInternalUrl || giteaProvider.giteaUrl;
 		const tokenEndpoint = `${baseUrl}/login/oauth/access_token`;
 		const params = new URLSearchParams({

@@ -41,7 +41,7 @@ export const ERROR_CODES = Object.freeze({
 /** Generic message shown when the error is not meant to be read by a user. */
 export const GENERIC_USER_MESSAGE = "Une erreur est survenue pendant l'exécution de la commande.";
 
-export class AstronError extends Error {
+export class DiscordEnterpriseError extends Error {
   /**
    * @param {string} message Internal, technical message (logged).
    * @param {object} [options]
@@ -61,31 +61,31 @@ export class AstronError extends Error {
   }
 }
 
-export class ConfigurationError extends AstronError {
+export class ConfigurationError extends DiscordEnterpriseError {
   constructor(message, options = {}) {
     super(message, { code: ERROR_CODES.CONFIGURATION_INVALID, expected: true, ...options });
   }
 }
 
-export class UserInputError extends AstronError {
+export class UserInputError extends DiscordEnterpriseError {
   constructor(message, options = {}) {
     super(message, { code: ERROR_CODES.COMMAND_INVALID, expected: true, ...options });
   }
 }
 
-export class PermissionError extends AstronError {
+export class PermissionError extends DiscordEnterpriseError {
   constructor(message, options = {}) {
     super(message, { code: ERROR_CODES.MISSING_PERMISSION, expected: true, ...options });
   }
 }
 
-export class NotFoundError extends AstronError {
+export class NotFoundError extends DiscordEnterpriseError {
   constructor(message, options = {}) {
     super(message, { code: ERROR_CODES.INTERACTION_UNKNOWN, expected: true, ...options });
   }
 }
 
-export class InteractionExpiredError extends AstronError {
+export class InteractionExpiredError extends DiscordEnterpriseError {
   constructor(message = "Cette interaction a expiré et ne peut plus être utilisée.", options = {}) {
     super(message, {
       code: ERROR_CODES.INTERACTION_EXPIRED,
@@ -96,13 +96,13 @@ export class InteractionExpiredError extends AstronError {
   }
 }
 
-export function isAstronError(error) {
-  return error instanceof AstronError;
+export function isDiscordEnterpriseError(error) {
+  return error instanceof DiscordEnterpriseError;
 }
 
 /** Turn any thrown value into a stable, loggable shape. */
 export function normalizeError(error) {
-  if (error instanceof AstronError) {
+  if (error instanceof DiscordEnterpriseError) {
     return {
       name: error.name,
       message: error.message,

@@ -94,7 +94,7 @@ export const mysql = pgTable("mysql", {
 		onDelete: "cascade",
 	}),
 	networkIds: text("networkIds").array().default([]),
-	detachAstronCollectionNetwork: boolean("detachAstronCollectionNetwork")
+	detachDiscordEnterpriseNetwork: boolean("detachDiscordEnterpriseNetwork")
 		.notNull()
 		.default(false),
 });
@@ -157,7 +157,7 @@ const createSchema = createInsertSchema(mysql, {
 	endpointSpecSwarm: EndpointSpecSwarmSchema.nullable(),
 	ulimitsSwarm: UlimitsSwarmSchema.nullable(),
 	networkIds: z.array(z.string()).optional(),
-	detachAstronCollectionNetwork: z.boolean().optional(),
+	detachDiscordEnterpriseNetwork: z.boolean().optional(),
 });
 
 export const apiCreateMySql = createSchema.pick({

@@ -1,7 +1,7 @@
 import {
 	execAsync,
 	execAsyncRemote,
-} from "@astron-collection/server/utils/process/execAsync";
+} from "@discord-enterprise/server/utils/process/execAsync";
 import { quote } from "shell-quote";
 
 export interface DockerImage {

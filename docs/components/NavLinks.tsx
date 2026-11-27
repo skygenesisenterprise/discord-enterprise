@@ -20,22 +20,22 @@ export function NavLinks() {
 	const links = [
 		{
 			text: "Login",
-			url: "https://app.astron-collection.com/",
+			url: "https://app.discord-enterprise.com/",
 			icon: LogIn,
 		},
 		{
 			text: "Sign Up",
-			url: "https://app.astron-collection.com/register",
+			url: "https://app.discord-enterprise.com/register",
 			icon: UserPlus,
 		},
 		{
 			text: "Website",
-			url: "https://astron-collection.com",
+			url: "https://discord-enterprise.com",
 			icon: Globe,
 		},
 		{
 			text: "Templates",
-			url: "https://templates.astron-collection.com",
+			url: "https://templates.discord-enterprise.com",
 			icon: LayoutGrid,
 		},
 		{
@@ -60,12 +60,12 @@ export function NavLinks() {
 		},
 		{
 			text: "Github",
-			url: "https://github.com/skygenesisenterprise/astron-collection",
+			url: "https://github.com/skygenesisenterprise/discord-enterprise",
 			icon: Github,
 		},
 		{
 			text: "Blog",
-			url: "https://astron-collection.com/blog",
+			url: "https://discord-enterprise.com/blog",
 			icon: Rss,
 		},
 	];

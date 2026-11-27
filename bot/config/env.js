@@ -9,7 +9,7 @@ import {
   defineConfigSchema,
   loadConfig,
   runtimeVariables,
-} from "@astron-collection/discord-framework";
+} from "@discord-enterprise/discord-framework";
 import { BOT, LINKS } from "./bot.js";
 
 const botRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -27,23 +27,23 @@ const schema = defineConfigSchema({
     ...runtimeVariables(),
     {
       key: "databasePath",
-      env: ["ASTRON_DATABASE_PATH"],
+      env: ["DISCORD_ENTERPRISE_DATABASE_PATH"],
       default: "",
-      description: "SQLite file; defaults to <dataDir>/astron.sqlite3.",
+      description: "SQLite file; defaults to <dataDir>/discord-enterprise.sqlite3.",
     },
     {
       key: "docsUrl",
-      env: ["ASTRON_DOCS_URL"],
+      env: ["DISCORD_ENTERPRISE_DOCS_URL"],
       default: LINKS.docs,
     },
     {
       key: "supportUrl",
-      env: ["ASTRON_SUPPORT_URL"],
+      env: ["DISCORD_ENTERPRISE_SUPPORT_URL"],
       default: LINKS.issues,
     },
     {
       key: "invitePermissions",
-      env: ["ASTRON_INVITE_PERMISSIONS"],
+      env: ["DISCORD_ENTERPRISE_INVITE_PERMISSIONS"],
       default: "2048",
       description: "Permission bitmask embedded in /invite (Send Messages).",
     },

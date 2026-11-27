@@ -1,63 +1,63 @@
 ---
 title: "Organizations"
-description: "Organizations, members, invitations and the active organization. Generated from the `astron-collection` command surface."
+description: "Organizations, members, invitations and the active organization. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Organizations, members, invitations and the active organization.
 
-`astron-collection organization` exposes **11 commands**. They map one-to-one onto the `organization.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise organization` exposes **11 commands**. They map one-to-one onto the `organization.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection organization --help` to list these commands in your terminal, or
-	`astron-collection organization <command> --help` for a single command.
+	Run `discord-enterprise organization --help` to list these commands in your terminal, or
+	`discord-enterprise organization <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection organization active`
+### `discord-enterprise organization active`
 
 Calls `GET /api/trpc/organization.active`.
 
 ```bash
-astron-collection organization active [options]
+discord-enterprise organization active [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization all`
+### `discord-enterprise organization all`
 
 Calls `GET /api/trpc/organization.all`.
 
 ```bash
-astron-collection organization all [options]
+discord-enterprise organization all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization all-invitations`
+### `discord-enterprise organization all-invitations`
 
 Calls `GET /api/trpc/organization.allInvitations`.
 
 ```bash
-astron-collection organization all-invitations [options]
+discord-enterprise organization all-invitations [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization create`
+### `discord-enterprise organization create`
 
 Calls `POST /api/trpc/organization.create`.
 
 ```bash
-astron-collection organization create --name <value> [options]
+discord-enterprise organization create --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -66,12 +66,12 @@ astron-collection organization create --name <value> [options]
 | `--logo <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization delete`
+### `discord-enterprise organization delete`
 
 Calls `POST /api/trpc/organization.delete`.
 
 ```bash
-astron-collection organization delete --organizationId <value> [options]
+discord-enterprise organization delete --organizationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -79,12 +79,12 @@ astron-collection organization delete --organizationId <value> [options]
 | `--organizationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization invite-member`
+### `discord-enterprise organization invite-member`
 
 Calls `POST /api/trpc/organization.inviteMember`.
 
 ```bash
-astron-collection organization invite-member --email <value> --role <value> [options]
+discord-enterprise organization invite-member --email <value> --role <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -93,12 +93,12 @@ astron-collection organization invite-member --email <value> --role <value> [opt
 | `--role <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization one`
+### `discord-enterprise organization one`
 
 Calls `GET /api/trpc/organization.one`.
 
 ```bash
-astron-collection organization one --organizationId <value> [options]
+discord-enterprise organization one --organizationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -106,12 +106,12 @@ astron-collection organization one --organizationId <value> [options]
 | `--organizationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization remove-invitation`
+### `discord-enterprise organization remove-invitation`
 
 Calls `POST /api/trpc/organization.removeInvitation`.
 
 ```bash
-astron-collection organization remove-invitation --invitationId <value> [options]
+discord-enterprise organization remove-invitation --invitationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -119,12 +119,12 @@ astron-collection organization remove-invitation --invitationId <value> [options
 | `--invitationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization set-default`
+### `discord-enterprise organization set-default`
 
 Calls `POST /api/trpc/organization.setDefault`.
 
 ```bash
-astron-collection organization set-default --organizationId <value> [options]
+discord-enterprise organization set-default --organizationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -132,12 +132,12 @@ astron-collection organization set-default --organizationId <value> [options]
 | `--organizationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization update`
+### `discord-enterprise organization update`
 
 Calls `POST /api/trpc/organization.update`.
 
 ```bash
-astron-collection organization update --organizationId <value> --name <value> [options]
+discord-enterprise organization update --organizationId <value> --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -148,12 +148,12 @@ astron-collection organization update --organizationId <value> --name <value> [o
 | `--defaultRole <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection organization update-member-role`
+### `discord-enterprise organization update-member-role`
 
 Calls `POST /api/trpc/organization.updateMemberRole`.
 
 ```bash
-astron-collection organization update-member-role --memberId <value> --role <value> [options]
+discord-enterprise organization update-member-role --memberId <value> --role <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

@@ -1,6 +1,6 @@
 {
 	"title": "Templates",
-	"description": "Blueprints and application examples you can deploy on Astron Collection.",
+	"description": "Blueprints and application examples you can deploy on Discord Enterprise.",
 	"icon": "LayoutTemplate",
 	"root": true,
 	"pages": [

@@ -9,14 +9,14 @@ export const IS_CLOUD = process.env.IS_CLOUD === "true";
  *
  * Disabled by default: the feature stays in the tree but is unreachable through
  * tRPC, OpenAPI, MCP, the logo route and the dashboard. An operator can opt back
- * in explicitly with ASTRON_COLLECTION_TEMPLATES_ENABLED=true (also accepts 1/yes).
+ * in explicitly with DISCORD_ENTERPRISE_TEMPLATES_ENABLED=true (also accepts 1/yes).
  */
-export const ASTRON_COLLECTION_TEMPLATES_ENABLED = [
+export const DISCORD_ENTERPRISE_TEMPLATES_ENABLED = [
 	"1",
 	"true",
 	"yes",
 ].includes(
-	(process.env.ASTRON_COLLECTION_TEMPLATES_ENABLED ?? "").toLowerCase(),
+	(process.env.DISCORD_ENTERPRISE_TEMPLATES_ENABLED ?? "").toLowerCase(),
 );
 
 /**
@@ -24,45 +24,45 @@ export const ASTRON_COLLECTION_TEMPLATES_ENABLED = [
  * capability model (issue #75 §12); it is never the sole basis for unlocking a
  * protected product.
  */
-export const ASTRON_COLLECTION_FLAVOR = process.env.ASTRON_COLLECTION_FLAVOR;
+export const DISCORD_ENTERPRISE_FLAVOR = process.env.DISCORD_ENTERPRISE_FLAVOR;
 
 /**
  * Product the instance was launched as (`self`, `cloud` or `console`).
  *
  * This is the launcher's explicit declaration and takes precedence over the
- * legacy `ASTRON_COLLECTION_FLAVOR` / `IS_CLOUD` hints. It is *not* an authorization: a
+ * legacy `DISCORD_ENTERPRISE_FLAVOR` / `IS_CLOUD` hints. It is *not* an authorization: a
  * protected product still fails closed without a signed entitlement. It answers
  * "which surface was started", which is what the console/cloud UI needs even
  * when a persisted instance identity was minted for another product.
  */
-export const ASTRON_COLLECTION_PRODUCT = process.env.ASTRON_COLLECTION_PRODUCT;
+export const DISCORD_ENTERPRISE_PRODUCT = process.env.DISCORD_ENTERPRISE_PRODUCT;
 
 /**
- * Public key Astron Collection signs cloud/console entitlements with. Only the public half
+ * Public key Discord Enterprise signs cloud/console entitlements with. Only the public half
  * ships here; the signing key is kept offline. Empty by default so a protected
  * product fails closed until a real key is configured.
  */
-export const ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY =
-	process.env.ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY ?? "";
+export const DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY =
+	process.env.DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY ?? "";
 
 /** Optional path to the entitlement public key, for file-based deployments. */
-export const ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE =
-	process.env.ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE;
+export const DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE =
+	process.env.DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE;
 
 /**
  * Development-only escape hatch for protected products (cloud/console).
  *
  * Local development must be able to boot a protected product without a real
- * Astron Collection-signed entitlement, which is only minted by Astron Collection's authority. It is
+ * Discord Enterprise-signed entitlement, which is only minted by Discord Enterprise's authority. It is
  * never a security downgrade: the check is ignored whenever NODE_ENV=production,
  * so a leaked environment variable can never unlock a protected product on a
- * real host. Opt in explicitly with ASTRON_COLLECTION_ALLOW_UNLICENSED_DEV=1; the dev
+ * real host. Opt in explicitly with DISCORD_ENTERPRISE_ALLOW_UNLICENSED_DEV=1; the dev
  * Compose service sets it automatically.
  */
 export const allowUnlicensedDevInstance = (): boolean =>
 	process.env.NODE_ENV !== "production" &&
 	["1", "true", "yes"].includes(
-		(process.env.ASTRON_COLLECTION_ALLOW_UNLICENSED_DEV ?? "").toLowerCase(),
+		(process.env.DISCORD_ENTERPRISE_ALLOW_UNLICENSED_DEV ?? "").toLowerCase(),
 	);
 
 /**
@@ -72,14 +72,14 @@ export const allowUnlicensedDevInstance = (): boolean =>
  * `torrc` from `/etc/tor/torrc` and keep its Tor data directory in
  * `/var/lib/tor`.
  */
-export const ASTRON_COLLECTION_TOR_IMAGE =
-	process.env.ASTRON_COLLECTION_TOR_IMAGE ?? "docker.io/dockurr/tor:latest";
+export const DISCORD_ENTERPRISE_TOR_IMAGE =
+	process.env.DISCORD_ENTERPRISE_TOR_IMAGE ?? "docker.io/dockurr/tor:latest";
 
-export const ASTRON_COLLECTION_DOCKER_API_VERSION =
-	process.env.ASTRON_COLLECTION_DOCKER_API_VERSION;
-export const ASTRON_COLLECTION_DOCKER_HOST = process.env.ASTRON_COLLECTION_DOCKER_HOST;
-export const ASTRON_COLLECTION_DOCKER_PORT = process.env.ASTRON_COLLECTION_DOCKER_PORT
-	? Number(process.env.ASTRON_COLLECTION_DOCKER_PORT)
+export const DISCORD_ENTERPRISE_DOCKER_API_VERSION =
+	process.env.DISCORD_ENTERPRISE_DOCKER_API_VERSION;
+export const DISCORD_ENTERPRISE_DOCKER_HOST = process.env.DISCORD_ENTERPRISE_DOCKER_HOST;
+export const DISCORD_ENTERPRISE_DOCKER_PORT = process.env.DISCORD_ENTERPRISE_DOCKER_PORT
+	? Number(process.env.DISCORD_ENTERPRISE_DOCKER_PORT)
 	: undefined;
 
 export const CLEANUP_CRON_JOB = "50 23 * * *";
@@ -112,18 +112,18 @@ type DockerSocketCandidate = {
 };
 
 const getDockerConfig = (): Docker => {
-	const versionOption = ASTRON_COLLECTION_DOCKER_API_VERSION
-		? { version: ASTRON_COLLECTION_DOCKER_API_VERSION }
+	const versionOption = DISCORD_ENTERPRISE_DOCKER_API_VERSION
+		? { version: DISCORD_ENTERPRISE_DOCKER_API_VERSION }
 		: {};
 
 	// Explicit remote Docker host configuration
-	if (ASTRON_COLLECTION_DOCKER_HOST) {
+	if (DISCORD_ENTERPRISE_DOCKER_HOST) {
 		console.info(
-			`Using remote Docker host: ${ASTRON_COLLECTION_DOCKER_HOST}${ASTRON_COLLECTION_DOCKER_PORT ? `:${ASTRON_COLLECTION_DOCKER_PORT}` : ""}`,
+			`Using remote Docker host: ${DISCORD_ENTERPRISE_DOCKER_HOST}${DISCORD_ENTERPRISE_DOCKER_PORT ? `:${DISCORD_ENTERPRISE_DOCKER_PORT}` : ""}`,
 		);
 		return new Docker({
-			host: ASTRON_COLLECTION_DOCKER_HOST,
-			...(ASTRON_COLLECTION_DOCKER_PORT && { port: ASTRON_COLLECTION_DOCKER_PORT }),
+			host: DISCORD_ENTERPRISE_DOCKER_HOST,
+			...(DISCORD_ENTERPRISE_DOCKER_PORT && { port: DISCORD_ENTERPRISE_DOCKER_PORT }),
 			...versionOption,
 		});
 	}
@@ -187,13 +187,13 @@ if (!globalForDocker.docker) {
 export const docker = globalForDocker.docker;
 
 export const paths = (isServer = false) => {
-	// `ASTRON_COLLECTION_CONFIG_PATH` lets a containerized install share its config (Traefik
+	// `DISCORD_ENTERPRISE_CONFIG_PATH` lets a containerized install share its config (Traefik
 	// dynamic files, certificates, applications…) through a volume with the
 	// Compose-managed Traefik service instead of the in-container `.docker` dir.
 	const BASE_PATH =
-		process.env.ASTRON_COLLECTION_CONFIG_PATH ||
+		process.env.DISCORD_ENTERPRISE_CONFIG_PATH ||
 		(isServer || process.env.NODE_ENV === "production"
-			? "/etc/astron-collection"
+			? "/etc/discord-enterprise"
 			: path.join(process.cwd(), ".docker"));
 	const MAIN_TRAEFIK_PATH = `${BASE_PATH}/traefik`;
 	const DYNAMIC_TRAEFIK_PATH = `${MAIN_TRAEFIK_PATH}/dynamic`;

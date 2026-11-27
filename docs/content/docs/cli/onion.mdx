@@ -1,27 +1,27 @@
 ---
 title: "Onion services"
-description: "Tor onion services attached to a Compose stack: create, start, stop and inspect their status. Generated from the `astron-collection` command surface."
+description: "Tor onion services attached to a Compose stack: create, start, stop and inspect their status. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Tor onion services attached to a Compose stack: create, start, stop and inspect their status.
 
-`astron-collection onion` exposes **9 commands**. They map one-to-one onto the `onion.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise onion` exposes **9 commands**. They map one-to-one onto the `onion.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection onion --help` to list these commands in your terminal, or
-	`astron-collection onion <command> --help` for a single command.
+	Run `discord-enterprise onion --help` to list these commands in your terminal, or
+	`discord-enterprise onion <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection onion create`
+### `discord-enterprise onion create`
 
 Calls `POST /api/trpc/onion.create`.
 
 ```bash
-astron-collection onion create --name <value> --composeId <value> --serviceName <value> --targetPort <value> [options]
+discord-enterprise onion create --name <value> --composeId <value> --serviceName <value> --targetPort <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -33,12 +33,12 @@ astron-collection onion create --name <value> --composeId <value> --serviceName 
 | `--virtualPort <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion delete`
+### `discord-enterprise onion delete`
 
 Calls `POST /api/trpc/onion.delete`.
 
 ```bash
-astron-collection onion delete --onionServiceId <value> [options]
+discord-enterprise onion delete --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -48,12 +48,12 @@ astron-collection onion delete --onionServiceId <value> [options]
 | `--no-deleteIdentity` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion list`
+### `discord-enterprise onion list`
 
 Calls `GET /api/trpc/onion.list`.
 
 ```bash
-astron-collection onion list --composeId <value> [options]
+discord-enterprise onion list --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -61,12 +61,12 @@ astron-collection onion list --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion one`
+### `discord-enterprise onion one`
 
 Calls `GET /api/trpc/onion.one`.
 
 ```bash
-astron-collection onion one --onionServiceId <value> [options]
+discord-enterprise onion one --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -74,12 +74,12 @@ astron-collection onion one --onionServiceId <value> [options]
 | `--onionServiceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion restart`
+### `discord-enterprise onion restart`
 
 Calls `POST /api/trpc/onion.restart`.
 
 ```bash
-astron-collection onion restart --onionServiceId <value> [options]
+discord-enterprise onion restart --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -87,12 +87,12 @@ astron-collection onion restart --onionServiceId <value> [options]
 | `--onionServiceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion start`
+### `discord-enterprise onion start`
 
 Calls `POST /api/trpc/onion.start`.
 
 ```bash
-astron-collection onion start --onionServiceId <value> [options]
+discord-enterprise onion start --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -100,12 +100,12 @@ astron-collection onion start --onionServiceId <value> [options]
 | `--onionServiceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion status`
+### `discord-enterprise onion status`
 
 Calls `GET /api/trpc/onion.status`.
 
 ```bash
-astron-collection onion status --onionServiceId <value> [options]
+discord-enterprise onion status --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -113,12 +113,12 @@ astron-collection onion status --onionServiceId <value> [options]
 | `--onionServiceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion stop`
+### `discord-enterprise onion stop`
 
 Calls `POST /api/trpc/onion.stop`.
 
 ```bash
-astron-collection onion stop --onionServiceId <value> [options]
+discord-enterprise onion stop --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -126,12 +126,12 @@ astron-collection onion stop --onionServiceId <value> [options]
 | `--onionServiceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection onion update`
+### `discord-enterprise onion update`
 
 Calls `POST /api/trpc/onion.update`.
 
 ```bash
-astron-collection onion update --onionServiceId <value> [options]
+discord-enterprise onion update --onionServiceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

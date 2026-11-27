@@ -135,8 +135,8 @@ describe("event bus", () => {
 
 describe("webhook transport", () => {
   it("exports webhook header names from the framework entrypoint", () => {
-    assert.equal(SIGNATURE_HEADER, "x-astron-signature");
-    assert.equal(TIMESTAMP_HEADER, "x-astron-timestamp");
+    assert.equal(SIGNATURE_HEADER, "x-discord-enterprise-signature");
+    assert.equal(TIMESTAMP_HEADER, "x-discord-enterprise-timestamp");
   });
 
   it("signs the exact body and verifies it", async () => {
@@ -164,13 +164,13 @@ describe("webhook transport", () => {
 
     const [{ url, options }] = requests;
     assert.equal(url, "https://logger.test/ingest/events");
-    assert.equal(options.headers["x-astron-event"], EVENT_TYPES.SECURITY_ALERT);
+    assert.equal(options.headers["x-discord-enterprise-event"], EVENT_TYPES.SECURITY_ALERT);
 
     const verified = verifySignature({
       secret,
-      timestamp: options.headers["x-astron-timestamp"],
+      timestamp: options.headers["x-discord-enterprise-timestamp"],
       body: options.body,
-      signature: options.headers["x-astron-signature"],
+      signature: options.headers["x-discord-enterprise-signature"],
       clock,
     });
     assert.equal(verified.ok, true);
@@ -178,9 +178,9 @@ describe("webhook transport", () => {
     assert.equal(
       verifySignature({
         secret,
-        timestamp: options.headers["x-astron-timestamp"],
+        timestamp: options.headers["x-discord-enterprise-timestamp"],
         body: `${options.body} `,
-        signature: options.headers["x-astron-signature"],
+        signature: options.headers["x-discord-enterprise-signature"],
         clock,
       }).reason,
       "signature-mismatch",
@@ -189,9 +189,9 @@ describe("webhook transport", () => {
     assert.equal(
       verifySignature({
         secret,
-        timestamp: options.headers["x-astron-timestamp"],
+        timestamp: options.headers["x-discord-enterprise-timestamp"],
         body: options.body,
-        signature: options.headers["x-astron-signature"],
+        signature: options.headers["x-discord-enterprise-signature"],
         clock: () => 1_700_000_000_000 + 10 * 60 * 1000,
       }).reason,
       "expired-timestamp",

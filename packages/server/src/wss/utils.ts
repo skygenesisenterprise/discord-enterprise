@@ -1,6 +1,6 @@
 import os from "node:os";
 import path from "node:path";
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import { publicIpv4, publicIpv6 } from "public-ip";
 
 export const getShell = () => {

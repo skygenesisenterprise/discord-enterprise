@@ -1,4 +1,4 @@
--- Astron owns its own database file. These tables are its private data.
+-- Discord Enterprise owns its own database file. These tables are its private data.
 CREATE TABLE IF NOT EXISTS guild_events (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   guild_id     TEXT NOT NULL,

@@ -1,27 +1,27 @@
 ---
 title: "Docker disk usage"
-description: "Disk usage per Docker object type, and build cache pruning. Generated from the `astron-collection` command surface."
+description: "Disk usage per Docker object type, and build cache pruning. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Disk usage per Docker object type, and build cache pruning.
 
-`astron-collection docker-disk-usage` exposes **3 commands**. They map one-to-one onto the `docker-disk-usage.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise docker-disk-usage` exposes **3 commands**. They map one-to-one onto the `docker-disk-usage.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection docker-disk-usage --help` to list these commands in your terminal, or
-	`astron-collection docker-disk-usage <command> --help` for a single command.
+	Run `discord-enterprise docker-disk-usage --help` to list these commands in your terminal, or
+	`discord-enterprise docker-disk-usage <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection docker-disk-usage get-build-cache`
+### `discord-enterprise docker-disk-usage get-build-cache`
 
 Calls `GET /api/trpc/dockerDiskUsage.getBuildCache`.
 
 ```bash
-astron-collection docker-disk-usage get-build-cache [options]
+discord-enterprise docker-disk-usage get-build-cache [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection docker-disk-usage get-build-cache [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-disk-usage get-disk-usage`
+### `discord-enterprise docker-disk-usage get-disk-usage`
 
 Calls `GET /api/trpc/dockerDiskUsage.getDiskUsage`.
 
 ```bash
-astron-collection docker-disk-usage get-disk-usage [options]
+discord-enterprise docker-disk-usage get-disk-usage [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection docker-disk-usage get-disk-usage [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-disk-usage prune-build-cache`
+### `discord-enterprise docker-disk-usage prune-build-cache`
 
 Calls `POST /api/trpc/dockerDiskUsage.pruneBuildCache`.
 
 ```bash
-astron-collection docker-disk-usage prune-build-cache [options]
+discord-enterprise docker-disk-usage prune-build-cache [options]
 ```
 
 | Option | Type | Required | Allowed values |

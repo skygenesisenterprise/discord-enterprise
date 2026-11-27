@@ -26,7 +26,7 @@ export const InvitationEmail = ({
 	toEmail,
 	organizationName = "an organization",
 }: InvitationEmailProps) => {
-	const previewText = `You've been invited to join ${organizationName} on Astron Collection`;
+	const previewText = `You've been invited to join ${organizationName} on Discord Enterprise`;
 	return (
 		<Html>
 			<Head />
@@ -37,10 +37,10 @@ export const InvitationEmail = ({
 						{/* Header */}
 						<Section className="bg-[#09090b] rounded-t-xl px-[40px] py-[32px] text-center">
 							<Img
-								src="https://raw.githubusercontent.com/skygenesisenterprise/astron-collection/refs/heads/master/web/apps/docs/public/logo-astron-collection-blackpng.png"
+								src="https://raw.githubusercontent.com/skygenesisenterprise/discord-enterprise/refs/heads/master/web/apps/docs/public/logo-discord-enterprise-blackpng.png"
 								width="190"
 								height="120"
-								alt="Astron Collection"
+								alt="Discord Enterprise"
 								className="my-0 mx-auto"
 							/>
 						</Section>
@@ -53,7 +53,7 @@ export const InvitationEmail = ({
 							<Text className="text-[#71717a] text-[14px] leading-[22px] m-0 mb-[24px]">
 								You have been invited to join{" "}
 								<strong className="text-[#09090b]">{organizationName}</strong>{" "}
-								on Astron Collection, the platform for deploying your apps to the cloud.
+								on Discord Enterprise, the platform for deploying your apps to the cloud.
 								Click the button below to accept the invitation.
 							</Text>
 
@@ -84,10 +84,10 @@ export const InvitationEmail = ({
 								<span className="text-[#71717a]">{toEmail}</span>. This invite
 								was sent from{" "}
 								<Link
-									href="https://astron-collection.com"
+									href="https://discord-enterprise.com"
 									className="text-[#71717a] underline"
 								>
-									Astron Collection Cloud
+									Discord Enterprise Cloud
 								</Link>
 								. If you were not expecting this invitation, you can safely
 								ignore this email.

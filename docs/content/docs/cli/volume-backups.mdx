@@ -1,27 +1,27 @@
 ---
 title: "Volume backups"
-description: "Back up Docker volumes on a schedule and download the resulting archives. Generated from the `astron-collection` command surface."
+description: "Back up Docker volumes on a schedule and download the resulting archives. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Back up Docker volumes on a schedule and download the resulting archives.
 
-`astron-collection volume-backups` exposes **6 commands**. They map one-to-one onto the `volume-backups.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise volume-backups` exposes **6 commands**. They map one-to-one onto the `volume-backups.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection volume-backups --help` to list these commands in your terminal, or
-	`astron-collection volume-backups <command> --help` for a single command.
+	Run `discord-enterprise volume-backups --help` to list these commands in your terminal, or
+	`discord-enterprise volume-backups <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection volume-backups create`
+### `discord-enterprise volume-backups create`
 
 Calls `POST /api/trpc/volumeBackups.create`.
 
 ```bash
-astron-collection volume-backups create --name <value> --volumeName <value> --prefix <value> --cronExpression <value> --destinationId <value> [options]
+discord-enterprise volume-backups create --name <value> --volumeName <value> --prefix <value> --cronExpression <value> --destinationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -50,12 +50,12 @@ astron-collection volume-backups create --name <value> --volumeName <value> --pr
 | `--destinationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection volume-backups delete`
+### `discord-enterprise volume-backups delete`
 
 Calls `POST /api/trpc/volumeBackups.delete`.
 
 ```bash
-astron-collection volume-backups delete --volumeBackupId <value> [options]
+discord-enterprise volume-backups delete --volumeBackupId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -63,12 +63,12 @@ astron-collection volume-backups delete --volumeBackupId <value> [options]
 | `--volumeBackupId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection volume-backups list`
+### `discord-enterprise volume-backups list`
 
 Calls `GET /api/trpc/volumeBackups.list`.
 
 ```bash
-astron-collection volume-backups list --id <value> --volumeBackupType <value> [options]
+discord-enterprise volume-backups list --id <value> --volumeBackupType <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -77,12 +77,12 @@ astron-collection volume-backups list --id <value> --volumeBackupType <value> [o
 | `--volumeBackupType <value>` | string | Yes | `application`, `postgres`, `mysql`, `mariadb`, `mongo`, `redis`, `compose`, `libsql` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection volume-backups one`
+### `discord-enterprise volume-backups one`
 
 Calls `GET /api/trpc/volumeBackups.one`.
 
 ```bash
-astron-collection volume-backups one --volumeBackupId <value> [options]
+discord-enterprise volume-backups one --volumeBackupId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -90,12 +90,12 @@ astron-collection volume-backups one --volumeBackupId <value> [options]
 | `--volumeBackupId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection volume-backups run-manually`
+### `discord-enterprise volume-backups run-manually`
 
 Calls `POST /api/trpc/volumeBackups.runManually`.
 
 ```bash
-astron-collection volume-backups run-manually --volumeBackupId <value> [options]
+discord-enterprise volume-backups run-manually --volumeBackupId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -103,12 +103,12 @@ astron-collection volume-backups run-manually --volumeBackupId <value> [options]
 | `--volumeBackupId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection volume-backups update`
+### `discord-enterprise volume-backups update`
 
 Calls `POST /api/trpc/volumeBackups.update`.
 
 ```bash
-astron-collection volume-backups update --name <value> --volumeName <value> --prefix <value> --cronExpression <value> --destinationId <value> --volumeBackupId <value> [options]
+discord-enterprise volume-backups update --name <value> --volumeName <value> --prefix <value> --cronExpression <value> --destinationId <value> --volumeBackupId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

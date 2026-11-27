@@ -1,14 +1,14 @@
 /**
- * Astron Collection Instance Identity & Certificate Authority — domain model.
+ * Discord Enterprise Instance Identity & Certificate Authority — domain model.
  *
  * This module is intentionally separate from:
  *  - `utils/tls/certificate` (application TLS certificates served by Traefik), and
  *  - `utils/identity` (human/IdP identity providers: OIDC, SAML, LDAP).
  *
  * It answers the two distinct questions of issue #75:
- *  - **Identity** — *who is this Astron Collection instance?* → a locally generated key
+ *  - **Identity** — *who is this Discord Enterprise instance?* → a locally generated key
  *    pair and its X.509 certificate.
- *  - **Entitlement** — *what is it authorized to use?* → a Astron Collection-signed token
+ *  - **Entitlement** — *what is it authorized to use?* → a Discord Enterprise-signed token
  *    that grants a product and its capabilities.
  *
  * Identity is not licensing: a valid certificate never by itself grants a
@@ -16,19 +16,19 @@
  */
 
 /**
- * Astron Collection distribution/flavor running on the host.
+ * Discord Enterprise distribution/flavor running on the host.
  *
  * `self` is free and autonomous: it bootstraps a local trust anchor and needs no
- * contact with Astron Collection services. `cloud` and `console` are protected products
- * that require a Astron Collection-signed entitlement.
+ * contact with Discord Enterprise services. `cloud` and `console` are protected products
+ * that require a Discord Enterprise-signed entitlement.
  */
-export const astronCollectionProducts = ["self", "cloud", "console"] as const;
-export type AstronCollectionProduct = (typeof astronCollectionProducts)[number];
+export const discordEnterpriseProducts = ["self", "cloud", "console"] as const;
+export type DiscordEnterpriseProduct = (typeof discordEnterpriseProducts)[number];
 
-export const astronCollectionProductLabels: Record<AstronCollectionProduct, string> = {
+export const discordEnterpriseProductLabels: Record<DiscordEnterpriseProduct, string> = {
 	self: "Self-hosted",
-	cloud: "Astron Collection Cloud",
-	console: "Astron Collection Console",
+	cloud: "Discord Enterprise Cloud",
+	console: "Discord Enterprise Console",
 };
 
 /**
@@ -39,7 +39,7 @@ export const astronCollectionProductLabels: Record<AstronCollectionProduct, stri
  * naturally. The set is closed and validated: an unknown capability is never
  * trusted because it arrived in a token.
  */
-export const astronCollectionCapabilities = [
+export const discordEnterpriseCapabilities = [
 	"self.hosted",
 	"self.local-registry",
 	"self.offline",
@@ -50,12 +50,12 @@ export const astronCollectionCapabilities = [
 	"console.fleet",
 	"console.remote-management",
 ] as const;
-export type AstronCollectionCapability = (typeof astronCollectionCapabilities)[number];
+export type DiscordEnterpriseCapability = (typeof discordEnterpriseCapabilities)[number];
 
 /** Capabilities granted by default to each product. */
 export const productCapabilities: Record<
-	AstronCollectionProduct,
-	readonly AstronCollectionCapability[]
+	DiscordEnterpriseProduct,
+	readonly DiscordEnterpriseCapability[]
 > = {
 	self: ["self.hosted", "self.local-registry", "self.offline"],
 	cloud: ["cloud.control-plane", "cloud.managed-services", "cloud.fleet"],
@@ -67,28 +67,28 @@ export const productCapabilities: Record<
 };
 
 /**
- * Products that must present a Astron Collection-signed entitlement. `self` is deliberately
+ * Products that must present a Discord Enterprise-signed entitlement. `self` is deliberately
  * absent: self-hosted must keep working with no online dependency.
  */
-export const protectedProducts: readonly AstronCollectionProduct[] = [
+export const protectedProducts: readonly DiscordEnterpriseProduct[] = [
 	"cloud",
 	"console",
 ];
 
-export const isAstronCollectionProduct = (value: string): value is AstronCollectionProduct =>
-	(astronCollectionProducts as readonly string[]).includes(value);
+export const isDiscordEnterpriseProduct = (value: string): value is DiscordEnterpriseProduct =>
+	(discordEnterpriseProducts as readonly string[]).includes(value);
 
-export const isAstronCollectionCapability = (
+export const isDiscordEnterpriseCapability = (
 	value: string,
-): value is AstronCollectionCapability =>
-	(astronCollectionCapabilities as readonly string[]).includes(value);
+): value is DiscordEnterpriseCapability =>
+	(discordEnterpriseCapabilities as readonly string[]).includes(value);
 
 /**
  * Private-extension OID carrying the instance identity document in the X.509
- * certificate. The pen is a placeholder until Astron Collection's IANA PEN is assigned;
+ * certificate. The pen is a placeholder until Discord Enterprise's IANA PEN is assigned;
  * it only has to stay stable for the lifetime of issued certificates.
  */
-export const ASTRON_COLLECTION_IDENTITY_EXTENSION_OID = "1.3.6.1.4.1.99999.1.1";
+export const DISCORD_ENTERPRISE_IDENTITY_EXTENSION_OID = "1.3.6.1.4.1.99999.1.1";
 
 /** Version of the instance identity extension payload. */
 export const INSTANCE_IDENTITY_EXTENSION_VERSION = 1;
@@ -96,23 +96,23 @@ export const INSTANCE_IDENTITY_EXTENSION_VERSION = 1;
 /**
  * Trust anchor a certificate chains to.
  *  - `local` — the instance's own self-signed CA (self-hosted).
- *  - `astron-collection` — a Astron Collection-issued CA (cloud/console, managed servers).
+ *  - `discord-enterprise` — a Discord Enterprise-issued CA (cloud/console, managed servers).
  */
-export type TrustAnchorKind = "local" | "astron-collection";
+export type TrustAnchorKind = "local" | "discord-enterprise";
 
 /**
  * Payload embedded in the instance certificate extension. It is *self-asserted
  * identity metadata* (signed by the local CA), not an authorization: the
- * authoritative entitlement travels in a separate Astron Collection-signed token.
+ * authoritative entitlement travels in a separate Discord Enterprise-signed token.
  */
 export interface InstanceIdentityDocument {
 	version: number;
 	/** Stable random identifier of this installation. */
 	instanceId: string;
 	/** Product the instance was bootstrapped as. */
-	product: AstronCollectionProduct;
+	product: DiscordEnterpriseProduct;
 	/** Capabilities the instance believes it is entitled to. */
-	capabilities: AstronCollectionCapability[];
+	capabilities: DiscordEnterpriseCapability[];
 	/** SHA-256 fingerprint (hex) of the instance public key. */
 	subjectKeyFingerprint: string;
 	/** ISO-8601 creation timestamp. */
@@ -122,8 +122,8 @@ export interface InstanceIdentityDocument {
 /** Public metadata extracted from an instance certificate. */
 export interface InstanceCertificateInfo {
 	instanceId: string;
-	product: AstronCollectionProduct;
-	capabilities: AstronCollectionCapability[];
+	product: DiscordEnterpriseProduct;
+	capabilities: DiscordEnterpriseCapability[];
 	subjectKeyFingerprint: string;
 	createdAt: string;
 	serialNumber: string;
@@ -181,8 +181,8 @@ export interface IdentityDiagnostic {
 /** Public, secret-free description of an installation identity. */
 export interface InstanceIdentity {
 	instanceId: string;
-	product: AstronCollectionProduct;
-	capabilities: AstronCollectionCapability[];
+	product: DiscordEnterpriseProduct;
+	capabilities: DiscordEnterpriseCapability[];
 	status: InstanceIdentityStatus;
 	trustAnchor: TrustAnchorKind;
 	createdAt: string;
@@ -195,15 +195,15 @@ export interface InstanceIdentity {
 
 /**
  * A signed authorization that answers "what are you authorized to use?".
- * Produced by Astron Collection's entitlement issuing authority and verified locally with
+ * Produced by Discord Enterprise's entitlement issuing authority and verified locally with
  * its public key. It is bound to the instance public key so it cannot be copied
  * to another instance.
  */
 export interface EntitlementPayload {
 	version: number;
 	instanceId: string;
-	product: AstronCollectionProduct;
-	capabilities: AstronCollectionCapability[];
+	product: DiscordEnterpriseProduct;
+	capabilities: DiscordEnterpriseCapability[];
 	/** SHA-256 fingerprint (hex) of the instance public key. */
 	subjectKeyFingerprint: string;
 	issuedAt: string;
@@ -219,7 +219,7 @@ export type EntitlementVerification =
 
 export const TRUST_ANCHOR_LABELS: Record<TrustAnchorKind, string> = {
 	local: "Local instance CA",
-	"astron-collection": "Astron Collection issuing CA",
+	"discord-enterprise": "Discord Enterprise issuing CA",
 };
 
 export const INSTANCE_IDENTITY_STATUS_LABELS: Record<

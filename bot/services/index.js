@@ -1,5 +1,5 @@
 /**
- * Astron service composition.
+ * Discord Enterprise service composition.
  *
  * One database, one settings store, one event bus and one metrics registry for
  * the process. Services are constructed once and handed to commands; they never
@@ -16,7 +16,7 @@ import {
   createSettingsStore,
   createWebhookSink,
   runMigrations,
-} from "@astron-collection/discord-framework";
+} from "@discord-enterprise/discord-framework";
 import { BOT, SETTINGS_DEFAULTS, SETTINGS_VALIDATORS } from "../config/bot.js";
 import { createGuildEventRepository } from "../repositories/guild-events.js";
 import { createHelpService } from "./help-service.js";
@@ -30,7 +30,7 @@ export async function createServices({ config, logger, registry }) {
   const db = createDatabase({ file: databasePath, logger });
   runMigrations(db, path.resolve(config.botRoot, "migrations"), { logger });
 
-  const metrics = createMetrics({ prefix: `astron_${BOT}` });
+  const metrics = createMetrics({ prefix: `discord_enterprise_${BOT}` });
   const settings = createSettingsStore({
     db,
     bot: BOT,
@@ -48,7 +48,7 @@ export async function createServices({ config, logger, registry }) {
       }),
     );
   } else if (config.eventUrl) {
-    logger.warn("event delivery disabled: ASTRON_EVENT_SECRET is empty");
+    logger.warn("event delivery disabled: DISCORD_ENTERPRISE_EVENT_SECRET is empty");
   }
 
   const events = createEventBus({ source: BOT, sinks, logger, metrics });

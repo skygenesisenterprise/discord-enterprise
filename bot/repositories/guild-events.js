@@ -1,6 +1,6 @@
-/** Guild join/leave history, private to Astron's database. */
+/** Guild join/leave history, private to Discord Enterprise's database. */
 
-import { nowIso } from "@astron-collection/discord-framework";
+import { nowIso } from "@discord-enterprise/discord-framework";
 
 export function createGuildEventRepository({ db, clock = () => new Date() }) {
   function record({ guildId, event, guildName = null, memberCount = null }) {

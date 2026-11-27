@@ -11,9 +11,9 @@ export const DISCORD_PROVIDER_ID = "discord";
 /** Scopes required to list the guilds of the linked Discord account. */
 export const DISCORD_REQUIRED_SCOPES = ["identify", "guilds"] as const;
 
-/** Published Astron bot families, used as stable product ids in workspaces. */
-export const ASTRON_PRODUCT_IDS = [
-	"astron",
+/** Published Discord Enterprise bot families, used as stable product ids in workspaces. */
+export const DISCORD_ENTERPRISE_PRODUCT_IDS = [
+	"discord-enterprise",
 	"automations",
 	"guild",
 	"logger",
@@ -21,25 +21,25 @@ export const ASTRON_PRODUCT_IDS = [
 	"protect",
 ] as const;
 
-export type AstronProductId = (typeof ASTRON_PRODUCT_IDS)[number];
+export type DiscordEnterpriseProductId = (typeof DISCORD_ENTERPRISE_PRODUCT_IDS)[number];
 
-export interface AstronProductDefinition {
-	id: AstronProductId;
+export interface DiscordEnterpriseProductDefinition {
+	id: DiscordEnterpriseProductId;
 	name: string;
 }
 
-export const ASTRON_PRODUCTS: readonly AstronProductDefinition[] =
-	ASTRON_PRODUCT_IDS.map((id) => ({
+export const DISCORD_ENTERPRISE_PRODUCTS: readonly DiscordEnterpriseProductDefinition[] =
+	DISCORD_ENTERPRISE_PRODUCT_IDS.map((id) => ({
 		id,
 		name: id.charAt(0).toUpperCase() + id.slice(1),
 	}));
 
-export function isAstronProductId(value: string): value is AstronProductId {
-	return (ASTRON_PRODUCT_IDS as readonly string[]).includes(value);
+export function isDiscordEnterpriseProductId(value: string): value is DiscordEnterpriseProductId {
+	return (DISCORD_ENTERPRISE_PRODUCT_IDS as readonly string[]).includes(value);
 }
 
 export type DiscordMembershipState = "member" | "unknown";
-export type AstronInstallationState = "installed" | "not-installed" | "unknown";
+export type DiscordEnterpriseInstallationState = "installed" | "not-installed" | "unknown";
 export type WorkspaceAvailabilityState =
 	| "available"
 	| "unavailable"
@@ -76,7 +76,7 @@ export interface DiscordServerItem {
 		raw: string;
 	};
 	membership: DiscordMembershipState;
-	installation: AstronInstallationState;
+	installation: DiscordEnterpriseInstallationState;
 	workspace: WorkspaceAvailabilityState;
 	authorization: WorkspaceAuthorizationState;
 	workspaceAccessible: boolean;

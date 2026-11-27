@@ -1,39 +1,39 @@
 ---
 title: "Registries"
-description: "Container registries used to pull private images. Generated from the `astron-collection` command surface."
+description: "Container registries used to pull private images. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Container registries used to pull private images.
 
-`astron-collection registry` exposes **17 commands**. They map one-to-one onto the `registry.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise registry` exposes **17 commands**. They map one-to-one onto the `registry.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection registry --help` to list these commands in your terminal, or
-	`astron-collection registry <command> --help` for a single command.
+	Run `discord-enterprise registry --help` to list these commands in your terminal, or
+	`discord-enterprise registry <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection registry all`
+### `discord-enterprise registry all`
 
 Calls `GET /api/trpc/registry.all`.
 
 ```bash
-astron-collection registry all [options]
+discord-enterprise registry all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry capabilities`
+### `discord-enterprise registry capabilities`
 
 Calls `GET /api/trpc/registry.capabilities`.
 
 ```bash
-astron-collection registry capabilities --registryId <value> [options]
+discord-enterprise registry capabilities --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -41,12 +41,12 @@ astron-collection registry capabilities --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry create`
+### `discord-enterprise registry create`
 
 Calls `POST /api/trpc/registry.create`.
 
 ```bash
-astron-collection registry create --registryName <value> --registryUrl <value> [options]
+discord-enterprise registry create --registryName <value> --registryUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -67,12 +67,12 @@ astron-collection registry create --registryName <value> --registryUrl <value> [
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry delete-image`
+### `discord-enterprise registry delete-image`
 
 Calls `POST /api/trpc/registry.deleteImage`.
 
 ```bash
-astron-collection registry delete-image --registryId <value> --repository <value> --digest <value> [options]
+discord-enterprise registry delete-image --registryId <value> --repository <value> --digest <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -82,24 +82,24 @@ astron-collection registry delete-image --registryId <value> --repository <value
 | `--digest <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry descriptors`
+### `discord-enterprise registry descriptors`
 
 Calls `GET /api/trpc/registry.descriptors`.
 
 ```bash
-astron-collection registry descriptors [options]
+discord-enterprise registry descriptors [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry get-digest`
+### `discord-enterprise registry get-digest`
 
 Calls `GET /api/trpc/registry.getDigest`.
 
 ```bash
-astron-collection registry get-digest --registryId <value> --repository <value> --reference <value> [options]
+discord-enterprise registry get-digest --registryId <value> --repository <value> --reference <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -109,12 +109,12 @@ astron-collection registry get-digest --registryId <value> --repository <value> 
 | `--reference <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry get-manifest`
+### `discord-enterprise registry get-manifest`
 
 Calls `GET /api/trpc/registry.getManifest`.
 
 ```bash
-astron-collection registry get-manifest --registryId <value> --repository <value> --reference <value> [options]
+discord-enterprise registry get-manifest --registryId <value> --repository <value> --reference <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -124,12 +124,12 @@ astron-collection registry get-manifest --registryId <value> --repository <value
 | `--reference <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry health`
+### `discord-enterprise registry health`
 
 Calls `GET /api/trpc/registry.health`.
 
 ```bash
-astron-collection registry health --registryId <value> [options]
+discord-enterprise registry health --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -137,12 +137,12 @@ astron-collection registry health --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry list-repositories`
+### `discord-enterprise registry list-repositories`
 
 Calls `GET /api/trpc/registry.listRepositories`.
 
 ```bash
-astron-collection registry list-repositories --registryId <value> [options]
+discord-enterprise registry list-repositories --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -150,12 +150,12 @@ astron-collection registry list-repositories --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry list-tags`
+### `discord-enterprise registry list-tags`
 
 Calls `GET /api/trpc/registry.listTags`.
 
 ```bash
-astron-collection registry list-tags --registryId <value> --repository <value> [options]
+discord-enterprise registry list-tags --registryId <value> --repository <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -164,12 +164,12 @@ astron-collection registry list-tags --registryId <value> --repository <value> [
 | `--repository <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry one`
+### `discord-enterprise registry one`
 
 Calls `GET /api/trpc/registry.one`.
 
 ```bash
-astron-collection registry one --registryId <value> [options]
+discord-enterprise registry one --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -177,12 +177,12 @@ astron-collection registry one --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry remove`
+### `discord-enterprise registry remove`
 
 Calls `POST /api/trpc/registry.remove`.
 
 ```bash
-astron-collection registry remove --registryId <value> [options]
+discord-enterprise registry remove --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -190,24 +190,24 @@ astron-collection registry remove --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry secret-options`
+### `discord-enterprise registry secret-options`
 
 Calls `GET /api/trpc/registry.secretOptions`.
 
 ```bash
-astron-collection registry secret-options [options]
+discord-enterprise registry secret-options [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry test-connection`
+### `discord-enterprise registry test-connection`
 
 Calls `POST /api/trpc/registry.testConnection`.
 
 ```bash
-astron-collection registry test-connection [options]
+discord-enterprise registry test-connection [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -225,12 +225,12 @@ astron-collection registry test-connection [options]
 | `--no-allowAnonymous` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry test-registry`
+### `discord-enterprise registry test-registry`
 
 Calls `POST /api/trpc/registry.testRegistry`.
 
 ```bash
-astron-collection registry test-registry [options]
+discord-enterprise registry test-registry [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -248,12 +248,12 @@ astron-collection registry test-registry [options]
 | `--no-allowAnonymous` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry test-registry-by-id`
+### `discord-enterprise registry test-registry-by-id`
 
 Calls `POST /api/trpc/registry.testRegistryById`.
 
 ```bash
-astron-collection registry test-registry-by-id --registryId <value> [options]
+discord-enterprise registry test-registry-by-id --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -261,12 +261,12 @@ astron-collection registry test-registry-by-id --registryId <value> [options]
 | `--registryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection registry update`
+### `discord-enterprise registry update`
 
 Calls `POST /api/trpc/registry.update`.
 
 ```bash
-astron-collection registry update --registryId <value> [options]
+discord-enterprise registry update --registryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

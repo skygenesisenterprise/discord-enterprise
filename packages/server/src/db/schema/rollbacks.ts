@@ -1,9 +1,9 @@
-import type { Application } from "@astron-collection/server/services/application";
-import type { Environment } from "@astron-collection/server/services/environment";
-import type { Mount } from "@astron-collection/server/services/mount";
-import type { Port } from "@astron-collection/server/services/port";
-import type { Project } from "@astron-collection/server/services/project";
-import type { Registry } from "@astron-collection/server/services/registry";
+import type { Application } from "@discord-enterprise/server/services/application";
+import type { Environment } from "@discord-enterprise/server/services/environment";
+import type { Mount } from "@discord-enterprise/server/services/mount";
+import type { Port } from "@discord-enterprise/server/services/port";
+import type { Project } from "@discord-enterprise/server/services/project";
+import type { Registry } from "@discord-enterprise/server/services/registry";
 import { relations } from "drizzle-orm";
 import { jsonb, pgTable, serial, text } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";

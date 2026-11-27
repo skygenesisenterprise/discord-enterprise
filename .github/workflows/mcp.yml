@@ -45,16 +45,16 @@ jobs:
           cache: pnpm
 
       - name: Install MCP dependencies
-        run: pnpm install --frozen-lockfile --filter "@astron-collection/mcp..."
+        run: pnpm install --frozen-lockfile --filter "@discord-enterprise/mcp..."
 
       - name: Check generated catalog is current
-        run: pnpm --filter @astron-collection/mcp run generate:check
+        run: pnpm --filter @discord-enterprise/mcp run generate:check
 
       - name: Lint and format check
-        run: pnpm --filter @astron-collection/mcp run lint:ci
+        run: pnpm --filter @discord-enterprise/mcp run lint:ci
 
       - name: Type-check
-        run: pnpm --filter @astron-collection/mcp run typecheck
+        run: pnpm --filter @discord-enterprise/mcp run typecheck
 
       - name: Test
-        run: pnpm --filter @astron-collection/mcp run test
+        run: pnpm --filter @discord-enterprise/mcp run test

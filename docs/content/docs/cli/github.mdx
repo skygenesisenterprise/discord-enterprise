@@ -1,27 +1,27 @@
 ---
 title: "GitHub"
-description: "GitHub app connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+description: "GitHub app connections, plus branch and repository lookups. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 GitHub app connections, plus branch and repository lookups.
 
-`astron-collection github` exposes **6 commands**. They map one-to-one onto the `github.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise github` exposes **6 commands**. They map one-to-one onto the `github.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection github --help` to list these commands in your terminal, or
-	`astron-collection github <command> --help` for a single command.
+	Run `discord-enterprise github --help` to list these commands in your terminal, or
+	`discord-enterprise github <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection github get-github-branches`
+### `discord-enterprise github get-github-branches`
 
 Calls `GET /api/trpc/github.getGithubBranches`.
 
 ```bash
-astron-collection github get-github-branches --repo <value> --owner <value> [options]
+discord-enterprise github get-github-branches --repo <value> --owner <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -31,12 +31,12 @@ astron-collection github get-github-branches --repo <value> --owner <value> [opt
 | `--githubId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection github get-github-repositories`
+### `discord-enterprise github get-github-repositories`
 
 Calls `GET /api/trpc/github.getGithubRepositories`.
 
 ```bash
-astron-collection github get-github-repositories --githubId <value> [options]
+discord-enterprise github get-github-repositories --githubId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -44,24 +44,24 @@ astron-collection github get-github-repositories --githubId <value> [options]
 | `--githubId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection github github-providers`
+### `discord-enterprise github github-providers`
 
 Calls `GET /api/trpc/github.githubProviders`.
 
 ```bash
-astron-collection github github-providers [options]
+discord-enterprise github github-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection github one`
+### `discord-enterprise github one`
 
 Calls `GET /api/trpc/github.one`.
 
 ```bash
-astron-collection github one --githubId <value> [options]
+discord-enterprise github one --githubId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -69,12 +69,12 @@ astron-collection github one --githubId <value> [options]
 | `--githubId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection github test-connection`
+### `discord-enterprise github test-connection`
 
 Calls `POST /api/trpc/github.testConnection`.
 
 ```bash
-astron-collection github test-connection --githubId <value> [options]
+discord-enterprise github test-connection --githubId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -82,12 +82,12 @@ astron-collection github test-connection --githubId <value> [options]
 | `--githubId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection github update`
+### `discord-enterprise github update`
 
 Calls `POST /api/trpc/github.update`.
 
 ```bash
-astron-collection github update --githubId <value> --name <value> --gitProviderId <value> --githubAppName <value> [options]
+discord-enterprise github update --githubId <value> --name <value> --gitProviderId <value> --githubAppName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

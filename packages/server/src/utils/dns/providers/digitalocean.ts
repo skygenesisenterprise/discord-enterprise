@@ -1,4 +1,4 @@
-import type { digitaloceanDnsConfigSchema } from "@astron-collection/server/db/schema";
+import type { digitaloceanDnsConfigSchema } from "@discord-enterprise/server/db/schema";
 import type { z } from "zod";
 import {
 	createDnsHttp,

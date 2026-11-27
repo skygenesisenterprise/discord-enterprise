@@ -1,5 +1,5 @@
 {
-	"name": "@astron-collection/emails",
+	"name": "@discord-enterprise/emails",
 	"version": "0.0.19",
 	"private": true,
 	"type": "module",

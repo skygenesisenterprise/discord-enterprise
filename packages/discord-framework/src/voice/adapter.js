@@ -25,7 +25,7 @@ export async function createVoiceAdapter({ loadVoice = () => import("@discordjs/
      * carries the guild's adapter creator, which keeps this package free of a
      * direct discord.js dependency.
      */
-    join(channel, { selfDeaf = true, selfMute = true, group = "astron-presence" } = {}) {
+    join(channel, { selfDeaf = true, selfMute = true, group = "discord-enterprise-presence" } = {}) {
       return voice.joinVoiceChannel({
         channelId: channel.id,
         guildId: channel.guild.id,

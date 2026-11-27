@@ -15,13 +15,13 @@ const schema = defineConfigSchema({
   variables: [
     {
       key: "token",
-      env: ["ASTRON_GUILD_DISCORD_TOKEN", "DISCORD_TOKEN"],
+      env: ["DISCORD_ENTERPRISE_GUILD_DISCORD_TOKEN", "DISCORD_TOKEN"],
       required: true,
       secret: true,
     },
-    { key: "logLevel", env: ["ASTRON_LOG_LEVEL"], type: "enum", values: ["debug", "info"], default: "info" },
-    { key: "healthPort", env: ["ASTRON_HEALTH_PORT"], type: "integer", default: 8080, min: 1024, max: 65535 },
-    { key: "featureEnabled", env: ["ASTRON_FEATURE"], type: "boolean", default: false },
+    { key: "logLevel", env: ["DISCORD_ENTERPRISE_LOG_LEVEL"], type: "enum", values: ["debug", "info"], default: "info" },
+    { key: "healthPort", env: ["DISCORD_ENTERPRISE_HEALTH_PORT"], type: "integer", default: 8080, min: 1024, max: 65535 },
+    { key: "featureEnabled", env: ["DISCORD_ENTERPRISE_FEATURE"], type: "boolean", default: false },
   ],
 });
 
@@ -30,15 +30,15 @@ describe("configuration schema", () => {
     const configSchema = defineConfigSchema({
       bot: "automations",
       variables: runtimeVariables({
-        eventUrlEnv: ["ASTRON_EVENT_URL", "ASTRON_LOGGER_EVENT_URL"],
-        eventSecretEnv: ["ASTRON_OUTBOUND_SECRET", "ASTRON_EVENT_SECRET"],
+        eventUrlEnv: ["DISCORD_ENTERPRISE_EVENT_URL", "DISCORD_ENTERPRISE_LOGGER_EVENT_URL"],
+        eventSecretEnv: ["DISCORD_ENTERPRISE_OUTBOUND_SECRET", "DISCORD_ENTERPRISE_EVENT_SECRET"],
       }),
     });
     const config = loadConfig({
       schema: configSchema,
       env: {
-        ASTRON_LOGGER_EVENT_URL: "https://logger.example/ingest/events",
-        ASTRON_OUTBOUND_SECRET: "outbound-secret",
+        DISCORD_ENTERPRISE_LOGGER_EVENT_URL: "https://logger.example/ingest/events",
+        DISCORD_ENTERPRISE_OUTBOUND_SECRET: "outbound-secret",
       },
     });
 
@@ -51,10 +51,10 @@ describe("configuration schema", () => {
     const config = loadConfig({
       schema,
       env: {
-        ASTRON_GUILD_DISCORD_TOKEN: "bot-token",
-        ASTRON_LOG_LEVEL: "debug",
-        ASTRON_HEALTH_PORT: "9100",
-        ASTRON_FEATURE: "yes",
+        DISCORD_ENTERPRISE_GUILD_DISCORD_TOKEN: "bot-token",
+        DISCORD_ENTERPRISE_LOG_LEVEL: "debug",
+        DISCORD_ENTERPRISE_HEALTH_PORT: "9100",
+        DISCORD_ENTERPRISE_FEATURE: "yes",
       },
     });
 
@@ -63,14 +63,14 @@ describe("configuration schema", () => {
     assert.equal(config.values.logLevel, "debug");
     assert.equal(config.values.healthPort, 9100);
     assert.equal(config.values.featureEnabled, true);
-    assert.equal(config.sources.token, "ASTRON_GUILD_DISCORD_TOKEN");
+    assert.equal(config.sources.token, "DISCORD_ENTERPRISE_GUILD_DISCORD_TOKEN");
   });
 
   it("reports a missing required variable by its environment name", () => {
     const config = loadConfig({ schema, env: {} });
 
     assert.equal(config.ok, false);
-    assert.deepEqual(config.missing, ["ASTRON_GUILD_DISCORD_TOKEN"]);
+    assert.deepEqual(config.missing, ["DISCORD_ENTERPRISE_GUILD_DISCORD_TOKEN"]);
   });
 
   it("accepts DISCORD_APPLICATION_ID as the Discord application credential", () => {
@@ -93,19 +93,19 @@ describe("configuration schema", () => {
   it("falls back to a default and never echoes a secret", () => {
     const config = loadConfig({
       schema,
-      env: { DISCORD_TOKEN: "shared-token", ASTRON_HEALTH_PORT: "not-a-port" },
+      env: { DISCORD_TOKEN: "shared-token", DISCORD_ENTERPRISE_HEALTH_PORT: "not-a-port" },
     });
 
     assert.equal(config.values.healthPort, 8080);
     assert.equal(config.errors.length, 1);
-    assert.equal(config.warnings[0].variable, "ASTRON_HEALTH_PORT");
+    assert.equal(config.warnings[0].variable, "DISCORD_ENTERPRISE_HEALTH_PORT");
     assert.equal(config.sources.token, "DISCORD_TOKEN");
     assert.equal(config.redacted().token, "[redacted]");
     assert.equal(JSON.stringify(config.redacted()).includes("shared-token"), false);
   });
 
   it("rejects an unknown enum value", () => {
-    const config = loadConfig({ schema, env: { DISCORD_TOKEN: "t", ASTRON_LOG_LEVEL: "verbose" } });
+    const config = loadConfig({ schema, env: { DISCORD_TOKEN: "t", DISCORD_ENTERPRISE_LOG_LEVEL: "verbose" } });
     assert.equal(config.values.logLevel, "info");
     assert.ok(config.errors.some((error) => error.includes("expected one of")));
   });

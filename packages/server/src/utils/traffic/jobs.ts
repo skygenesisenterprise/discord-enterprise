@@ -1,7 +1,7 @@
 import {
 	ingestTraefikAccessLog,
 	runTrafficRetention,
-} from "@astron-collection/server/services/traffic";
+} from "@discord-enterprise/server/services/traffic";
 import { scheduledJobs, scheduleJob } from "node-schedule";
 
 /**

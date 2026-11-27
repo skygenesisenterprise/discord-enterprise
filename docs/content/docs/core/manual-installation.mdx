@@ -1,26 +1,26 @@
 ---
 title: 'Manual Installation'
-description: 'Learn how to manually install Astron Collection on your server.'
+description: 'Learn how to manually install Discord Enterprise on your server.'
 ---
 
-If you wish to customize the Astron Collection installation on your server, you can modify several environment variables:
+If you wish to customize the Discord Enterprise installation on your server, you can modify several environment variables:
 
 1. **PORT** - Ideal for avoiding conflicts with other services.
 2. **TRAEFIK_SSL_PORT** - Set to another port if you want to use a different port for SSL.
 3. **TRAEFIK_PORT** - Set to another port if you want to use a different port for Traefik.
 4. **ADVERTISE_ADDR** - Set to another IP address if you want to use a different IP address for Swarm.
-5. **RELEASE_TAG** - Set to a Astron Collection image tag(`latest`, `canary`, `feature`, etc)
+5. **RELEASE_TAG** - Set to a Discord Enterprise image tag(`latest`, `canary`, `feature`, etc)
 6. **DATABASE_URL** - Set to another database url if you want to use a different database.
 7. **TZ** - Set to another timezone if you want to use a different timezone.
 
 ## Installation Script
 
-Here is a Bash script for installing Astron Collection on a Linux server. Make sure you run this as root on a Linux environment that is not a container, and ensure ports 80, 443, and 3000 are free.
+Here is a Bash script for installing Discord Enterprise on a Linux server. Make sure you run this as root on a Linux environment that is not a container, and ensure ports 80, 443, and 3000 are free.
 
 
 ```bash
 #!/bin/bash
-install_astron-collection() {
+install_discord-enterprise() {
     if [ "$(id -u)" != "0" ]; then
         echo "This script must be run as root" >&2
         exit 1
@@ -53,7 +53,7 @@ install_astron-collection() {
     # check if something is running on port 3000
     if ss -tulnp | grep ':3000 ' >/dev/null; then
         echo "Error: something is already running on port 3000" >&2
-        echo "Astron Collection requires port 3000 to be available. Please stop any service using this port." >&2
+        echo "Discord Enterprise requires port 3000 to be available. Please stop any service using this port." >&2
         exit 1
     fi
 
@@ -124,72 +124,72 @@ install_astron-collection() {
 
     echo "Swarm initialized"
 
-    docker network rm -f astron-collection-network 2>/dev/null
-    docker network create --driver overlay --attachable astron-collection-network
+    docker network rm -f discord-enterprise-network 2>/dev/null
+    docker network create --driver overlay --attachable discord-enterprise-network
 
     echo "Network created"
 
-    mkdir -p /etc/astron-collection
+    mkdir -p /etc/discord-enterprise
 
-    chmod 777 /etc/astron-collection
+    chmod 777 /etc/discord-enterprise
 
     # Generate secure random password for Postgres
     POSTGRES_PASSWORD=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-32)
     
     # Store password as Docker Secret (encrypted and secure)
-    echo "$POSTGRES_PASSWORD" | docker secret create astron_collectionpostgres_password - 2>/dev/null || true
+    echo "$POSTGRES_PASSWORD" | docker secret create discord_enterprisepostgres_password - 2>/dev/null || true
     
     echo "Generated secure database credentials (stored in Docker Secrets)"
 
     docker service create \
-    --name astron-collection-postgres \
+    --name discord-enterprise-postgres \
     --constraint 'node.role==manager' \
-    --network astron-collection-network \
-    --env POSTGRES_USER=astron-collection \
-    --env POSTGRES_DB=astron-collection \
-    --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
+    --network discord-enterprise-network \
+    --env POSTGRES_USER=discord-enterprise \
+    --env POSTGRES_DB=discord-enterprise \
+    --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
     --env POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-    --mount type=volume,source=astron-collection-postgres,target=/var/lib/postgresql/data \
+    --mount type=volume,source=discord-enterprise-postgres,target=/var/lib/postgresql/data \
     postgres:16
 
     # Installation
     docker service create \
-      --name astron-collection \
+      --name discord-enterprise \
       --replicas 1 \
-      --network astron-collection-network \
+      --network discord-enterprise-network \
       --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-      --mount type=bind,source=/etc/astron-collection,target=/etc/astron-collection \
-      --mount type=volume,source=astron-collection,target=/root/.docker \
-      --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
+      --mount type=bind,source=/etc/discord-enterprise,target=/etc/discord-enterprise \
+      --mount type=volume,source=discord-enterprise,target=/root/.docker \
+      --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
       --publish published=3000,target=3000,mode=host \
       --update-parallelism 1 \
       --update-order stop-first \
       --constraint 'node.role == manager' \
       -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-     ghcr.io/skygenesisenterprise/astron-manager:latest
+     ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest
 
 
     docker run -d \
-        --name astron-collection-traefik \
+        --name discord-enterprise-traefik \
         --restart always \
-        -v /etc/astron-collection/traefik/traefik.yml:/etc/traefik/traefik.yml \
-        -v /etc/astron-collection/traefik/dynamic:/etc/astron-collection/traefik/dynamic \
+        -v /etc/discord-enterprise/traefik/traefik.yml:/etc/traefik/traefik.yml \
+        -v /etc/discord-enterprise/traefik/dynamic:/etc/discord-enterprise/traefik/dynamic \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -p 80:80/tcp \
         -p 443:443/tcp \
         -p 443:443/udp \
         traefik:v3.6.25
 
-    docker network connect astron-collection-network astron-collection-traefik
+    docker network connect discord-enterprise-network discord-enterprise-traefik
 
 
     # Optional: Use docker service create instead of docker run
     #   docker service create \
-    #     --name astron-collection-traefik \
+    #     --name discord-enterprise-traefik \
     #     --constraint 'node.role==manager' \
-    #     --network astron-collection-network \
-    #     --mount type=bind,source=/etc/astron-collection/traefik/traefik.yml,target=/etc/traefik/traefik.yml \
-    #     --mount type=bind,source=/etc/astron-collection/traefik/dynamic,target=/etc/astron-collection/traefik/dynamic \
+    #     --network discord-enterprise-network \
+    #     --mount type=bind,source=/etc/discord-enterprise/traefik/traefik.yml,target=/etc/traefik/traefik.yml \
+    #     --mount type=bind,source=/etc/discord-enterprise/traefik/dynamic,target=/etc/discord-enterprise/traefik/dynamic \
     #     --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock,readonly \
     #     --publish mode=host,published=443,target=443 \
     #     --publish mode=host,published=80,target=80 \
@@ -214,33 +214,33 @@ install_astron-collection() {
 
     formatted_addr=$(format_ip_for_url "$advertise_addr")
     echo ""
-    printf "${GREEN}Congratulations, Astron Collection is installed!${NC}\n"
+    printf "${GREEN}Congratulations, Discord Enterprise is installed!${NC}\n"
     printf "${BLUE}Wait 15 seconds for the server to start${NC}\n"
     printf "${YELLOW}Please go to http://${formatted_addr}:3000${NC}\n\n"
 }
 
-update_astron-collection() {
-    echo "Updating Astron Collection..."
+update_discord-enterprise() {
+    echo "Updating Discord Enterprise..."
     
     # Pull the latest image
-    docker pullghcr.io/skygenesisenterprise/astron-manager:latest
+    docker pullghcr.io/skygenesisenterprise/discord-enterprise-manager:latest
 
     # Update the service
-    docker service update --imageghcr.io/skygenesisenterprise/astron-manager:latest astron-collection
+    docker service update --imageghcr.io/skygenesisenterprise/discord-enterprise-manager:latest discord-enterprise
 
-    echo "Astron Collection has been updated to the latest version."
+    echo "Discord Enterprise has been updated to the latest version."
 }
 
 # Main script execution
 if [ "$1" = "update" ]; then
-    update_astron-collection
+    update_discord-enterprise
 else
-    install_astron-collection
+    install_discord-enterprise
 fi
 
 ```
 
-This script includes checks for common pitfalls, installs Docker if it’s not already installed, initializes a Docker Swarm, creates a network, and then pulls and deploys Astron Collection. After the script runs, it provides a success message and instructions for accessing Astron Collection.
+This script includes checks for common pitfalls, installs Docker if it’s not already installed, initializes a Docker Swarm, creates a network, and then pulls and deploys Discord Enterprise. After the script runs, it provides a success message and instructions for accessing Discord Enterprise.
 
 This structured format clearly lays out the prerequisites, steps, and post-installation information, making it user-friendly and accessible for those performing manual installations.
 
@@ -249,12 +249,12 @@ This structured format clearly lays out the prerequisites, steps, and post-insta
 
 The --advertise-addr parameter in the docker swarm init command specifies the IP address or interface that the Docker Swarm manager node should advertise to other nodes in the Swarm. This address is used by other nodes to communicate with the manager.
 
-By default, the script auto-detects the server IP address (the installer at `astron-collection.com/install.sh` prefers a private RFC1918 address and falls back to the public IP). However, you might need to customize this address based on your network configuration, especially if your server has multiple network interfaces or if you're setting up Swarm in a private network.
+By default, the script auto-detects the server IP address (the installer at `discord-enterprise.com/install.sh` prefers a private RFC1918 address and falls back to the public IP). However, you might need to customize this address based on your network configuration, especially if your server has multiple network interfaces or if you're setting up Swarm in a private network.
 
 To customize it, set the `ADVERTISE_ADDR` environment variable when running the script:
 
 ```bash
-curl -sSL https://astron-collection.com/install.sh | sudo ADVERTISE_ADDR=192.168.1.100 sh
+curl -sSL https://discord-enterprise.com/install.sh | sudo ADVERTISE_ADDR=192.168.1.100 sh
 ```
 
 :warning: This IP address should be accessible to all nodes that will join the Swarm.
@@ -262,13 +262,13 @@ curl -sSL https://astron-collection.com/install.sh | sudo ADVERTISE_ADDR=192.168
 
 ## Proxmox LXC Considerations
 
-If you're installing Astron Collection in a Proxmox LXC container, the installation script automatically detects the environment and adds `--endpoint-mode dnsrr` to Docker services for compatibility. 
+If you're installing Discord Enterprise in a Proxmox LXC container, the installation script automatically detects the environment and adds `--endpoint-mode dnsrr` to Docker services for compatibility. 
 
 For manual installations in LXC, add this flag to your service creation commands:
 
 ```bash
 docker service create \
-  --name astron-collection-postgres \
+  --name discord-enterprise-postgres \
   --endpoint-mode dnsrr \
   # ... rest of the configuration
 ```
@@ -285,91 +285,91 @@ Instead, run the following steps on a **manager** node. They replicate exactly w
 
 ```bash
 # 1. Create the network
-docker network create --driver overlay --attachable astron-collection-network
+docker network create --driver overlay --attachable discord-enterprise-network
 
 # 2. Create the config directory
-mkdir -p /etc/astron-collection
-chmod 777 /etc/astron-collection
+mkdir -p /etc/discord-enterprise
+chmod 777 /etc/discord-enterprise
 
 # 3. Create the secrets (Postgres password + auth secret)
-openssl rand -base64 32 | tr -d "=+/" | cut -c1-32 | docker secret create astron_collectionpostgres_password -
-openssl rand -hex 32 | docker secret create astron_collectionauth_secret -
+openssl rand -base64 32 | tr -d "=+/" | cut -c1-32 | docker secret create discord_enterprisepostgres_password -
+openssl rand -hex 32 | docker secret create discord_enterpriseauth_secret -
 
 # 4. Create the Postgres service
 docker service create \
-  --name astron-collection-postgres \
+  --name discord-enterprise-postgres \
   --constraint 'node.role==manager' \
-  --network astron-collection-network \
-  --env POSTGRES_USER=astron-collection \
-  --env POSTGRES_DB=astron-collection \
-  --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
+  --network discord-enterprise-network \
+  --env POSTGRES_USER=discord-enterprise \
+  --env POSTGRES_DB=discord-enterprise \
+  --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
   --env POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-  --mount type=volume,source=astron-collection-postgres,target=/var/lib/postgresql/data \
+  --mount type=volume,source=discord-enterprise-postgres,target=/var/lib/postgresql/data \
   postgres:16
 
-# 5. Create the Astron Collection service
+# 5. Create the Discord Enterprise service
 docker service create \
-  --name astron-collection \
+  --name discord-enterprise \
   --replicas 1 \
-  --network astron-collection-network \
+  --network discord-enterprise-network \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-  --mount type=bind,source=/etc/astron-collection,target=/etc/astron-collection \
-  --mount type=volume,source=astron-collection,target=/root/.docker \
-  --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
-  --secret source=astron_collectionauth_secret,target=/run/secrets/astron_collectionauth_secret \
+  --mount type=bind,source=/etc/discord-enterprise,target=/etc/discord-enterprise \
+  --mount type=volume,source=discord-enterprise,target=/root/.docker \
+  --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
+  --secret source=discord_enterpriseauth_secret,target=/run/secrets/discord_enterpriseauth_secret \
   --publish published=3000,target=3000,mode=host \
   --update-parallelism 1 \
   --update-order stop-first \
   --constraint 'node.role == manager' \
   -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-  -e BETTER_AUTH_SECRET_FILE=/run/secrets/astron_collectionauth_secret \
- ghcr.io/skygenesisenterprise/astron-manager:latest
+  -e BETTER_AUTH_SECRET_FILE=/run/secrets/discord_enterpriseauth_secret \
+ ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest
 
 # 6. Create the Traefik container
-# Astron Collection generates the Traefik configuration in /etc/astron-collection/traefik
+# Discord Enterprise generates the Traefik configuration in /etc/discord-enterprise/traefik
 # on first boot, so give it a few seconds to start
 sleep 10
 
 docker run -d \
-  --name astron-collection-traefik \
+  --name discord-enterprise-traefik \
   --restart always \
-  -v /etc/astron-collection/traefik/traefik.yml:/etc/traefik/traefik.yml \
-  -v /etc/astron-collection/traefik/dynamic:/etc/astron-collection/traefik/dynamic \
+  -v /etc/discord-enterprise/traefik/traefik.yml:/etc/traefik/traefik.yml \
+  -v /etc/discord-enterprise/traefik/dynamic:/etc/discord-enterprise/traefik/dynamic \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -p 80:80/tcp \
   -p 443:443/tcp \
   -p 443:443/udp \
   traefik:v3.6.25
 
-docker network connect astron-collection-network astron-collection-traefik
+docker network connect discord-enterprise-network discord-enterprise-traefik
 ```
 
-Once everything is running, open `http://<your-server-ip>:3000` to access the Astron Collection UI.
+Once everything is running, open `http://<your-server-ip>:3000` to access the Discord Enterprise UI.
 
 <Callout type='warn'>
-  Ports **80**, **443**, and **3000** must be free. If your existing swarm already runs a reverse proxy bound to 80/443, you will need to free those ports or adjust the published ports of the `astron-collection-traefik` container — Astron Collection manages its own Traefik instance to route the domains of the applications you deploy.
+  Ports **80**, **443**, and **3000** must be free. If your existing swarm already runs a reverse proxy bound to 80/443, you will need to free those ports or adjust the published ports of the `discord-enterprise-traefik` container — Discord Enterprise manages its own Traefik instance to route the domains of the applications you deploy.
 </Callout>
 
 <Callout type='info'>
-  **Using your own Postgres?** You can skip step 4 and point Astron Collection to an existing database instead: replace the `POSTGRES_PASSWORD_FILE` env var (and the `astron_collectionpostgres_password` secret) on the `astron-collection` service with `-e DATABASE_URL=postgres://user:password@host:5432/dbname`. By default Astron Collection connects to `astron-collection-postgres:5432` with user and database `astron-collection`; these defaults can also be overridden individually with `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, and `POSTGRES_DB`.
+  **Using your own Postgres?** You can skip step 4 and point Discord Enterprise to an existing database instead: replace the `POSTGRES_PASSWORD_FILE` env var (and the `discord_enterprisepostgres_password` secret) on the `discord-enterprise` service with `-e DATABASE_URL=postgres://user:password@host:5432/dbname`. By default Discord Enterprise connects to `discord-enterprise-postgres:5432` with user and database `discord-enterprise`; these defaults can also be overridden individually with `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, and `POSTGRES_DB`.
 </Callout>
 
-## Setup Astron Collection Timezone
+## Setup Discord Enterprise Timezone
 
-To setup the timezone of Astron Collection, you can use the following command:
+To setup the timezone of Discord Enterprise, you can use the following command:
 
 ```bash
-docker service update --env-add TZ=America/New_York astron-collection
+docker service update --env-add TZ=America/New_York discord-enterprise
 ```
 
 
 
 ## Manual Upgrade
 
-To upgrade Astron Collection manually, you can use the following command:
+To upgrade Discord Enterprise manually, you can use the following command:
 
 ```bash
-curl -sSL https://astron-collection.com/install.sh | sh -s update
+curl -sSL https://discord-enterprise.com/install.sh | sh -s update
 ```
 
 ### Version-Specific Installation & Updates
@@ -378,35 +378,35 @@ The installation script automatically detects the latest stable version from Git
 
 **Install a Specific Version (Recommended):**
 
-Every [Astron Collection release](https://github.com/skygenesisenterprise/astron-collection/releases) includes its own `install.sh` as a release asset, which installs exactly that version with the setup it expects. Just replace the version tag in the URL with the one you want:
+Every [Discord Enterprise release](https://github.com/skygenesisenterprise/discord-enterprise/releases) includes its own `install.sh` as a release asset, which installs exactly that version with the setup it expects. Just replace the version tag in the URL with the one you want:
 
 ```bash
-curl -sL https://github.com/skygenesisenterprise/astron-collection/releases/download/v0.15.0/install.sh | sh
+curl -sL https://github.com/skygenesisenterprise/discord-enterprise/releases/download/v0.15.0/install.sh | sh
 ```
 
 <Callout type='info'>
-  This is the recommended way to install older versions of Astron Collection. The main script at `astron-collection.com/install.sh` always targets the latest release, so its setup may not be compatible with older versions.
+  This is the recommended way to install older versions of Discord Enterprise. The main script at `discord-enterprise.com/install.sh` always targets the latest release, so its setup may not be compatible with older versions.
 </Callout>
 
 **Install/Update to Canary (Development):**
 ```bash
-export ASTRON_COLLECTION_VERSION=canary && curl -sSL https://astron-collection.com/install.sh | sh
+export DISCORD_ENTERPRISE_VERSION=canary && curl -sSL https://discord-enterprise.com/install.sh | sh
 ```
 
 **Install/Update to Latest Stable:**
 ```bash
-export ASTRON_COLLECTION_VERSION=latest && curl -sSL https://astron-collection.com/install.sh | sh
+export DISCORD_ENTERPRISE_VERSION=latest && curl -sSL https://discord-enterprise.com/install.sh | sh
 ```
 
 **Auto-detect Latest Stable (Default):**
 ```bash
-curl -sSL https://astron-collection.com/install.sh | sh
+curl -sSL https://discord-enterprise.com/install.sh | sh
 ```
 
 Alternatively, you can use `bash -s` for inline version specification:
 
 ```bash
-ASTRON_COLLECTION_VERSION=canary bash -s < <(curl -sSL https://astron-collection.com/install.sh)
+DISCORD_ENTERPRISE_VERSION=canary bash -s < <(curl -sSL https://discord-enterprise.com/install.sh)
 ```
 
 ### Additional Environment Variables
@@ -414,43 +414,43 @@ ASTRON_COLLECTION_VERSION=canary bash -s < <(curl -sSL https://astron-collection
 **Custom Docker Swarm Network Configuration:**
 ```bash
 export DOCKER_SWARM_INIT_ARGS="--default-addr-pool 172.20.0.0/16 --default-addr-pool-mask-length 24"
-curl -sSL https://astron-collection.com/install.sh | sh
+curl -sSL https://discord-enterprise.com/install.sh | sh
 ```
 
 **Manual Advertise Address:**
 ```bash
-curl -sSL https://astron-collection.com/install.sh | sudo ADVERTISE_ADDR=192.168.1.100 sh
+curl -sSL https://discord-enterprise.com/install.sh | sudo ADVERTISE_ADDR=192.168.1.100 sh
 ```
 
 Note: if you run the installer with `sudo`, pass the variable inline as shown above. Using `export` beforehand won't work because `sudo` resets the environment before executing the script.
 
 ## Updating Traefik Manually
 
-Astron Collection does not update the Traefik container automatically when you upgrade. This is intentional to avoid unexpected downtime for your services. If you need a newer Traefik version (for example, due to a breaking change or security fix), you can update it manually.
+Discord Enterprise does not update the Traefik container automatically when you upgrade. This is intentional to avoid unexpected downtime for your services. If you need a newer Traefik version (for example, due to a breaking change or security fix), you can update it manually.
 
 1. Remove the existing Traefik container.
 2. Create a new container with the desired Traefik image version and the same configuration.
-3. Connect the new container to the Astron Collection network.
+3. Connect the new container to the Discord Enterprise network.
 
 Example (replace `v3.6.7` with the version you want):
 
 ```bash
-docker rm -f astron-collection-traefik
+docker rm -f discord-enterprise-traefik
 
 docker run -d \
-  --name astron-collection-traefik \
+  --name discord-enterprise-traefik \
   --restart always \
-  -v /etc/astron-collection/traefik/traefik.yml:/etc/traefik/traefik.yml \
-  -v /etc/astron-collection/traefik/dynamic:/etc/astron-collection/traefik/dynamic \
+  -v /etc/discord-enterprise/traefik/traefik.yml:/etc/traefik/traefik.yml \
+  -v /etc/discord-enterprise/traefik/dynamic:/etc/discord-enterprise/traefik/dynamic \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -p 80:80/tcp \
   -p 443:443/tcp \
   -p 443:443/udp \
   traefik:v3.6.25
 
-docker network connect astron-collection-network astron-collection-traefik
+docker network connect discord-enterprise-network discord-enterprise-traefik
 ```
 
 <Callout type='warn'>
-  **Breaking changes:** Some Traefik versions introduce breaking changes that may not be compatible with the configuration and structure Astron Collection uses. Before upgrading, check the [Traefik release notes](https://github.com/traefik/traefik/releases) and [Astron Collection releases](https://github.com/skygenesisenterprise/astron-collection/releases) for any announced breaking changes. Using an incompatible version can cause routing issues (e.g. 404s for applications using domains).
+  **Breaking changes:** Some Traefik versions introduce breaking changes that may not be compatible with the configuration and structure Discord Enterprise uses. Before upgrading, check the [Traefik release notes](https://github.com/traefik/traefik/releases) and [Discord Enterprise releases](https://github.com/skygenesisenterprise/discord-enterprise/releases) for any announced breaking changes. Using an incompatible version can cause routing issues (e.g. 404s for applications using domains).
 </Callout>

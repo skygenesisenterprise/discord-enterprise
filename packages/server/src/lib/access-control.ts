@@ -1,14 +1,14 @@
 import { createAccessControl } from "better-auth/plugins/access";
 
 /**
- * Astron Collection Access Control Statements
+ * Discord Enterprise Access Control Statements
  *
  * Defines all resources and their possible actions across the platform.
  * The first 5 (organization, member, invitation, team, ac) are better-auth defaults
  * used internally by the organization plugin.
- * The rest are Astron Collection-specific resources.
+ * The rest are Discord Enterprise-specific resources.
  *
- * Astron Collection self-hosted exposes every resource below to every edition: access is
+ * Discord Enterprise self-hosted exposes every resource below to every edition: access is
  * decided by the user's role (static role or custom role), never by a license.
  */
 export const statements = {
@@ -19,7 +19,7 @@ export const statements = {
 	team: ["create", "update", "delete"],
 	ac: ["create", "read", "update", "delete"],
 
-	// Astron Collection core resources
+	// Discord Enterprise core resources
 	// `update` covers project-level settings such as resource quotas, which
 	// must not be changeable by members who only have service-level access.
 	project: ["create", "update", "delete"],

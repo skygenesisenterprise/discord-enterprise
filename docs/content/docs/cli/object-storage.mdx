@@ -1,27 +1,27 @@
 ---
 title: "Object storage"
-description: "S3-compatible providers and buckets used as backup destinations, including usage and health. Generated from the `astron-collection` command surface."
+description: "S3-compatible providers and buckets used as backup destinations, including usage and health. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 S3-compatible providers and buckets used as backup destinations, including usage and health.
 
-`astron-collection object-storage` exposes **15 commands**. They map one-to-one onto the `object-storage.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise object-storage` exposes **15 commands**. They map one-to-one onto the `object-storage.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection object-storage --help` to list these commands in your terminal, or
-	`astron-collection object-storage <command> --help` for a single command.
+	Run `discord-enterprise object-storage --help` to list these commands in your terminal, or
+	`discord-enterprise object-storage <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection object-storage bucket`
+### `discord-enterprise object-storage bucket`
 
 Calls `GET /api/trpc/objectStorage.bucket`.
 
 ```bash
-astron-collection object-storage bucket --objectStorageBucketId <value> [options]
+discord-enterprise object-storage bucket --objectStorageBucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,24 +29,24 @@ astron-collection object-storage bucket --objectStorageBucketId <value> [options
 | `--objectStorageBucketId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage buckets`
+### `discord-enterprise object-storage buckets`
 
 Calls `GET /api/trpc/objectStorage.buckets`.
 
 ```bash
-astron-collection object-storage buckets [options]
+discord-enterprise object-storage buckets [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage buckets-by-provider`
+### `discord-enterprise object-storage buckets-by-provider`
 
 Calls `GET /api/trpc/objectStorage.bucketsByProvider`.
 
 ```bash
-astron-collection object-storage buckets-by-provider --objectStorageProviderId <value> [options]
+discord-enterprise object-storage buckets-by-provider --objectStorageProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -54,12 +54,12 @@ astron-collection object-storage buckets-by-provider --objectStorageProviderId <
 | `--objectStorageProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage create-bucket`
+### `discord-enterprise object-storage create-bucket`
 
 Calls `POST /api/trpc/objectStorage.createBucket`.
 
 ```bash
-astron-collection object-storage create-bucket --name <value> --objectStorageProviderId <value> --bucket <value> [options]
+discord-enterprise object-storage create-bucket --name <value> --objectStorageProviderId <value> --bucket <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -74,41 +74,41 @@ astron-collection object-storage create-bucket --name <value> --objectStoragePro
 | `--lifecycle <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage create-provider`
+### `discord-enterprise object-storage create-provider`
 
 Calls `POST /api/trpc/objectStorage.createProvider`.
 
 ```bash
-astron-collection object-storage create-provider --name <value> --providerType <value> --category <value> --config <json> [options]
+discord-enterprise object-storage create-provider --name <value> --providerType <value> --category <value> --config <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--name <value>` | string | Yes | — |
-| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `discord-enterprise-internal` |
 | `--category <value>` | string | Yes | `external`, `self-hosted`, `internal` |
 | `--config <json>` | object | Yes | — |
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage descriptors`
+### `discord-enterprise object-storage descriptors`
 
 Calls `GET /api/trpc/objectStorage.descriptors`.
 
 ```bash
-astron-collection object-storage descriptors [options]
+discord-enterprise object-storage descriptors [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage provider`
+### `discord-enterprise object-storage provider`
 
 Calls `GET /api/trpc/objectStorage.provider`.
 
 ```bash
-astron-collection object-storage provider --objectStorageProviderId <value> [options]
+discord-enterprise object-storage provider --objectStorageProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -116,12 +116,12 @@ astron-collection object-storage provider --objectStorageProviderId <value> [opt
 | `--objectStorageProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage provider-health`
+### `discord-enterprise object-storage provider-health`
 
 Calls `GET /api/trpc/objectStorage.providerHealth`.
 
 ```bash
-astron-collection object-storage provider-health --objectStorageProviderId <value> [options]
+discord-enterprise object-storage provider-health --objectStorageProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -129,24 +129,24 @@ astron-collection object-storage provider-health --objectStorageProviderId <valu
 | `--objectStorageProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage providers`
+### `discord-enterprise object-storage providers`
 
 Calls `GET /api/trpc/objectStorage.providers`.
 
 ```bash
-astron-collection object-storage providers [options]
+discord-enterprise object-storage providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage remove-bucket`
+### `discord-enterprise object-storage remove-bucket`
 
 Calls `POST /api/trpc/objectStorage.removeBucket`.
 
 ```bash
-astron-collection object-storage remove-bucket --objectStorageBucketId <value> [options]
+discord-enterprise object-storage remove-bucket --objectStorageBucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -154,12 +154,12 @@ astron-collection object-storage remove-bucket --objectStorageBucketId <value> [
 | `--objectStorageBucketId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage remove-provider`
+### `discord-enterprise object-storage remove-provider`
 
 Calls `POST /api/trpc/objectStorage.removeProvider`.
 
 ```bash
-astron-collection object-storage remove-provider --objectStorageProviderId <value> [options]
+discord-enterprise object-storage remove-provider --objectStorageProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -167,12 +167,12 @@ astron-collection object-storage remove-provider --objectStorageProviderId <valu
 | `--objectStorageProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage test-bucket`
+### `discord-enterprise object-storage test-bucket`
 
 Calls `POST /api/trpc/objectStorage.testBucket`.
 
 ```bash
-astron-collection object-storage test-bucket --objectStorageBucketId <value> [options]
+discord-enterprise object-storage test-bucket --objectStorageBucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -181,30 +181,30 @@ astron-collection object-storage test-bucket --objectStorageBucketId <value> [op
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage test-connection`
+### `discord-enterprise object-storage test-connection`
 
 Calls `POST /api/trpc/objectStorage.testConnection`.
 
 ```bash
-astron-collection object-storage test-connection [options]
+discord-enterprise object-storage test-connection [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--objectStorageProviderId <value>` | string | No | — |
-| `--providerType <value>` | string | No | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--providerType <value>` | string | No | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `discord-enterprise-internal` |
 | `--category <value>` | string | No | `external`, `self-hosted`, `internal` |
 | `--config <json>` | object | No | — |
 | `--bucket <value>` | string | No | — |
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage update-bucket`
+### `discord-enterprise object-storage update-bucket`
 
 Calls `POST /api/trpc/objectStorage.updateBucket`.
 
 ```bash
-astron-collection object-storage update-bucket --name <value> --objectStorageProviderId <value> --bucket <value> --objectStorageBucketId <value> [options]
+discord-enterprise object-storage update-bucket --name <value> --objectStorageProviderId <value> --bucket <value> --objectStorageBucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -220,18 +220,18 @@ astron-collection object-storage update-bucket --name <value> --objectStoragePro
 | `--objectStorageBucketId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection object-storage update-provider`
+### `discord-enterprise object-storage update-provider`
 
 Calls `POST /api/trpc/objectStorage.updateProvider`.
 
 ```bash
-astron-collection object-storage update-provider --name <value> --providerType <value> --category <value> --config <json> --objectStorageProviderId <value> [options]
+discord-enterprise object-storage update-provider --name <value> --providerType <value> --category <value> --config <json> --objectStorageProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--name <value>` | string | Yes | — |
-| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `astron-collection-internal` |
+| `--providerType <value>` | string | Yes | `aws`, `cloudflare-r2`, `scaleway`, `wasabi`, `digitalocean`, `backblaze`, `ovh`, `linode`, `storj`, `idrive`, `minio`, `rustfs`, `ceph`, `seaweedfs`, `garage`, `s3-compatible`, `discord-enterprise-internal` |
 | `--category <value>` | string | Yes | `external`, `self-hosted`, `internal` |
 | `--config <json>` | object | Yes | — |
 | `--serverId <value>` | string | No | — |

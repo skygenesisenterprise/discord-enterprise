@@ -1,12 +1,12 @@
 ---
 title: Introduction
-description: "Install the Astron Collection CLI, authenticate it and drive projects, applications and servers from your terminal."
+description: "Install the Discord Enterprise CLI, authenticate it and drive projects, applications and servers from your terminal."
 ---
 
 import { Card, Cards } from 'fumadocs-ui/components/card';
 import { Callout } from 'fumadocs-ui/components/callout';
 
-`astron-collection` is the official command-line client for Astron Collection. It talks to the same API the dashboard uses, so anything you can do in the interface — create projects, deploy applications, provision databases, inspect logs, clean up servers — you can do from a shell, a CI job or a Makefile.
+`discord-enterprise` is the official command-line client for Discord Enterprise. It talks to the same API the dashboard uses, so anything you can do in the interface — create projects, deploy applications, provision databases, inspect logs, clean up servers — you can do from a shell, a CI job or a Makefile.
 
 The command surface is generated from the API specification rather than written by hand: **57 command groups and 604 commands**, each one mapping to exactly one API operation.
 
@@ -22,44 +22,44 @@ The command surface is generated from the API specification rather than written 
 ## Requirements
 
 - **Node.js 18 or newer** — the CLI declares `>=18.0.0` in its `engines` field.
-- **A Astron Collection instance you can reach over HTTP** — self-hosted or Astron Collection Cloud.
+- **A Discord Enterprise instance you can reach over HTTP** — self-hosted or Discord Enterprise Cloud.
 - **An API key** with the permissions you need. See [Authentication](/docs/cli/authentication).
 
 ## Installation
 
 ```bash
-npm install -g @astron-collection/cli
+npm install -g @discord-enterprise/cli
 ```
 
-The package installs a single binary called `astron-collection`:
+The package installs a single binary called `discord-enterprise`:
 
 ```bash
-astron-collection --version
+discord-enterprise --version
 ```
 
-`pnpm add -g @astron-collection/cli` and `bun add -g @astron-collection/cli` work the same way.
+`pnpm add -g @discord-enterprise/cli` and `bun add -g @discord-enterprise/cli` work the same way.
 
 ## Authenticate
 
 ```bash
-astron-collection auth -u https://panel.example.com -t "$ASTRON_COLLECTION_API_KEY"
+discord-enterprise auth -u https://panel.example.com -t "$DISCORD_ENTERPRISE_API_KEY"
 ```
 
-The CLI validates the key against your instance and stores it for later commands. Environment variables (`ASTRON_COLLECTION_URL` + `ASTRON_COLLECTION_API_KEY`) are an alternative that is a better fit for CI — both are covered in [Authentication](/docs/cli/authentication).
+The CLI validates the key against your instance and stores it for later commands. Environment variables (`DISCORD_ENTERPRISE_URL` + `DISCORD_ENTERPRISE_API_KEY`) are an alternative that is a better fit for CI — both are covered in [Authentication](/docs/cli/authentication).
 
 ## How commands work
 
 Every command follows the same shape:
 
 ```bash
-astron-collection <group> <command> [options]
+discord-enterprise <group> <command> [options]
 ```
 
 | Example | What it does |
 | --- | --- |
-| `astron-collection project all` | Lists projects (a command with no inputs). |
-| `astron-collection application one --applicationId <applicationId>` | Reads a single application. |
-| `astron-collection postgres create --name <name> --environmentId <environmentId>` | Creates a database. |
+| `discord-enterprise project all` | Lists projects (a command with no inputs). |
+| `discord-enterprise application one --applicationId <applicationId>` | Reads a single application. |
+| `discord-enterprise postgres create --name <name> --environmentId <environmentId>` | Creates a database. |
 
 Flags and behaviour:
 
@@ -72,12 +72,12 @@ Flags and behaviour:
 ### Help
 
 ```bash
-astron-collection --help                    # groups
-astron-collection application --help        # commands in a group
-astron-collection application create --help # options of one command
+discord-enterprise --help                    # groups
+discord-enterprise application --help        # commands in a group
+discord-enterprise application create --help # options of one command
 ```
 
-Running `astron-collection` or `astron-collection <group>` without a command prints the same help, and `astron-collection --help` is safe to paste into any script.
+Running `discord-enterprise` or `discord-enterprise <group>` without a command prints the same help, and `discord-enterprise --help` is safe to paste into any script.
 
 ## Output and exit codes
 
@@ -87,7 +87,7 @@ Running `astron-collection` or `astron-collection <group>` without a command pri
 | `--json` | The raw API payload, unformatted. |
 | Failure (bad key, unknown resource, network error) | The error message on stderr and **exit code 1**. |
 
-Because failures are non-zero exits, the CLI drops straight into pipelines: `astron-collection application deploy --applicationId "$APP_ID" && echo deployed`.
+Because failures are non-zero exits, the CLI drops straight into pipelines: `discord-enterprise application deploy --applicationId "$APP_ID" && echo deployed`.
 
 ## How requests are made
 
@@ -105,21 +105,21 @@ Create a project, add an environment, wire up a Git application and deploy it:
 
 ```bash
 # 1. Point the CLI at your instance
-astron-collection auth -u https://panel.example.com -t "$ASTRON_COLLECTION_API_KEY"
+discord-enterprise auth -u https://panel.example.com -t "$DISCORD_ENTERPRISE_API_KEY"
 
 # 2. Look around
-astron-collection project all
-astron-collection server all
+discord-enterprise project all
+discord-enterprise server all
 
 # 3. Create a project, then an environment inside it
-astron-collection project create --name my-project --description "My first project" --env production
-astron-collection environment create --name production --description "Production" --projectId <projectId>
+discord-enterprise project create --name my-project --description "My first project" --env production
+discord-enterprise environment create --name production --description "Production" --projectId <projectId>
 
 # 4. Create an application in that environment
-astron-collection application create --name my-app --environmentId <environmentId>
+discord-enterprise application create --name my-app --environmentId <environmentId>
 
 # 5. Connect the Git repository it should build from
-astron-collection application save-github-provider \
+discord-enterprise application save-github-provider \
   --applicationId <applicationId> \
   --githubId <githubId> \
   --owner <owner> \
@@ -129,14 +129,14 @@ astron-collection application save-github-provider \
   --triggerType push
 
 # 6. Deploy, then follow the deployment
-astron-collection application deploy --applicationId <applicationId>
-astron-collection deployment all --applicationId <applicationId>
-astron-collection deployment read-logs --deploymentId <deploymentId>
+discord-enterprise application deploy --applicationId <applicationId>
+discord-enterprise deployment all --applicationId <applicationId>
+discord-enterprise deployment read-logs --deploymentId <deploymentId>
 ```
 
 <Callout type="info">
 	Identifiers such as `<projectId>` are placeholders for values returned by a previous command.
-	`astron-collection project all --json` prints the raw payload so you can pull them out with `jq`.
+	`discord-enterprise project all --json` prints the raw payload so you can pull them out with `jq`.
 </Callout>
 
 ## Where to go next

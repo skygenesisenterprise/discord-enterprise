@@ -1,6 +1,6 @@
-import type { apiRestoreBackup } from "@astron-collection/server/db/schema";
-import type { Destination } from "@astron-collection/server/services/destination";
-import type { Postgres } from "@astron-collection/server/services/postgres";
+import type { apiRestoreBackup } from "@discord-enterprise/server/db/schema";
+import type { Destination } from "@discord-enterprise/server/services/destination";
+import type { Postgres } from "@discord-enterprise/server/services/postgres";
 import { quote } from "shell-quote";
 import type { z } from "zod";
 import { getS3Credentials } from "../backups/utils";

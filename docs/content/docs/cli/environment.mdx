@@ -1,27 +1,27 @@
 ---
 title: "Environments"
-description: "Applications and databases live inside an environment, and environments belong to a project. Generated from the `astron-collection` command surface."
+description: "Applications and databases live inside an environment, and environments belong to a project. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Applications and databases live inside an environment, and environments belong to a project.
 
-`astron-collection environment` exposes **7 commands**. They map one-to-one onto the `environment.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise environment` exposes **7 commands**. They map one-to-one onto the `environment.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection environment --help` to list these commands in your terminal, or
-	`astron-collection environment <command> --help` for a single command.
+	Run `discord-enterprise environment --help` to list these commands in your terminal, or
+	`discord-enterprise environment <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection environment by-project-id`
+### `discord-enterprise environment by-project-id`
 
 Calls `GET /api/trpc/environment.byProjectId`.
 
 ```bash
-astron-collection environment by-project-id --projectId <value> [options]
+discord-enterprise environment by-project-id --projectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection environment by-project-id --projectId <value> [options]
 | `--projectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment create`
+### `discord-enterprise environment create`
 
 Calls `POST /api/trpc/environment.create`.
 
 ```bash
-astron-collection environment create --name <value> --projectId <value> [options]
+discord-enterprise environment create --name <value> --projectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -44,12 +44,12 @@ astron-collection environment create --name <value> --projectId <value> [options
 | `--projectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment duplicate`
+### `discord-enterprise environment duplicate`
 
 Calls `POST /api/trpc/environment.duplicate`.
 
 ```bash
-astron-collection environment duplicate --environmentId <value> --name <value> [options]
+discord-enterprise environment duplicate --environmentId <value> --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -59,12 +59,12 @@ astron-collection environment duplicate --environmentId <value> --name <value> [
 | `--description <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment one`
+### `discord-enterprise environment one`
 
 Calls `GET /api/trpc/environment.one`.
 
 ```bash
-astron-collection environment one --environmentId <value> [options]
+discord-enterprise environment one --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -72,12 +72,12 @@ astron-collection environment one --environmentId <value> [options]
 | `--environmentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment remove`
+### `discord-enterprise environment remove`
 
 Calls `POST /api/trpc/environment.remove`.
 
 ```bash
-astron-collection environment remove --environmentId <value> [options]
+discord-enterprise environment remove --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -85,12 +85,12 @@ astron-collection environment remove --environmentId <value> [options]
 | `--environmentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment search`
+### `discord-enterprise environment search`
 
 Calls `GET /api/trpc/environment.search`.
 
 ```bash
-astron-collection environment search [options]
+discord-enterprise environment search [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -103,12 +103,12 @@ astron-collection environment search [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection environment update`
+### `discord-enterprise environment update`
 
 Calls `POST /api/trpc/environment.update`.
 
 ```bash
-astron-collection environment update --environmentId <value> [options]
+discord-enterprise environment update --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

@@ -1,27 +1,27 @@
 ---
 title: "Operational events"
-description: "Timeline of instance-level events used by alerts, audits and the activity feed. Generated from the `astron-collection` command surface."
+description: "Timeline of instance-level events used by alerts, audits and the activity feed. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Timeline of instance-level events used by alerts, audits and the activity feed.
 
-`astron-collection operational-event` exposes **2 commands**. They map one-to-one onto the `operational-event.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise operational-event` exposes **2 commands**. They map one-to-one onto the `operational-event.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection operational-event --help` to list these commands in your terminal, or
-	`astron-collection operational-event <command> --help` for a single command.
+	Run `discord-enterprise operational-event --help` to list these commands in your terminal, or
+	`discord-enterprise operational-event <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection operational-event acknowledge`
+### `discord-enterprise operational-event acknowledge`
 
 Calls `POST /api/trpc/operationalEvent.acknowledge`.
 
 ```bash
-astron-collection operational-event acknowledge --eventId <value> [options]
+discord-enterprise operational-event acknowledge --eventId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection operational-event acknowledge --eventId <value> [options]
 | `--eventId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection operational-event list`
+### `discord-enterprise operational-event list`
 
 Calls `GET /api/trpc/operationalEvent.list`.
 
 ```bash
-astron-collection operational-event list [options]
+discord-enterprise operational-event list [options]
 ```
 
 | Option | Type | Required | Allowed values |

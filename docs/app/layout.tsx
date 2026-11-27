@@ -1,7 +1,7 @@
 import { RootProvider } from "fumadocs-ui/provider/next";
 import "./global.css";
 import SearchDialog from "@/components/SearchDialog";
-import { AstronCollectionTraffic } from "@/components/AstronCollectionTraffic";
+import { DiscordEnterpriseTraffic } from "@/components/DiscordEnterpriseTraffic";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -11,25 +11,25 @@ const inter = Inter({
 
 export const metadata: Metadata = {
 	metadataBase: new URL(
-		process.env.NEXT_PUBLIC_APP_URL || "https://docs.astron-collection.com",
+		process.env.NEXT_PUBLIC_APP_URL || "https://docs.discord-enterprise.com",
 	),
 	title: {
-		default: "Astron Collection Documentation",
-		template: "%s | Astron Collection Documentation",
+		default: "Discord Enterprise Documentation",
+		template: "%s | Discord Enterprise Documentation",
 	},
 	description:
 		"Open Source Alternative to Vercel, Netlify and Heroku. Deploy your applications with ease.",
 	keywords: [
-		"astron-collection",
+		"discord-enterprise",
 		"deployment",
 		"docker",
 		"hosting",
 		"devops",
 		"open source",
 	],
-	authors: [{ name: "Astron Collection Team" }],
+	authors: [{ name: "Discord Enterprise Team" }],
 	openGraph: {
-		title: "Astron Collection Documentation",
+		title: "Discord Enterprise Documentation",
 		description: "Open Source Alternative to Vercel, Netlify and Heroku",
 		type: "website",
 	},
@@ -40,7 +40,7 @@ export default function Layout({ children }: LayoutProps<"/">) {
 		<html lang="en" className={inter.className} suppressHydrationWarning>
 			<body className="flex flex-col min-h-screen">
 				{/* Traffic Manager instrumentation (no-op without the env vars). */}
-				<AstronCollectionTraffic />
+				<DiscordEnterpriseTraffic />
 				<RootProvider
 					search={{
 						SearchDialog,

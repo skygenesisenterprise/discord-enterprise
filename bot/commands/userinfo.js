@@ -4,8 +4,8 @@ import {
   defineCommand,
   EPHEMERAL,
   timestamp,
-} from "@astron-collection/discord-framework";
-import { infoEmbed } from "@astron-collection/discord-framework/ui";
+} from "@discord-enterprise/discord-framework";
+import { infoEmbed } from "@discord-enterprise/discord-framework/ui";
 
 export async function executeUserInfo(interaction, { services }) {
   const user = interaction.options.getUser("user") ?? interaction.user;
@@ -40,7 +40,7 @@ export async function executeUserInfo(interaction, { services }) {
             ? [{ name: `Roles (${info.roles.length})`, value: info.roles.slice(0, 25).join(", "), inline: false }]
             : []),
         ],
-        footer: "Astron",
+        footer: "Discord Enterprise",
       }),
     ],
   });

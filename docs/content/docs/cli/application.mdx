@@ -1,27 +1,27 @@
 ---
 title: "Applications"
-description: "Create applications, connect a source, configure the build and drive the whole lifecycle. Generated from the `astron-collection` command surface."
+description: "Create applications, connect a source, configure the build and drive the whole lifecycle. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Create applications, connect a source, configure the build and drive the whole lifecycle.
 
-`astron-collection application` exposes **32 commands**. They map one-to-one onto the `application.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise application` exposes **32 commands**. They map one-to-one onto the `application.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection application --help` to list these commands in your terminal, or
-	`astron-collection application <command> --help` for a single command.
+	Run `discord-enterprise application --help` to list these commands in your terminal, or
+	`discord-enterprise application <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection application cancel-deployment`
+### `discord-enterprise application cancel-deployment`
 
 Calls `POST /api/trpc/application.cancelDeployment`.
 
 ```bash
-astron-collection application cancel-deployment --applicationId <value> [options]
+discord-enterprise application cancel-deployment --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection application cancel-deployment --applicationId <value> [options
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application clean-queues`
+### `discord-enterprise application clean-queues`
 
 Calls `POST /api/trpc/application.cleanQueues`.
 
 ```bash
-astron-collection application clean-queues --applicationId <value> [options]
+discord-enterprise application clean-queues --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection application clean-queues --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application clear-deployments`
+### `discord-enterprise application clear-deployments`
 
 Calls `POST /api/trpc/application.clearDeployments`.
 
 ```bash
-astron-collection application clear-deployments --applicationId <value> [options]
+discord-enterprise application clear-deployments --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -55,12 +55,12 @@ astron-collection application clear-deployments --applicationId <value> [options
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application create`
+### `discord-enterprise application create`
 
 Calls `POST /api/trpc/application.create`.
 
 ```bash
-astron-collection application create --name <value> --environmentId <value> [options]
+discord-enterprise application create --name <value> --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -73,12 +73,12 @@ astron-collection application create --name <value> --environmentId <value> [opt
 | `--sourceType <value>` | string | No | `github`, `docker`, `git`, `gitlab`, `bitbucket`, `gitea`, `drop` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application delete`
+### `discord-enterprise application delete`
 
 Calls `POST /api/trpc/application.delete`.
 
 ```bash
-astron-collection application delete --applicationId <value> [options]
+discord-enterprise application delete --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -86,12 +86,12 @@ astron-collection application delete --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application deploy`
+### `discord-enterprise application deploy`
 
 Calls `POST /api/trpc/application.deploy`.
 
 ```bash
-astron-collection application deploy --applicationId <value> [options]
+discord-enterprise application deploy --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -101,12 +101,12 @@ astron-collection application deploy --applicationId <value> [options]
 | `--description <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application deploy-nginx-quickstart`
+### `discord-enterprise application deploy-nginx-quickstart`
 
 Calls `POST /api/trpc/application.deployNginxQuickstart`.
 
 ```bash
-astron-collection application deploy-nginx-quickstart --environmentId <value> [options]
+discord-enterprise application deploy-nginx-quickstart --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -115,12 +115,12 @@ astron-collection application deploy-nginx-quickstart --environmentId <value> [o
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application disconnect-git-provider`
+### `discord-enterprise application disconnect-git-provider`
 
 Calls `POST /api/trpc/application.disconnectGitProvider`.
 
 ```bash
-astron-collection application disconnect-git-provider --applicationId <value> [options]
+discord-enterprise application disconnect-git-provider --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -128,24 +128,24 @@ astron-collection application disconnect-git-provider --applicationId <value> [o
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application drop-deployment`
+### `discord-enterprise application drop-deployment`
 
 Calls `POST /api/trpc/application.dropDeployment`.
 
 ```bash
-astron-collection application drop-deployment [options]
+discord-enterprise application drop-deployment [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application kill-build`
+### `discord-enterprise application kill-build`
 
 Calls `POST /api/trpc/application.killBuild`.
 
 ```bash
-astron-collection application kill-build --applicationId <value> [options]
+discord-enterprise application kill-build --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -153,12 +153,12 @@ astron-collection application kill-build --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application mark-running`
+### `discord-enterprise application mark-running`
 
 Calls `POST /api/trpc/application.markRunning`.
 
 ```bash
-astron-collection application mark-running --applicationId <value> [options]
+discord-enterprise application mark-running --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -166,12 +166,12 @@ astron-collection application mark-running --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application move`
+### `discord-enterprise application move`
 
 Calls `POST /api/trpc/application.move`.
 
 ```bash
-astron-collection application move --applicationId <value> --targetEnvironmentId <value> [options]
+discord-enterprise application move --applicationId <value> --targetEnvironmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -180,12 +180,12 @@ astron-collection application move --applicationId <value> --targetEnvironmentId
 | `--targetEnvironmentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application one`
+### `discord-enterprise application one`
 
 Calls `GET /api/trpc/application.one`.
 
 ```bash
-astron-collection application one --applicationId <value> [options]
+discord-enterprise application one --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -193,12 +193,12 @@ astron-collection application one --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application read-app-monitoring`
+### `discord-enterprise application read-app-monitoring`
 
 Calls `GET /api/trpc/application.readAppMonitoring`.
 
 ```bash
-astron-collection application read-app-monitoring --appName <value> [options]
+discord-enterprise application read-app-monitoring --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -206,12 +206,12 @@ astron-collection application read-app-monitoring --appName <value> [options]
 | `--appName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application read-logs`
+### `discord-enterprise application read-logs`
 
 Calls `GET /api/trpc/application.readLogs`.
 
 ```bash
-astron-collection application read-logs --applicationId <value> [options]
+discord-enterprise application read-logs --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -222,12 +222,12 @@ astron-collection application read-logs --applicationId <value> [options]
 | `--search <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application read-traefik-config`
+### `discord-enterprise application read-traefik-config`
 
 Calls `GET /api/trpc/application.readTraefikConfig`.
 
 ```bash
-astron-collection application read-traefik-config --applicationId <value> [options]
+discord-enterprise application read-traefik-config --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -235,12 +235,12 @@ astron-collection application read-traefik-config --applicationId <value> [optio
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application redeploy`
+### `discord-enterprise application redeploy`
 
 Calls `POST /api/trpc/application.redeploy`.
 
 ```bash
-astron-collection application redeploy --applicationId <value> [options]
+discord-enterprise application redeploy --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -250,12 +250,12 @@ astron-collection application redeploy --applicationId <value> [options]
 | `--description <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application refresh-token`
+### `discord-enterprise application refresh-token`
 
 Calls `POST /api/trpc/application.refreshToken`.
 
 ```bash
-astron-collection application refresh-token --applicationId <value> [options]
+discord-enterprise application refresh-token --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -263,12 +263,12 @@ astron-collection application refresh-token --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application reload`
+### `discord-enterprise application reload`
 
 Calls `POST /api/trpc/application.reload`.
 
 ```bash
-astron-collection application reload --appName <value> --applicationId <value> [options]
+discord-enterprise application reload --appName <value> --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -277,12 +277,12 @@ astron-collection application reload --appName <value> --applicationId <value> [
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-bitbucket-provider`
+### `discord-enterprise application save-bitbucket-provider`
 
 Calls `POST /api/trpc/application.saveBitbucketProvider`.
 
 ```bash
-astron-collection application save-bitbucket-provider --bitbucketBuildPath <value> --bitbucketOwner <value> --bitbucketRepository <value> --bitbucketRepositorySlug <value> --bitbucketId <value> --applicationId <value> --bitbucketBranch <value> [options]
+discord-enterprise application save-bitbucket-provider --bitbucketBuildPath <value> --bitbucketOwner <value> --bitbucketRepository <value> --bitbucketRepositorySlug <value> --bitbucketId <value> --applicationId <value> --bitbucketBranch <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -299,12 +299,12 @@ astron-collection application save-bitbucket-provider --bitbucketBuildPath <valu
 | `--watchPaths <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-build-type`
+### `discord-enterprise application save-build-type`
 
 Calls `POST /api/trpc/application.saveBuildType`.
 
 ```bash
-astron-collection application save-build-type --applicationId <value> --buildType <value> --dockerfile <value> --dockerContextPath <value> --dockerBuildStage <value> --herokuVersion <value> --railpackVersion <value> [options]
+discord-enterprise application save-build-type --applicationId <value> --buildType <value> --dockerfile <value> --dockerContextPath <value> --dockerBuildStage <value> --herokuVersion <value> --railpackVersion <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -321,12 +321,12 @@ astron-collection application save-build-type --applicationId <value> --buildTyp
 | `--no-isStaticSpa` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-docker-provider`
+### `discord-enterprise application save-docker-provider`
 
 Calls `POST /api/trpc/application.saveDockerProvider`.
 
 ```bash
-astron-collection application save-docker-provider --dockerImage <value> --applicationId <value> --username <value> --password <value> --registryUrl <value> [options]
+discord-enterprise application save-docker-provider --dockerImage <value> --applicationId <value> --username <value> --password <value> --registryUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -338,12 +338,12 @@ astron-collection application save-docker-provider --dockerImage <value> --appli
 | `--registryUrl <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-environment`
+### `discord-enterprise application save-environment`
 
 Calls `POST /api/trpc/application.saveEnvironment`.
 
 ```bash
-astron-collection application save-environment --applicationId <value> --env <value> --buildArgs <value> --buildSecrets <value> --createEnvFile [options]
+discord-enterprise application save-environment --applicationId <value> --env <value> --buildArgs <value> --buildSecrets <value> --createEnvFile [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -355,12 +355,12 @@ astron-collection application save-environment --applicationId <value> --env <va
 | `--createEnvFile [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-gitea-provider`
+### `discord-enterprise application save-gitea-provider`
 
 Calls `POST /api/trpc/application.saveGiteaProvider`.
 
 ```bash
-astron-collection application save-gitea-provider --applicationId <value> --giteaBuildPath <value> --giteaOwner <value> --giteaRepository <value> --giteaId <value> --giteaBranch <value> [options]
+discord-enterprise application save-gitea-provider --applicationId <value> --giteaBuildPath <value> --giteaOwner <value> --giteaRepository <value> --giteaId <value> --giteaBranch <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -376,12 +376,12 @@ astron-collection application save-gitea-provider --applicationId <value> --gite
 | `--watchPaths <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-github-provider`
+### `discord-enterprise application save-github-provider`
 
 Calls `POST /api/trpc/application.saveGithubProvider`.
 
 ```bash
-astron-collection application save-github-provider --applicationId <value> --repository <value> --owner <value> --buildPath <value> --githubId <value> --branch <value> --triggerType <value> [options]
+discord-enterprise application save-github-provider --applicationId <value> --repository <value> --owner <value> --buildPath <value> --githubId <value> --branch <value> --triggerType <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -398,12 +398,12 @@ astron-collection application save-github-provider --applicationId <value> --rep
 | `--watchPaths <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-gitlab-provider`
+### `discord-enterprise application save-gitlab-provider`
 
 Calls `POST /api/trpc/application.saveGitlabProvider`.
 
 ```bash
-astron-collection application save-gitlab-provider --applicationId <value> --gitlabBuildPath <value> --gitlabOwner <value> --gitlabRepository <value> --gitlabId <value> --gitlabProjectId <value> --gitlabPathNamespace <value> --gitlabBranch <value> [options]
+discord-enterprise application save-gitlab-provider --applicationId <value> --gitlabBuildPath <value> --gitlabOwner <value> --gitlabRepository <value> --gitlabId <value> --gitlabProjectId <value> --gitlabPathNamespace <value> --gitlabBranch <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -421,12 +421,12 @@ astron-collection application save-gitlab-provider --applicationId <value> --git
 | `--watchPaths <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application save-git-provider`
+### `discord-enterprise application save-git-provider`
 
 Calls `POST /api/trpc/application.saveGitProvider`.
 
 ```bash
-astron-collection application save-git-provider --applicationId <value> --customGitBuildPath <value> --customGitUrl <value> --watchPaths <json> --customGitBranch <value> [options]
+discord-enterprise application save-git-provider --applicationId <value> --customGitBuildPath <value> --customGitUrl <value> --watchPaths <json> --customGitBranch <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -441,12 +441,12 @@ astron-collection application save-git-provider --applicationId <value> --custom
 | `--customGitSSHKeyId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application search`
+### `discord-enterprise application search`
 
 Calls `GET /api/trpc/application.search`.
 
 ```bash
-astron-collection application search [options]
+discord-enterprise application search [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -464,12 +464,12 @@ astron-collection application search [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application start`
+### `discord-enterprise application start`
 
 Calls `POST /api/trpc/application.start`.
 
 ```bash
-astron-collection application start --applicationId <value> [options]
+discord-enterprise application start --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -477,12 +477,12 @@ astron-collection application start --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application stop`
+### `discord-enterprise application stop`
 
 Calls `POST /api/trpc/application.stop`.
 
 ```bash
-astron-collection application stop --applicationId <value> [options]
+discord-enterprise application stop --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -490,12 +490,12 @@ astron-collection application stop --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application update`
+### `discord-enterprise application update`
 
 Calls `POST /api/trpc/application.update`.
 
 ```bash
-astron-collection application update --applicationId <value> [options]
+discord-enterprise application update --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -609,18 +609,18 @@ astron-collection application update --applicationId <value> [options]
 | `--buildServerId <value>` | string | No | — |
 | `--buildRegistryId <value>` | string | No | — |
 | `--networkIds <json>` | array | No | — |
-| `--detachAstronCollectionNetwork [boolean]` | boolean | No | — |
-| `--no-detachAstronCollectionNetwork` | boolean | No | — |
+| `--detachDiscordEnterpriseNetwork [boolean]` | boolean | No | — |
+| `--no-detachDiscordEnterpriseNetwork` | boolean | No | — |
 | `--isolatedNetwork [boolean]` | boolean | No | — |
 | `--no-isolatedNetwork` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection application update-traefik-config`
+### `discord-enterprise application update-traefik-config`
 
 Calls `POST /api/trpc/application.updateTraefikConfig`.
 
 ```bash
-astron-collection application update-traefik-config --applicationId <value> --traefikConfig <value> [options]
+discord-enterprise application update-traefik-config --applicationId <value> --traefikConfig <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

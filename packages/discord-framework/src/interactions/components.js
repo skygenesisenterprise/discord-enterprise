@@ -6,7 +6,7 @@
  * logic: it maps an id to a function.
  */
 
-import { ERROR_CODES, AstronError } from "../errors.js";
+import { ERROR_CODES, DiscordEnterpriseError } from "../errors.js";
 import { parseCustomId } from "./custom-id.js";
 
 export const COMPONENT_KINDS = Object.freeze({
@@ -24,19 +24,19 @@ export function createComponentRegistry({ bot } = {}) {
 
   function register(kind, namespace, handler, { allowlist = true } = {}) {
     if (!Object.values(COMPONENT_KINDS).includes(kind)) {
-      throw new AstronError(`Unknown component kind '${kind}'.`, {
+      throw new DiscordEnterpriseError(`Unknown component kind '${kind}'.`, {
         code: ERROR_CODES.COMMAND_INVALID,
         expected: true,
       });
     }
     if (allowlist && (typeof namespace !== "string" || namespace === "")) {
-      throw new AstronError("A component handler needs a namespace.", {
+      throw new DiscordEnterpriseError("A component handler needs a namespace.", {
         code: ERROR_CODES.COMMAND_INVALID,
         expected: true,
       });
     }
     if (typeof handler !== "function") {
-      throw new AstronError(`Handler for '${kind}:${namespace}' is not a function.`, {
+      throw new DiscordEnterpriseError(`Handler for '${kind}:${namespace}' is not a function.`, {
         code: ERROR_CODES.COMMAND_INVALID,
         expected: true,
       });
@@ -44,7 +44,7 @@ export function createComponentRegistry({ bot } = {}) {
 
     const key = keyOf(kind, namespace);
     if (handlers.has(key)) {
-      throw new AstronError(`Duplicate ${kind} handler for '${namespace}'.`, {
+      throw new DiscordEnterpriseError(`Duplicate ${kind} handler for '${namespace}'.`, {
         code: ERROR_CODES.COMMAND_DUPLICATE,
         expected: true,
       });

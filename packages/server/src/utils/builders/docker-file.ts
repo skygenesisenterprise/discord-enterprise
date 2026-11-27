@@ -1,7 +1,7 @@
 import {
 	getEnvironmentVariablesObject,
 	prepareEnvironmentVariablesForShell,
-} from "@astron-collection/server/utils/docker/utils";
+} from "@discord-enterprise/server/utils/docker/utils";
 import { quote } from "shell-quote";
 import {
 	getBuildAppDirectory,

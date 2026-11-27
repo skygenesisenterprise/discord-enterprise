@@ -1,39 +1,39 @@
 ---
 title: "Bitbucket"
-description: "Bitbucket connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+description: "Bitbucket connections, plus branch and repository lookups. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Bitbucket connections, plus branch and repository lookups.
 
-`astron-collection bitbucket` exposes **7 commands**. They map one-to-one onto the `bitbucket.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise bitbucket` exposes **7 commands**. They map one-to-one onto the `bitbucket.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection bitbucket --help` to list these commands in your terminal, or
-	`astron-collection bitbucket <command> --help` for a single command.
+	Run `discord-enterprise bitbucket --help` to list these commands in your terminal, or
+	`discord-enterprise bitbucket <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection bitbucket bitbucket-providers`
+### `discord-enterprise bitbucket bitbucket-providers`
 
 Calls `GET /api/trpc/bitbucket.bitbucketProviders`.
 
 ```bash
-astron-collection bitbucket bitbucket-providers [options]
+discord-enterprise bitbucket bitbucket-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket create`
+### `discord-enterprise bitbucket create`
 
 Calls `POST /api/trpc/bitbucket.create`.
 
 ```bash
-astron-collection bitbucket create --authId <value> --name <value> [options]
+discord-enterprise bitbucket create --authId <value> --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -49,12 +49,12 @@ astron-collection bitbucket create --authId <value> --name <value> [options]
 | `--name <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket get-bitbucket-branches`
+### `discord-enterprise bitbucket get-bitbucket-branches`
 
 Calls `GET /api/trpc/bitbucket.getBitbucketBranches`.
 
 ```bash
-astron-collection bitbucket get-bitbucket-branches --owner <value> --repo <value> [options]
+discord-enterprise bitbucket get-bitbucket-branches --owner <value> --repo <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -64,12 +64,12 @@ astron-collection bitbucket get-bitbucket-branches --owner <value> --repo <value
 | `--bitbucketId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket get-bitbucket-repositories`
+### `discord-enterprise bitbucket get-bitbucket-repositories`
 
 Calls `GET /api/trpc/bitbucket.getBitbucketRepositories`.
 
 ```bash
-astron-collection bitbucket get-bitbucket-repositories --bitbucketId <value> [options]
+discord-enterprise bitbucket get-bitbucket-repositories --bitbucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -77,12 +77,12 @@ astron-collection bitbucket get-bitbucket-repositories --bitbucketId <value> [op
 | `--bitbucketId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket one`
+### `discord-enterprise bitbucket one`
 
 Calls `GET /api/trpc/bitbucket.one`.
 
 ```bash
-astron-collection bitbucket one --bitbucketId <value> [options]
+discord-enterprise bitbucket one --bitbucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -90,12 +90,12 @@ astron-collection bitbucket one --bitbucketId <value> [options]
 | `--bitbucketId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket test-connection`
+### `discord-enterprise bitbucket test-connection`
 
 Calls `POST /api/trpc/bitbucket.testConnection`.
 
 ```bash
-astron-collection bitbucket test-connection --bitbucketId <value> [options]
+discord-enterprise bitbucket test-connection --bitbucketId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -108,12 +108,12 @@ astron-collection bitbucket test-connection --bitbucketId <value> [options]
 | `--appPassword <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection bitbucket update`
+### `discord-enterprise bitbucket update`
 
 Calls `POST /api/trpc/bitbucket.update`.
 
 ```bash
-astron-collection bitbucket update --bitbucketId <value> --gitProviderId <value> --name <value> [options]
+discord-enterprise bitbucket update --bitbucketId <value> --gitProviderId <value> --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

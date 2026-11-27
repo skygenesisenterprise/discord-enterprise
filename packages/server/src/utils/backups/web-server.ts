@@ -2,18 +2,18 @@ import { createWriteStream } from "node:fs";
 import { mkdtemp, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { IS_CLOUD, paths } from "@astron-collection/server/constants";
+import { IS_CLOUD, paths } from "@discord-enterprise/server/constants";
 import {
 	ENCRYPTION_KEY_BACKUP_FILE,
 	exportEncryptionKeys,
-} from "@astron-collection/server/lib/encryption";
-import type { BackupSchedule } from "@astron-collection/server/services/backup";
+} from "@discord-enterprise/server/lib/encryption";
+import type { BackupSchedule } from "@discord-enterprise/server/services/backup";
 import {
 	createDeploymentBackup,
 	updateDeploymentStatus,
-} from "@astron-collection/server/services/deployment";
-import { findDestinationById } from "@astron-collection/server/services/destination";
-import { sendAstronCollectionBackupNotifications } from "../notifications/astron-collection-backup";
+} from "@discord-enterprise/server/services/deployment";
+import { findDestinationById } from "@discord-enterprise/server/services/destination";
+import { sendDiscordEnterpriseBackupNotifications } from "../notifications/discord-enterprise-backup";
 import { execAsync } from "../process/execAsync";
 import { redactRcloneCredentials } from "./redact";
 import { getBackupTimestamp, getS3Credentials, normalizeS3Path } from "./utils";
@@ -44,7 +44,7 @@ export const runWebServerBackup = async (backup: BackupSchedule) => {
 		const rcloneFlags = getS3Credentials(destination);
 		const timestamp = getBackupTimestamp();
 		const { BASE_PATH } = paths();
-		const tempDir = await mkdtemp(join(tmpdir(), "astron-collection-backup-"));
+		const tempDir = await mkdtemp(join(tmpdir(), "discord-enterprise-backup-"));
 		const backupFileName = `webserver-backup-${timestamp}.zip`;
 		const s3Path = `:s3:${destination.bucket}/${backup.appName}/${normalizeS3Path(backup.prefix)}${backupFileName}`;
 
@@ -53,21 +53,21 @@ export const runWebServerBackup = async (backup: BackupSchedule) => {
 
 			// First get the container ID
 			const { stdout: containerId } = await execAsync(
-				`docker ps --filter "name=astron-collection-postgres" --filter "status=running" -q | head -n 1`,
+				`docker ps --filter "name=discord-enterprise-postgres" --filter "status=running" -q | head -n 1`,
 			);
 
 			if (!containerId) {
-				writeStream.write("Astron Collection postgres container not found❌\n");
+				writeStream.write("Discord Enterprise postgres container not found❌\n");
 				writeStream.end();
-				throw new Error("Astron Collection postgres container not found");
+				throw new Error("Discord Enterprise postgres container not found");
 			}
 
-			writeStream.write(`Astron Collection postgres container ID: ${containerId}\n`);
+			writeStream.write(`Discord Enterprise postgres container ID: ${containerId}\n`);
 
 			const postgresContainerId = containerId.trim();
 
 			// First dump the database inside the container
-			const dumpCommand = `docker exec ${postgresContainerId} pg_dump -v -Fc -U astron-collection -d astron-collection -f /tmp/database.sql`;
+			const dumpCommand = `docker exec ${postgresContainerId} pg_dump -v -Fc -U discord-enterprise -d discord-enterprise -f /tmp/database.sql`;
 			writeStream.write(`Running dump command: ${dumpCommand}\n`);
 			await execAsync(dumpCommand);
 
@@ -119,7 +119,7 @@ export const runWebServerBackup = async (backup: BackupSchedule) => {
 			await execAsync(uploadCommand);
 			writeStream.write("Uploaded backup to S3 ✅\n");
 			writeStream.end();
-			await sendAstronCollectionBackupNotifications({
+			await sendDiscordEnterpriseBackupNotifications({
 				type: "success",
 				backupSize: formatBytes(computedBackupSize),
 			});
@@ -143,7 +143,7 @@ export const runWebServerBackup = async (backup: BackupSchedule) => {
 		writeStream.write("Backup error❌\n");
 		writeStream.write(`${safeErrorMessage}\n`);
 		writeStream.end();
-		await sendAstronCollectionBackupNotifications({
+		await sendDiscordEnterpriseBackupNotifications({
 			type: "error",
 			errorMessage: safeErrorMessage || "Error message not provided",
 			backupSize: formatBytes(computedBackupSize),

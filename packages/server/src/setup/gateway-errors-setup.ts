@@ -5,11 +5,11 @@ import type { ContainerCreateOptions, CreateServiceOptions } from "dockerode";
 import { getGatewayErrorPageConfig } from "../gateway-errors/config";
 import { getRemoteDocker } from "../utils/servers/remote-docker";
 
-export const GATEWAY_ERRORS_RESOURCE_NAME = "astron-collection-gateway-errors";
+export const GATEWAY_ERRORS_RESOURCE_NAME = "discord-enterprise-gateway-errors";
 export const GATEWAY_ERRORS_INTERNAL_PORT = 8080;
-export const GATEWAY_ERRORS_NETWORK = "astron-collection-network";
+export const GATEWAY_ERRORS_NETWORK = "discord-enterprise-network";
 
-const DEFAULT_IMAGE = "ghcr.io/skygenesisenterprise/astron-manager:latest";
+const DEFAULT_IMAGE = "ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest";
 const DEFAULT_VERSION_TAG = "latest";
 
 type Docker = Awaited<ReturnType<typeof getRemoteDocker>>;
@@ -59,18 +59,18 @@ export const getGatewayErrorsImage = async (
 	serverId: string | undefined,
 	env: Record<string, string | undefined>,
 ): Promise<string> => {
-	const explicit = env.ASTRON_COLLECTION_GATEWAY_ERRORS_IMAGE?.trim();
+	const explicit = env.DISCORD_ENTERPRISE_GATEWAY_ERRORS_IMAGE?.trim();
 	if (explicit) return explicit;
 
 	const runningImage = await resolveRunningImage(docker, serverId);
 	if (runningImage) return runningImage;
 
-	const configuredImage = env.ASTRON_COLLECTION_IMAGE?.trim();
+	const configuredImage = env.DISCORD_ENTERPRISE_IMAGE?.trim();
 	if (configuredImage) {
 		if (hasImageTag(configuredImage)) return configuredImage;
 		const version =
-			env.ASTRON_COLLECTION_VERSION?.trim() ||
-			env.ASTRON_COLLECTION_VERSION_TAG?.trim() ||
+			env.DISCORD_ENTERPRISE_VERSION?.trim() ||
+			env.DISCORD_ENTERPRISE_VERSION_TAG?.trim() ||
 			DEFAULT_VERSION_TAG;
 		return `${configuredImage}:${version}`;
 	}
@@ -83,24 +83,24 @@ export const buildGatewayErrorsEnv = (
 ): string[] => {
 	const config = getGatewayErrorPageConfig(env);
 	const values: Record<string, string> = {
-		ASTRON_COLLECTION_GATEWAY_BRAND_NAME: config.brandName,
-		ASTRON_COLLECTION_GATEWAY_LOCALE: config.locale,
-		ASTRON_COLLECTION_GATEWAY_PORT: String(GATEWAY_ERRORS_INTERNAL_PORT),
+		DISCORD_ENTERPRISE_GATEWAY_BRAND_NAME: config.brandName,
+		DISCORD_ENTERPRISE_GATEWAY_LOCALE: config.locale,
+		DISCORD_ENTERPRISE_GATEWAY_PORT: String(GATEWAY_ERRORS_INTERNAL_PORT),
 		IS_CLOUD: config.isCloud ? "true" : "false",
 	};
-	if (config.docsUrl) values.ASTRON_COLLECTION_GATEWAY_DOCS_URL = config.docsUrl;
-	if (config.statusUrl) values.ASTRON_COLLECTION_GATEWAY_STATUS_URL = config.statusUrl;
+	if (config.docsUrl) values.DISCORD_ENTERPRISE_GATEWAY_DOCS_URL = config.docsUrl;
+	if (config.statusUrl) values.DISCORD_ENTERPRISE_GATEWAY_STATUS_URL = config.statusUrl;
 	if (config.supportUrl) {
-		values.ASTRON_COLLECTION_GATEWAY_SUPPORT_URL = config.supportUrl;
+		values.DISCORD_ENTERPRISE_GATEWAY_SUPPORT_URL = config.supportUrl;
 	}
 	return Object.entries(values).map(([key, value]) => `${key}=${value}`);
 };
 
 const readGatewayErrorsScript = (): string | null => {
 	const candidates = [
-		process.env.ASTRON_COLLECTION_GATEWAY_ERRORS_SCRIPT_PATH,
+		process.env.DISCORD_ENTERPRISE_GATEWAY_ERRORS_SCRIPT_PATH,
 		path.join(process.cwd(), "dist/gateway-errors-server.cjs"),
-		path.join(process.cwd(), "apps/astron-collection/dist/gateway-errors-server.cjs"),
+		path.join(process.cwd(), "apps/discord-enterprise/dist/gateway-errors-server.cjs"),
 	].filter((candidate): candidate is string => Boolean(candidate));
 
 	for (const candidate of candidates) {
@@ -114,12 +114,12 @@ const readGatewayErrorsScript = (): string | null => {
 const resolveGatewayErrorsCommand = (
 	env: Record<string, string | undefined>,
 ): GatewayErrorsCommand | null => {
-	const customCommand = env.ASTRON_COLLECTION_GATEWAY_ERRORS_COMMAND?.trim();
+	const customCommand = env.DISCORD_ENTERPRISE_GATEWAY_ERRORS_COMMAND?.trim();
 	if (customCommand) {
 		return {
 			entrypoint: ["/bin/sh", "-lc"],
 			args: [customCommand],
-			workingDir: env.ASTRON_COLLECTION_GATEWAY_ERRORS_WORKDIR?.trim() || undefined,
+			workingDir: env.DISCORD_ENTERPRISE_GATEWAY_ERRORS_WORKDIR?.trim() || undefined,
 		};
 	}
 
@@ -134,7 +134,7 @@ const resolveGatewayErrorsCommand = (
 
 const detectTraefikMode = async (docker: Docker): Promise<TraefikMode> => {
 	try {
-		await docker.getService("astron-collection-traefik").inspect();
+		await docker.getService("discord-enterprise-traefik").inspect();
 		return "service";
 	} catch {
 		return "standalone";
@@ -200,7 +200,7 @@ const upsertContainer = async (
 		Env: env,
 		Labels: {
 			"traefik.enable": "false",
-			"astron-collection.gateway-errors": "true",
+			"discord-enterprise.gateway-errors": "true",
 		},
 		NetworkingConfig: {
 			EndpointsConfig: {
@@ -227,7 +227,7 @@ const upsertService = async (
 	const settings: CreateServiceOptions = {
 		Name: GATEWAY_ERRORS_RESOURCE_NAME,
 		Labels: {
-			"astron-collection.gateway-errors": "true",
+			"discord-enterprise.gateway-errors": "true",
 		},
 		TaskTemplate: {
 			ContainerSpec: {

@@ -1,10 +1,10 @@
-import { db } from "@astron-collection/server/db";
-import { type apiCreateRedirect, redirects } from "@astron-collection/server/db/schema";
+import { db } from "@discord-enterprise/server/db";
+import { type apiCreateRedirect, redirects } from "@discord-enterprise/server/db/schema";
 import {
 	createRedirectMiddleware,
 	removeRedirectMiddleware,
 	updateRedirectMiddleware,
-} from "@astron-collection/server/utils/traefik/redirect";
+} from "@discord-enterprise/server/utils/traefik/redirect";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";

@@ -1,27 +1,27 @@
 ---
 title: "Status page"
-description: "Publish incidents and maintenance windows to the public status page. Generated from the `astron-collection` command surface."
+description: "Publish incidents and maintenance windows to the public status page. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Publish incidents and maintenance windows to the public status page.
 
-`astron-collection status` exposes **12 commands**. They map one-to-one onto the `status.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise status` exposes **12 commands**. They map one-to-one onto the `status.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection status --help` to list these commands in your terminal, or
-	`astron-collection status <command> --help` for a single command.
+	Run `discord-enterprise status --help` to list these commands in your terminal, or
+	`discord-enterprise status <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection status add-incident-update`
+### `discord-enterprise status add-incident-update`
 
 Calls `POST /api/trpc/status.addIncidentUpdate`.
 
 ```bash
-astron-collection status add-incident-update --incidentId <value> --message <value> [options]
+discord-enterprise status add-incident-update --incidentId <value> --message <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -32,12 +32,12 @@ astron-collection status add-incident-update --incidentId <value> --message <val
 | `--visibility <value>` | string | No | `public`, `private` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status create-incident`
+### `discord-enterprise status create-incident`
 
 Calls `POST /api/trpc/status.createIncident`.
 
 ```bash
-astron-collection status create-incident --pageRef <value> --title <value> [options]
+discord-enterprise status create-incident --pageRef <value> --title <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -55,12 +55,12 @@ astron-collection status create-incident --pageRef <value> --title <value> [opti
 | `--updateMessage <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status create-maintenance`
+### `discord-enterprise status create-maintenance`
 
 Calls `POST /api/trpc/status.createMaintenance`.
 
 ```bash
-astron-collection status create-maintenance --pageRef <value> --title <value> --startAt <value> --endAt <value> [options]
+discord-enterprise status create-maintenance --pageRef <value> --title <value> --startAt <value> --endAt <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -77,12 +77,12 @@ astron-collection status create-maintenance --pageRef <value> --title <value> --
 | `--no-published` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status delete-incident`
+### `discord-enterprise status delete-incident`
 
 Calls `POST /api/trpc/status.deleteIncident`.
 
 ```bash
-astron-collection status delete-incident --incidentId <value> [options]
+discord-enterprise status delete-incident --incidentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -90,12 +90,12 @@ astron-collection status delete-incident --incidentId <value> [options]
 | `--incidentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status delete-maintenance`
+### `discord-enterprise status delete-maintenance`
 
 Calls `POST /api/trpc/status.deleteMaintenance`.
 
 ```bash
-astron-collection status delete-maintenance --maintenanceId <value> [options]
+discord-enterprise status delete-maintenance --maintenanceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -103,24 +103,24 @@ astron-collection status delete-maintenance --maintenanceId <value> [options]
 | `--maintenanceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status overview`
+### `discord-enterprise status overview`
 
 Calls `GET /api/trpc/status.overview`.
 
 ```bash
-astron-collection status overview [options]
+discord-enterprise status overview [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status publish-incident`
+### `discord-enterprise status publish-incident`
 
 Calls `POST /api/trpc/status.publishIncident`.
 
 ```bash
-astron-collection status publish-incident --incidentId <value> --published [options]
+discord-enterprise status publish-incident --incidentId <value> --published [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -130,12 +130,12 @@ astron-collection status publish-incident --incidentId <value> --published [opti
 | `--visibility <value>` | string | No | `public`, `private` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status publish-maintenance`
+### `discord-enterprise status publish-maintenance`
 
 Calls `POST /api/trpc/status.publishMaintenance`.
 
 ```bash
-astron-collection status publish-maintenance --maintenanceId <value> --published [options]
+discord-enterprise status publish-maintenance --maintenanceId <value> --published [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -145,12 +145,12 @@ astron-collection status publish-maintenance --maintenanceId <value> --published
 | `--visibility <value>` | string | No | `public`, `private` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status set-incident-state`
+### `discord-enterprise status set-incident-state`
 
 Calls `POST /api/trpc/status.setIncidentState`.
 
 ```bash
-astron-collection status set-incident-state --incidentId <value> --state <value> [options]
+discord-enterprise status set-incident-state --incidentId <value> --state <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -160,12 +160,12 @@ astron-collection status set-incident-state --incidentId <value> --state <value>
 | `--message <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status set-maintenance-state`
+### `discord-enterprise status set-maintenance-state`
 
 Calls `POST /api/trpc/status.setMaintenanceState`.
 
 ```bash
-astron-collection status set-maintenance-state --maintenanceId <value> --state <value> [options]
+discord-enterprise status set-maintenance-state --maintenanceId <value> --state <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -175,12 +175,12 @@ astron-collection status set-maintenance-state --maintenanceId <value> --state <
 | `--message <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status timeline`
+### `discord-enterprise status timeline`
 
 Calls `GET /api/trpc/status.timeline`.
 
 ```bash
-astron-collection status timeline --incidentId <value> [options]
+discord-enterprise status timeline --incidentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -188,12 +188,12 @@ astron-collection status timeline --incidentId <value> [options]
 | `--incidentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection status update-incident`
+### `discord-enterprise status update-incident`
 
 Calls `POST /api/trpc/status.updateIncident`.
 
 ```bash
-astron-collection status update-incident --incidentId <value> [options]
+discord-enterprise status update-incident --incidentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

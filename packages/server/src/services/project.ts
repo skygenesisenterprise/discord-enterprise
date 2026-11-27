@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateProject,
 	applications,
@@ -9,7 +9,7 @@ import {
 	postgres,
 	projects,
 	redis,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";

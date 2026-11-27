@@ -1,4 +1,4 @@
-import { VALID_BRANCH_REGEX } from "@astron-collection/server/utils/git-branch-validation";
+import { VALID_BRANCH_REGEX } from "@discord-enterprise/server/utils/git-branch-validation";
 import { relations } from "drizzle-orm";
 import {
 	bigint,
@@ -234,11 +234,11 @@ export const applications = pgTable("application", {
 		},
 	),
 	networkIds: text("networkIds").array().default([]),
-	detachAstronCollectionNetwork: boolean("detachAstronCollectionNetwork")
+	detachDiscordEnterpriseNetwork: boolean("detachDiscordEnterpriseNetwork")
 		.notNull()
 		.default(false),
 	// When true the service gets a dedicated overlay network so it is isolated
-	// from other services, while staying on astron-collection-network for Traefik routing.
+	// from other services, while staying on discord-enterprise-network for Traefik routing.
 	isolatedNetwork: boolean("isolatedNetwork").notNull().default(false),
 });
 
@@ -382,7 +382,7 @@ const createSchema = createInsertSchema(applications, {
 	watchPaths: z.array(z.string()).optional().optional(),
 	previewLabels: z.array(z.string()).optional(),
 	networkIds: z.array(z.string()).optional(),
-	detachAstronCollectionNetwork: z.boolean().optional(),
+	detachDiscordEnterpriseNetwork: z.boolean().optional(),
 	isolatedNetwork: z.boolean().optional(),
 	cleanCache: z.boolean().optional(),
 	stopGracePeriodSwarm: z.number().nullable(),

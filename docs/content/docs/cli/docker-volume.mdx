@@ -1,27 +1,27 @@
 ---
 title: "Docker volumes"
-description: "Inspect volumes, their size and the files inside them. Generated from the `astron-collection` command surface."
+description: "Inspect volumes, their size and the files inside them. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Inspect volumes, their size and the files inside them.
 
-`astron-collection docker-volume` exposes **8 commands**. They map one-to-one onto the `docker-volume.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise docker-volume` exposes **8 commands**. They map one-to-one onto the `docker-volume.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection docker-volume --help` to list these commands in your terminal, or
-	`astron-collection docker-volume <command> --help` for a single command.
+	Run `discord-enterprise docker-volume --help` to list these commands in your terminal, or
+	`discord-enterprise docker-volume <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection docker-volume delete-volume-file`
+### `discord-enterprise docker-volume delete-volume-file`
 
 Calls `POST /api/trpc/dockerVolume.deleteVolumeFile`.
 
 ```bash
-astron-collection docker-volume delete-volume-file --volumeName <value> --path <value> [options]
+discord-enterprise docker-volume delete-volume-file --volumeName <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -31,12 +31,12 @@ astron-collection docker-volume delete-volume-file --volumeName <value> --path <
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume get-volume-config`
+### `discord-enterprise docker-volume get-volume-config`
 
 Calls `GET /api/trpc/dockerVolume.getVolumeConfig`.
 
 ```bash
-astron-collection docker-volume get-volume-config --volumeName <value> [options]
+discord-enterprise docker-volume get-volume-config --volumeName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -45,12 +45,12 @@ astron-collection docker-volume get-volume-config --volumeName <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume get-volumes`
+### `discord-enterprise docker-volume get-volumes`
 
 Calls `GET /api/trpc/dockerVolume.getVolumes`.
 
 ```bash
-astron-collection docker-volume get-volumes [options]
+discord-enterprise docker-volume get-volumes [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -58,12 +58,12 @@ astron-collection docker-volume get-volumes [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume get-volumes-size`
+### `discord-enterprise docker-volume get-volumes-size`
 
 Calls `GET /api/trpc/dockerVolume.getVolumesSize`.
 
 ```bash
-astron-collection docker-volume get-volumes-size [options]
+discord-enterprise docker-volume get-volumes-size [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -71,12 +71,12 @@ astron-collection docker-volume get-volumes-size [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume list-volume-files`
+### `discord-enterprise docker-volume list-volume-files`
 
 Calls `GET /api/trpc/dockerVolume.listVolumeFiles`.
 
 ```bash
-astron-collection docker-volume list-volume-files --volumeName <value> --path <value> [options]
+discord-enterprise docker-volume list-volume-files --volumeName <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -86,12 +86,12 @@ astron-collection docker-volume list-volume-files --volumeName <value> --path <v
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume read-volume-file`
+### `discord-enterprise docker-volume read-volume-file`
 
 Calls `GET /api/trpc/dockerVolume.readVolumeFile`.
 
 ```bash
-astron-collection docker-volume read-volume-file --volumeName <value> --path <value> [options]
+discord-enterprise docker-volume read-volume-file --volumeName <value> --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -101,12 +101,12 @@ astron-collection docker-volume read-volume-file --volumeName <value> --path <va
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume remove-volume`
+### `discord-enterprise docker-volume remove-volume`
 
 Calls `POST /api/trpc/dockerVolume.removeVolume`.
 
 ```bash
-astron-collection docker-volume remove-volume --volumeName <value> [options]
+discord-enterprise docker-volume remove-volume --volumeName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -115,12 +115,12 @@ astron-collection docker-volume remove-volume --volumeName <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-volume write-volume-file`
+### `discord-enterprise docker-volume write-volume-file`
 
 Calls `POST /api/trpc/dockerVolume.writeVolumeFile`.
 
 ```bash
-astron-collection docker-volume write-volume-file --volumeName <value> --path <value> --content <value> [options]
+discord-enterprise docker-volume write-volume-file --volumeName <value> --path <value> --content <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

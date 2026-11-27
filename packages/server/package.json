@@ -1,9 +1,9 @@
 {
-  "name": "@astron-collection/server",
+  "name": "@discord-enterprise/server",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/skygenesisenterprise/astron-collection.git",
+    "url": "https://github.com/skygenesisenterprise/discord-enterprise.git",
     "directory": "packages/server"
   },
   "main": "./src/index.ts",

@@ -5,7 +5,7 @@ import {
   createCommandDefinition,
   createCommandRegistry,
   defineCommand,
-} from "@astron-collection/discord-framework";
+} from "@discord-enterprise/discord-framework";
 import { createHelpService } from "../services/help-service.js";
 import { createInfoService } from "../services/info-service.js";
 
@@ -16,8 +16,8 @@ const config = {
   supportUrl: "https://example.test/issues",
 };
 
-describe("astron info service", () => {
-  const info = createInfoService({ bot: "astron", config });
+describe("discord-enterprise info service", () => {
+  const info = createInfoService({ bot: "discord-enterprise", config });
 
   it("shapes guild information without Discord objects", () => {
     const guild = {
@@ -59,8 +59,8 @@ describe("astron info service", () => {
   });
 });
 
-describe("astron help catalogue", () => {
-  const registry = createCommandRegistry({ bot: "astron" });
+describe("discord-enterprise help catalogue", () => {
+  const registry = createCommandRegistry({ bot: "discord-enterprise" });
 
   registry.register(
     defineCommand({
@@ -74,7 +74,7 @@ describe("astron help catalogue", () => {
       },
       execute: async () => {},
       category: "utility",
-      bot: "astron",
+      bot: "discord-enterprise",
     }),
   );
 

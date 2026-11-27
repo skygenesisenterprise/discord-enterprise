@@ -1,4 +1,4 @@
-import type { Domain } from "@astron-collection/server/services/domain";
+import type { Domain } from "@discord-enterprise/server/services/domain";
 import type { ApplicationNested } from "../builders";
 import {
 	createServiceConfig,

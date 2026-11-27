@@ -1,10 +1,10 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	invitation,
 	member,
 	organization,
 	user,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { IS_CLOUD } from "../constants";
@@ -104,9 +104,9 @@ export const removeUserById = async (userId: string) => {
 		.then((res) => res[0]);
 };
 
-export const getAstronCollectionUrl = async () => {
+export const getDiscordEnterpriseUrl = async () => {
 	if (IS_CLOUD) {
-		return "https://app.astron-collection.com";
+		return "https://app.discord-enterprise.com";
 	}
 	const settings = await getWebServerSettings();
 

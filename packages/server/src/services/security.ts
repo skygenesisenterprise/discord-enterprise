@@ -1,9 +1,9 @@
-import { db } from "@astron-collection/server/db";
-import { type apiCreateSecurity, security } from "@astron-collection/server/db/schema";
+import { db } from "@discord-enterprise/server/db";
+import { type apiCreateSecurity, security } from "@discord-enterprise/server/db/schema";
 import {
 	createSecurityMiddleware,
 	removeSecurityMiddleware,
-} from "@astron-collection/server/utils/traefik/security";
+} from "@discord-enterprise/server/utils/traefik/security";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";

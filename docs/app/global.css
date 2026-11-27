@@ -1,5 +1,5 @@
 /*
- * Astron Collection documentation styles.
+ * Discord Enterprise documentation styles.
  *
  * The token contract follows `web/apps/website/styles/tailwind.css` as its only
  * support reference: tweakcn background surfaces, the blue/white brand palette
@@ -239,7 +239,7 @@
 }
 
 /*
- * Remap Fumadocs component tokens onto the Astron Collection tokens. A higher-specificity
+ * Remap Fumadocs component tokens onto the Discord Enterprise tokens. A higher-specificity
  * selector (`html:root` / `html.dark`) guarantees these win over the tokens
  * registered by the imported Fumadocs theme, in every colour scheme.
  */

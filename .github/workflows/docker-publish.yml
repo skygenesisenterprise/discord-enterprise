@@ -1,6 +1,6 @@
 name: Docker Publish
 
-# Publishes every Astron Collection product image to the GitHub Container
+# Publishes every Discord Enterprise product image to the GitHub Container
 # Registry, one product per release tag.
 #
 #   GitHub Actions -> Buildx -> GHCR -> cosign (keyless) -> GitHub Release
@@ -8,28 +8,28 @@ name: Docker Publish
 # A release tag always looks like `v<major>.<minor>.<patch>-<suffix>` and each
 # suffix publishes exactly one image, so products are released independently:
 #
-#   v1.3.0-app             -> ghcr.io/<owner>/astron-manager
-#   v1.3.0-cloud           -> ghcr.io/<owner>/astron-manager (-cloud tag)
-#   v1.3.0-status          -> ghcr.io/<owner>/astron-collection-status
-#   v1.3.0-mcp             -> ghcr.io/<owner>/astron-collection-mcp
-#   v1.3.0-github          -> ghcr.io/<owner>/astron-collection-github
-#   v1.3.0-astron          -> ghcr.io/<owner>/astron
-#   v1.3.0-protect         -> ghcr.io/<owner>/astron-protect
-#   v1.3.0-logger          -> ghcr.io/<owner>/astron-logger
-#   v1.3.0-automations     -> ghcr.io/<owner>/astron-automations
-#   v1.3.0-player          -> ghcr.io/<owner>/astron-player
-#   v1.3.0-guild           -> ghcr.io/<owner>/astron-guild
+#   v1.3.0-app             -> ghcr.io/<owner>/discord-enterprise-manager
+#   v1.3.0-cloud           -> ghcr.io/<owner>/discord-enterprise-manager (-cloud tag)
+#   v1.3.0-status          -> ghcr.io/<owner>/discord-enterprise-status
+#   v1.3.0-mcp             -> ghcr.io/<owner>/discord-enterprise-mcp
+#   v1.3.0-github          -> ghcr.io/<owner>/discord-enterprise-github
+#   v1.3.0-discord-enterprise          -> ghcr.io/<owner>/discord-enterprise
+#   v1.3.0-protect         -> ghcr.io/<owner>/discord-enterprise-protect
+#   v1.3.0-logger          -> ghcr.io/<owner>/discord-enterprise-logger
+#   v1.3.0-automations     -> ghcr.io/<owner>/discord-enterprise-automations
+#   v1.3.0-player          -> ghcr.io/<owner>/discord-enterprise-player
+#   v1.3.0-guild           -> ghcr.io/<owner>/discord-enterprise-guild
 #
 # The catalog in `select` is the single place to add or change a product: it
 # carries the image, the build context, the Dockerfile, the target and the
 # release metadata. `select` filters it down to the entry the pushed tag names,
 # so a tag push shows exactly one publish job instead of the whole catalog.
 #
-# Both platform contexts publish the same official image, `astron-manager`, from
+# Both platform contexts publish the same official image, `discord-enterprise-manager`, from
 # the `platform` target of the root Dockerfile, which ships the client *and* the
 # API artifacts. `-app` builds the self-hosted context, `-cloud` builds the cloud
 # context; only the build args differ. The container role is chosen at runtime
-# with `ASTRON_COLLECTION_ROLE=client|api`. PostgreSQL and Redis stay upstream
+# with `DISCORD_ENTERPRISE_ROLE=client|api`. PostgreSQL and Redis stay upstream
 # images and are never built or pushed here.
 #
 # The bots are independent products: own Dockerfile, own build context, own
@@ -41,7 +41,7 @@ name: Docker Publish
 #   v1.3.0        immutable version tag (never overwritten, see `guard`)
 #   sha-<short>   commit traceability
 #   latest        floating tag of that product only
-# `astron-manager` additionally carries `v1.3.0-app` (self) and `v1.3.0-cloud`
+# `discord-enterprise-manager` additionally carries `v1.3.0-app` (self) and `v1.3.0-cloud`
 # (cloud): the two builds share one image repository, so each context needs its
 # own immutable tag. The self-hosted updater
 # (packages/server/src/services/update.ts) pulls `v1.2.3-app` as its image tag.
@@ -64,7 +64,7 @@ on:
       - "v*.*.*-status"
       - "v*.*.*-mcp"
       - "v*.*.*-github"
-      - "v*.*.*-astron"
+      - "v*.*.*-discord-enterprise"
       - "v*.*.*-protect"
       - "v*.*.*-logger"
       - "v*.*.*-automations"
@@ -141,118 +141,118 @@ jobs:
           #   compat_suffix   extra tag to publish for backward compatibility
           #   version_tag_suffix  extra suffix on the immutable version tag, used when
           #                       two builds share one image (the cloud context)
-          #   release_name    title of the GitHub Release ("Astron Collection {name} {version}")
+          #   release_name    title of the GitHub Release ("Discord Enterprise {name} {version}")
           #   release_assets  whether the release carries the install scripts
           #   fallback        build context used when the primary one is absent
           # ---------------------------------------------------------------------
           read -r -d '' CATALOG <<'JSON' || true
           [
             {
-              "image": "astron-manager",
+              "image": "discord-enterprise-manager",
               "tag_suffix": "-app",
               "context": ".",
               "file": "./Dockerfile",
               "target": "platform",
               "platforms": "linux/amd64",
-              "build_args": "ASTRON_COLLECTION_FLAVOR=selfhosted\nASTRON_COLLECTION_PRODUCT=self",
+              "build_args": "DISCORD_ENTERPRISE_FLAVOR=selfhosted\nDISCORD_ENTERPRISE_PRODUCT=self",
               "compat_suffix": "-app",
-              "description": "Astron Manager self-hosted platform (client and API in one image)",
+              "description": "Discord Enterprise Manager self-hosted platform (client and API in one image)",
               "release_name": "App",
               "release_assets": true
             },
             {
-              "image": "astron-manager",
+              "image": "discord-enterprise-manager",
               "tag_suffix": "-cloud",
               "version_tag_suffix": "-cloud",
               "context": ".",
               "file": "./Dockerfile",
               "target": "platform",
               "platforms": "linux/amd64",
-              "build_args": "ASTRON_COLLECTION_FLAVOR=cloud\nASTRON_COLLECTION_PRODUCT=cloud",
-              "description": "Astron Manager Cloud - hosted context (client and API in one image)",
+              "build_args": "DISCORD_ENTERPRISE_FLAVOR=cloud\nDISCORD_ENTERPRISE_PRODUCT=cloud",
+              "description": "Discord Enterprise Manager Cloud - hosted context (client and API in one image)",
               "release_name": "Cloud",
               "release_assets": true
             },
             {
-              "image": "astron-collection-status",
+              "image": "discord-enterprise-status",
               "tag_suffix": "-status",
               "context": ".",
               "file": "./Dockerfile",
               "target": "status",
-              "description": "Astron Collection Status - status page, incidents and uptime history",
+              "description": "Discord Enterprise Status - status page, incidents and uptime history",
               "release_name": "Status",
               "release_assets": false
             },
             {
-              "image": "astron-collection-mcp",
+              "image": "discord-enterprise-mcp",
               "tag_suffix": "-mcp",
               "context": ".",
               "file": "./packages/mcp/Dockerfile",
-              "description": "Astron Collection MCP server",
+              "description": "Discord Enterprise MCP server",
               "release_name": "MCP",
               "release_assets": false
             },
             {
-              "image": "astron-collection-github",
+              "image": "discord-enterprise-github",
               "tag_suffix": "-github",
               "context": ".",
               "file": "./packages/github/Dockerfile",
-              "description": "Astron Collection GitHub integration",
+              "description": "Discord Enterprise GitHub integration",
               "release_name": "GitHub",
               "release_assets": false
             },
             {
-              "image": "astron",
-              "tag_suffix": "-astron",
+              "image": "discord-enterprise",
+              "tag_suffix": "-discord-enterprise",
               "context": ".",
-              "file": "./bot/astron/Dockerfile",
-              "build_args": "ASTRON_COLLECTION_VERSION=${VERSION}",
-              "description": "Astron Collection official Discord bot (astron)",
-              "release_name": "Astron",
+              "file": "./bot/discord-enterprise/Dockerfile",
+              "build_args": "DISCORD_ENTERPRISE_VERSION=${VERSION}",
+              "description": "Discord Enterprise official Discord bot (discord-enterprise)",
+              "release_name": "Discord Enterprise",
               "release_assets": false
             },
             {
-              "image": "astron-protect",
+              "image": "discord-enterprise-protect",
               "tag_suffix": "-protect",
               "context": ".",
               "file": "./bot/protect/Dockerfile",
-              "description": "Astron Collection official Discord bot (protect)",
+              "description": "Discord Enterprise official Discord bot (protect)",
               "release_name": "Protect",
               "release_assets": false
             },
             {
-              "image": "astron-logger",
+              "image": "discord-enterprise-logger",
               "tag_suffix": "-logger",
               "context": ".",
               "file": "./bot/logger/Dockerfile",
-              "description": "Astron Collection official Discord bot (logger)",
+              "description": "Discord Enterprise official Discord bot (logger)",
               "release_name": "Logger",
               "release_assets": false
             },
             {
-              "image": "astron-automations",
+              "image": "discord-enterprise-automations",
               "tag_suffix": "-automations",
               "context": ".",
               "file": "./bot/automations/Dockerfile",
-              "description": "Astron Collection official Discord bot (automations)",
+              "description": "Discord Enterprise official Discord bot (automations)",
               "release_name": "Automations",
               "release_assets": false
             },
             {
-              "image": "astron-player",
+              "image": "discord-enterprise-player",
               "tag_suffix": "-player",
               "context": ".",
               "file": "./bot/player/Dockerfile",
-              "description": "Astron Collection official Discord bot (player)",
+              "description": "Discord Enterprise official Discord bot (player)",
               "release_name": "Player",
               "release_assets": false
             },
             {
-              "image": "astron-guild",
+              "image": "discord-enterprise-guild",
               "tag_suffix": "-guild",
               "context": ".",
               "file": "./bot/guild/Dockerfile",
-              "description": "Astron Collection official Discord bot (guild)",
+              "description": "Discord Enterprise official Discord bot (guild)",
               "release_name": "Guild",
               "release_assets": false
             }
@@ -300,7 +300,7 @@ jobs:
           if [ -z "$context" ]; then
             echo "::notice::skipping $image: neither '$(jq -r '.[0].file' <<< "$selected")' nor its fallback is in the tree yet"
             out enabled "false"
-            out release_title "Astron Collection $(jq -r '.[0].release_name' <<< "$selected") $version (skipped)"
+            out release_title "Discord Enterprise $(jq -r '.[0].release_name' <<< "$selected") $version (skipped)"
             {
               echo "### Skipped: $image"
               echo ""
@@ -340,7 +340,7 @@ jobs:
 
           out enabled "true"
           out matrix "$matrix"
-          out release_title "Astron Collection $(jq -r '.[0].release_name' <<< "$selected") $version"
+          out release_title "Discord Enterprise $(jq -r '.[0].release_name' <<< "$selected") $version"
           out release_assets "$(jq -r '.[0].release_assets // false' <<< "$selected")"
 
           # Only the self-hosted release may become GitHub's `latest`: running
@@ -452,7 +452,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            ASTRON_COLLECTION_VERSION=${{ needs.select.outputs.version }}
+            DISCORD_ENTERPRISE_VERSION=${{ needs.select.outputs.version }}
             ${{ matrix.build_args }}
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
@@ -547,8 +547,8 @@ jobs:
           files=""
           if [ "$RELEASE_ASSETS" = "true" ]; then
             if [ -f install.sh ]; then
-              cp install.sh install-astron-collection.sh
-              files="${files}install.sh"$'\n'"install-astron-collection.sh"$'\n'
+              cp install.sh install-discord-enterprise.sh
+              files="${files}install.sh"$'\n'"install-discord-enterprise.sh"$'\n'
             fi
             if [ -f install.ps1 ]; then
               files="${files}install.ps1"$'\n'

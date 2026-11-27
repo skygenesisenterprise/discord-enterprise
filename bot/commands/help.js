@@ -1,13 +1,13 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { defineCommand, EPHEMERAL } from "@astron-collection/discord-framework";
-import { infoEmbed } from "@astron-collection/discord-framework/ui";
+import { defineCommand, EPHEMERAL } from "@discord-enterprise/discord-framework";
+import { infoEmbed } from "@discord-enterprise/discord-framework/ui";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("List Astron commands or explain one of them.")
-    .setDescriptionLocalizations({ fr: "Lister les commandes d'Astron ou en expliquer une." })
+    .setDescription("List Discord Enterprise commands or explain one of them.")
+    .setDescriptionLocalizations({ fr: "Lister les commandes d'Discord Enterprise ou en expliquer une." })
     .setDMPermission(true)
     .addStringOption((option) =>
       option
@@ -83,7 +83,7 @@ export default defineCommand({
 
     await interaction.reply({
       embeds: [
-        infoEmbed("Astron help", "Use `/help command:<name>` for details on one command.", {
+        infoEmbed("Discord Enterprise help", "Use `/help command:<name>` for details on one command.", {
           fields,
         }),
       ],

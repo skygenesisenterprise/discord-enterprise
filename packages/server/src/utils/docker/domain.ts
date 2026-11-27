@@ -1,10 +1,10 @@
 import fs, { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import { db } from "@astron-collection/server/db";
-import { network, patch } from "@astron-collection/server/db/schema";
-import type { Compose } from "@astron-collection/server/services/compose";
-import type { Domain } from "@astron-collection/server/services/domain";
+import { paths } from "@discord-enterprise/server/constants";
+import { db } from "@discord-enterprise/server/db";
+import { network, patch } from "@discord-enterprise/server/db/schema";
+import type { Compose } from "@discord-enterprise/server/services/compose";
+import type { Domain } from "@discord-enterprise/server/services/domain";
 import { eq, inArray } from "drizzle-orm";
 import { quote } from "shell-quote";
 import { parse, stringify } from "yaml";
@@ -382,7 +382,7 @@ export const addDomainToCompose = async (
 				: "traefik.swarm.network";
 		const networkName = compose.isolatedDeployment
 			? compose.suffix || compose.appName
-			: "astron-collection-network";
+			: "discord-enterprise-network";
 
 		if (Array.isArray(labels)) {
 			if (!labels.includes("traefik.enable=true")) {
@@ -405,8 +405,8 @@ export const addDomainToCompose = async (
 		}
 
 		if (!compose.isolatedDeployment) {
-			// Add the astron-collection-network to the service
-			result.services[serviceName].networks = addAstronCollectionNetworkToService(
+			// Add the discord-enterprise-network to the service
+			result.services[serviceName].networks = addDiscordEnterpriseNetworkToService(
 				result.services[serviceName].networks,
 			);
 		}
@@ -446,17 +446,17 @@ export const applyServiceNetworks = async (
 		for (const networkId of config.networkIds) {
 			const match = networks.find((n) => n.networkId === networkId);
 			if (!match) continue;
-			service.networks = addAstronCollectionNetworkToService(
+			service.networks = addDiscordEnterpriseNetworkToService(
 				service.networks,
 				match.name,
 			);
 			injectedNetworkNames.add(match.name);
 		}
 
-		if (config.detachAstronCollectionNetwork) {
-			removeNetworkFromService(service, "astron-collection-network");
+		if (config.detachDiscordEnterpriseNetwork) {
+			removeNetworkFromService(service, "discord-enterprise-network");
 			removeNetworkFromService(service, "default");
-			removeAstronCollectionNetworkLabel(service);
+			removeDiscordEnterpriseNetworkLabel(service);
 		}
 	}
 
@@ -475,12 +475,12 @@ export const declareUsedNetworksInRoot = (
 			return false;
 		});
 
-	if (isUsed("astron-collection-network")) {
-		result.networks = addAstronCollectionNetworkToRoot(result.networks);
+	if (isUsed("discord-enterprise-network")) {
+		result.networks = addDiscordEnterpriseNetworkToRoot(result.networks);
 	}
 	for (const name of injectedNetworkNames) {
 		if (isUsed(name)) {
-			result.networks = addAstronCollectionNetworkToRoot(result.networks, name);
+			result.networks = addDiscordEnterpriseNetworkToRoot(result.networks, name);
 		}
 	}
 };
@@ -606,9 +606,9 @@ export const createDomainLabels = (
 	return labels;
 };
 
-export const addAstronCollectionNetworkToService = (
+export const addDiscordEnterpriseNetworkToService = (
 	networkService: DefinitionsService["networks"],
-	networkName = "astron-collection-network",
+	networkName = "discord-enterprise-network",
 ) => {
 	let networks = networkService;
 	const network = networkName;
@@ -648,13 +648,13 @@ export const removeNetworkFromService = (
 	}
 };
 
-const removeAstronCollectionNetworkLabel = (service: DefinitionsService) => {
+const removeDiscordEnterpriseNetworkLabel = (service: DefinitionsService) => {
 	const stripped = (labels: DefinitionsService["labels"]) => {
 		if (Array.isArray(labels)) {
 			return labels.filter(
 				(l) =>
-					l !== "traefik.docker.network=astron-collection-network" &&
-					l !== "traefik.swarm.network=astron-collection-network",
+					l !== "traefik.docker.network=discord-enterprise-network" &&
+					l !== "traefik.swarm.network=discord-enterprise-network",
 			);
 		}
 		return labels;
@@ -664,9 +664,9 @@ const removeAstronCollectionNetworkLabel = (service: DefinitionsService) => {
 		service.deploy.labels = stripped(service.deploy.labels);
 };
 
-export const addAstronCollectionNetworkToRoot = (
+export const addDiscordEnterpriseNetworkToRoot = (
 	networkRoot: PropertiesNetworks | undefined,
-	networkName = "astron-collection-network",
+	networkName = "discord-enterprise-network",
 ) => {
 	let networks = networkRoot;
 	const network = networkName;

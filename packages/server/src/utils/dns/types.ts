@@ -1,7 +1,7 @@
 import type {
 	DnsProviderConfig,
 	DnsRecordType,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 
 export interface DnsZone {
 	id: string;
@@ -48,7 +48,7 @@ export interface DnsClient<C extends DnsProviderConfig = DnsProviderConfig> {
 
 /**
  * Providers fall into three categories. The UI groups providers by them and
- * the rest of Astron Collection never has to know which concrete product sits behind an
+ * the rest of Discord Enterprise never has to know which concrete product sits behind an
  * adapter.
  */
 export type DnsProviderCategory = "managed" | "self-hosted" | "internal";
@@ -135,7 +135,7 @@ export const dnsProviderCategory: Record<
 	coredns: "self-hosted",
 	unbound: "self-hosted",
 	custom: "managed",
-	"astron-collection-internal": "internal",
+	"discord-enterprise-internal": "internal",
 };
 
 export type DnsProviderHealthStatus =

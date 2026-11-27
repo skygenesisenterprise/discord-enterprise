@@ -1,4 +1,4 @@
-import type { VaultProviderConfig } from "@astron-collection/server/db/schema";
+import type { VaultProviderConfig } from "@discord-enterprise/server/db/schema";
 
 /**
  * A browsable secret exposed by a provider. Values are never included: the
@@ -7,9 +7,9 @@ import type { VaultProviderConfig } from "@astron-collection/server/db/schema";
 export interface VaultSecretRecord {
 	/** Name used in a `${{vault.<provider>.<name>}}` reference. */
 	name: string;
-	/** Present for Astron Collection-managed records, so the Console can edit them. */
+	/** Present for Discord Enterprise-managed records, so the Console can edit them. */
 	id?: string;
-	/** True for secrets stored by Astron Collection rather than the external provider. */
+	/** True for secrets stored by Discord Enterprise rather than the external provider. */
 	managed?: boolean;
 	/** Where the record lives, for providers with several sources. */
 	source?: string;

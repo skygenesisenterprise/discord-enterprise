@@ -1,6 +1,6 @@
 {
 	"title": "Core",
-	"description": "Everything about deploying and operating Astron Collection.",
+	"description": "Everything about deploying and operating Discord Enterprise.",
 	"icon": "Package",
 	"root": true,
 	"pages": [

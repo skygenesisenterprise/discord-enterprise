@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Rewrites internal documentation links from the legacy taxonomy
-# (/docs/core/..., /docs/cli/..., /docs/api/...) to the new Astron Collection taxonomy.
+# (/docs/core/..., /docs/cli/..., /docs/api/...) to the new Discord Enterprise taxonomy.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

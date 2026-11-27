@@ -1,27 +1,27 @@
 ---
 title: "Docker images"
-description: "List, inspect and remove images stored on a server. Generated from the `astron-collection` command surface."
+description: "List, inspect and remove images stored on a server. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 List, inspect and remove images stored on a server.
 
-`astron-collection docker-image` exposes **3 commands**. They map one-to-one onto the `docker-image.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise docker-image` exposes **3 commands**. They map one-to-one onto the `docker-image.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection docker-image --help` to list these commands in your terminal, or
-	`astron-collection docker-image <command> --help` for a single command.
+	Run `discord-enterprise docker-image --help` to list these commands in your terminal, or
+	`discord-enterprise docker-image <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection docker-image get-image-config`
+### `discord-enterprise docker-image get-image-config`
 
 Calls `GET /api/trpc/dockerImage.getImageConfig`.
 
 ```bash
-astron-collection docker-image get-image-config --imageRef <value> [options]
+discord-enterprise docker-image get-image-config --imageRef <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -30,12 +30,12 @@ astron-collection docker-image get-image-config --imageRef <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-image get-images`
+### `discord-enterprise docker-image get-images`
 
 Calls `GET /api/trpc/dockerImage.getImages`.
 
 ```bash
-astron-collection docker-image get-images [options]
+discord-enterprise docker-image get-images [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -43,12 +43,12 @@ astron-collection docker-image get-images [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection docker-image remove-image`
+### `discord-enterprise docker-image remove-image`
 
 Calls `POST /api/trpc/dockerImage.removeImage`.
 
 ```bash
-astron-collection docker-image remove-image --repository <value> --tag <value> --id <value> [options]
+discord-enterprise docker-image remove-image --repository <value> --tag <value> --id <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

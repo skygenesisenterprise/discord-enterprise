@@ -30,7 +30,7 @@ export const initializeNetwork = async () => {
 	} else {
 		await docker.createNetwork({
 			Attachable: true,
-			Name: "astron-collection-network",
+			Name: "discord-enterprise-network",
 			Driver: "overlay",
 		});
 		console.log("Network was initialized");
@@ -39,7 +39,7 @@ export const initializeNetwork = async () => {
 
 export const dockerNetworkInitialized = async () => {
 	try {
-		await docker.getNetwork("astron-collection-network").inspect();
+		await docker.getNetwork("discord-enterprise-network").inspect();
 		return true;
 	} catch {
 		return false;

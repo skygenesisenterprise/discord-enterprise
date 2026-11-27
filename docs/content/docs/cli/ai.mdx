@@ -1,27 +1,27 @@
 ---
 title: "AI"
-description: "AI providers and models, plus log analysis and configuration suggestions. Generated from the `astron-collection` command surface."
+description: "AI providers and models, plus log analysis and configuration suggestions. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 AI providers and models, plus log analysis and configuration suggestions.
 
-`astron-collection ai` exposes **14 commands**. They map one-to-one onto the `ai.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise ai` exposes **14 commands**. They map one-to-one onto the `ai.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection ai --help` to list these commands in your terminal, or
-	`astron-collection ai <command> --help` for a single command.
+	Run `discord-enterprise ai --help` to list these commands in your terminal, or
+	`discord-enterprise ai <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection ai analyze-logs`
+### `discord-enterprise ai analyze-logs`
 
 Calls `POST /api/trpc/ai.analyzeLogs`.
 
 ```bash
-astron-collection ai analyze-logs --aiId <value> --logs <value> --context <value> [options]
+discord-enterprise ai analyze-logs --aiId <value> --logs <value> --context <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -31,12 +31,12 @@ astron-collection ai analyze-logs --aiId <value> --logs <value> --context <value
 | `--context <value>` | string | Yes | `build`, `runtime` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai create`
+### `discord-enterprise ai create`
 
 Calls `POST /api/trpc/ai.create`.
 
 ```bash
-astron-collection ai create --name <value> --apiUrl <value> --apiKey <value> --model <value> --isEnabled [options]
+discord-enterprise ai create --name <value> --apiUrl <value> --apiKey <value> --model <value> --isEnabled [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -48,12 +48,12 @@ astron-collection ai create --name <value> --apiUrl <value> --apiKey <value> --m
 | `--isEnabled [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai delete`
+### `discord-enterprise ai delete`
 
 Calls `POST /api/trpc/ai.delete`.
 
 ```bash
-astron-collection ai delete --aiId <value> [options]
+discord-enterprise ai delete --aiId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -61,12 +61,12 @@ astron-collection ai delete --aiId <value> [options]
 | `--aiId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai deploy`
+### `discord-enterprise ai deploy`
 
 Calls `POST /api/trpc/ai.deploy`.
 
 ```bash
-astron-collection ai deploy --environmentId <value> --id <value> --dockerCompose <value> --envVariables <value> --name <value> --description <value> [options]
+discord-enterprise ai deploy --environmentId <value> --id <value> --dockerCompose <value> --envVariables <value> --name <value> --description <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -82,12 +82,12 @@ astron-collection ai deploy --environmentId <value> --id <value> --dockerCompose
 | `--configFiles <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai get`
+### `discord-enterprise ai get`
 
 Calls `GET /api/trpc/ai.get`.
 
 ```bash
-astron-collection ai get --aiId <value> [options]
+discord-enterprise ai get --aiId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -95,48 +95,48 @@ astron-collection ai get --aiId <value> [options]
 | `--aiId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai get-all`
+### `discord-enterprise ai get-all`
 
 Calls `GET /api/trpc/ai.getAll`.
 
 ```bash
-astron-collection ai get-all [options]
+discord-enterprise ai get-all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai get-custom-providers`
+### `discord-enterprise ai get-custom-providers`
 
 Calls `GET /api/trpc/ai.getCustomProviders`.
 
 ```bash
-astron-collection ai get-custom-providers [options]
+discord-enterprise ai get-custom-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai get-enabled-providers`
+### `discord-enterprise ai get-enabled-providers`
 
 Calls `GET /api/trpc/ai.getEnabledProviders`.
 
 ```bash
-astron-collection ai get-enabled-providers [options]
+discord-enterprise ai get-enabled-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai get-models`
+### `discord-enterprise ai get-models`
 
 Calls `GET /api/trpc/ai.getModels`.
 
 ```bash
-astron-collection ai get-models [options]
+discord-enterprise ai get-models [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -146,12 +146,12 @@ astron-collection ai get-models [options]
 | `--aiId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai one`
+### `discord-enterprise ai one`
 
 Calls `GET /api/trpc/ai.one`.
 
 ```bash
-astron-collection ai one --aiId <value> [options]
+discord-enterprise ai one --aiId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -159,12 +159,12 @@ astron-collection ai one --aiId <value> [options]
 | `--aiId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai save-custom-providers`
+### `discord-enterprise ai save-custom-providers`
 
 Calls `POST /api/trpc/ai.saveCustomProviders`.
 
 ```bash
-astron-collection ai save-custom-providers --providers <json> [options]
+discord-enterprise ai save-custom-providers --providers <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -172,12 +172,12 @@ astron-collection ai save-custom-providers --providers <json> [options]
 | `--providers <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai suggest`
+### `discord-enterprise ai suggest`
 
 Calls `POST /api/trpc/ai.suggest`.
 
 ```bash
-astron-collection ai suggest --aiId <value> --input <value> [options]
+discord-enterprise ai suggest --aiId <value> --input <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -187,12 +187,12 @@ astron-collection ai suggest --aiId <value> --input <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai test-connection`
+### `discord-enterprise ai test-connection`
 
 Calls `POST /api/trpc/ai.testConnection`.
 
 ```bash
-astron-collection ai test-connection --model <value> [options]
+discord-enterprise ai test-connection --model <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -203,12 +203,12 @@ astron-collection ai test-connection --model <value> [options]
 | `--model <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection ai update`
+### `discord-enterprise ai update`
 
 Calls `POST /api/trpc/ai.update`.
 
 ```bash
-astron-collection ai update --aiId <value> [options]
+discord-enterprise ai update --aiId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

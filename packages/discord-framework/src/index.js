@@ -1,7 +1,7 @@
 /**
- * @astron-collection/discord-framework
+ * @discord-enterprise/discord-framework
  *
- * The single shared technical foundation of the six Astron Collection Discord
+ * The single shared technical foundation of the six Discord Enterprise Discord
  * bots. Nothing in this package knows about a specific bot: catalogues,
  * services, repositories and business rules stay in `bot/<name>/`.
  *
@@ -22,13 +22,13 @@ export {
 export {
   ERROR_CODES,
   GENERIC_USER_MESSAGE,
-  AstronError,
+  DiscordEnterpriseError,
   ConfigurationError,
   InteractionExpiredError,
   NotFoundError,
   PermissionError,
   UserInputError,
-  isAstronError,
+  isDiscordEnterpriseError,
   isExpected,
   normalizeError,
   userMessageFor,

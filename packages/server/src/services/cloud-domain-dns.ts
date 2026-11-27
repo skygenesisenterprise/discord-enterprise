@@ -1,30 +1,30 @@
 import { isIP } from "node:net";
-import { cloudflareClient } from "@astron-collection/server/utils/dns/cloudflare";
-import type { DnsClient } from "@astron-collection/server/utils/dns/types";
-import { redactSecretValues } from "@astron-collection/server/utils/security/redact";
+import { cloudflareClient } from "@discord-enterprise/server/utils/dns/cloudflare";
+import type { DnsClient } from "@discord-enterprise/server/utils/dns/types";
+import { redactSecretValues } from "@discord-enterprise/server/utils/security/redact";
 
 /**
- * Cloudflare-side DNS bootstrap for Astron Collection Cloud hostnames (issue https://github.com/skygenesisenterprise/astron-collection/issues/113 §2).
+ * Cloudflare-side DNS bootstrap for Discord Enterprise Cloud hostnames (issue https://github.com/skygenesisenterprise/discord-enterprise/issues/113 §2).
  *
  * Ownership and uniqueness stay in the `cloud_domain` ledger; Cloudflare is
- * only the resolution layer. A single wildcard record (`*.astron-collection.app`) is
+ * only the resolution layer. A single wildcard record (`*.discord-enterprise.app`) is
  * enough for every generated hostname, so deployments never create DNS records
  * per tenant and the zone does not become an ownership database.
  *
  * Configuration is central and optional:
  * - `CLOUDFLARE_API_TOKEN` (required to enable)
- * - `ASTRON_COLLECTION_CLOUD_DNS_ZONE_ID` (optional; resolved from the zone list)
- * - `ASTRON_COLLECTION_CLOUD_INGRESS_TARGET` (A/AAAA IP or CNAME target of the ingress)
- * - `ASTRON_COLLECTION_CLOUD_DNS_PROXIED` (defaults to `true`, Cloudflare terminates TLS)
+ * - `DISCORD_ENTERPRISE_CLOUD_DNS_ZONE_ID` (optional; resolved from the zone list)
+ * - `DISCORD_ENTERPRISE_CLOUD_INGRESS_TARGET` (A/AAAA IP or CNAME target of the ingress)
+ * - `DISCORD_ENTERPRISE_CLOUD_DNS_PROXIED` (defaults to `true`, Cloudflare terminates TLS)
  */
 
 export const CLOUDFLARE_TOKEN_ENV = "CLOUDFLARE_API_TOKEN";
-export const CLOUD_DNS_ZONE_ENV = "ASTRON_COLLECTION_CLOUD_DNS_ZONE_ID";
-export const CLOUD_DNS_TARGET_ENV = "ASTRON_COLLECTION_CLOUD_INGRESS_TARGET";
-export const CLOUD_DNS_PROXIED_ENV = "ASTRON_COLLECTION_CLOUD_DNS_PROXIED";
+export const CLOUD_DNS_ZONE_ENV = "DISCORD_ENTERPRISE_CLOUD_DNS_ZONE_ID";
+export const CLOUD_DNS_TARGET_ENV = "DISCORD_ENTERPRISE_CLOUD_INGRESS_TARGET";
+export const CLOUD_DNS_PROXIED_ENV = "DISCORD_ENTERPRISE_CLOUD_DNS_PROXIED";
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
-const RECORD_COMMENT = "Managed by Astron Collection Cloud";
+const RECORD_COMMENT = "Managed by Discord Enterprise Cloud";
 
 export interface CloudDnsConfig {
 	apiToken: string;
@@ -74,7 +74,7 @@ const recordTypeFor = (target: string): "A" | "AAAA" | "CNAME" => {
 	return "CNAME";
 };
 
-/** Longest matching zone for a hostname (`a.b.astron-collection.app` → `astron-collection.app`). */
+/** Longest matching zone for a hostname (`a.b.discord-enterprise.app` → `discord-enterprise.app`). */
 export const selectZoneId = (
 	zones: { id: string; name: string }[],
 	base: string,
@@ -107,7 +107,7 @@ export const ensureCloudWildcardRecord = async ({
 		return {
 			status: "skipped",
 			reason:
-				"Cloudflare DNS is not configured (CLOUDFLARE_API_TOKEN / ASTRON_COLLECTION_CLOUD_INGRESS_TARGET)",
+				"Cloudflare DNS is not configured (CLOUDFLARE_API_TOKEN / DISCORD_ENTERPRISE_CLOUD_INGRESS_TARGET)",
 		};
 	}
 

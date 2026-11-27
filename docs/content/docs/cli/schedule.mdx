@@ -1,27 +1,27 @@
 ---
 title: "Schedules"
-description: "Cron jobs that run a shell command inside a deployed service. Generated from the `astron-collection` command surface."
+description: "Cron jobs that run a shell command inside a deployed service. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Cron jobs that run a shell command inside a deployed service.
 
-`astron-collection schedule` exposes **6 commands**. They map one-to-one onto the `schedule.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise schedule` exposes **6 commands**. They map one-to-one onto the `schedule.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection schedule --help` to list these commands in your terminal, or
-	`astron-collection schedule <command> --help` for a single command.
+	Run `discord-enterprise schedule --help` to list these commands in your terminal, or
+	`discord-enterprise schedule <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection schedule create`
+### `discord-enterprise schedule create`
 
 Calls `POST /api/trpc/schedule.create`.
 
 ```bash
-astron-collection schedule create --name <value> --cronExpression <value> --command <value> [options]
+discord-enterprise schedule create --name <value> --cronExpression <value> --command <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -33,7 +33,7 @@ astron-collection schedule create --name <value> --cronExpression <value> --comm
 | `--appName <value>` | string | No | — |
 | `--serviceName <value>` | string | No | — |
 | `--shellType <value>` | string | No | `bash`, `sh` |
-| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `astron-collection-server` |
+| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `discord-enterprise-server` |
 | `--command <value>` | string | Yes | — |
 | `--script <value>` | string | No | — |
 | `--applicationId <value>` | string | No | — |
@@ -46,12 +46,12 @@ astron-collection schedule create --name <value> --cronExpression <value> --comm
 | `--createdAt <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection schedule delete`
+### `discord-enterprise schedule delete`
 
 Calls `POST /api/trpc/schedule.delete`.
 
 ```bash
-astron-collection schedule delete --scheduleId <value> [options]
+discord-enterprise schedule delete --scheduleId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -59,26 +59,26 @@ astron-collection schedule delete --scheduleId <value> [options]
 | `--scheduleId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection schedule list`
+### `discord-enterprise schedule list`
 
 Calls `GET /api/trpc/schedule.list`.
 
 ```bash
-astron-collection schedule list --id <value> --scheduleType <value> [options]
+discord-enterprise schedule list --id <value> --scheduleType <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--id <value>` | string | Yes | — |
-| `--scheduleType <value>` | string | Yes | `application`, `compose`, `server`, `astron-collection-server` |
+| `--scheduleType <value>` | string | Yes | `application`, `compose`, `server`, `discord-enterprise-server` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection schedule one`
+### `discord-enterprise schedule one`
 
 Calls `GET /api/trpc/schedule.one`.
 
 ```bash
-astron-collection schedule one --scheduleId <value> [options]
+discord-enterprise schedule one --scheduleId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -86,12 +86,12 @@ astron-collection schedule one --scheduleId <value> [options]
 | `--scheduleId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection schedule run-manually`
+### `discord-enterprise schedule run-manually`
 
 Calls `POST /api/trpc/schedule.runManually`.
 
 ```bash
-astron-collection schedule run-manually --scheduleId <value> [options]
+discord-enterprise schedule run-manually --scheduleId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -99,12 +99,12 @@ astron-collection schedule run-manually --scheduleId <value> [options]
 | `--scheduleId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection schedule update`
+### `discord-enterprise schedule update`
 
 Calls `POST /api/trpc/schedule.update`.
 
 ```bash
-astron-collection schedule update --scheduleId <value> --name <value> --cronExpression <value> --command <value> [options]
+discord-enterprise schedule update --scheduleId <value> --name <value> --cronExpression <value> --command <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -116,7 +116,7 @@ astron-collection schedule update --scheduleId <value> --name <value> --cronExpr
 | `--appName <value>` | string | No | — |
 | `--serviceName <value>` | string | No | — |
 | `--shellType <value>` | string | No | `bash`, `sh` |
-| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `astron-collection-server` |
+| `--scheduleType <value>` | string | No | `application`, `compose`, `server`, `discord-enterprise-server` |
 | `--command <value>` | string | Yes | — |
 | `--script <value>` | string | No | — |
 | `--applicationId <value>` | string | No | — |

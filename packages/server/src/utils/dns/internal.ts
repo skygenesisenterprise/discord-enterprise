@@ -1,20 +1,20 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type DnsRecordType,
-	type astronCollectionInternalDnsConfigSchema,
+	type discordEnterpriseInternalDnsConfigSchema,
 	dnsRecord,
 	dnsZone,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { and, eq } from "drizzle-orm";
 import type { z } from "zod";
 import type { DnsClient, DnsRecord, DnsZone } from "./types";
 
-type InternalConfig = z.infer<typeof astronCollectionInternalDnsConfigSchema>;
+type InternalConfig = z.infer<typeof discordEnterpriseInternalDnsConfigSchema>;
 
 /**
  * The first-party adapter is scoped to a single provider row: zones and records
- * are stored by Astron Collection itself, so the provider id has to travel with the
+ * are stored by Discord Enterprise itself, so the provider id has to travel with the
  * config. It is attached by the service layer before the client is called.
  */
 export interface InternalConfigWithProvider extends InternalConfig {

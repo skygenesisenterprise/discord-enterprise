@@ -1,11 +1,11 @@
-# Astron — generalist bot
+# Discord Enterprise — generalist bot
 
-The general-purpose entry point of the Astron Collection: server and user
+The general-purpose entry point of the Discord Enterprise: server and user
 information, utilities, help, documentation and general server configuration.
 
-- **Image:** `ghcr.io/skygenesisenterprise/astron`
+- **Image:** `ghcr.io/skygenesisenterprise/discord-enterprise`
 - **Intents:** `Guilds`, `GuildMembers` — no message content, no moderation, no voice.
-- **Database:** its own SQLite file (`data/astron.sqlite3`), never shared.
+- **Database:** its own SQLite file (`data/discord-enterprise.sqlite3`), never shared.
 - **Shared foundation:** `packages/discord-framework` only.
 
 ## Commands
@@ -27,7 +27,7 @@ information, utilities, help, documentation and general server configuration.
 | `/config view\|set\|reset` | configuration | Timezone, staff role, announcement channel, locale (Manage Server) |
 | User context menu | context | "User information" |
 
-Ownership rule: Astron never implements moderation, logging, community,
+Ownership rule: Discord Enterprise never implements moderation, logging, community,
 automation or audio commands. Those belong to Protect, Logger, Guild,
 Automations and Player.
 
@@ -36,26 +36,26 @@ Automations and Player.
 Copy `.env.example` to `.env`, then set:
 
 ```bash
-ASTRON_ASTRON_DISCORD_TOKEN=...      # this bot's own application
-ASTRON_ASTRON_DISCORD_CLIENT_ID=...
+DISCORD_ENTERPRISE_DISCORD_ENTERPRISE_DISCORD_TOKEN=...      # this bot's own application
+DISCORD_ENTERPRISE_DISCORD_ENTERPRISE_DISCORD_CLIENT_ID=...
 ```
 
 Command deployment is idempotent and guarded by application id:
 
 ```bash
-pnpm --filter=@astron-collection/astron run deploy:commands
+pnpm --filter=@discord-enterprise/discord-enterprise run deploy:commands
 # --dry-run / --force
 ```
 
-`ASTRON_COMMAND_SCOPE=global|guild|none`, `ASTRON_COMMAND_GUILD_ID` for guild
-scope, `ASTRON_HEALTH_PORT` (default 8080), `ASTRON_DATA_DIR`,
-`ASTRON_DATABASE_PATH`, `ASTRON_LOG_LEVEL`.
+`DISCORD_ENTERPRISE_COMMAND_SCOPE=global|guild|none`, `DISCORD_ENTERPRISE_COMMAND_GUILD_ID` for guild
+scope, `DISCORD_ENTERPRISE_HEALTH_PORT` (default 8080), `DISCORD_ENTERPRISE_DATA_DIR`,
+`DISCORD_ENTERPRISE_DATABASE_PATH`, `DISCORD_ENTERPRISE_LOG_LEVEL`.
 
 ## Run
 
 ```bash
-cd bot/astron && pnpm start        # or pnpm dev (--watch)
-docker compose -f bot/astron/docker-compose.yml up --build
+cd bot/discord-enterprise && pnpm start        # or pnpm dev (--watch)
+docker compose -f bot/discord-enterprise/docker-compose.yml up --build
 ```
 
 Health: `GET /healthz` (readiness), `GET /livez`, `GET /metrics` (Prometheus).

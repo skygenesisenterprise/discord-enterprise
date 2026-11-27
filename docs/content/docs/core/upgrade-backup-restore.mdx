@@ -1,26 +1,26 @@
 ---
 title: Upgrade, backup and restore
-description: "Update Astron Collection, protect its data, and understand what uninstalling removes."
+description: "Update Discord Enterprise, protect its data, and understand what uninstalling removes."
 ---
 
-Running Astron Collection means maintaining it. This page covers the three operations every operator needs: **updating**, **backing up** and **restoring** — plus what uninstalling actually removes.
+Running Discord Enterprise means maintaining it. This page covers the three operations every operator needs: **updating**, **backing up** and **restoring** — plus what uninstalling actually removes.
 
-## Upgrading Astron Collection
+## Upgrading Discord Enterprise
 
 Update the platform to the latest release:
 
 ```bash
-curl -sSL https://astron-collection.com/install.sh | sh -s update
+curl -sSL https://discord-enterprise.com/install.sh | sh -s update
 ```
 
-To target a specific version, use the `install.sh` attached to that version's [GitHub release](https://github.com/skygenesisenterprise/astron-collection/releases):
+To target a specific version, use the `install.sh` attached to that version's [GitHub release](https://github.com/skygenesisenterprise/discord-enterprise/releases):
 
 ```bash
-curl -sL https://github.com/skygenesisenterprise/astron-collection/releases/download/v<version>/install.sh | sh -s update
+curl -sL https://github.com/skygenesisenterprise/discord-enterprise/releases/download/v<version>/install.sh | sh -s update
 ```
 
 <Callout type="info" title="Cloud editions">
-On **Astron Collection Cloud** and **Enterprise Cloud**, the control plane is updated automatically —
+On **Discord Enterprise Cloud** and **Enterprise Cloud**, the control plane is updated automatically —
 there is nothing to run. On self-hosted editions, choose when to update.
 </Callout>
 
@@ -32,17 +32,17 @@ Two kinds of data must be protected:
 
 | Data | Where it lives | How to protect it |
 | --- | --- | --- |
-| **Astron Collection configuration** (projects, services, settings) | The Astron Collection PostgreSQL database. | Back up the database. |
+| **Discord Enterprise configuration** (projects, services, settings) | The Discord Enterprise PostgreSQL database. | Back up the database. |
 | **Your application data** | Docker **named volumes** and database volumes. | Use [Volume Backups](/docs/core/volume-backups) and [database backups](/docs/core/databases/backups). |
 
-Application data is not stored in the Astron Collection database — back up both.
+Application data is not stored in the Discord Enterprise database — back up both.
 
 ## Backing up
 
 1. **Configure an S3 destination** once, under **Settings → S3 Destinations**. See [Object storage](/docs/core/s3-destinations).
 2. **Schedule backups** for each database and for relevant volumes. See [Backups](/docs/core/backups).
 
-The Astron Collection named Docker volumes (`astron-collection-postgres`, `astron-collection-redis`) are **preserved** by `docker compose down` — do not remove them if you need your configuration.
+The Discord Enterprise named Docker volumes (`discord-enterprise-postgres`, `discord-enterprise-redis`) are **preserved** by `docker compose down` — do not remove them if you need your configuration.
 
 <Callout type="warn">
 Bind mounts (the `../files` folder in Compose) are **not** covered by Volume Backups. If you
@@ -58,14 +58,14 @@ Restore a database from a backup using its **Backups** tab; see [Restore](/docs/
 
 ## Uninstalling
 
-Uninstalling removes the Astron Collection services, networks and volumes. Full steps are in [Uninstall](/docs/core/uninstall). In short:
+Uninstalling removes the Discord Enterprise services, networks and volumes. Full steps are in [Uninstall](/docs/core/uninstall). In short:
 
-- Astron Collection's own volumes (`astron-collection`, `astron-collection-postgres`, `astron-collection-redis`) are deleted — **your configuration goes with them**.
-- Any application data you stored in volumes outside Astron Collection's own volumes must be removed or backed up separately.
+- Discord Enterprise's own volumes (`discord-enterprise`, `discord-enterprise-postgres`, `discord-enterprise-redis`) are deleted — **your configuration goes with them**.
+- Any application data you stored in volumes outside Discord Enterprise's own volumes must be removed or backed up separately.
 - If the host is part of a cluster, worker nodes must leave the swarm first.
 
 <Callout type="warn" title="Irreversible">
-Uninstalling deletes the Astron Collection PostgreSQL database. Back up anything you need **before**
+Uninstalling deletes the Discord Enterprise PostgreSQL database. Back up anything you need **before**
 uninstalling.
 </Callout>
 

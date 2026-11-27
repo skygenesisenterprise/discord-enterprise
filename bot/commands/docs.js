@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { defineCommand } from "@astron-collection/discord-framework";
-import { infoEmbed } from "@astron-collection/discord-framework/ui";
+import { defineCommand } from "@discord-enterprise/discord-framework";
+import { infoEmbed } from "@discord-enterprise/discord-framework/ui";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
@@ -13,10 +13,10 @@ export default defineCommand({
   execute: async (interaction, { services }) => {
     await interaction.reply({
       embeds: [
-        infoEmbed("Documentation", "Astron Collection is open source.", {
+        infoEmbed("Documentation", "Discord Enterprise is open source.", {
           fields: [
             { name: "Bots documentation", value: services.config.docsUrl, inline: false },
-            { name: "Repository", value: "https://github.com/skygenesisenterprise/astron-collection", inline: false },
+            { name: "Repository", value: "https://github.com/skygenesisenterprise/discord-enterprise", inline: false },
             { name: "Command catalogue", value: "Run `/help` to list this bot's commands.", inline: false },
           ],
         }),

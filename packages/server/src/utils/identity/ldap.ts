@@ -13,7 +13,7 @@
 import {
 	type IdentityLdapConfig,
 	identityLdapConfigSchema,
-} from "@astron-collection/server/db/schema/sso";
+} from "@discord-enterprise/server/db/schema/sso";
 import { Client } from "ldapts";
 
 const LDAP_CONNECT_TIMEOUT_MS = 10_000;

@@ -1,8 +1,8 @@
-/** Astron interactive components (buttons only). */
+/** Discord Enterprise interactive components (buttons only). */
 
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 
-import { encodeCustomId } from "@astron-collection/discord-framework";
+import { encodeCustomId } from "@discord-enterprise/discord-framework";
 
 export const STATUS_REFRESH_ID = encodeCustomId({ namespace: "status", action: "refresh" });
 

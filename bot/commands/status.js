@@ -1,13 +1,13 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { defineCommand } from "@astron-collection/discord-framework";
+import { defineCommand } from "@discord-enterprise/discord-framework";
 import { statusRefreshRow } from "../components.js";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
     .setName("status")
-    .setDescription("Show Astron runtime status and health.")
-    .setDescriptionLocalizations({ fr: "Afficher l'état et la santé d'Astron." })
+    .setDescription("Show Discord Enterprise runtime status and health.")
+    .setDescriptionLocalizations({ fr: "Afficher l'état et la santé d'Discord Enterprise." })
     .setDMPermission(false),
   category: "utility",
   cooldown: { seconds: 5 },

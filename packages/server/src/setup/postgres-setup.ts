@@ -3,26 +3,26 @@ import { docker } from "../constants";
 import { pullImage } from "../utils/docker/utils";
 export const initializePostgres = async () => {
 	const imageName = "postgres:16";
-	const containerName = "astron-collection-postgres";
+	const containerName = "discord-enterprise-postgres";
 	const settings: CreateServiceOptions = {
 		Name: containerName,
 		TaskTemplate: {
 			ContainerSpec: {
 				Image: imageName,
 				Env: [
-					"POSTGRES_USER=astron-collection",
-					"POSTGRES_DB=astron-collection",
+					"POSTGRES_USER=discord-enterprise",
+					"POSTGRES_DB=discord-enterprise",
 					"POSTGRES_PASSWORD=amukds4wi9001583845717ad2",
 				],
 				Mounts: [
 					{
 						Type: "volume",
-						Source: "astron-collection-postgres",
+						Source: "discord-enterprise-postgres",
 						Target: "/var/lib/postgresql/data",
 					},
 				],
 			},
-			Networks: [{ Target: "astron-collection-network" }],
+			Networks: [{ Target: "discord-enterprise-network" }],
 			Placement: {
 				Constraints: ["node.role==manager"],
 			},

@@ -6,7 +6,7 @@ import {
 } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import { betterAuthSecret } from "./auth-secret";
 import { encryptionSecret } from "./encryption-secret";
 
@@ -17,14 +17,14 @@ const IV_LENGTH = 12;
 const AUTH_TAG_LENGTH = 16;
 
 const deriveKey = (secret: string) =>
-	createHmac("sha256", secret).update("astron-collection:db-encryption:v1").digest();
+	createHmac("sha256", secret).update("discord-enterprise:db-encryption:v1").digest();
 
-// Dokploy (the project Astron Collection migrates from) derived its at-rest key with a
+// Dokploy (the project Discord Enterprise migrates from) derived its at-rest key with a
 // different domain-separation tag. Keep that derivation as a decrypt-only
 // fallback so values imported from a Dokploy installation (environment
 // variables, build args/secrets, registry and git credentials, web server
 // secrets) stay readable after migration; they are lazily re-encrypted under
-// the Astron Collection key on their next write. Encryption never uses this key.
+// the Discord Enterprise key on their next write. Encryption never uses this key.
 const deriveLegacyDokployKey = (secret: string) =>
 	createHmac("sha256", secret).update("dokploy:db-encryption:v1").digest();
 

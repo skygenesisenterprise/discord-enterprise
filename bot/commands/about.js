@@ -3,15 +3,15 @@ import { SlashCommandBuilder } from "discord.js";
 import {
   defineCommand,
   formatDuration,
-} from "@astron-collection/discord-framework";
-import { infoEmbed } from "@astron-collection/discord-framework/ui";
+} from "@discord-enterprise/discord-framework";
+import { infoEmbed } from "@discord-enterprise/discord-framework/ui";
 import { LINKS } from "../config/bot.js";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
     .setName("about")
-    .setDescription("About Astron and the Astron Collection.")
-    .setDescriptionLocalizations({ fr: "À propos d'Astron et de la collection Astron." })
+    .setDescription("About Discord Enterprise and the Discord Enterprise.")
+    .setDescriptionLocalizations({ fr: "À propos d'Discord Enterprise et de la collection Discord Enterprise." })
     .setDMPermission(false),
   category: "support",
   execute: async (interaction, { services }) => {
@@ -19,7 +19,7 @@ export default defineCommand({
 
     await interaction.reply({
       embeds: [
-        infoEmbed("Astron", "The generalist bot and entry point of the Astron Collection.", {
+        infoEmbed("Discord Enterprise", "The generalist bot and entry point of the Discord Enterprise.", {
           fields: [
             { name: "Version", value: stats.version, inline: true },
             { name: "Environment", value: stats.environment, inline: true },
@@ -30,7 +30,7 @@ export default defineCommand({
             { name: "Documentation", value: stats.repository, inline: false },
             { name: "Support", value: stats.support ?? LINKS.issues, inline: false },
           ],
-          footer: "Astron Collection — six independent bots, one foundation.",
+          footer: "Discord Enterprise — six independent bots, one foundation.",
         }),
       ],
     });

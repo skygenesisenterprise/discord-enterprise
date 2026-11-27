@@ -1,16 +1,16 @@
 ---
 title: SDK
-description: "Use the TypeScript SDK to drive Astron Collection programmatically."
+description: "Use the TypeScript SDK to drive Discord Enterprise programmatically."
 ---
 
-**Purpose** — The Astron Collection SDK is a TypeScript client that wraps the [API](/docs/api) with typed methods, so scripts and services can manage Astron Collection without hand-writing HTTP calls.
+**Purpose** — The Discord Enterprise SDK is a TypeScript client that wraps the [API](/docs/api) with typed methods, so scripts and services can manage Discord Enterprise without hand-writing HTTP calls.
 
 ## Package
 
 ```bash
-npm install @astron-collection/sdk
+npm install @discord-enterprise/sdk
 # or
-pnpm add @astron-collection/sdk
+pnpm add @discord-enterprise/sdk
 ```
 
 The SDK mirrors the API: it is generated from the same contract, so an endpoint you can call over HTTP has a corresponding method.
@@ -20,11 +20,11 @@ The SDK mirrors the API: it is generated from the same contract, so an endpoint 
 The SDK authenticates with an **API key**. Generate one in the dashboard and pass it when creating the client.
 
 ```ts
-import { createClient } from '@astron-collection/sdk';
+import { createClient } from '@discord-enterprise/sdk';
 
 const client = createClient({
   baseUrl: 'https://your-panel.example.com/api',
-  apiKey: process.env.ASTRON_COLLECTION_API_KEY, // never hard-code keys
+  apiKey: process.env.DISCORD_ENTERPRISE_API_KEY, // never hard-code keys
 });
 ```
 
@@ -57,7 +57,7 @@ Method names follow the API's resource grouping (`project`, `application`, `comp
 
 ## Status
 
-The SDK tracks the API and is published as `@astron-collection/sdk`. Because it is generated, its surface follows the API's version. Check the [Changelog](/docs/core/reference/changelog) when upgrading.
+The SDK tracks the API and is published as `@discord-enterprise/sdk`. Because it is generated, its surface follows the API's version. Check the [Changelog](/docs/core/reference/changelog) when upgrading.
 
 ## Related
 

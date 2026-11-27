@@ -1,7 +1,7 @@
-import { db } from "@astron-collection/server/db";
-import { notifications } from "@astron-collection/server/db/schema";
-import DatabaseBackupEmail from "@astron-collection/server/emails/emails/database-backup";
-import { redactSecrets } from "@astron-collection/server/utils/security/redact";
+import { db } from "@discord-enterprise/server/db";
+import { notifications } from "@discord-enterprise/server/db/schema";
+import DatabaseBackupEmail from "@discord-enterprise/server/emails/emails/database-backup";
+import { redactSecrets } from "@discord-enterprise/server/utils/security/redact";
 import { render } from "@react-email/components";
 import { format } from "date-fns";
 import { and, eq } from "drizzle-orm";
@@ -96,7 +96,7 @@ export const sendDatabaseBackupNotifications = async ({
 				if (email) {
 					await sendEmailNotification(
 						email,
-						"Database backup for astron-collection",
+						"Database backup for discord-enterprise",
 						template,
 					);
 				}
@@ -104,7 +104,7 @@ export const sendDatabaseBackupNotifications = async ({
 				if (resend) {
 					await sendResendNotification(
 						resend,
-						"Database backup for astron-collection",
+						"Database backup for discord-enterprise",
 						template,
 					);
 				}
@@ -169,7 +169,7 @@ export const sendDatabaseBackupNotifications = async ({
 					],
 					timestamp: date.toISOString(),
 					footer: {
-						text: "Astron Collection Database Backup Notification",
+						text: "Discord Enterprise Database Backup Notification",
 					},
 				});
 			}
@@ -292,7 +292,7 @@ export const sendDatabaseBackupNotifications = async ({
 				await sendMattermostNotification(mattermost, {
 					text: `**${statusEmoji} Database Backup ${typeStatus}**\n\n**Project:** ${projectName}\n**Application:** ${applicationName}\n**Type:** ${databaseType}\n**Database Name:** ${databaseName}\n**Date:** ${format(date, "PP")}\n**Time:** ${format(date, "pp")}${errorMsg}`,
 					channel: mattermost.channel,
-					username: mattermost.username || "Astron Collection",
+					username: mattermost.username || "Discord Enterprise",
 				});
 			}
 

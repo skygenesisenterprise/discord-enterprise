@@ -1,9 +1,9 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateEnvironment,
 	type apiDuplicateEnvironment,
 	environments,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { asc, eq } from "drizzle-orm";
 import type { z } from "zod";

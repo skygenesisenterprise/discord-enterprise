@@ -1,18 +1,18 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateMongo,
 	backups,
 	buildAppName,
 	compose,
 	mongo,
-} from "@astron-collection/server/db/schema";
-import { generatePassword } from "@astron-collection/server/templates";
-import { buildMongo } from "@astron-collection/server/utils/databases/mongo";
+} from "@discord-enterprise/server/db/schema";
+import { generatePassword } from "@discord-enterprise/server/templates";
+import { buildMongo } from "@discord-enterprise/server/utils/databases/mongo";
 import {
 	pullImage,
 	waitForSwarmServiceConvergence,
-} from "@astron-collection/server/utils/docker/utils";
-import { execAsyncRemote } from "@astron-collection/server/utils/process/execAsync";
+} from "@discord-enterprise/server/utils/docker/utils";
+import { execAsyncRemote } from "@discord-enterprise/server/utils/process/execAsync";
 import { TRPCError } from "@trpc/server";
 import { eq, getTableColumns } from "drizzle-orm";
 import { quote } from "shell-quote";

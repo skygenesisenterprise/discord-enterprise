@@ -34,19 +34,19 @@ export const getGatewayErrorPageConfig = (
 	env: Record<string, string | undefined> = process.env,
 ): GatewayErrorPageConfig => {
 	const brandName =
-		readString(env.ASTRON_COLLECTION_GATEWAY_BRAND_NAME)?.slice(
+		readString(env.DISCORD_ENTERPRISE_GATEWAY_BRAND_NAME)?.slice(
 			0,
 			MAX_BRAND_NAME_LENGTH,
-		) ?? "Astron Collection";
-	const locale = readString(env.ASTRON_COLLECTION_GATEWAY_LOCALE);
+		) ?? "Discord Enterprise";
+	const locale = readString(env.DISCORD_ENTERPRISE_GATEWAY_LOCALE);
 	const isCloud =
-		env.IS_CLOUD === "true" || env.ASTRON_COLLECTION_PRODUCT === "cloud";
+		env.IS_CLOUD === "true" || env.DISCORD_ENTERPRISE_PRODUCT === "cloud";
 
 	return {
-		brandName: brandName || "Astron Collection",
-		docsUrl: safeHttpUrl(env.ASTRON_COLLECTION_GATEWAY_DOCS_URL),
-		statusUrl: safeHttpUrl(env.ASTRON_COLLECTION_GATEWAY_STATUS_URL),
-		supportUrl: safeHttpUrl(env.ASTRON_COLLECTION_GATEWAY_SUPPORT_URL),
+		brandName: brandName || "Discord Enterprise",
+		docsUrl: safeHttpUrl(env.DISCORD_ENTERPRISE_GATEWAY_DOCS_URL),
+		statusUrl: safeHttpUrl(env.DISCORD_ENTERPRISE_GATEWAY_STATUS_URL),
+		supportUrl: safeHttpUrl(env.DISCORD_ENTERPRISE_GATEWAY_SUPPORT_URL),
 		locale: locale && LOCALE_PATTERN.test(locale) ? locale : "en",
 		isCloud,
 	};

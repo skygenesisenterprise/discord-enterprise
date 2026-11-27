@@ -1,27 +1,27 @@
 ---
 title: "Patches"
-description: "Versioned file overrides applied to an application at deploy time. Generated from the `astron-collection` command surface."
+description: "Versioned file overrides applied to an application at deploy time. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Versioned file overrides applied to an application at deploy time.
 
-`astron-collection patch` exposes **12 commands**. They map one-to-one onto the `patch.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise patch` exposes **12 commands**. They map one-to-one onto the `patch.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection patch --help` to list these commands in your terminal, or
-	`astron-collection patch <command> --help` for a single command.
+	Run `discord-enterprise patch --help` to list these commands in your terminal, or
+	`discord-enterprise patch <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection patch by-entity-id`
+### `discord-enterprise patch by-entity-id`
 
 Calls `GET /api/trpc/patch.byEntityId`.
 
 ```bash
-astron-collection patch by-entity-id --id <value> --type <value> [options]
+discord-enterprise patch by-entity-id --id <value> --type <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -30,12 +30,12 @@ astron-collection patch by-entity-id --id <value> --type <value> [options]
 | `--type <value>` | string | Yes | `application`, `compose` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch clean-patch-repos`
+### `discord-enterprise patch clean-patch-repos`
 
 Calls `POST /api/trpc/patch.cleanPatchRepos`.
 
 ```bash
-astron-collection patch clean-patch-repos [options]
+discord-enterprise patch clean-patch-repos [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -43,12 +43,12 @@ astron-collection patch clean-patch-repos [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch create`
+### `discord-enterprise patch create`
 
 Calls `POST /api/trpc/patch.create`.
 
 ```bash
-astron-collection patch create --filePath <value> --content <value> [options]
+discord-enterprise patch create --filePath <value> --content <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -62,12 +62,12 @@ astron-collection patch create --filePath <value> --content <value> [options]
 | `--composeId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch delete`
+### `discord-enterprise patch delete`
 
 Calls `POST /api/trpc/patch.delete`.
 
 ```bash
-astron-collection patch delete --patchId <value> [options]
+discord-enterprise patch delete --patchId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -75,12 +75,12 @@ astron-collection patch delete --patchId <value> [options]
 | `--patchId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch ensure-repo`
+### `discord-enterprise patch ensure-repo`
 
 Calls `POST /api/trpc/patch.ensureRepo`.
 
 ```bash
-astron-collection patch ensure-repo --id <value> --type <value> [options]
+discord-enterprise patch ensure-repo --id <value> --type <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -89,12 +89,12 @@ astron-collection patch ensure-repo --id <value> --type <value> [options]
 | `--type <value>` | string | Yes | `application`, `compose` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch mark-file-for-deletion`
+### `discord-enterprise patch mark-file-for-deletion`
 
 Calls `POST /api/trpc/patch.markFileForDeletion`.
 
 ```bash
-astron-collection patch mark-file-for-deletion --id <value> --type <value> --filePath <value> [options]
+discord-enterprise patch mark-file-for-deletion --id <value> --type <value> --filePath <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -104,12 +104,12 @@ astron-collection patch mark-file-for-deletion --id <value> --type <value> --fil
 | `--filePath <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch one`
+### `discord-enterprise patch one`
 
 Calls `GET /api/trpc/patch.one`.
 
 ```bash
-astron-collection patch one --patchId <value> [options]
+discord-enterprise patch one --patchId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -117,12 +117,12 @@ astron-collection patch one --patchId <value> [options]
 | `--patchId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch read-repo-directories`
+### `discord-enterprise patch read-repo-directories`
 
 Calls `GET /api/trpc/patch.readRepoDirectories`.
 
 ```bash
-astron-collection patch read-repo-directories --id <value> --type <value> --repoPath <value> [options]
+discord-enterprise patch read-repo-directories --id <value> --type <value> --repoPath <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -132,12 +132,12 @@ astron-collection patch read-repo-directories --id <value> --type <value> --repo
 | `--repoPath <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch read-repo-file`
+### `discord-enterprise patch read-repo-file`
 
 Calls `GET /api/trpc/patch.readRepoFile`.
 
 ```bash
-astron-collection patch read-repo-file --id <value> --type <value> --filePath <value> [options]
+discord-enterprise patch read-repo-file --id <value> --type <value> --filePath <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -147,12 +147,12 @@ astron-collection patch read-repo-file --id <value> --type <value> --filePath <v
 | `--filePath <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch save-file-as-patch`
+### `discord-enterprise patch save-file-as-patch`
 
 Calls `POST /api/trpc/patch.saveFileAsPatch`.
 
 ```bash
-astron-collection patch save-file-as-patch --id <value> --type <value> --filePath <value> --content <value> [options]
+discord-enterprise patch save-file-as-patch --id <value> --type <value> --filePath <value> --content <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -164,12 +164,12 @@ astron-collection patch save-file-as-patch --id <value> --type <value> --filePat
 | `--patchType <value>` | string | No | `create`, `update` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch toggle-enabled`
+### `discord-enterprise patch toggle-enabled`
 
 Calls `POST /api/trpc/patch.toggleEnabled`.
 
 ```bash
-astron-collection patch toggle-enabled --patchId <value> --enabled [options]
+discord-enterprise patch toggle-enabled --patchId <value> --enabled [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -178,12 +178,12 @@ astron-collection patch toggle-enabled --patchId <value> --enabled [options]
 | `--enabled [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection patch update`
+### `discord-enterprise patch update`
 
 Calls `POST /api/trpc/patch.update`.
 
 ```bash
-astron-collection patch update --patchId <value> [options]
+discord-enterprise patch update --patchId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

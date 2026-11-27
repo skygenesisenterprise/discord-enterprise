@@ -1,27 +1,27 @@
 ---
 title: "Compose"
-description: "Docker Compose projects: templates, imports, isolated deployments and previews. Generated from the `astron-collection` command surface."
+description: "Docker Compose projects: templates, imports, isolated deployments and previews. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Docker Compose projects: templates, imports, isolated deployments and previews.
 
-`astron-collection compose` exposes **31 commands**. They map one-to-one onto the `compose.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise compose` exposes **31 commands**. They map one-to-one onto the `compose.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection compose --help` to list these commands in your terminal, or
-	`astron-collection compose <command> --help` for a single command.
+	Run `discord-enterprise compose --help` to list these commands in your terminal, or
+	`discord-enterprise compose <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection compose cancel-deployment`
+### `discord-enterprise compose cancel-deployment`
 
 Calls `POST /api/trpc/compose.cancelDeployment`.
 
 ```bash
-astron-collection compose cancel-deployment --composeId <value> [options]
+discord-enterprise compose cancel-deployment --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection compose cancel-deployment --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose clean-queues`
+### `discord-enterprise compose clean-queues`
 
 Calls `POST /api/trpc/compose.cleanQueues`.
 
 ```bash
-astron-collection compose clean-queues --composeId <value> [options]
+discord-enterprise compose clean-queues --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection compose clean-queues --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose clear-deployments`
+### `discord-enterprise compose clear-deployments`
 
 Calls `POST /api/trpc/compose.clearDeployments`.
 
 ```bash
-astron-collection compose clear-deployments --composeId <value> [options]
+discord-enterprise compose clear-deployments --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -55,12 +55,12 @@ astron-collection compose clear-deployments --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose create`
+### `discord-enterprise compose create`
 
 Calls `POST /api/trpc/compose.create`.
 
 ```bash
-astron-collection compose create --name <value> --environmentId <value> [options]
+discord-enterprise compose create --name <value> --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -75,12 +75,12 @@ astron-collection compose create --name <value> --environmentId <value> [options
 | `--sourceType <value>` | string | No | `git`, `github`, `gitlab`, `bitbucket`, `gitea`, `raw` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose delete`
+### `discord-enterprise compose delete`
 
 Calls `POST /api/trpc/compose.delete`.
 
 ```bash
-astron-collection compose delete --composeId <value> --deleteVolumes [options]
+discord-enterprise compose delete --composeId <value> --deleteVolumes [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -89,12 +89,12 @@ astron-collection compose delete --composeId <value> --deleteVolumes [options]
 | `--deleteVolumes [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose deploy`
+### `discord-enterprise compose deploy`
 
 Calls `POST /api/trpc/compose.deploy`.
 
 ```bash
-astron-collection compose deploy --composeId <value> [options]
+discord-enterprise compose deploy --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -106,12 +106,12 @@ astron-collection compose deploy --composeId <value> [options]
 | `--no-freshVolumes` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose deploy-template`
+### `discord-enterprise compose deploy-template`
 
 Calls `POST /api/trpc/compose.deployTemplate`.
 
 ```bash
-astron-collection compose deploy-template --environmentId <value> --id <value> [options]
+discord-enterprise compose deploy-template --environmentId <value> --id <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -122,12 +122,12 @@ astron-collection compose deploy-template --environmentId <value> --id <value> [
 | `--baseUrl <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose disconnect-git-provider`
+### `discord-enterprise compose disconnect-git-provider`
 
 Calls `POST /api/trpc/compose.disconnectGitProvider`.
 
 ```bash
-astron-collection compose disconnect-git-provider --composeId <value> [options]
+discord-enterprise compose disconnect-git-provider --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -135,12 +135,12 @@ astron-collection compose disconnect-git-provider --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose fetch-source-type`
+### `discord-enterprise compose fetch-source-type`
 
 Calls `POST /api/trpc/compose.fetchSourceType`.
 
 ```bash
-astron-collection compose fetch-source-type --composeId <value> [options]
+discord-enterprise compose fetch-source-type --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -148,12 +148,12 @@ astron-collection compose fetch-source-type --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose get-converted-compose`
+### `discord-enterprise compose get-converted-compose`
 
 Calls `GET /api/trpc/compose.getConvertedCompose`.
 
 ```bash
-astron-collection compose get-converted-compose --composeId <value> [options]
+discord-enterprise compose get-converted-compose --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -161,12 +161,12 @@ astron-collection compose get-converted-compose --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose get-default-command`
+### `discord-enterprise compose get-default-command`
 
 Calls `GET /api/trpc/compose.getDefaultCommand`.
 
 ```bash
-astron-collection compose get-default-command --composeId <value> [options]
+discord-enterprise compose get-default-command --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -174,12 +174,12 @@ astron-collection compose get-default-command --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose get-tags`
+### `discord-enterprise compose get-tags`
 
 Calls `GET /api/trpc/compose.getTags`.
 
 ```bash
-astron-collection compose get-tags [options]
+discord-enterprise compose get-tags [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -187,12 +187,12 @@ astron-collection compose get-tags [options]
 | `--baseUrl <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose import`
+### `discord-enterprise compose import`
 
 Calls `POST /api/trpc/compose.import`.
 
 ```bash
-astron-collection compose import --base64 <value> --composeId <value> [options]
+discord-enterprise compose import --base64 <value> --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -201,12 +201,12 @@ astron-collection compose import --base64 <value> --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose isolated-deployment`
+### `discord-enterprise compose isolated-deployment`
 
 Calls `POST /api/trpc/compose.isolatedDeployment`.
 
 ```bash
-astron-collection compose isolated-deployment --composeId <value> [options]
+discord-enterprise compose isolated-deployment --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -215,12 +215,12 @@ astron-collection compose isolated-deployment --composeId <value> [options]
 | `--suffix <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose kill-build`
+### `discord-enterprise compose kill-build`
 
 Calls `POST /api/trpc/compose.killBuild`.
 
 ```bash
-astron-collection compose kill-build --composeId <value> [options]
+discord-enterprise compose kill-build --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -228,12 +228,12 @@ astron-collection compose kill-build --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose load-mounts-by-service`
+### `discord-enterprise compose load-mounts-by-service`
 
 Calls `GET /api/trpc/compose.loadMountsByService`.
 
 ```bash
-astron-collection compose load-mounts-by-service --composeId <value> --serviceName <value> [options]
+discord-enterprise compose load-mounts-by-service --composeId <value> --serviceName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -242,12 +242,12 @@ astron-collection compose load-mounts-by-service --composeId <value> --serviceNa
 | `--serviceName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose load-services`
+### `discord-enterprise compose load-services`
 
 Calls `GET /api/trpc/compose.loadServices`.
 
 ```bash
-astron-collection compose load-services --composeId <value> [options]
+discord-enterprise compose load-services --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -256,12 +256,12 @@ astron-collection compose load-services --composeId <value> [options]
 | `--type <value>` | string | No | `fetch`, `cache` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose move`
+### `discord-enterprise compose move`
 
 Calls `POST /api/trpc/compose.move`.
 
 ```bash
-astron-collection compose move --composeId <value> --targetEnvironmentId <value> [options]
+discord-enterprise compose move --composeId <value> --targetEnvironmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -270,12 +270,12 @@ astron-collection compose move --composeId <value> --targetEnvironmentId <value>
 | `--targetEnvironmentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose one`
+### `discord-enterprise compose one`
 
 Calls `GET /api/trpc/compose.one`.
 
 ```bash
-astron-collection compose one --composeId <value> [options]
+discord-enterprise compose one --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -283,12 +283,12 @@ astron-collection compose one --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose preview-template`
+### `discord-enterprise compose preview-template`
 
 Calls `POST /api/trpc/compose.previewTemplate`.
 
 ```bash
-astron-collection compose preview-template --base64 <value> --appName <value> [options]
+discord-enterprise compose preview-template --base64 <value> --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -298,12 +298,12 @@ astron-collection compose preview-template --base64 <value> --appName <value> [o
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose process-template`
+### `discord-enterprise compose process-template`
 
 Calls `POST /api/trpc/compose.processTemplate`.
 
 ```bash
-astron-collection compose process-template --base64 <value> --composeId <value> [options]
+discord-enterprise compose process-template --base64 <value> --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -312,12 +312,12 @@ astron-collection compose process-template --base64 <value> --composeId <value> 
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose randomize-compose`
+### `discord-enterprise compose randomize-compose`
 
 Calls `POST /api/trpc/compose.randomizeCompose`.
 
 ```bash
-astron-collection compose randomize-compose --composeId <value> [options]
+discord-enterprise compose randomize-compose --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -326,12 +326,12 @@ astron-collection compose randomize-compose --composeId <value> [options]
 | `--suffix <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose read-logs`
+### `discord-enterprise compose read-logs`
 
 Calls `GET /api/trpc/compose.readLogs`.
 
 ```bash
-astron-collection compose read-logs --composeId <value> --containerId <value> [options]
+discord-enterprise compose read-logs --composeId <value> --containerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -343,12 +343,12 @@ astron-collection compose read-logs --composeId <value> --containerId <value> [o
 | `--search <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose redeploy`
+### `discord-enterprise compose redeploy`
 
 Calls `POST /api/trpc/compose.redeploy`.
 
 ```bash
-astron-collection compose redeploy --composeId <value> [options]
+discord-enterprise compose redeploy --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -360,12 +360,12 @@ astron-collection compose redeploy --composeId <value> [options]
 | `--no-freshVolumes` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose refresh-token`
+### `discord-enterprise compose refresh-token`
 
 Calls `POST /api/trpc/compose.refreshToken`.
 
 ```bash
-astron-collection compose refresh-token --composeId <value> [options]
+discord-enterprise compose refresh-token --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -373,12 +373,12 @@ astron-collection compose refresh-token --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose save-environment`
+### `discord-enterprise compose save-environment`
 
 Calls `POST /api/trpc/compose.saveEnvironment`.
 
 ```bash
-astron-collection compose save-environment --composeId <value> --env <value> [options]
+discord-enterprise compose save-environment --composeId <value> --env <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -389,12 +389,12 @@ astron-collection compose save-environment --composeId <value> --env <value> [op
 | `--no-createEnvFile` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose search`
+### `discord-enterprise compose search`
 
 Calls `GET /api/trpc/compose.search`.
 
 ```bash
-astron-collection compose search [options]
+discord-enterprise compose search [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -409,12 +409,12 @@ astron-collection compose search [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose start`
+### `discord-enterprise compose start`
 
 Calls `POST /api/trpc/compose.start`.
 
 ```bash
-astron-collection compose start --composeId <value> [options]
+discord-enterprise compose start --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -422,12 +422,12 @@ astron-collection compose start --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose stop`
+### `discord-enterprise compose stop`
 
 Calls `POST /api/trpc/compose.stop`.
 
 ```bash
-astron-collection compose stop --composeId <value> [options]
+discord-enterprise compose stop --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -435,12 +435,12 @@ astron-collection compose stop --composeId <value> [options]
 | `--composeId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose templates`
+### `discord-enterprise compose templates`
 
 Calls `GET /api/trpc/compose.templates`.
 
 ```bash
-astron-collection compose templates [options]
+discord-enterprise compose templates [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -448,12 +448,12 @@ astron-collection compose templates [options]
 | `--baseUrl <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection compose update`
+### `discord-enterprise compose update`
 
 Calls `POST /api/trpc/compose.update`.
 
 ```bash
-astron-collection compose update --composeId <value> [options]
+discord-enterprise compose update --composeId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

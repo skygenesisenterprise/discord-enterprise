@@ -26,7 +26,8 @@ function formatLine(name, labels, value) {
   return `${name}${suffix} ${Number(value)}`;
 }
 
-export function createMetrics({ prefix = "astron", now = () => Date.now() } = {}) {
+export function createMetrics({ prefix = "discord-enterprise", now = () => Date.now() } = {}) {
+  prefix = sanitizeName(prefix);
   /** @type {Map<string, {help: string, type: string, values: Map<string, any>, labels: string[]}>} */
   const families = new Map();
 

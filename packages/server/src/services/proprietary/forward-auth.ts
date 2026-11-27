@@ -1,11 +1,11 @@
-import { IS_CLOUD } from "@astron-collection/server/constants";
-import { db } from "@astron-collection/server/db";
+import { IS_CLOUD } from "@discord-enterprise/server/constants";
+import { db } from "@discord-enterprise/server/db";
 import {
 	forwardAuthSettings,
 	server,
 	ssoProvider,
-} from "@astron-collection/server/db/schema";
-import { checkServicePermissionAndAccess } from "@astron-collection/server/services/permission";
+} from "@discord-enterprise/server/db/schema";
+import { checkServicePermissionAndAccess } from "@discord-enterprise/server/services/permission";
 import {
 	deriveBaseDomain,
 	deriveCookieSecret,
@@ -14,13 +14,13 @@ import {
 	isForwardAuthRunning,
 	removeForwardAuth,
 	setupForwardAuth,
-} from "@astron-collection/server/setup/forward-auth-setup";
-import { manageDomain } from "@astron-collection/server/utils/traefik/domain";
+} from "@discord-enterprise/server/setup/forward-auth-setup";
+import { manageDomain } from "@discord-enterprise/server/utils/traefik/domain";
 import {
 	manageForwardAuthDomain,
 	removeForwardAuthDomain,
 	removeForwardAuthMiddleware,
-} from "@astron-collection/server/utils/traefik/forward-auth";
+} from "@discord-enterprise/server/utils/traefik/forward-auth";
 import { TRPCError } from "@trpc/server";
 import { and, asc, desc, eq, isNotNull, isNull } from "drizzle-orm";
 import { findApplicationById } from "../application";
@@ -264,7 +264,7 @@ export const getForwardAuthServerStatus = async (organizationId: string) => {
 			: [
 					{
 						serverId: null,
-						name: "Astron Collection Server (local)",
+						name: "Discord Enterprise Server (local)",
 						ipAddress: null,
 					},
 				]),

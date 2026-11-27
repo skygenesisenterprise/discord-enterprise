@@ -1,7 +1,7 @@
 /**
  * Versioned interaction identifiers.
  *
- * Format: `astron:v1:<namespace>:<action>[:<value>]`
+ * Format: `discord-enterprise:v1:<namespace>:<action>[:<value>]`
  *
  * - strictly validated, so a malformed or truncated id never reaches a handler;
  * - segmented, so an expired interaction from a previous version is recognised
@@ -13,11 +13,11 @@
 import { InteractionExpiredError } from "../errors.js";
 
 export const CUSTOM_ID_VERSION = "v1";
-export const CUSTOM_ID_PREFIX = "astron";
+export const CUSTOM_ID_PREFIX = "discord-enterprise";
 export const MAX_CUSTOM_ID_LENGTH = 100; // Discord's hard limit.
 
 const SEGMENT = /^[a-z0-9][a-z0-9_-]{0,63}$/;
-const RESERVED_SEGMENTS = new Set(["astron"]);
+const RESERVED_SEGMENTS = new Set(["discord-enterprise"]);
 
 export class CustomIdError extends Error {
   constructor(message) {
@@ -64,7 +64,7 @@ export function encodeCustomId({ namespace, action, value, version = CUSTOM_ID_V
 
 /**
  * @returns {{version: string, namespace: string, action: string, value: string|null}|null}
- *   `null` when the id is not an Astron id or is malformed.
+ *   `null` when the id is not an Discord Enterprise id or is malformed.
  */
 export function parseCustomId(customId) {
   if (typeof customId !== "string" || customId.length === 0) return null;

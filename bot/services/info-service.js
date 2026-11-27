@@ -1,11 +1,11 @@
 /**
- * Information shaping for Astron.
+ * Information shaping for Discord Enterprise.
  *
  * These functions return plain data, not Discord payloads, so they are testable
  * without the Discord client and reusable from slash commands and context menus.
  */
 
-import { formatNumber, timestamp } from "@astron-collection/discord-framework/ui";
+import { formatNumber, timestamp } from "@discord-enterprise/discord-framework/ui";
 
 export function createInfoService({ bot, config }) {
   function guildInfo(guild) {

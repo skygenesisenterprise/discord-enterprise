@@ -1,27 +1,27 @@
 ---
 title: "Preview deployments"
-description: "Per-branch deployments created when preview deployments are enabled. Generated from the `astron-collection` command surface."
+description: "Per-branch deployments created when preview deployments are enabled. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Per-branch deployments created when preview deployments are enabled.
 
-`astron-collection preview-deployment` exposes **4 commands**. They map one-to-one onto the `preview-deployment.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise preview-deployment` exposes **4 commands**. They map one-to-one onto the `preview-deployment.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection preview-deployment --help` to list these commands in your terminal, or
-	`astron-collection preview-deployment <command> --help` for a single command.
+	Run `discord-enterprise preview-deployment --help` to list these commands in your terminal, or
+	`discord-enterprise preview-deployment <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection preview-deployment all`
+### `discord-enterprise preview-deployment all`
 
 Calls `GET /api/trpc/previewDeployment.all`.
 
 ```bash
-astron-collection preview-deployment all --applicationId <value> [options]
+discord-enterprise preview-deployment all --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection preview-deployment all --applicationId <value> [options]
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection preview-deployment delete`
+### `discord-enterprise preview-deployment delete`
 
 Calls `POST /api/trpc/previewDeployment.delete`.
 
 ```bash
-astron-collection preview-deployment delete --previewDeploymentId <value> [options]
+discord-enterprise preview-deployment delete --previewDeploymentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection preview-deployment delete --previewDeploymentId <value> [optio
 | `--previewDeploymentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection preview-deployment one`
+### `discord-enterprise preview-deployment one`
 
 Calls `GET /api/trpc/previewDeployment.one`.
 
 ```bash
-astron-collection preview-deployment one --previewDeploymentId <value> [options]
+discord-enterprise preview-deployment one --previewDeploymentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -55,12 +55,12 @@ astron-collection preview-deployment one --previewDeploymentId <value> [options]
 | `--previewDeploymentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection preview-deployment redeploy`
+### `discord-enterprise preview-deployment redeploy`
 
 Calls `POST /api/trpc/previewDeployment.redeploy`.
 
 ```bash
-astron-collection preview-deployment redeploy --previewDeploymentId <value> [options]
+discord-enterprise preview-deployment redeploy --previewDeploymentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

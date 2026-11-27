@@ -15,8 +15,8 @@ import path from "node:path";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const BOTS_DIR = path.join(ROOT, "bot");
 const FRAMEWORK_IMPORT =
-  /(?:^|\/)packages\/discord-framework\/src\/index\.js$|^@astron-collection\/discord-framework(?:$|\/)/;
-const EXPECTED_BOTS = ["astron", "automations", "guild", "logger", "player", "protect"];
+  /(?:^|\/)packages\/discord-framework\/src\/index\.js$|^@discord-enterprise\/discord-framework(?:$|\/)/;
+const EXPECTED_BOTS = ["discord-enterprise", "automations", "guild", "logger", "player", "protect"];
 const REQUIRED_ENTRIES = [
   "index.js",
   "config/env.js",
@@ -80,8 +80,8 @@ for (const bot of bots) {
   }
 
   const packageJson = JSON.parse(await fs.readFile(path.join(botDir, "package.json"), "utf8").catch(() => "{}"));
-  if (packageJson.name !== `@astron-collection/${bot}`) {
-    failures.push(`bot/${bot}/package.json: expected name @astron-collection/${bot}`);
+  if (packageJson.name !== `@discord-enterprise/${bot}`) {
+    failures.push(`bot/${bot}/package.json: expected name @discord-enterprise/${bot}`);
   }
 
   const index = await fs.readFile(path.join(botDir, "index.js"), "utf8").catch(() => "");
@@ -136,7 +136,7 @@ for (const bot of bots) {
         const foreign =
           new RegExp(`(^|/)bot/${other}(/|$)`).test(specifier) ||
           new RegExp(`(^|/|\\.\\./)${other}/`).test(specifier) ||
-          specifier === `@astron-collection/${other}`;
+          specifier === `@discord-enterprise/${other}`;
 
         if (foreign) {
           failures.push(`${relative(file)}: imports the '${other}' bot ('${specifier}')`);

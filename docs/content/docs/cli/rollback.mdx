@@ -1,27 +1,27 @@
 ---
 title: "Rollbacks"
-description: "Roll a deployment back to a previously built image. Generated from the `astron-collection` command surface."
+description: "Roll a deployment back to a previously built image. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Roll a deployment back to a previously built image.
 
-`astron-collection rollback` exposes **2 commands**. They map one-to-one onto the `rollback.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise rollback` exposes **2 commands**. They map one-to-one onto the `rollback.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection rollback --help` to list these commands in your terminal, or
-	`astron-collection rollback <command> --help` for a single command.
+	Run `discord-enterprise rollback --help` to list these commands in your terminal, or
+	`discord-enterprise rollback <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection rollback delete`
+### `discord-enterprise rollback delete`
 
 Calls `POST /api/trpc/rollback.delete`.
 
 ```bash
-astron-collection rollback delete --rollbackId <value> [options]
+discord-enterprise rollback delete --rollbackId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection rollback delete --rollbackId <value> [options]
 | `--rollbackId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection rollback rollback`
+### `discord-enterprise rollback rollback`
 
 Calls `POST /api/trpc/rollback.rollback`.
 
 ```bash
-astron-collection rollback rollback --rollbackId <value> [options]
+discord-enterprise rollback rollback --rollbackId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

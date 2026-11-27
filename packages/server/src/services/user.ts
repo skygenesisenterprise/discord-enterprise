@@ -1,11 +1,11 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	account,
 	apikey,
 	invitation,
 	member,
 	user,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import * as bcrypt from "bcrypt";
 import { and, eq } from "drizzle-orm";

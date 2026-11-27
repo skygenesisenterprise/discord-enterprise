@@ -6,7 +6,7 @@ import {
   createComponentRegistry,
   createLogger,
   startBot,
-} from "@astron-collection/discord-framework";
+} from "@discord-enterprise/discord-framework";
 import { BOT, INTENTS, PARTIALS } from "./config/bot.js";
 import { env } from "./config/env.js";
 import { registerComponents } from "./components.js";
@@ -37,10 +37,10 @@ async function main() {
     healthPort: env.healthPort,
   });
 
-  logger.info("astron started", { version: env.version, guilds: runtime.health().guilds });
+  logger.info("discord-enterprise started", { version: env.version, guilds: runtime.health().guilds });
 }
 
 main().catch((error) => {
-  logger.error("astron failed to start", { err: error });
+  logger.error("discord-enterprise failed to start", { err: error });
   process.exitCode = 1;
 });

@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	libsql,
 	mariadb,
@@ -6,13 +6,13 @@ import {
 	mysql,
 	postgres,
 	redis,
-} from "@astron-collection/server/db/schema";
-import { deployLibsql } from "@astron-collection/server/services/libsql";
-import { deployMariadb } from "@astron-collection/server/services/mariadb";
-import { deployMongo } from "@astron-collection/server/services/mongo";
-import { deployMySql } from "@astron-collection/server/services/mysql";
-import { deployPostgres } from "@astron-collection/server/services/postgres";
-import { deployRedis } from "@astron-collection/server/services/redis";
+} from "@discord-enterprise/server/db/schema";
+import { deployLibsql } from "@discord-enterprise/server/services/libsql";
+import { deployMariadb } from "@discord-enterprise/server/services/mariadb";
+import { deployMongo } from "@discord-enterprise/server/services/mongo";
+import { deployMySql } from "@discord-enterprise/server/services/mysql";
+import { deployPostgres } from "@discord-enterprise/server/services/postgres";
+import { deployRedis } from "@discord-enterprise/server/services/redis";
 import { eq } from "drizzle-orm";
 import { quote } from "shell-quote";
 import { removeService } from "../docker/utils";

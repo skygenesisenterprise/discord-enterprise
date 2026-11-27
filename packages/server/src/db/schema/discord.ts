@@ -18,7 +18,7 @@ import { user } from "./user";
  *
  * These tables hold data obtained with the user's OAuth `guilds` scope. They
  * deliberately do not describe bot installations: membership and permissions
- * are answerable without an Astron bot ever joining the guild.
+ * are answerable without an Discord Enterprise bot ever joining the guild.
  *
  * Snowflakes stay strings everywhere. Discord ids exceed Number.MAX_SAFE_INTEGER.
  */

@@ -1,12 +1,12 @@
-import type { BackupSchedule } from "@astron-collection/server/services/backup";
+import type { BackupSchedule } from "@discord-enterprise/server/services/backup";
 import {
 	createDeploymentBackup,
 	updateDeploymentStatus,
-} from "@astron-collection/server/services/deployment";
-import { findDestinationById } from "@astron-collection/server/services/destination";
-import { findEnvironmentById } from "@astron-collection/server/services/environment";
-import type { MySql } from "@astron-collection/server/services/mysql";
-import { findProjectById } from "@astron-collection/server/services/project";
+} from "@discord-enterprise/server/services/deployment";
+import { findDestinationById } from "@discord-enterprise/server/services/destination";
+import { findEnvironmentById } from "@discord-enterprise/server/services/environment";
+import type { MySql } from "@discord-enterprise/server/services/mysql";
+import { findProjectById } from "@discord-enterprise/server/services/project";
 import { sendDatabaseBackupNotifications } from "../notifications/database-backup";
 import { execAsync, execAsyncRemote } from "../process/execAsync";
 import { redactBackupError } from "./redact";

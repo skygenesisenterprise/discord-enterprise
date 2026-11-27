@@ -4,8 +4,8 @@ import {
   COLORS,
   formatDuration,
   formatNumber,
-} from "@astron-collection/discord-framework/ui";
-import { embed } from "@astron-collection/discord-framework/ui";
+} from "@discord-enterprise/discord-framework/ui";
+import { embed } from "@discord-enterprise/discord-framework/ui";
 
 export function createStatusService({ bot, config, db, registry, metrics }) {
   function databaseOk() {
@@ -39,7 +39,7 @@ export function createStatusService({ bot, config, db, registry, metrics }) {
 
     return embed({
       title: `${bot} status`,
-      description: `**${status}** — generalist bot of the Astron Collection.`,
+      description: `**${status}** — generalist bot of the Discord Enterprise.`,
       color: state.database ? COLORS.success : COLORS.warning,
       fields: [
         { name: "Application", value: state.tag, inline: true },
@@ -53,7 +53,7 @@ export function createStatusService({ bot, config, db, registry, metrics }) {
         { name: "Database", value: state.database ? "SQLite OK" : "Unavailable", inline: true },
         { name: "Runtime", value: `Node ${state.node}`, inline: true },
       ],
-      footer: "Astron Collection",
+      footer: "Discord Enterprise",
     });
   }
 

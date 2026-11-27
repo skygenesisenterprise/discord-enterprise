@@ -1,14 +1,14 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import type {
 	AuditAction,
 	AuditResourceType,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import {
 	auditLog,
 	member,
 	organization,
 	user,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import {

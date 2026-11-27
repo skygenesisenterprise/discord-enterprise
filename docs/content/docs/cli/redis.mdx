@@ -1,27 +1,27 @@
 ---
 title: "Redis"
-description: "Provision and operate Redis instances, including backups and external ports. Generated from the `astron-collection` command surface."
+description: "Provision and operate Redis instances, including backups and external ports. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Provision and operate Redis instances, including backups and external ports.
 
-`astron-collection redis` exposes **16 commands**. They map one-to-one onto the `redis.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise redis` exposes **16 commands**. They map one-to-one onto the `redis.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection redis --help` to list these commands in your terminal, or
-	`astron-collection redis <command> --help` for a single command.
+	Run `discord-enterprise redis --help` to list these commands in your terminal, or
+	`discord-enterprise redis <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection redis change-password`
+### `discord-enterprise redis change-password`
 
 Calls `POST /api/trpc/redis.changePassword`.
 
 ```bash
-astron-collection redis change-password --redisId <value> --password <value> [options]
+discord-enterprise redis change-password --redisId <value> --password <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -30,12 +30,12 @@ astron-collection redis change-password --redisId <value> --password <value> [op
 | `--password <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis change-status`
+### `discord-enterprise redis change-status`
 
 Calls `POST /api/trpc/redis.changeStatus`.
 
 ```bash
-astron-collection redis change-status --redisId <value> --applicationStatus <value> [options]
+discord-enterprise redis change-status --redisId <value> --applicationStatus <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -44,12 +44,12 @@ astron-collection redis change-status --redisId <value> --applicationStatus <val
 | `--applicationStatus <value>` | string | Yes | `idle`, `running`, `done`, `error` |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis create`
+### `discord-enterprise redis create`
 
 Calls `POST /api/trpc/redis.create`.
 
 ```bash
-astron-collection redis create --name <value> --databasePassword <value> --environmentId <value> [options]
+discord-enterprise redis create --name <value> --databasePassword <value> --environmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -63,12 +63,12 @@ astron-collection redis create --name <value> --databasePassword <value> --envir
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis deploy`
+### `discord-enterprise redis deploy`
 
 Calls `POST /api/trpc/redis.deploy`.
 
 ```bash
-astron-collection redis deploy --redisId <value> [options]
+discord-enterprise redis deploy --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -76,12 +76,12 @@ astron-collection redis deploy --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis move`
+### `discord-enterprise redis move`
 
 Calls `POST /api/trpc/redis.move`.
 
 ```bash
-astron-collection redis move --redisId <value> --targetEnvironmentId <value> [options]
+discord-enterprise redis move --redisId <value> --targetEnvironmentId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -90,12 +90,12 @@ astron-collection redis move --redisId <value> --targetEnvironmentId <value> [op
 | `--targetEnvironmentId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis one`
+### `discord-enterprise redis one`
 
 Calls `GET /api/trpc/redis.one`.
 
 ```bash
-astron-collection redis one --redisId <value> [options]
+discord-enterprise redis one --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -103,12 +103,12 @@ astron-collection redis one --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis read-logs`
+### `discord-enterprise redis read-logs`
 
 Calls `GET /api/trpc/redis.readLogs`.
 
 ```bash
-astron-collection redis read-logs --redisId <value> [options]
+discord-enterprise redis read-logs --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -119,12 +119,12 @@ astron-collection redis read-logs --redisId <value> [options]
 | `--search <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis rebuild`
+### `discord-enterprise redis rebuild`
 
 Calls `POST /api/trpc/redis.rebuild`.
 
 ```bash
-astron-collection redis rebuild --redisId <value> [options]
+discord-enterprise redis rebuild --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -132,12 +132,12 @@ astron-collection redis rebuild --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis reload`
+### `discord-enterprise redis reload`
 
 Calls `POST /api/trpc/redis.reload`.
 
 ```bash
-astron-collection redis reload --redisId <value> --appName <value> [options]
+discord-enterprise redis reload --redisId <value> --appName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -146,12 +146,12 @@ astron-collection redis reload --redisId <value> --appName <value> [options]
 | `--appName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis remove`
+### `discord-enterprise redis remove`
 
 Calls `POST /api/trpc/redis.remove`.
 
 ```bash
-astron-collection redis remove --redisId <value> [options]
+discord-enterprise redis remove --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -159,12 +159,12 @@ astron-collection redis remove --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis save-environment`
+### `discord-enterprise redis save-environment`
 
 Calls `POST /api/trpc/redis.saveEnvironment`.
 
 ```bash
-astron-collection redis save-environment --redisId <value> --env <value> [options]
+discord-enterprise redis save-environment --redisId <value> --env <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -173,12 +173,12 @@ astron-collection redis save-environment --redisId <value> --env <value> [option
 | `--env <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis save-external-port`
+### `discord-enterprise redis save-external-port`
 
 Calls `POST /api/trpc/redis.saveExternalPort`.
 
 ```bash
-astron-collection redis save-external-port --redisId <value> --externalPort <value> [options]
+discord-enterprise redis save-external-port --redisId <value> --externalPort <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -187,12 +187,12 @@ astron-collection redis save-external-port --redisId <value> --externalPort <val
 | `--externalPort <value>` | number | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis search`
+### `discord-enterprise redis search`
 
 Calls `GET /api/trpc/redis.search`.
 
 ```bash
-astron-collection redis search [options]
+discord-enterprise redis search [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -207,12 +207,12 @@ astron-collection redis search [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis start`
+### `discord-enterprise redis start`
 
 Calls `POST /api/trpc/redis.start`.
 
 ```bash
-astron-collection redis start --redisId <value> [options]
+discord-enterprise redis start --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -220,12 +220,12 @@ astron-collection redis start --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis stop`
+### `discord-enterprise redis stop`
 
 Calls `POST /api/trpc/redis.stop`.
 
 ```bash
-astron-collection redis stop --redisId <value> [options]
+discord-enterprise redis stop --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -233,12 +233,12 @@ astron-collection redis stop --redisId <value> [options]
 | `--redisId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redis update`
+### `discord-enterprise redis update`
 
 Calls `POST /api/trpc/redis.update`.
 
 ```bash
-astron-collection redis update --redisId <value> [options]
+discord-enterprise redis update --redisId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -273,6 +273,6 @@ astron-collection redis update --redisId <value> [options]
 | `--replicas <value>` | number | No | — |
 | `--environmentId <value>` | string | No | — |
 | `--networkIds <json>` | array | No | — |
-| `--detachAstronCollectionNetwork [boolean]` | boolean | No | — |
-| `--no-detachAstronCollectionNetwork` | boolean | No | — |
+| `--detachDiscordEnterpriseNetwork [boolean]` | boolean | No | — |
+| `--no-detachDiscordEnterpriseNetwork` | boolean | No | — |
 | `--profile <name>` | string | No | — |

@@ -1,19 +1,19 @@
 ---
-title: Astron Collection Instance
-description: Fix a Astron Collection UI that isn't accessible and recreate the core Astron Collection services.
+title: Discord Enterprise Instance
+description: Fix a Discord Enterprise UI that isn't accessible and recreate the core Discord Enterprise services.
 ---
 
 import { Callout } from "fumadocs-ui/components/callout";
 
-## My Astron Collection UI Instance is Not Accessible
+## My Discord Enterprise UI Instance is Not Accessible
 
-If you can't access your Astron Collection UI instance, there could be several causes. While this issue won't occur with Astron Collection Cloud (where our team manages the infrastructure), self-hosted instances might encounter configuration problems.
+If you can't access your Discord Enterprise UI instance, there could be several causes. While this issue won't occur with Discord Enterprise Cloud (where our team manages the infrastructure), self-hosted instances might encounter configuration problems.
 
-Let's go through the possible cases where your Astron Collection UI instance might be inaccessible:
+Let's go through the possible cases where your Discord Enterprise UI instance might be inaccessible:
 
 ### 1. Insufficient Storage Space
 
-If you've made many deployments and don't have available space on your server, the Astron Collection database might enter recovery mode, preventing access to the user interface. Here's a quick solution to clear cache and free up server space:
+If you've made many deployments and don't have available space on your server, the Discord Enterprise database might enter recovery mode, preventing access to the user interface. Here's a quick solution to clear cache and free up server space:
 
 ```bash
 docker system prune -a
@@ -23,7 +23,7 @@ docker image prune -a
 
 ### 2. Container Race Condition During Restart
 
-During a restart, a race condition might occur where Astron Collection's dependent containers don't start in the correct order. To troubleshoot this:
+During a restart, a race condition might occur where Discord Enterprise's dependent containers don't start in the correct order. To troubleshoot this:
 
 First, verify the running containers:
 ```bash
@@ -32,13 +32,13 @@ docker ps
 
 You should see all three of these containers running:
 ```bash
-2a5b955c32b6  ghcr.io/skygenesisenterprise/astron-manager:latest      "docker-entrypoint.s…"   4 days ago     Up 4 days     0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                                             astron-collection.1.4bkuszk98muz372kw5mvwkw0h
-5a989bf52bc6   postgres:16                 "docker-entrypoint.s…"   4 days ago     Up 4 days     5432/tcp                                                                                                              astron-collection-postgres.1.9hvjaxrmby7ex2denjtwo0csf
-05be01c5612f   traefik:v2.5                "/entrypoint.sh trae…"   4 days ago     Up 4 days     0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   astron-collection-traefik.1.2oktabjmfu558x2d2dy6czt8m
+2a5b955c32b6  ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest      "docker-entrypoint.s…"   4 days ago     Up 4 days     0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                                             discord-enterprise.1.4bkuszk98muz372kw5mvwkw0h
+5a989bf52bc6   postgres:16                 "docker-entrypoint.s…"   4 days ago     Up 4 days     5432/tcp                                                                                                              discord-enterprise-postgres.1.9hvjaxrmby7ex2denjtwo0csf
+05be01c5612f   traefik:v2.5                "/entrypoint.sh trae…"   4 days ago     Up 4 days     0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   discord-enterprise-traefik.1.2oktabjmfu558x2d2dy6czt8m
 ```
 
 <Callout type='info'>
-  **Note:** If you're running a version older than v0.29.9, you'll also see a `astron-collection-redis` container. Redis is no longer used in self-hosted Astron Collection since v0.29.9.
+  **Note:** If you're running a version older than v0.29.9, you'll also see a `discord-enterprise-redis` container. Redis is no longer used in self-hosted Discord Enterprise since v0.29.9.
 </Callout>
 
 If all three containers are running but you still can't access the interface, it's time to debug:
@@ -49,88 +49,88 @@ If all three containers are running but you still can't access the interface, it
 Start by examining the logs of each container:
 
 ```bash
-docker service logs astron-collection # Astron Collection UI
-docker service logs astron-collection-postgres # Postgres
-docker logs astron-collection-traefik # Traefik
+docker service logs discord-enterprise # Discord Enterprise UI
+docker service logs discord-enterprise-postgres # Postgres
+docker logs discord-enterprise-traefik # Traefik
 ```
 
 #### 2. Common Database Connection Issue
 
-A common case is when the Postgres container starts after the Astron Collection container, preventing Astron Collection from connecting to the database. You might see logs like this when running `docker service logs astron-collection`:
+A common case is when the Postgres container starts after the Discord Enterprise container, preventing Discord Enterprise from connecting to the database. You might see logs like this when running `docker service logs discord-enterprise`:
 
 ```ts
-> astron-collection@v0.22.3 start /app
+> discord-enterprise@v0.22.3 start /app
 > node -r dotenv/config dist/server.mjs
 
 Default middlewares already exists
 Network is already initilized
 Main config already exists
 Default traefik config already exists
-Migration failed [Error: getaddrinfo ENOTFOUND astron-collection-postgres] {
+Migration failed [Error: getaddrinfo ENOTFOUND discord-enterprise-postgres] {
   errno: -3008,
   code: 'ENOTFOUND',
   syscall: 'getaddrinfo',
-  hostname: 'astron-collection-postgres'
+  hostname: 'discord-enterprise-postgres'
 }
 Setting up cron jobs....
-Main Server Error [Error: getaddrinfo ENOTFOUND astron-collection-postgres] {
+Main Server Error [Error: getaddrinfo ENOTFOUND discord-enterprise-postgres] {
   errno: -3008,
   code: 'ENOTFOUND',
   syscall: 'getaddrinfo',
-  hostname: 'astron-collection-postgres'
+  hostname: 'discord-enterprise-postgres'
 }
 ```
 
-To fix this, restart the Astron Collection service:
+To fix this, restart the Discord Enterprise service:
 ```bash
-docker service scale astron-collection=0
+docker service scale discord-enterprise=0
 # Then
-docker service scale astron-collection=1
+docker service scale discord-enterprise=1
 ```
 
 #### 3. Traefik Configuration Issues
 
-If all containers are running but you still can't access the UI, and Astron Collection logs show no errors, the Traefik container might have configuration issues.
+If all containers are running but you still can't access the UI, and Discord Enterprise logs show no errors, the Traefik container might have configuration issues.
 
-When running `docker logs astron-collection-traefik`, you might see errors like:
+When running `docker logs discord-enterprise-traefik`, you might see errors like:
 
 ```shell
-2025-04-07T15:20:18Z ERR Error occurred during watcher callback error="/etc/astron-collection/traefik/dynamic/astron-collection.yml: field not found, node: passHostHeader" providerName=file
+2025-04-07T15:20:18Z ERR Error occurred during watcher callback error="/etc/discord-enterprise/traefik/dynamic/discord-enterprise.yml: field not found, node: passHostHeader" providerName=file
 ```
 
 First, try restarting Traefik:
 ```bash
-docker restart astron-collection-traefik
+docker restart discord-enterprise-traefik
 ```
 
 If you still can't access it and the same error persists in the Traefik logs, you'll need to check the Traefik configuration. In this case, the error indicates that the `passHostHeader` field is missing in the configuration.
 
-If you've modified any Traefik configuration for an `application` and added invalid configuration, the logs will point to the error. For example, the error above mentions `field not found, node: passHostHeader`, which means we need to manually modify the configuration files in `/etc/astron-collection/traefik`.
+If you've modified any Traefik configuration for an `application` and added invalid configuration, the logs will point to the error. For example, the error above mentions `field not found, node: passHostHeader`, which means we need to manually modify the configuration files in `/etc/discord-enterprise/traefik`.
 
 Here's an example of an invalid configuration:
 
 ```yaml
 http:
   routers:
-    astron-collection-router-app:
+    discord-enterprise-router-app:
       rule: Host(`my-domain.com`)
-      service: astron-collection-service-app
+      service: discord-enterprise-service-app
       entryPoints:
         - web
       middlewares:
         - redirect-to-https
-    astron-collection-router-app-secure:
+    discord-enterprise-router-app-secure:
       rule: Host(`my-domain.com`)
-      service: astron-collection-service-app
+      service: discord-enterprise-service-app
       entryPoints:
         - websecure
       tls:
         certResolver: letsencrypt
   services:
-    astron-collection-service-app:
+    discord-enterprise-service-app:
       loadBalancer:
         servers:
-          - url: http://astron-collection:3000
+          - url: http://discord-enterprise:3000
           - passHostHeader: true
 ```
 
@@ -139,39 +139,39 @@ The correct configuration should be:
 ```yaml
 http:
   routers:
-    astron-collection-router-app:
+    discord-enterprise-router-app:
       rule: Host(`my-domain.com`)
-      service: astron-collection-service-app
+      service: discord-enterprise-service-app
       entryPoints:
         - web
       middlewares:
         - redirect-to-https
-    astron-collection-router-app-secure:
+    discord-enterprise-router-app-secure:
       rule: Host(`my-domain.com`)
-      service: astron-collection-service-app
+      service: discord-enterprise-service-app
       entryPoints:
         - websecure
       tls:
         certResolver: letsencrypt
   services:
-    astron-collection-service-app:
+    discord-enterprise-service-app:
       loadBalancer:
         servers:
-          - url: http://astron-collection:3000
+          - url: http://discord-enterprise:3000
         passHostHeader: true
 ```
 
 After fixing the configuration, restart Traefik:
 ```bash
-docker restart astron-collection-traefik
+docker restart discord-enterprise-traefik
 ```
 
 You should now be able to access the user interface.
 
 
-## Recreate astron-collection containers
+## Recreate discord-enterprise containers
 
-In the case you want to recreate the astron-collection services, you can do the following:
+In the case you want to recreate the discord-enterprise services, you can do the following:
 
 <Callout type='warn'>
   **Important:** Before recreating services, make sure you have backups of your data. Recreating services will not delete your volumes, but it's always good to have backups.
@@ -179,21 +179,21 @@ In the case you want to recreate the astron-collection services, you can do the 
 
 ### Recreate Postgres Service
 
-Remove and recreate the astron-collection-postgres service:
+Remove and recreate the discord-enterprise-postgres service:
 
 ```bash
-docker service rm astron-collection-postgres
+docker service rm discord-enterprise-postgres
 
-# Create a new astron-collection-postgres service with Docker Secrets
+# Create a new discord-enterprise-postgres service with Docker Secrets
 docker service create \
-  --name astron-collection-postgres \
+  --name discord-enterprise-postgres \
   --constraint 'node.role==manager' \
-  --network astron-collection-network \
-  --env POSTGRES_USER=astron-collection \
-  --env POSTGRES_DB=astron-collection \
-  --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
+  --network discord-enterprise-network \
+  --env POSTGRES_USER=discord-enterprise \
+  --env POSTGRES_DB=discord-enterprise \
+  --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
   --env POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-  --mount type=volume,source=astron-collection-postgres,target=/var/lib/postgresql/data \
+  --mount type=volume,source=discord-enterprise-postgres,target=/var/lib/postgresql/data \
   postgres:16
 ```
 
@@ -204,35 +204,35 @@ docker service create \
 
 ### Recreate Traefik Service
 
-Remove the astron-collection-traefik service:
+Remove the discord-enterprise-traefik service:
 
 ```bash
 # If you are using docker standalone traefik
-docker rm -f astron-collection-traefik
+docker rm -f discord-enterprise-traefik
 
 docker run -d \
-    --name astron-collection-traefik \
+    --name discord-enterprise-traefik \
     --restart always \
-    -v /etc/astron-collection/traefik/traefik.yml:/etc/traefik/traefik.yml \
-    -v /etc/astron-collection/traefik/dynamic:/etc/astron-collection/traefik/dynamic \
+    -v /etc/discord-enterprise/traefik/traefik.yml:/etc/traefik/traefik.yml \
+    -v /etc/discord-enterprise/traefik/dynamic:/etc/discord-enterprise/traefik/dynamic \
     -v /var/run/docker.sock:/var/run/docker.sock:ro \
     -p 80:80/tcp \
     -p 443:443/tcp \
     -p 443:443/udp \
     traefik:v3.6.25
 
-docker network connect astron-collection-network astron-collection-traefik
+docker network connect discord-enterprise-network discord-enterprise-traefik
 
 # If you are using docker service traefik
-docker service rm astron-collection-traefik
+docker service rm discord-enterprise-traefik
 
-# Create a new astron-collection-traefik service
+# Create a new discord-enterprise-traefik service
 docker service create \
-  --name astron-collection-traefik \
+  --name discord-enterprise-traefik \
   --constraint 'node.role==manager' \
-  --network astron-collection-network \
-  --mount type=bind,source=/etc/astron-collection/traefik/traefik.yml,target=/etc/traefik/traefik.yml \
-  --mount type=bind,source=/etc/astron-collection/traefik/dynamic,target=/etc/astron-collection/traefik/dynamic \
+  --network discord-enterprise-network \
+  --mount type=bind,source=/etc/discord-enterprise/traefik/traefik.yml,target=/etc/traefik/traefik.yml \
+  --mount type=bind,source=/etc/discord-enterprise/traefik/dynamic,target=/etc/discord-enterprise/traefik/dynamic \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
   --publish mode=host,published=443,target=443 \
   --publish mode=host,published=80,target=80 \
@@ -240,71 +240,71 @@ docker service create \
   traefik:v3.6.25
 ```
 
-### Recreate Astron Collection Service
+### Recreate Discord Enterprise Service
 
-Remove and recreate the astron-collection service:
+Remove and recreate the discord-enterprise service:
 
 <Callout type='info'>
-  If the `astron_collectionauth_secret` secret doesn't exist on your server (installations older than v0.29.3), create it first: `openssl rand -hex 32 | docker secret create astron_collectionauth_secret -`
+  If the `discord_enterpriseauth_secret` secret doesn't exist on your server (installations older than v0.29.3), create it first: `openssl rand -hex 32 | docker secret create discord_enterpriseauth_secret -`
 </Callout>
 
 ```bash
-docker service rm astron-collection
+docker service rm discord-enterprise
 
-# Create the astron-collection service
+# Create the discord-enterprise service
 docker service create \
-  --name astron-collection \
+  --name discord-enterprise \
   --replicas 1 \
-  --network astron-collection-network \
+  --network discord-enterprise-network \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-  --mount type=bind,source=/etc/astron-collection,target=/etc/astron-collection \
-  --mount type=volume,source=astron-collection,target=/root/.docker \
-  --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
-  --secret source=astron_collectionauth_secret,target=/run/secrets/astron_collectionauth_secret \
+  --mount type=bind,source=/etc/discord-enterprise,target=/etc/discord-enterprise \
+  --mount type=volume,source=discord-enterprise,target=/root/.docker \
+  --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
+  --secret source=discord_enterpriseauth_secret,target=/run/secrets/discord_enterpriseauth_secret \
   --publish published=3000,target=3000,mode=host \
   --update-parallelism 1 \
   --update-order stop-first \
   --constraint 'node.role == manager' \
   -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-  -e BETTER_AUTH_SECRET_FILE=/run/secrets/astron_collectionauth_secret \
- ghcr.io/skygenesisenterprise/astron-manager:latest
+  -e BETTER_AUTH_SECRET_FILE=/run/secrets/discord_enterpriseauth_secret \
+ ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest
 ```
 
 **For Proxmox LXC environments**, add the `--endpoint-mode dnsrr` flag to all services:
 
 ```bash
 docker service create \
-  --name astron-collection \
+  --name discord-enterprise \
   --replicas 1 \
-  --network astron-collection-network \
+  --network discord-enterprise-network \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-  --mount type=bind,source=/etc/astron-collection,target=/etc/astron-collection \
-  --mount type=volume,source=astron-collection,target=/root/.docker \
-  --secret source=astron_collectionpostgres_password,target=/run/secrets/postgres_password \
-  --secret source=astron_collectionauth_secret,target=/run/secrets/astron_collectionauth_secret \
+  --mount type=bind,source=/etc/discord-enterprise,target=/etc/discord-enterprise \
+  --mount type=volume,source=discord-enterprise,target=/root/.docker \
+  --secret source=discord_enterprisepostgres_password,target=/run/secrets/postgres_password \
+  --secret source=discord_enterpriseauth_secret,target=/run/secrets/discord_enterpriseauth_secret \
   --publish published=3000,target=3000,mode=host \
   --update-parallelism 1 \
   --update-order stop-first \
   --constraint 'node.role == manager' \
   --endpoint-mode dnsrr \
   -e POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password \
-  -e BETTER_AUTH_SECRET_FILE=/run/secrets/astron_collectionauth_secret \
- ghcr.io/skygenesisenterprise/astron-manager:latest
+  -e BETTER_AUTH_SECRET_FILE=/run/secrets/discord_enterpriseauth_secret \
+ ghcr.io/skygenesisenterprise/discord-enterprise-manager:latest
 ```
 
 
 
 ### Final Notes
 
-While the specific issues may vary, the general troubleshooting approach remains similar to what we've described above, and is the general way we always follow when correcting a problem related to the astron-collection instance not starting.. If you still can't access the user interface:
+While the specific issues may vary, the general troubleshooting approach remains similar to what we've described above, and is the general way we always follow when correcting a problem related to the discord-enterprise instance not starting.. If you still can't access the user interface:
 1. Check that all containers are running properly
 2. Review the logs of each container for specific error messages
 3. Verify all configuration files
 4. Make sure to read the Traefik documentation for detailed configuration options: https://doc.traefik.io/traefik/
 
 
-<Callout title="Astron Collection Cloud" type="info">
-If you are using Astron Collection Cloud, you don't need to worry about this, our team will handle the infrastructure for you.
+<Callout title="Discord Enterprise Cloud" type="info">
+If you are using Discord Enterprise Cloud, you don't need to worry about this, our team will handle the infrastructure for you.
 
-Start using Astron Collection Cloud https://app.astron-collection.com/
+Start using Discord Enterprise Cloud https://app.discord-enterprise.com/
 </Callout>

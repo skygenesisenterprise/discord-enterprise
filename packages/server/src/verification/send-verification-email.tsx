@@ -87,7 +87,7 @@ export const sendInvitationEmail = async ({
 	});
 	await sendEmail({
 		email,
-		subject: `You've been invited to join ${organizationName} on Astron Collection`,
+		subject: `You've been invited to join ${organizationName} on Discord Enterprise`,
 		text: html,
 	});
 };

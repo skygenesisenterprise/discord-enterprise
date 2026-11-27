@@ -1,13 +1,13 @@
-import { db } from "@astron-collection/server/db";
-import { ai, organization } from "@astron-collection/server/db/schema";
-import { aiCustomProviderSchema } from "@astron-collection/server/db/schema/ai";
+import { db } from "@discord-enterprise/server/db";
+import { ai, organization } from "@discord-enterprise/server/db/schema";
+import { aiCustomProviderSchema } from "@discord-enterprise/server/db/schema/ai";
 import {
 	type AiCapabilities,
 	getAiProviderLabel,
 	getAiProviderPreset,
 	getModelCapabilities,
 	resolveAiProviderId,
-} from "@astron-collection/server/utils/ai/contracts";
+} from "@discord-enterprise/server/utils/ai/contracts";
 import {
 	type AiConnectionTestResult,
 	type AiModelInfo,
@@ -16,7 +16,7 @@ import {
 	normalizeAiError,
 	testAiConnection,
 	validateAiEndpointUrl,
-} from "@astron-collection/server/utils/ai/runtime";
+} from "@discord-enterprise/server/utils/ai/runtime";
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";

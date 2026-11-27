@@ -1,5 +1,5 @@
 /**
- * Structured JSON logging shared by every Astron bot.
+ * Structured JSON logging shared by every Discord Enterprise bot.
  *
  * Every line carries the bot name, a severity and the log context, so a log
  * collector can filter on `bot` without parsing messages. Secrets are removed

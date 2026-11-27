@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import path, { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import type { Application } from "@astron-collection/server/services/application";
-import { findServerById } from "@astron-collection/server/services/server";
-import { readValidDirectory } from "@astron-collection/server/wss/utils";
+import { paths } from "@discord-enterprise/server/constants";
+import type { Application } from "@discord-enterprise/server/services/application";
+import { findServerById } from "@discord-enterprise/server/services/server";
+import { readValidDirectory } from "@discord-enterprise/server/wss/utils";
 import AdmZip from "adm-zip";
 import { Client, type SFTPWrapper } from "ssh2";
 import {

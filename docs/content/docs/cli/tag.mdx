@@ -1,39 +1,39 @@
 ---
 title: "Tags"
-description: "Label projects and filter the dashboard by tag. Generated from the `astron-collection` command surface."
+description: "Label projects and filter the dashboard by tag. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Label projects and filter the dashboard by tag.
 
-`astron-collection tag` exposes **8 commands**. They map one-to-one onto the `tag.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise tag` exposes **8 commands**. They map one-to-one onto the `tag.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection tag --help` to list these commands in your terminal, or
-	`astron-collection tag <command> --help` for a single command.
+	Run `discord-enterprise tag --help` to list these commands in your terminal, or
+	`discord-enterprise tag <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection tag all`
+### `discord-enterprise tag all`
 
 Calls `GET /api/trpc/tag.all`.
 
 ```bash
-astron-collection tag all [options]
+discord-enterprise tag all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag assign-to-project`
+### `discord-enterprise tag assign-to-project`
 
 Calls `POST /api/trpc/tag.assignToProject`.
 
 ```bash
-astron-collection tag assign-to-project --projectId <value> --tagId <value> [options]
+discord-enterprise tag assign-to-project --projectId <value> --tagId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection tag assign-to-project --projectId <value> --tagId <value> [opt
 | `--tagId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag bulk-assign`
+### `discord-enterprise tag bulk-assign`
 
 Calls `POST /api/trpc/tag.bulkAssign`.
 
 ```bash
-astron-collection tag bulk-assign --projectId <value> --tagIds <json> [options]
+discord-enterprise tag bulk-assign --projectId <value> --tagIds <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -56,12 +56,12 @@ astron-collection tag bulk-assign --projectId <value> --tagIds <json> [options]
 | `--tagIds <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag create`
+### `discord-enterprise tag create`
 
 Calls `POST /api/trpc/tag.create`.
 
 ```bash
-astron-collection tag create --name <value> [options]
+discord-enterprise tag create --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -70,12 +70,12 @@ astron-collection tag create --name <value> [options]
 | `--color <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag one`
+### `discord-enterprise tag one`
 
 Calls `GET /api/trpc/tag.one`.
 
 ```bash
-astron-collection tag one --tagId <value> [options]
+discord-enterprise tag one --tagId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -83,12 +83,12 @@ astron-collection tag one --tagId <value> [options]
 | `--tagId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag remove`
+### `discord-enterprise tag remove`
 
 Calls `POST /api/trpc/tag.remove`.
 
 ```bash
-astron-collection tag remove --tagId <value> [options]
+discord-enterprise tag remove --tagId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -96,12 +96,12 @@ astron-collection tag remove --tagId <value> [options]
 | `--tagId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag remove-from-project`
+### `discord-enterprise tag remove-from-project`
 
 Calls `POST /api/trpc/tag.removeFromProject`.
 
 ```bash
-astron-collection tag remove-from-project --projectId <value> --tagId <value> [options]
+discord-enterprise tag remove-from-project --projectId <value> --tagId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -110,12 +110,12 @@ astron-collection tag remove-from-project --projectId <value> --tagId <value> [o
 | `--tagId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection tag update`
+### `discord-enterprise tag update`
 
 Calls `POST /api/trpc/tag.update`.
 
 ```bash
-astron-collection tag update --tagId <value> [options]
+discord-enterprise tag update --tagId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

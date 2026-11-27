@@ -1,27 +1,27 @@
 ---
 title: "Ports"
-description: "Publish container ports directly, without routing them through a domain. Generated from the `astron-collection` command surface."
+description: "Publish container ports directly, without routing them through a domain. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Publish container ports directly, without routing them through a domain.
 
-`astron-collection port` exposes **4 commands**. They map one-to-one onto the `port.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise port` exposes **4 commands**. They map one-to-one onto the `port.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection port --help` to list these commands in your terminal, or
-	`astron-collection port <command> --help` for a single command.
+	Run `discord-enterprise port --help` to list these commands in your terminal, or
+	`discord-enterprise port <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection port create`
+### `discord-enterprise port create`
 
 Calls `POST /api/trpc/port.create`.
 
 ```bash
-astron-collection port create --publishedPort <value> --publishMode <value> --targetPort <value> --protocol <value> --applicationId <value> [options]
+discord-enterprise port create --publishedPort <value> --publishMode <value> --targetPort <value> --protocol <value> --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -33,12 +33,12 @@ astron-collection port create --publishedPort <value> --publishMode <value> --ta
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection port delete`
+### `discord-enterprise port delete`
 
 Calls `POST /api/trpc/port.delete`.
 
 ```bash
-astron-collection port delete --portId <value> [options]
+discord-enterprise port delete --portId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -46,12 +46,12 @@ astron-collection port delete --portId <value> [options]
 | `--portId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection port one`
+### `discord-enterprise port one`
 
 Calls `GET /api/trpc/port.one`.
 
 ```bash
-astron-collection port one --portId <value> [options]
+discord-enterprise port one --portId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -59,12 +59,12 @@ astron-collection port one --portId <value> [options]
 | `--portId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection port update`
+### `discord-enterprise port update`
 
 Calls `POST /api/trpc/port.update`.
 
 ```bash
-astron-collection port update --portId <value> --publishedPort <value> --publishMode <value> --targetPort <value> --protocol <value> [options]
+discord-enterprise port update --portId <value> --publishedPort <value> --publishMode <value> --targetPort <value> --protocol <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

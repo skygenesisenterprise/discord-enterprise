@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateCicdDeployment,
 	applications,
@@ -7,17 +7,17 @@ import {
 	domains,
 	environments,
 	projects,
-} from "@astron-collection/server/db/schema";
-import type { CicdProvider } from "@astron-collection/server/lib/cicd-scope";
+} from "@discord-enterprise/server/db/schema";
+import type { CicdProvider } from "@discord-enterprise/server/lib/cicd-scope";
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, or, sql } from "drizzle-orm";
 import type { z } from "zod";
-import { getAstronCollectionUrl } from "./admin";
+import { getDiscordEnterpriseUrl } from "./admin";
 
 /**
  * CI/CD API services.
  *
- * The point of this module is that a CI client never has to know how Astron Collection
+ * The point of this module is that a CI client never has to know how Discord Enterprise
  * stores projects: it sends names (or ids) plus the CI metadata and gets back a
  * deployment it can poll and link to. Everything touching the `cicd_deployment`
  * table lives here so the dashboard and the public API cannot drift apart.
@@ -39,10 +39,10 @@ export const CICD_GITHUB_STATUSES = [
 export type CicdGithubStatus = (typeof CICD_GITHUB_STATUSES)[number];
 
 /**
- * Maps a Astron Collection deployment state onto a GitHub deployment state.
+ * Maps a Discord Enterprise deployment state onto a GitHub deployment state.
  *
  * - `done` → `success`: the container is up.
- * - `error` → `failure`: the build or the container startup failed. Astron Collection has
+ * - `error` → `failure`: the build or the container startup failed. Discord Enterprise has
  *   a single error state, so a request rejected by the API is reported by the
  *   client itself (no deployment is created) and never reaches this mapping.
  * - `cancelled` → `inactive`: the workflow was cancelled and the deployment was
@@ -66,7 +66,7 @@ export const toGithubDeploymentStatus = (
 
 /**
  * Reported for a deployment that exists but has not been picked up by a worker
- * yet. Distinct from `toGithubDeploymentStatus` because a Astron Collection deployment row
+ * yet. Distinct from `toGithubDeploymentStatus` because a Discord Enterprise deployment row
  * says `running` from the moment it is created.
  */
 export const QUEUED_GITHUB_STATUS: CicdGithubStatus = "queued";
@@ -85,7 +85,7 @@ export interface CicdTarget {
 	/** `owner/repository` of the application, when it is deployed from Git. */
 	repository: string | null;
 	serverId: string | null;
-	/** Deep link to the application page in the Astron Collection dashboard. */
+	/** Deep link to the application page in the Discord Enterprise dashboard. */
 	dashboardUrl: string;
 	/** Public URL of the application, when it has a domain. */
 	environmentUrl: string | null;
@@ -96,7 +96,7 @@ export const buildApplicationDashboardUrl = async (input: {
 	environmentId: string;
 	applicationId: string;
 }) => {
-	const base = await getAstronCollectionUrl();
+	const base = await getDiscordEnterpriseUrl();
 	return `${base}/dashboard/project/${input.projectId}/environment/${input.environmentId}/services/application/${input.applicationId}`;
 };
 
@@ -295,7 +295,7 @@ const findApplicationInProject = async (input: {
 };
 
 /**
- * Creates the `cicd_deployment` row that ties a Astron Collection deployment to the CI run
+ * Creates the `cicd_deployment` row that ties a Discord Enterprise deployment to the CI run
  * that requested it.
  *
  * Idempotent on `(provider, externalId)`: a retried request returns the existing
@@ -379,7 +379,7 @@ export const findCicdDeploymentsByProject = async (
 	});
 
 /**
- * Everything a CI client needs to report on a deployment: the Astron Collection state, the
+ * Everything a CI client needs to report on a deployment: the Discord Enterprise state, the
  * GitHub state to publish, and the links between both systems.
  */
 export const getCicdDeploymentView = async (deploymentId: string) => {
@@ -423,7 +423,7 @@ export const getCicdDeploymentView = async (deploymentId: string) => {
 	const project = deployment.application?.environment.project;
 	const environment = deployment.application?.environment;
 
-	// A Astron Collection deployment row says `running` from the moment it is created, so
+	// A Discord Enterprise deployment row says `running` from the moment it is created, so
 	// "queued" is detected by the application not having been moved to `running`
 	// yet: that is the first thing every worker does with a deployment job.
 	const queued =

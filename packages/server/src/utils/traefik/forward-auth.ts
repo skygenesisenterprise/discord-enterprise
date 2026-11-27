@@ -1,10 +1,10 @@
-import { db } from "@astron-collection/server/db";
-import { forwardAuthSettings } from "@astron-collection/server/db/schema";
-import type { Domain } from "@astron-collection/server/services/domain";
+import { db } from "@discord-enterprise/server/db";
+import { forwardAuthSettings } from "@discord-enterprise/server/db/schema";
+import type { Domain } from "@discord-enterprise/server/services/domain";
 import {
 	FORWARD_AUTH_PORT,
 	FORWARD_AUTH_SERVICE_NAME,
-} from "@astron-collection/server/setup/forward-auth-setup";
+} from "@discord-enterprise/server/setup/forward-auth-setup";
 import { eq, isNull } from "drizzle-orm";
 import type { ApplicationNested } from "../builders";
 import {

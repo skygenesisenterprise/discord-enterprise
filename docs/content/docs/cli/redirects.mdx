@@ -1,27 +1,27 @@
 ---
 title: "Redirects"
-description: "HTTP redirects served by Traefik for an application's domains. Generated from the `astron-collection` command surface."
+description: "HTTP redirects served by Traefik for an application's domains. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 HTTP redirects served by Traefik for an application's domains.
 
-`astron-collection redirects` exposes **4 commands**. They map one-to-one onto the `redirects.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise redirects` exposes **4 commands**. They map one-to-one onto the `redirects.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection redirects --help` to list these commands in your terminal, or
-	`astron-collection redirects <command> --help` for a single command.
+	Run `discord-enterprise redirects --help` to list these commands in your terminal, or
+	`discord-enterprise redirects <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection redirects create`
+### `discord-enterprise redirects create`
 
 Calls `POST /api/trpc/redirects.create`.
 
 ```bash
-astron-collection redirects create --regex <value> --replacement <value> --permanent --applicationId <value> [options]
+discord-enterprise redirects create --regex <value> --replacement <value> --permanent --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -32,12 +32,12 @@ astron-collection redirects create --regex <value> --replacement <value> --perma
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redirects delete`
+### `discord-enterprise redirects delete`
 
 Calls `POST /api/trpc/redirects.delete`.
 
 ```bash
-astron-collection redirects delete --redirectId <value> [options]
+discord-enterprise redirects delete --redirectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -45,12 +45,12 @@ astron-collection redirects delete --redirectId <value> [options]
 | `--redirectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redirects one`
+### `discord-enterprise redirects one`
 
 Calls `GET /api/trpc/redirects.one`.
 
 ```bash
-astron-collection redirects one --redirectId <value> [options]
+discord-enterprise redirects one --redirectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -58,12 +58,12 @@ astron-collection redirects one --redirectId <value> [options]
 | `--redirectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection redirects update`
+### `discord-enterprise redirects update`
 
 Calls `POST /api/trpc/redirects.update`.
 
 ```bash
-astron-collection redirects update --redirectId <value> --regex <value> --replacement <value> --permanent [options]
+discord-enterprise redirects update --redirectId <value> --regex <value> --replacement <value> --permanent [options]
 ```
 
 | Option | Type | Required | Allowed values |

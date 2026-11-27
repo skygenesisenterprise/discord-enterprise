@@ -2,22 +2,22 @@ import { writeTraefikConfig, writeTraefikConfigRemote } from "./application";
 import type { FileConfig } from "./file-types";
 
 export const GATEWAY_ERRORS_CONFIG_NAME = "gateway-errors";
-export const GATEWAY_ERRORS_MIDDLEWARE_NAME = "astron-collection-gateway-errors";
-export const GATEWAY_ERRORS_SERVICE_NAME = "astron-collection-gateway-errors";
-export const GATEWAY_ERRORS_ERROR_PATH = "/__astron_collectionerror";
+export const GATEWAY_ERRORS_MIDDLEWARE_NAME = "discord-enterprise-gateway-errors";
+export const GATEWAY_ERRORS_SERVICE_NAME = "discord-enterprise-gateway-errors";
+export const GATEWAY_ERRORS_ERROR_PATH = "/__discord_enterpriseerror";
 
 const GATEWAY_ERRORS_PORT = 8080;
 
 export const buildGatewayErrorsConfig = (): FileConfig => ({
 	http: {
 		routers: {
-			"astron-collection-gateway-errors-web": {
+			"discord-enterprise-gateway-errors-web": {
 				rule: "PathPrefix(`/`)",
 				priority: 1,
 				service: GATEWAY_ERRORS_SERVICE_NAME,
 				entryPoints: ["web"],
 			},
-			"astron-collection-gateway-errors-websecure": {
+			"discord-enterprise-gateway-errors-websecure": {
 				rule: "PathPrefix(`/`)",
 				priority: 1,
 				service: GATEWAY_ERRORS_SERVICE_NAME,

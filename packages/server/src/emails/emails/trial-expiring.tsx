@@ -30,13 +30,13 @@ export const TrialExpiringEmail = ({
 	planName = "Hobby",
 	daysRemaining = 3,
 	endsOn = "2024-01-01",
-	billingUrl = "https://app.astron-collection.com/dashboard/settings/billing",
+	billingUrl = "https://app.discord-enterprise.com/dashboard/settings/billing",
 }: TemplateProps) => {
 	const dayLabel = daysRemaining === 1 ? "day" : "days";
 	const previewText =
 		daysRemaining === 1
-			? "Your Astron Collection trial ends tomorrow"
-			: `Your Astron Collection trial ends in ${daysRemaining} ${dayLabel}`;
+			? "Your Discord Enterprise trial ends tomorrow"
+			: `Your Discord Enterprise trial ends in ${daysRemaining} ${dayLabel}`;
 
 	return (
 		<Html>
@@ -47,10 +47,10 @@ export const TrialExpiringEmail = ({
 					<Container className="my-[40px] mx-auto max-w-[520px]">
 						<Section className="bg-[#09090b] rounded-t-xl px-[40px] py-[32px] text-center">
 							<Img
-								src="https://raw.githubusercontent.com/skygenesisenterprise/astron-collection/refs/heads/master/web/apps/docs/public/logo-astron-collection-blackpng.png"
+								src="https://raw.githubusercontent.com/skygenesisenterprise/discord-enterprise/refs/heads/master/web/apps/docs/public/logo-discord-enterprise-blackpng.png"
 								width="190"
 								height="120"
-								alt="Astron Collection"
+								alt="Discord Enterprise"
 								className="my-0 mx-auto"
 							/>
 						</Section>
@@ -115,10 +115,10 @@ export const TrialExpiringEmail = ({
 							<Text className="text-[#a1a1aa] text-[12px] leading-[18px] m-0">
 								This is an automated email from{" "}
 								<Link
-									href="https://astron-collection.com"
+									href="https://discord-enterprise.com"
 									className="text-[#71717a] underline"
 								>
-									Astron Collection Cloud
+									Discord Enterprise Cloud
 								</Link>
 								. If you have any questions about your billing, please contact
 								our{" "}

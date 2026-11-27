@@ -5,7 +5,7 @@
  *
  *   1. Discord permissions of the user  (native Discord)
  *   2. Discord permissions of the bot   (native Discord)
- *   3. Astron business rules            (per-guild roles, settings, offers)
+ *   3. Discord Enterprise business rules            (per-guild roles, settings, offers)
  *   4. Registration-time declarations   (the command definition)
  *
  * Layer 4 only controls Discord's own visibility; it never replaces layers 1–3,

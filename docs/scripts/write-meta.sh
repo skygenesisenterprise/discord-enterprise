@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Writes the navigation (meta.json) for the new Astron Collection-native taxonomy.
+# Writes the navigation (meta.json) for the new Discord Enterprise-native taxonomy.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 cd content/docs
@@ -8,9 +8,9 @@ w() { mkdir -p "$(dirname "$1")"; cat > "$1"; }
 
 w meta.json <<'JSON'
 {
-	"title": "Astron Collection Documentation",
+	"title": "Discord Enterprise Documentation",
 	"pages": [
-		"---Discover Astron Collection---",
+		"---Discover Discord Enterprise---",
 		"discover",
 		"---Get started---",
 		"get-started",
@@ -22,7 +22,7 @@ w meta.json <<'JSON'
 		"operate",
 		"---Develop & integrate---",
 		"develop",
-		"---Astron Collection Cloud---",
+		"---Discord Enterprise Cloud---",
 		"cloud",
 		"---Security---",
 		"security",
@@ -36,8 +36,8 @@ JSON
 
 w discover/meta.json <<'JSON'
 {
-	"title": "Discover Astron Collection",
-	"description": "What Astron Collection is, the problems it solves, and the model behind the platform.",
+	"title": "Discover Discord Enterprise",
+	"description": "What Discord Enterprise is, the problems it solves, and the model behind the platform.",
 	"icon": "Compass",
 	"pages": [
 		"index",
@@ -106,7 +106,7 @@ JSON
 w applications/sources/meta.json <<'JSON'
 {
 	"title": "Sources & providers",
-	"description": "Where Astron Collection pulls code and images from.",
+	"description": "Where Discord Enterprise pulls code and images from.",
 	"pages": ["index", "github", "gitlab", "bitbucket", "gitea", "docker"]
 }
 JSON
@@ -277,7 +277,7 @@ JSON
 w develop/meta.json <<'JSON'
 {
 	"title": "Develop & integrate",
-	"description": "CLI, API, SDK, MCP and editor integrations for automating Astron Collection.",
+	"description": "CLI, API, SDK, MCP and editor integrations for automating Discord Enterprise.",
 	"icon": "Code",
 	"pages": [
 		"index",
@@ -295,7 +295,7 @@ JSON
 w develop/cli/meta.json <<'JSON'
 {
 	"title": "CLI",
-	"description": "Command-line interface for managing Astron Collection from your terminal.",
+	"description": "Command-line interface for managing Discord Enterprise from your terminal.",
 	"icon": "SquareTerminal",
 	"pages": ["---Get started---", "index", "authentication", "---Commands---", "project", "application", "databases", "enviroment"]
 }
@@ -304,7 +304,7 @@ JSON
 w develop/examples/meta.json <<'JSON'
 {
 	"title": "Examples",
-	"description": "Application blueprints you can deploy on Astron Collection.",
+	"description": "Application blueprints you can deploy on Discord Enterprise.",
 	"pages": [
 		"nextjs",
 		"vite-react",
@@ -329,7 +329,7 @@ JSON
 
 w cloud/meta.json <<'JSON'
 {
-	"title": "Astron Collection Cloud",
+	"title": "Discord Enterprise Cloud",
 	"description": "The managed control plane: onboarding, plans and how it differs from Self-Hosted.",
 	"icon": "Cloud",
 	"pages": ["index", "onboarding", "plans", "editions"]
@@ -356,7 +356,7 @@ JSON
 w migration/meta.json <<'JSON'
 {
 	"title": "Migration & compatibility",
-	"description": "Moving to Astron Collection from Dokploy, and what compatibility to expect.",
+	"description": "Moving to Discord Enterprise from Dokploy, and what compatibility to expect.",
 	"icon": "GitMerge",
 	"pages": ["index", "from-dokploy", "compatibility"]
 }
@@ -374,7 +374,7 @@ JSON
 w reference/api/meta.json <<'JSON'
 {
 	"title": "API reference",
-	"description": "REST endpoints exposed by the Astron Collection control plane.",
+	"description": "REST endpoints exposed by the Discord Enterprise control plane.",
 	"icon": "Code",
 	"pages": ["index", "..."]
 }

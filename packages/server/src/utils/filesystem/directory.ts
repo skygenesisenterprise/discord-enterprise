@@ -1,7 +1,7 @@
 import fs, { promises as fsPromises } from "node:fs";
 import path from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import type { Application } from "@astron-collection/server/services/application";
+import { paths } from "@discord-enterprise/server/constants";
+import type { Application } from "@discord-enterprise/server/services/application";
 import { execAsync, execAsyncRemote } from "../process/execAsync";
 
 export const recreateDirectory = async (pathFolder: string): Promise<void> => {

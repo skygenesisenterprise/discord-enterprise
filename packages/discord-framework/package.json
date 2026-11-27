@@ -1,9 +1,9 @@
 {
-  "name": "@astron-collection/discord-framework",
+  "name": "@discord-enterprise/discord-framework",
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "Shared technical foundation for the six Astron Collection Discord bots: lifecycle, command contract and routing, permissions, localization, settings, storage and migrations, event contracts, observability, deployment and voice presence. Contains no bot business logic.",
+  "description": "Shared technical foundation for the six Discord Enterprise Discord bots: lifecycle, command contract and routing, permissions, localization, settings, storage and migrations, event contracts, observability, deployment and voice presence. Contains no bot business logic.",
   "exports": {
     ".": "./src/index.js",
     "./bootstrap": "./src/bootstrap.js",

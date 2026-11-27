@@ -7,7 +7,7 @@ name: CodeQL
 # that structure instead of assuming a single build:
 #
 #   TypeScript / JavaScript
-#     apps/{api,astron,schedules,status}      packages/{cli,mcp,server,status,trpc-openapi}
+#     apps/{api,discord-enterprise,schedules,status}      packages/{cli,mcp,server,status,trpc-openapi}
 #     web/apps/{docs,website}                 bot/{main,protect,logger,player,guild}
 #     -> build-mode: none. There is no single build command for the monorepo
 #        (Next.js apps, standalone Node services, esbuild bundles, plain-Node

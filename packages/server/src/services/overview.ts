@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	applications,
 	backups,
@@ -17,7 +17,7 @@ import {
 	redis,
 	server as serverTable,
 	volumeBackups,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { and, desc, eq, inArray, isNull, max, or } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
 import type {
@@ -357,7 +357,7 @@ function pickVolumeBackupOwner(volumeBackup: {
 	return found ? ownerFrom(...found) : null;
 }
 
-// Ownerless backups (e.g. the Astron Collection host's own database) are visible to everyone.
+// Ownerless backups (e.g. the Discord Enterprise host's own database) are visible to everyone.
 function ownerAccessCondition(
 	ownerColumns: AnyPgColumn[],
 	accessedServices: string[] | null,
@@ -565,7 +565,7 @@ export const getAllBackupsForOrganization = async (
 				databaseType: deployment.backup.databaseType,
 				serviceType: null,
 				backupType: deployment.backup.backupType,
-				serviceName: owner?.name ?? "Astron Collection Server",
+				serviceName: owner?.name ?? "Discord Enterprise Server",
 				serviceOwnerId: owner?.id ?? null,
 				serviceOwnerType: owner?.type ?? "web-server",
 				serverId: owner?.serverId ?? null,

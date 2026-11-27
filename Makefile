@@ -1,443 +1,174 @@
-# Astron Collection — developer & operator interface.
+# Discord Enterprise — developer & operator interface.
 #
-# A thin layer over the tools that already exist in the repository (pnpm,
-# docker, docker compose). No build or deployment logic is duplicated here:
-# every target just calls the corresponding tool or package script.
-#
-# Two families of products, addressed the same way — by name, on the command line:
-#
-#   editions  self | cloud             the platform stack (postgres, redis, client, api)
-#   bots      astron | protect | logger | guild | automations | player
-#
-# So `make docker-up self` starts the self-hosted platform, `make docker-up astron`
-# starts the Discord bot, and `make docker-dev player` runs the same product with
-# its development mode. The selected product is remembered in `.make-product`, so
-# `make docker-down` stops exactly what was started last.
+# This repository contains one bot (`bot/`), one shared framework
+# (`packages/discord-framework/`), the server package, the docs and the root
+# Docker stack (Dockerfile + docker-compose.yml + entrypoint.sh). This Makefile
+# is a thin wrapper over those files only: no other product, edition or bot is
+# addressed here.
 #
 #   make help
 
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
-# --- Selectable configuration ---------------------------------------------
-# ASTRON_COLLECTION_VERSION is the image tag that is *consumed* (what Compose runs):
-# `latest` by default, `v1.3.0` to pin a published release.
-# ASTRON_COLLECTION_REGISTRY is the registry images are pulled from/pushed to.
-# ASTRON_COLLECTION_PORT and ASTRON_COLLECTION_API_PORT are left unset on purpose so
-# docker-compose.yml keeps resolving them from .env (or from their defaults); pass
-# ASTRON_COLLECTION_PORT=8080 to override.
-#
-# The product (self | cloud | a bot) is deliberately NOT one of them: it
-# can only be chosen with a make goal, never by editing this file or .env — see
-# "Inline product flag" below. The flavor variables it implies are derived below
-# and must not be set by hand.
-ASTRON_COLLECTION_VERSION ?= latest
-ASTRON_COLLECTION_REGISTRY ?= ghcr.io/skygenesisenterprise
-# Image of the standalone status page (separate product, not part of the stack).
-STATUS_IMAGE ?= $(ASTRON_COLLECTION_REGISTRY)/astron-collection-status
-
+# --- Tools ------------------------------------------------------------------
 PNPM ?= pnpm
 COMPOSE ?= docker compose
 DOCKER ?= docker
+NODE ?= node
 
-# Version the *local* build is tagged with: `v<major>.<minor>.<patch>`, the same
-# shape docker-publish.yml publishes. Override to reproduce a specific release.
-APP_VERSION := $(shell node -p "require('./apps/astron/package.json').version" 2>/dev/null || echo 0.0.0)
+# --- Images -----------------------------------------------------------------
+# IMAGE is the published name of the single bot. VERSION is the tag consumed by
+# Compose / `image-pull`; IMAGE_VERSION is the tag used by local builds.
+REGISTRY ?= ghcr.io/skygenesisenterprise
+IMAGE := $(REGISTRY)/discord-enterprise
+VERSION ?= latest
+APP_VERSION := $(shell $(NODE) -p "require('./bot/package.json').version" 2>/dev/null || echo 0.0.0)
 IMAGE_VERSION ?= v$(APP_VERSION)
 GIT_SHA := $(shell git rev-parse --short HEAD 2>/dev/null || echo dev)
+LOCAL_TAGS := $(IMAGE):$(IMAGE_VERSION) $(IMAGE):sha-$(GIT_SHA) $(IMAGE):latest
 
-# --- Products ---------------------------------------------------------------
-PLATFORM_EDITIONS := self cloud
-BOTS := astron automations guild logger player protect
-PRODUCTS := $(PLATFORM_EDITIONS) $(BOTS)
+COMPOSE_ENV = DISCORD_ENTERPRISE_BOT_IMAGE=$(IMAGE) DISCORD_ENTERPRISE_BOT_VERSION=$(IMAGE_VERSION) DISCORD_ENTERPRISE_VERSION=$(IMAGE_VERSION) NODE_ENV=production
+COMPOSE_ENV_DEV = DISCORD_ENTERPRISE_BOT_IMAGE=$(IMAGE)-dev DISCORD_ENTERPRISE_BOT_VERSION=$(IMAGE_VERSION) DISCORD_ENTERPRISE_VERSION=$(IMAGE_VERSION) NODE_ENV=development
 
-# Bot directory and GHCR image, exactly as docker-publish.yml publishes them.
-# `guild-center` lives in bot/guild today (the workflow resolves the same fallback).
-BOT_DIR_astron := bot/astron
-BOT_DIR_automations := bot/automations
-BOT_DIR_guild := bot/guild
-BOT_DIR_logger := bot/logger
-BOT_DIR_player := bot/player
-BOT_DIR_protect := bot/protect
-
-BOT_IMAGE_astron := astron
-BOT_IMAGE_automations := astron-automations
-BOT_IMAGE_guild := astron-guild
-BOT_IMAGE_logger := astron-logger
-BOT_IMAGE_player := astron-player
-BOT_IMAGE_protect := astron-protect
-
-# --- Inline product flag ----------------------------------------------------
-# Select the product for one invocation, without editing .env or exporting
-# anything. Works with docker-build, docker-up, docker-dev and the image targets:
-#
-#   make docker-up self        # self-hosted platform (default)
-#   make docker-up cloud       # Astron Manager cloud context
-#   make docker-up astron      # the general Discord bot
-#   make docker-dev player     # the player bot, in development mode
-#
-# GNU make itself rejects `make docker-dev --self` (`--self` is parsed as an
-# unknown make option before any recipe runs), hence the `--` separator or the
-# bare word. Editions build the root Dockerfile; bots build their own context.
-#
-# --- Remembered product -----------------------------------------------------
-# Each build records the product in PRODUCT_STATE, so a later command reuses the
-# product that was built last:
-#
-#   make docker-up self   # build a fresh image + start the platform
-#   make docker-up astron # build a fresh image + start the general bot
-#   make docker-down      # stop the product started last (volumes are kept)
-#
-# Precedence: inline product flag > the product recorded by the last build > self.
-PRODUCT_STATE := .make-product
-
-GOAL_PRODUCT := $(firstword $(filter $(PRODUCTS),$(patsubst --%,%,$(MAKECMDGOALS))))
-
-ifneq ($(GOAL_PRODUCT),)
-SELECTED_PRODUCT := $(GOAL_PRODUCT)
-else ifneq ($(wildcard $(PRODUCT_STATE)),)
-SELECTED_PRODUCT := $(shell cat $(PRODUCT_STATE))
-else
-SELECTED_PRODUCT := self
-endif
-
-# Empty for an edition, `bot/<dir>` for a bot: this single variable routes every
-# compose/docker command below.
-BOT_DIR := $(BOT_DIR_$(SELECTED_PRODUCT))
-
-# ASTRON_COLLECTION_FLAVOR / IS_CLOUD are derived: refuse a direct assignment
-# instead of silently running an environment that was not selected.
-ifneq ($(filter $(origin ASTRON_COLLECTION_FLAVOR),command line environment),)
-$(warning ASTRON_COLLECTION_FLAVOR is derived from the product — use 'make <goal> <product>' instead; ignoring 'ASTRON_COLLECTION_FLAVOR=$(ASTRON_COLLECTION_FLAVOR)')
-endif
-ifneq ($(filter $(origin IS_CLOUD),command line environment),)
-$(warning IS_CLOUD is derived from the product — use 'make <goal> <product>' instead; ignoring 'IS_CLOUD=$(IS_CLOUD)')
-endif
-
-# `override` so the selection cannot be bypassed by a command-line assignment.
-# One official platform image, `astron-manager`, for both contexts. `self` and
-# `cloud` change only the build args and runtime environment; the image name,
-# version and container topology stay identical.
-override ASTRON_COLLECTION_IMAGE := $(ASTRON_COLLECTION_REGISTRY)/astron-manager
-ifeq ($(SELECTED_PRODUCT),cloud)
-override ASTRON_COLLECTION_FLAVOR := cloud
-override ASTRON_COLLECTION_PRODUCT := cloud
-override IS_CLOUD := true
-else ifeq ($(SELECTED_PRODUCT),self)
-override ASTRON_COLLECTION_FLAVOR := selfhosted
-override ASTRON_COLLECTION_PRODUCT := self
-override IS_CLOUD := false
-else
-# A bot carries no platform flavor; these stay at their self-hosted defaults so
-# the exported environment is always complete.
-override ASTRON_COLLECTION_FLAVOR := selfhosted
-override ASTRON_COLLECTION_PRODUCT := self
-override IS_CLOUD := false
-endif
-
-# One shared `astron-manager` image for both platform contexts, one image per bot,
-# never one per service: client and api are roles of the same image.
-ifneq ($(BOT_DIR),)
-IMAGE_NAME := $(ASTRON_COLLECTION_REGISTRY)/$(BOT_IMAGE_$(SELECTED_PRODUCT))
-else
-IMAGE_NAME := $(ASTRON_COLLECTION_IMAGE)
-endif
-
-# Published tag consumed by Compose, mirroring docker-publish.yml's tag policy:
-#   self  -> latest (the same image also carries v<version> and v<version>-app)
-#   cloud -> v<version>-cloud (no `latest`: that floating tag belongs to self)
-#   bot   -> latest
-# An explicit ASTRON_COLLECTION_VERSION (command line or environment) still wins.
-ifneq ($(filter $(origin ASTRON_COLLECTION_VERSION),command line environment),)
-CONSUMED_VERSION := $(ASTRON_COLLECTION_VERSION)
-else ifeq ($(SELECTED_PRODUCT),cloud)
-CONSUMED_VERSION := $(IMAGE_VERSION)-cloud
-else
-CONSUMED_VERSION := $(ASTRON_COLLECTION_VERSION)
-endif
-
-# Local tags of the selected product, identical to the tags a release publishes:
-#   self  -> v<version>, v<version>-app, sha-<sha>, latest
-#   cloud -> v<version>-cloud        (kept apart from self's floating tags)
-#   bot   -> v<version>, sha-<sha>, latest
-ifneq ($(BOT_DIR),)
-PRODUCT_TAGS := $(IMAGE_NAME):$(IMAGE_VERSION) $(IMAGE_NAME):sha-$(GIT_SHA) $(IMAGE_NAME):latest
-else ifeq ($(SELECTED_PRODUCT),cloud)
-PRODUCT_TAGS := $(IMAGE_NAME):$(IMAGE_VERSION)-cloud
-else
-PRODUCT_TAGS := $(IMAGE_NAME):$(IMAGE_VERSION) $(IMAGE_NAME):$(IMAGE_VERSION)-app $(IMAGE_NAME):sha-$(GIT_SHA) $(IMAGE_NAME):latest
-endif
-
-PRODUCT_WORD := $(SELECTED_PRODUCT)
-
-# Exported to every compose invocation so image tags and runtime variables stay in
-# sync with the selected product.
-COMPOSE_ENV = ASTRON_COLLECTION_FLAVOR=$(ASTRON_COLLECTION_FLAVOR) ASTRON_COLLECTION_PRODUCT=$(ASTRON_COLLECTION_PRODUCT) IS_CLOUD=$(IS_CLOUD) ASTRON_COLLECTION_IMAGE=$(ASTRON_COLLECTION_IMAGE) ASTRON_COLLECTION_VERSION=$(CONSUMED_VERSION) STATUS_IMAGE=$(STATUS_IMAGE) ASTRON_COLLECTION_MODE=production NODE_ENV=production
-
-# Development environment: same four services and the same single image, built
-# from the `dev` target (sources + dependencies), with in-container dev servers.
-# A Compose file cannot switch a service's build target from a profile, so the
-# target is passed here rather than duplicated as `api-dev` / `client-dev`
-# services. The dev image gets its own tag so it never overwrites a production one.
-# The two local domains are likewise dev-only: docker-compose.yml falls back to
-# the plain service names when these variables are absent (prod profile).
-COMPOSE_DEV_DOMAINS = ASTRON_COLLECTION_DEV_CLIENT_DOMAIN=dash.astron-collection.localhost ASTRON_COLLECTION_DEV_API_DOMAIN=api.astron-collection.localhost
-COMPOSE_ENV_DEV = ASTRON_COLLECTION_FLAVOR=$(ASTRON_COLLECTION_FLAVOR) ASTRON_COLLECTION_PRODUCT=$(ASTRON_COLLECTION_PRODUCT) IS_CLOUD=$(IS_CLOUD) ASTRON_COLLECTION_IMAGE=$(ASTRON_COLLECTION_IMAGE)-dev ASTRON_COLLECTION_VERSION=$(CONSUMED_VERSION) STATUS_IMAGE=$(STATUS_IMAGE) ASTRON_COLLECTION_BUILD_TARGET=dev ASTRON_COLLECTION_MODE=development ASTRON_COLLECTION_RUN_MIGRATIONS=1 $(COMPOSE_DEV_DOMAINS) NODE_ENV=development
-
-# Bots keep their own Compose file and their own volumes — no Redis, no shared
-# database. The image reference is the published GHCR one; `build:` in those
-# files still works for a local build (`make docker-dev astron`).
-COMPOSE_ENV_BOT = ASTRON_BOT_IMAGE=$(IMAGE_NAME) ASTRON_BOT_VERSION=$(IMAGE_VERSION) ASTRON_COLLECTION_VERSION=$(ASTRON_COLLECTION_VERSION) NODE_ENV=production
-COMPOSE_ENV_BOT_DEV = ASTRON_BOT_IMAGE=$(IMAGE_NAME)-dev ASTRON_BOT_VERSION=$(IMAGE_VERSION) ASTRON_COLLECTION_VERSION=$(ASTRON_COLLECTION_VERSION) NODE_ENV=development
-
-# Both profiles are named on `down`/`ps`/`logs` so the mode that is not active is
-# still inspected and never left behind.
-COMPOSE_ALL_PROFILES = --profile prod --profile dev
-
-# --- Command routing --------------------------------------------------------
-# An edition drives the root Compose stack; a bot drives its own Compose file.
-ifeq ($(BOT_DIR),)
-COMPOSE_UP = $(COMPOSE_ENV) $(COMPOSE) --profile prod up -d --build
-COMPOSE_DEV = $(COMPOSE_ENV_DEV) $(COMPOSE) --profile dev up --build --watch
-COMPOSE_BUILD = $(COMPOSE_ENV) $(COMPOSE) --profile prod build client api
-COMPOSE_DOWN = $(COMPOSE) $(COMPOSE_ALL_PROFILES) down --remove-orphans --timeout 15
-COMPOSE_PS = $(COMPOSE) $(COMPOSE_ALL_PROFILES) ps -a
-COMPOSE_LOGS = $(COMPOSE) $(COMPOSE_ALL_PROFILES) logs -f
-COMPOSE_RESTART = $(COMPOSE_ENV) $(COMPOSE) --profile prod restart
-COMPOSE_CONFIG = $(COMPOSE_ENV) $(COMPOSE) $(COMPOSE_ALL_PROFILES) config
-else
-COMPOSE_UP = $(COMPOSE_ENV_BOT) $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml up -d --build
-COMPOSE_DEV = $(COMPOSE_ENV_BOT_DEV) $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml up --build --watch
-COMPOSE_BUILD = $(COMPOSE_ENV_BOT) $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml build
-COMPOSE_DOWN = $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml down --remove-orphans --timeout 15
-COMPOSE_PS = $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml ps -a
-COMPOSE_LOGS = $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml logs -f
-COMPOSE_RESTART = $(COMPOSE_ENV_BOT) $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml restart
-COMPOSE_CONFIG = $(COMPOSE_ENV_BOT) $(COMPOSE) -f $(BOT_DIR)/docker-compose.yml config
-endif
-
-# Local image tags come from PRODUCT_TAGS above, so `make image-build <product>`
-# then `make image-push <product>` reproduces exactly what a release publishes
-# for that product — including the separate `-app` / `-cloud` version tags.
-IMAGE_TAGS = $(foreach tag,$(PRODUCT_TAGS),-t $(tag))
-IMAGE_PLATFORM_FLAG = $(if $(ASTRON_COLLECTION_PLATFORMS),--platform $(ASTRON_COLLECTION_PLATFORMS),)
-
-.PHONY: help install deps dev build test test-bots check-bots typecheck lint \
+.PHONY: help deps test test-framework test-bot test-docs lint \
+        docs-dev docs-build docs-check docs-generate \
         docker-build docker-up docker-down docker-restart docker-logs docker-ps docker-config docker-dev \
-        image-build image-pull image-push image-inspect image-tags \
-        migrate backup restore doctor update clean \
-        $(PRODUCTS) $(addprefix --,$(PRODUCTS))
-
-# No-op goals that only carry the product flag (see GOAL_PRODUCT above). They
-# exist so `make docker-build cloud` / `make docker-up astron` / `make docker-dev
-# -- --self` have a rule to satisfy while the real target reads the product from
-# MAKECMDGOALS.
-$(PRODUCTS) $(addprefix --,$(PRODUCTS)):
-	@:
+        image-tags image-build image-pull image-push image-inspect \
+        install doctor update clean
 
 # ---------------------------------------------------------------------------
 # Help
 # ---------------------------------------------------------------------------
 help: ## Show this help
-	@echo "Astron Collection — available commands:"
+	@echo "Discord Enterprise — available commands:"
 	@echo ""
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
 		| awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 	@echo ""
-	@echo "Products:  contexts: $(PLATFORM_EDITIONS) (one shared astron-manager image)"
-	@echo "           bots:     $(BOTS)"
-	@echo "Selected:  $(PRODUCT_WORD)$$(test -f $(PRODUCT_STATE) && echo ' (saved by the last build)')"
-	@echo "Image:     $(IMAGE_NAME) (tags: $(PRODUCT_TAGS))"
-	@echo "Consumed:  $(IMAGE_NAME):$(CONSUMED_VERSION)"
+	@echo "Image:   $(IMAGE)"
+	@echo "Local:   $(LOCAL_TAGS)"
+	@echo "Pulled:  $(IMAGE):$(VERSION)"
 	@echo ""
-	@echo "Examples:  make docker-up self              # build + start the self-hosted platform"
-	@echo "           make docker-up cloud             # Astron Manager cloud context"
-	@echo "           make docker-up astron            # the main Discord bot"
-	@echo "           make docker-dev player           # the player bot, hot-reloading sources"
-	@echo "           make docker-up                   # restart what was built last, no rebuild"
-	@echo "           make image-build cloud           # tag the local image with the published cloud tag"
-	@echo "           make image-pull self             # pull the published image"
+	@echo "Examples:  make deps                 # install the workspace dependencies"
+	@echo "           make test                 # framework + documentation tests"
+	@echo "           make docker-up            # build and start the bot"
+	@echo "           make docker-dev           # same bot, hot-reloading sources"
 
 # ---------------------------------------------------------------------------
-# Local development (host toolchain)
+# Host toolchain
 # ---------------------------------------------------------------------------
-deps: ## Install workspace dependencies (pnpm install --frozen-lockfile)
-	$(PNPM) install --frozen-lockfile
+deps: ## Install the workspace dependencies (pnpm install)
+	$(PNPM) install
 
-dev: ## Run the app in development mode on the host (pnpm dev)
-	$(PNPM) dev
+test: test-framework test-docs ## Run the tests that the workspace provides
 
-build: ## Build the workspace (pnpm build)
-	$(PNPM) build
+test-framework: ## Run the shared framework tests
+	$(NODE) --disable-warning=ExperimentalWarning --test packages/discord-framework/test/*.test.js
 
-test: ## Run the test suites (pnpm test)
-	$(PNPM) test
+test-bot: ## Run the bot tests (requires the bot's own dependencies)
+	$(NODE) --disable-warning=ExperimentalWarning --test bot/test/*.test.js
 
-test-bots: ## Run the framework and every bot test suite
-	node --disable-warning=ExperimentalWarning --test packages/discord-framework/test/*.test.js
-	@for bot in $(BOTS); do \
-		node --disable-warning=ExperimentalWarning --test bot/$$bot/test*/*.test.js || exit 1; \
-	done
+test-docs: ## Run the documentation tooling tests (requires deps)
+	$(NODE) --test scripts/docs/tests/*.test.mjs
 
-check-bots: ## Check that each bot owns its catalogue and uses the framework
-	node scripts/check-bots.mjs
-
-typecheck: ## Type-check the workspace (pnpm typecheck)
-	$(PNPM) typecheck
-
-lint: ## Lint/format check (pnpm lint)
+lint: ## Lint the workspace (pnpm lint)
 	$(PNPM) lint
 
+docs-dev: ## Run the documentation site locally
+	$(PNPM) --filter @discord-enterprise/docs run dev
+
+docs-build: ## Build the documentation site
+	$(PNPM) --filter @discord-enterprise/docs run build:docs
+	$(PNPM) --filter @discord-enterprise/docs run build
+
+docs-check: ## Validate the documentation against the implementation
+	$(NODE) scripts/docs/cli.mjs check
+
+docs-generate: ## Regenerate managed documentation regions
+	$(NODE) scripts/docs/cli.mjs generate
+
 # ---------------------------------------------------------------------------
-# Docker — editions (postgres, redis, client, api) and bots (bot, redis)
-#
-#   prod profile: postgres, redis, api (node dist/server.mjs), client (next start)
-#   dev profile:  the same four services, built from the `dev` target: api runs
-#                 `tsx server/server.ts`, client runs `next dev`, both with watch.
-#
-# `client` and `api` share one image and differ only by ASTRON_COLLECTION_ROLE.
-# They publish ASTRON_COLLECTION_PORT (3000) and ASTRON_COLLECTION_API_PORT (4000)
-# in both profiles, so the two modes are mutually exclusive — `make docker-down`
-# stops either. PostgreSQL and Redis are never published.
-#
-# A bot runs from bot/<dir>/docker-compose.yml with its own volume, health port and
-# network: bots are independent products, exactly as they are published.
+# Docker — the bot uses the root Compose file and the root Dockerfile.
+# The container holds one process and one named data volume; no Redis, no
+# database service, no platform edition.
 # ---------------------------------------------------------------------------
-install: ## Create .env from the template (if missing) and start the selected product
-	@test -f .env || { cp .env.example .env; echo "==> .env created from .env.example — set POSTGRES_PASSWORD, REDIS_PASSWORD and BETTER_AUTH_SECRET, then re-run"; exit 1; }
+install: ## Create bot/.env from the template (if missing) and start the bot
+	@test -f bot/.env || { cp bot/.env.example bot/.env; echo "==> bot/.env created — fill in the credentials, then re-run"; exit 1; }
 	@$(MAKE) docker-up
 
-docker-build: ## Build the image of the selected product (add: self | cloud | a bot)
-	@echo "==> building product=$(PRODUCT_WORD) image=$(IMAGE_NAME)"
-	$(COMPOSE_BUILD)
-	@printf '%s\n' '$(PRODUCT_WORD)' > $(PRODUCT_STATE)
+docker-build: ## Build the bot image with the local tags
+	@echo "==> building $(IMAGE) version=$(IMAGE_VERSION) sha=$(GIT_SHA)"
+	$(DOCKER) buildx build --file Dockerfile \
+		--build-arg DISCORD_ENTERPRISE_VERSION=$(IMAGE_VERSION) \
+		$(foreach tag,$(LOCAL_TAGS),-t $(tag)) --load .
 
-docker-up: ## Start the selected product in the prod profile (add: self | cloud | a bot)
-	@echo "==> starting product=$(PRODUCT_WORD) image=$(IMAGE_NAME):$(CONSUMED_VERSION)"
-	$(COMPOSE_UP)
+docker-up: ## Build and start the bot in the background
+	@echo "==> starting $(IMAGE):$(IMAGE_VERSION)"
+	$(COMPOSE_ENV) $(COMPOSE) up -d --build
 
-ifneq ($(GOAL_PRODUCT),)
-docker-up: docker-build
-endif
+docker-down: ## Stop the bot (the data volume is preserved)
+	@echo "==> stopping the bot (data volume preserved)"
+	$(COMPOSE) down --remove-orphans --timeout 15
 
-docker-down: ## Stop the selected product (volumes are preserved)
-	@echo "==> stopping $(PRODUCT_WORD) (data volumes preserved)"
-	$(COMPOSE_DOWN)
+docker-restart: ## Restart the bot without rebuilding
+	$(COMPOSE_ENV) $(COMPOSE) restart
 
-docker-restart: ## Restart the selected product without rebuilding
-	$(COMPOSE_RESTART)
-
-docker-logs: ## Follow the logs (optionally: make docker-logs SERVICE=api)
+docker-logs: ## Follow the bot logs (optionally: make docker-logs SERVICE=discord-enterprise)
 	@if [ -n "$(SERVICE)" ]; then \
-		$(COMPOSE_LOGS) $(SERVICE); \
+		$(COMPOSE) logs -f $(SERVICE); \
 	else \
-		$(COMPOSE_LOGS); \
+		$(COMPOSE) logs -f; \
 	fi
 
-docker-ps: ## Show the status of the selected product
-	$(COMPOSE_PS)
+docker-ps: ## Show the bot container status
+	$(COMPOSE) ps -a
 
 docker-config: ## Validate and print the resolved Compose configuration
-	$(COMPOSE_CONFIG)
+	$(COMPOSE_ENV) $(COMPOSE) config
 
-docker-dev: ## Run the selected product with hot reload (add: self | cloud | a bot)
-	@echo "==> starting product=$(PRODUCT_WORD) image=$(IMAGE_NAME) (development mode)"
-	$(COMPOSE_DEV)
-	@printf '%s\n' '$(PRODUCT_WORD)' > $(PRODUCT_STATE)
-
-migrate: ## Apply the database migrations once (one-off run of the `api` service)
-	$(COMPOSE_ENV) $(COMPOSE) --profile prod run --rm api migrate
+docker-dev: ## Run the bot in development mode with hot reload
+	@echo "==> starting $(IMAGE)-dev in development mode"
+	$(COMPOSE_ENV_DEV) $(COMPOSE) up --build --watch
 
 # ---------------------------------------------------------------------------
-# Images — the same lifecycle as .github/workflows/docker-publish.yml, locally
-#
-#   editions: astron-manager (built with the self or cloud context)
-#   bots:     astron, astron-automations, astron-guild, astron-logger,
-#             astron-player, astron-protect
-#
-# `image-build` produces the three tags a release carries and loads them locally,
-# so `make docker-up <product>` runs exactly what a release would ship. Nothing
-# leaves the machine unless `image-push` is asked for.
+# Images — same tags as a release, built locally from the root Dockerfile.
 # ---------------------------------------------------------------------------
-image-tags: ## Print the local image tags of the selected product
-	@printf '%s\n' $(PRODUCT_TAGS)
+image-tags: ## Print the local image tags
+	@printf '%s\n' $(LOCAL_TAGS)
 
-image-build: ## Build the selected product's image locally with its published tags
-ifeq ($(BOT_DIR),)
-	@echo "==> building $(IMAGE_NAME) — edition=$(PRODUCT_WORD) version=$(IMAGE_VERSION) sha=$(GIT_SHA)"
-	$(DOCKER) buildx build \
-		--file Dockerfile \
-		--target platform \
-		--build-arg ASTRON_COLLECTION_VERSION=$(IMAGE_VERSION) \
-		--build-arg ASTRON_COLLECTION_FLAVOR=$(ASTRON_COLLECTION_FLAVOR) \
-		--build-arg ASTRON_COLLECTION_PRODUCT=$(ASTRON_COLLECTION_PRODUCT) \
-		$(IMAGE_PLATFORM_FLAG) $(IMAGE_TAGS) --load .
-else
-	@test -f $(BOT_DIR)/Dockerfile || { echo "==> $(BOT_DIR)/Dockerfile does not exist yet; nothing to build for '$(PRODUCT_WORD)'"; exit 1; }
-	@echo "==> building $(IMAGE_NAME) — bot=$(PRODUCT_WORD) version=$(IMAGE_VERSION) sha=$(GIT_SHA)"
-	# Context is the repository root: every bot image embeds the shared
-	# packages/discord-framework next to its own catalogue.
-	$(DOCKER) buildx build \
-		--file $(BOT_DIR)/Dockerfile \
-		$(IMAGE_PLATFORM_FLAG) $(IMAGE_TAGS) --load .
-endif
+image-build: docker-build ## Alias of docker-build
 
-image-pull: ## Pull the published image of the selected product
-	$(DOCKER) pull $(IMAGE_NAME):$(CONSUMED_VERSION)
+image-pull: ## Pull the published bot image
+	$(DOCKER) pull $(IMAGE):$(VERSION)
 
-image-push: ## Push the local image tags of the selected product (docker login first)
-	@for tag in $(PRODUCT_TAGS); do \
+image-push: ## Push the local tags (docker login first)
+	@for tag in $(LOCAL_TAGS); do \
 		echo "==> pushing $$tag"; \
 		$(DOCKER) push "$$tag" || exit 1; \
 	done
 
-image-inspect: ## Show the local image, its tags and OCI labels
+image-inspect: ## Inspect the locally built image
 	$(DOCKER) image inspect \
 		--format 'id={{.Id}}{{"\n"}}tags={{.RepoTags}}{{"\n"}}labels={{json .Config.Labels}}' \
-		$(firstword $(PRODUCT_TAGS))
+		$(firstword $(LOCAL_TAGS))
 
 # ---------------------------------------------------------------------------
 # Operations
 # ---------------------------------------------------------------------------
-backup: ## Dump the database into ./backups (SQL file, timestamped)
-	@mkdir -p backups
-	@$(COMPOSE) --profile prod exec -T postgres sh -c 'pg_dump -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' \
-		> backups/astron-$(shell date +%Y%m%d_%H%M%S).sql
-	@echo "==> backup written to backups/"
-
-restore: ## Restore a dump: make restore FILE=backups/astron-<date>.sql
-	@test -n "$(FILE)" || { echo "usage: make restore FILE=backups/astron-<date>.sql"; exit 1; }
-	@test -f "$(FILE)" || { echo "==> $(FILE) not found"; exit 1; }
-	@$(COMPOSE) --profile prod exec -T postgres sh -c 'psql -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"' < $(FILE)
-	@echo "==> restored $(FILE)"
-
-doctor: ## Check installation health
-	@echo "Astron Collection Doctor"
-	@echo "==============="
-	@echo ""
-	@echo "System:"
+doctor: ## Check the local installation
+	@echo "Discord Enterprise doctor"
 	@command -v docker >/dev/null 2>&1 && echo "✓ Docker" || echo "✗ Docker missing"
 	@docker compose version >/dev/null 2>&1 && echo "✓ Docker Compose" || echo "✗ Docker Compose missing"
 	@docker buildx version >/dev/null 2>&1 && echo "✓ Docker Buildx" || echo "✗ Docker Buildx missing"
-	@echo ""
-	@echo "Configuration:"
-	@test -f .env && echo "✓ .env exists" || echo "✗ .env missing"
-	@grep -qE '^BETTER_AUTH_SECRET=.{32,}' .env 2>/dev/null && echo "✓ BETTER_AUTH_SECRET looks strong" || echo "✗ BETTER_AUTH_SECRET missing or too short"
-	@echo ""
-	@echo "Product:"
-	@echo "  $(PRODUCT_WORD) — $(IMAGE_NAME):$(CONSUMED_VERSION)"
-	@echo ""
-	@echo "Runtime:"
-	@$(COMPOSE_PS) 2>&1 | tail -5
-	@echo ""
-	@echo "Storage:"
-	@docker volume ls | grep astron-collection && echo "✓ Astron Collection volumes present" || echo "✗ No volumes found"
+	@test -f Dockerfile && test -f docker-compose.yml && test -f entrypoint.sh && echo "✓ Docker stack files" || echo "✗ Docker stack files missing"
+	@test -f bot/.env && echo "✓ bot/.env exists" || echo "✗ bot/.env missing (make install)"
+	@$(COMPOSE) ps -a 2>&1 | tail -5
 
-update: ## Pull the latest revision and rebuild the selected product
-	@git pull
+update: ## Pull the latest revision and restart the bot
+	git pull
 	@$(MAKE) docker-up
 
-clean: ## Remove local build artifacts (.next, dist, tsbuildinfo, saved product)
-	rm -rf apps/*/.next apps/*/dist packages/*/dist web/*/.next web/*/dist
+clean: ## Remove local build artifacts
+	rm -rf docs/.next docs/.source packages/*/dist
 	find . -name '*.tsbuildinfo' -not -path './node_modules/*' -delete
-	rm -f $(PRODUCT_STATE)

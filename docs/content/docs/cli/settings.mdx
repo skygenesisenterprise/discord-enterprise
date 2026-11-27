@@ -1,27 +1,27 @@
 ---
 title: "Settings"
-description: "Instance-wide settings: Traefik, Docker cleanup, monitoring, GPUs, updates and SSH. Generated from the `astron-collection` command surface."
+description: "Instance-wide settings: Traefik, Docker cleanup, monitoring, GPUs, updates and SSH. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Instance-wide settings: Traefik, Docker cleanup, monitoring, GPUs, updates and SSH.
 
-`astron-collection settings` exposes **57 commands**. They map one-to-one onto the `settings.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise settings` exposes **57 commands**. They map one-to-one onto the `settings.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection settings --help` to list these commands in your terminal, or
-	`astron-collection settings <command> --help` for a single command.
+	Run `discord-enterprise settings --help` to list these commands in your terminal, or
+	`discord-enterprise settings <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection settings assign-domain-server`
+### `discord-enterprise settings assign-domain-server`
 
 Calls `POST /api/trpc/settings.assignDomainServer`.
 
 ```bash
-astron-collection settings assign-domain-server --host <value> [options]
+discord-enterprise settings assign-domain-server --host <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -34,12 +34,12 @@ astron-collection settings assign-domain-server --host <value> [options]
 | `--no-https` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings check-gpustatus`
+### `discord-enterprise settings check-gpustatus`
 
 Calls `GET /api/trpc/settings.checkGPUStatus`.
 
 ```bash
-astron-collection settings check-gpustatus [options]
+discord-enterprise settings check-gpustatus [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -47,24 +47,24 @@ astron-collection settings check-gpustatus [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings check-infrastructure-health`
+### `discord-enterprise settings check-infrastructure-health`
 
 Calls `GET /api/trpc/settings.checkInfrastructureHealth`.
 
 ```bash
-astron-collection settings check-infrastructure-health [options]
+discord-enterprise settings check-infrastructure-health [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-all`
+### `discord-enterprise settings clean-all`
 
 Calls `POST /api/trpc/settings.cleanAll`.
 
 ```bash
-astron-collection settings clean-all [options]
+discord-enterprise settings clean-all [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -72,24 +72,24 @@ astron-collection settings clean-all [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-all-deployment-queue`
+### `discord-enterprise settings clean-all-deployment-queue`
 
 Calls `POST /api/trpc/settings.cleanAllDeploymentQueue`.
 
 ```bash
-astron-collection settings clean-all-deployment-queue [options]
+discord-enterprise settings clean-all-deployment-queue [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-docker-builder`
+### `discord-enterprise settings clean-docker-builder`
 
 Calls `POST /api/trpc/settings.cleanDockerBuilder`.
 
 ```bash
-astron-collection settings clean-docker-builder [options]
+discord-enterprise settings clean-docker-builder [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -97,12 +97,12 @@ astron-collection settings clean-docker-builder [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-docker-prune`
+### `discord-enterprise settings clean-docker-prune`
 
 Calls `POST /api/trpc/settings.cleanDockerPrune`.
 
 ```bash
-astron-collection settings clean-docker-prune [options]
+discord-enterprise settings clean-docker-prune [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -110,36 +110,36 @@ astron-collection settings clean-docker-prune [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-monitoring`
+### `discord-enterprise settings clean-monitoring`
 
 Calls `POST /api/trpc/settings.cleanMonitoring`.
 
 ```bash
-astron-collection settings clean-monitoring [options]
+discord-enterprise settings clean-monitoring [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-sshprivate-key`
+### `discord-enterprise settings clean-sshprivate-key`
 
 Calls `POST /api/trpc/settings.cleanSSHPrivateKey`.
 
 ```bash
-astron-collection settings clean-sshprivate-key [options]
+discord-enterprise settings clean-sshprivate-key [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-stopped-containers`
+### `discord-enterprise settings clean-stopped-containers`
 
 Calls `POST /api/trpc/settings.cleanStoppedContainers`.
 
 ```bash
-astron-collection settings clean-stopped-containers [options]
+discord-enterprise settings clean-stopped-containers [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -147,12 +147,12 @@ astron-collection settings clean-stopped-containers [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-unused-images`
+### `discord-enterprise settings clean-unused-images`
 
 Calls `POST /api/trpc/settings.cleanUnusedImages`.
 
 ```bash
-astron-collection settings clean-unused-images [options]
+discord-enterprise settings clean-unused-images [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -160,12 +160,12 @@ astron-collection settings clean-unused-images [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings clean-unused-volumes`
+### `discord-enterprise settings clean-unused-volumes`
 
 Calls `POST /api/trpc/settings.cleanUnusedVolumes`.
 
 ```bash
-astron-collection settings clean-unused-volumes [options]
+discord-enterprise settings clean-unused-volumes [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -173,120 +173,120 @@ astron-collection settings clean-unused-volumes [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-control-plane-runtime`
+### `discord-enterprise settings get-control-plane-runtime`
 
 Calls `GET /api/trpc/settings.getControlPlaneRuntime`.
 
 ```bash
-astron-collection settings get-control-plane-runtime [options]
+discord-enterprise settings get-control-plane-runtime [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-docker-disk-usage`
+### `discord-enterprise settings get-docker-disk-usage`
 
 Calls `GET /api/trpc/settings.getDockerDiskUsage`.
 
 ```bash
-astron-collection settings get-docker-disk-usage [options]
+discord-enterprise settings get-docker-disk-usage [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-ip`
+### `discord-enterprise settings get-ip`
 
 Calls `GET /api/trpc/settings.getIp`.
 
 ```bash
-astron-collection settings get-ip [options]
+discord-enterprise settings get-ip [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-log-cleanup-status`
+### `discord-enterprise settings get-log-cleanup-status`
 
 Calls `GET /api/trpc/settings.getLogCleanupStatus`.
 
 ```bash
-astron-collection settings get-log-cleanup-status [options]
+discord-enterprise settings get-log-cleanup-status [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-astron-collection-cloud-ips`
+### `discord-enterprise settings get-discord-enterprise-cloud-ips`
 
-Calls `GET /api/trpc/settings.getAstronCollectionCloudIps`.
+Calls `GET /api/trpc/settings.getDiscordEnterpriseCloudIps`.
 
 ```bash
-astron-collection settings get-astron-collection-cloud-ips [options]
+discord-enterprise settings get-discord-enterprise-cloud-ips [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-astron-collection-version`
+### `discord-enterprise settings get-discord-enterprise-version`
 
-Calls `GET /api/trpc/settings.getAstronCollectionVersion`.
+Calls `GET /api/trpc/settings.getDiscordEnterpriseVersion`.
 
 ```bash
-astron-collection settings get-astron-collection-version [options]
+discord-enterprise settings get-discord-enterprise-version [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-open-api-document`
+### `discord-enterprise settings get-open-api-document`
 
 Calls `GET /api/trpc/settings.getOpenApiDocument`.
 
 ```bash
-astron-collection settings get-open-api-document [options]
+discord-enterprise settings get-open-api-document [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-product`
+### `discord-enterprise settings get-product`
 
 Calls `GET /api/trpc/settings.getProduct`.
 
 ```bash
-astron-collection settings get-product [options]
+discord-enterprise settings get-product [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-release-tag`
+### `discord-enterprise settings get-release-tag`
 
 Calls `GET /api/trpc/settings.getReleaseTag`.
 
 ```bash
-astron-collection settings get-release-tag [options]
+discord-enterprise settings get-release-tag [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-traefik-overview`
+### `discord-enterprise settings get-traefik-overview`
 
 Calls `GET /api/trpc/settings.getTraefikOverview`.
 
 ```bash
-astron-collection settings get-traefik-overview [options]
+discord-enterprise settings get-traefik-overview [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -294,12 +294,12 @@ astron-collection settings get-traefik-overview [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-traefik-ports`
+### `discord-enterprise settings get-traefik-ports`
 
 Calls `GET /api/trpc/settings.getTraefikPorts`.
 
 ```bash
-astron-collection settings get-traefik-ports [options]
+discord-enterprise settings get-traefik-ports [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -307,72 +307,72 @@ astron-collection settings get-traefik-ports [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-update-data`
+### `discord-enterprise settings get-update-data`
 
 Calls `POST /api/trpc/settings.getUpdateData`.
 
 ```bash
-astron-collection settings get-update-data [options]
+discord-enterprise settings get-update-data [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-update-status`
+### `discord-enterprise settings get-update-status`
 
 Calls `GET /api/trpc/settings.getUpdateStatus`.
 
 ```bash
-astron-collection settings get-update-status [options]
+discord-enterprise settings get-update-status [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-web-server-ip-candidates`
+### `discord-enterprise settings get-web-server-ip-candidates`
 
 Calls `GET /api/trpc/settings.getWebServerIpCandidates`.
 
 ```bash
-astron-collection settings get-web-server-ip-candidates [options]
+discord-enterprise settings get-web-server-ip-candidates [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings get-web-server-settings`
+### `discord-enterprise settings get-web-server-settings`
 
 Calls `GET /api/trpc/settings.getWebServerSettings`.
 
 ```bash
-astron-collection settings get-web-server-settings [options]
+discord-enterprise settings get-web-server-settings [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings have-activate-requests`
+### `discord-enterprise settings have-activate-requests`
 
 Calls `GET /api/trpc/settings.haveActivateRequests`.
 
 ```bash
-astron-collection settings have-activate-requests [options]
+discord-enterprise settings have-activate-requests [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings have-traefik-dashboard-port-enabled`
+### `discord-enterprise settings have-traefik-dashboard-port-enabled`
 
 Calls `GET /api/trpc/settings.haveTraefikDashboardPortEnabled`.
 
 ```bash
-astron-collection settings have-traefik-dashboard-port-enabled [options]
+discord-enterprise settings have-traefik-dashboard-port-enabled [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -380,48 +380,48 @@ astron-collection settings have-traefik-dashboard-port-enabled [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings health`
+### `discord-enterprise settings health`
 
 Calls `GET /api/trpc/settings.health`.
 
 ```bash
-astron-collection settings health [options]
+discord-enterprise settings health [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings is-cloud`
+### `discord-enterprise settings is-cloud`
 
 Calls `GET /api/trpc/settings.isCloud`.
 
 ```bash
-astron-collection settings is-cloud [options]
+discord-enterprise settings is-cloud [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings is-user-subscribed`
+### `discord-enterprise settings is-user-subscribed`
 
 Calls `GET /api/trpc/settings.isUserSubscribed`.
 
 ```bash
-astron-collection settings is-user-subscribed [options]
+discord-enterprise settings is-user-subscribed [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-directories`
+### `discord-enterprise settings read-directories`
 
 Calls `GET /api/trpc/settings.readDirectories`.
 
 ```bash
-astron-collection settings read-directories [options]
+discord-enterprise settings read-directories [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -429,36 +429,36 @@ astron-collection settings read-directories [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-middleware-traefik-config`
+### `discord-enterprise settings read-middleware-traefik-config`
 
 Calls `GET /api/trpc/settings.readMiddlewareTraefikConfig`.
 
 ```bash
-astron-collection settings read-middleware-traefik-config [options]
+discord-enterprise settings read-middleware-traefik-config [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-traefik-config`
+### `discord-enterprise settings read-traefik-config`
 
 Calls `GET /api/trpc/settings.readTraefikConfig`.
 
 ```bash
-astron-collection settings read-traefik-config [options]
+discord-enterprise settings read-traefik-config [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-traefik-env`
+### `discord-enterprise settings read-traefik-env`
 
 Calls `GET /api/trpc/settings.readTraefikEnv`.
 
 ```bash
-astron-collection settings read-traefik-env [options]
+discord-enterprise settings read-traefik-env [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -466,12 +466,12 @@ astron-collection settings read-traefik-env [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-traefik-file`
+### `discord-enterprise settings read-traefik-file`
 
 Calls `GET /api/trpc/settings.readTraefikFile`.
 
 ```bash
-astron-collection settings read-traefik-file --path <value> [options]
+discord-enterprise settings read-traefik-file --path <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -480,36 +480,36 @@ astron-collection settings read-traefik-file --path <value> [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings read-web-server-traefik-config`
+### `discord-enterprise settings read-web-server-traefik-config`
 
 Calls `GET /api/trpc/settings.readWebServerTraefikConfig`.
 
 ```bash
-astron-collection settings read-web-server-traefik-config [options]
+discord-enterprise settings read-web-server-traefik-config [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings reload-server`
+### `discord-enterprise settings reload-server`
 
 Calls `POST /api/trpc/settings.reloadServer`.
 
 ```bash
-astron-collection settings reload-server [options]
+discord-enterprise settings reload-server [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings reload-traefik`
+### `discord-enterprise settings reload-traefik`
 
 Calls `POST /api/trpc/settings.reloadTraefik`.
 
 ```bash
-astron-collection settings reload-traefik [options]
+discord-enterprise settings reload-traefik [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -517,12 +517,12 @@ astron-collection settings reload-traefik [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings save-sshprivate-key`
+### `discord-enterprise settings save-sshprivate-key`
 
 Calls `POST /api/trpc/settings.saveSSHPrivateKey`.
 
 ```bash
-astron-collection settings save-sshprivate-key --sshPrivateKey <value> [options]
+discord-enterprise settings save-sshprivate-key --sshPrivateKey <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -530,12 +530,12 @@ astron-collection settings save-sshprivate-key --sshPrivateKey <value> [options]
 | `--sshPrivateKey <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings setup-gpu`
+### `discord-enterprise settings setup-gpu`
 
 Calls `POST /api/trpc/settings.setupGPU`.
 
 ```bash
-astron-collection settings setup-gpu [options]
+discord-enterprise settings setup-gpu [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -543,12 +543,12 @@ astron-collection settings setup-gpu [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings toggle-dashboard`
+### `discord-enterprise settings toggle-dashboard`
 
 Calls `POST /api/trpc/settings.toggleDashboard`.
 
 ```bash
-astron-collection settings toggle-dashboard [options]
+discord-enterprise settings toggle-dashboard [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -558,12 +558,12 @@ astron-collection settings toggle-dashboard [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings toggle-requests`
+### `discord-enterprise settings toggle-requests`
 
 Calls `POST /api/trpc/settings.toggleRequests`.
 
 ```bash
-astron-collection settings toggle-requests --enable [options]
+discord-enterprise settings toggle-requests --enable [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -571,12 +571,12 @@ astron-collection settings toggle-requests --enable [options]
 | `--enable [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-builds-concurrency`
+### `discord-enterprise settings update-builds-concurrency`
 
 Calls `POST /api/trpc/settings.updateBuildsConcurrency`.
 
 ```bash
-astron-collection settings update-builds-concurrency --buildsConcurrency <value> [options]
+discord-enterprise settings update-builds-concurrency --buildsConcurrency <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -584,12 +584,12 @@ astron-collection settings update-builds-concurrency --buildsConcurrency <value>
 | `--buildsConcurrency <value>` | number | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-docker-cleanup`
+### `discord-enterprise settings update-docker-cleanup`
 
 Calls `POST /api/trpc/settings.updateDockerCleanup`.
 
 ```bash
-astron-collection settings update-docker-cleanup --enableDockerCleanup [options]
+discord-enterprise settings update-docker-cleanup --enableDockerCleanup [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -598,12 +598,12 @@ astron-collection settings update-docker-cleanup --enableDockerCleanup [options]
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-enforce-sso`
+### `discord-enterprise settings update-enforce-sso`
 
 Calls `POST /api/trpc/settings.updateEnforceSSO`.
 
 ```bash
-astron-collection settings update-enforce-sso --enforceSSO [options]
+discord-enterprise settings update-enforce-sso --enforceSSO [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -611,12 +611,12 @@ astron-collection settings update-enforce-sso --enforceSSO [options]
 | `--enforceSSO [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-log-cleanup`
+### `discord-enterprise settings update-log-cleanup`
 
 Calls `POST /api/trpc/settings.updateLogCleanup`.
 
 ```bash
-astron-collection settings update-log-cleanup --cronExpression <value> [options]
+discord-enterprise settings update-log-cleanup --cronExpression <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -624,12 +624,12 @@ astron-collection settings update-log-cleanup --cronExpression <value> [options]
 | `--cronExpression <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-middleware-traefik-config`
+### `discord-enterprise settings update-middleware-traefik-config`
 
 Calls `POST /api/trpc/settings.updateMiddlewareTraefikConfig`.
 
 ```bash
-astron-collection settings update-middleware-traefik-config --traefikConfig <value> [options]
+discord-enterprise settings update-middleware-traefik-config --traefikConfig <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -637,12 +637,12 @@ astron-collection settings update-middleware-traefik-config --traefikConfig <val
 | `--traefikConfig <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-remote-servers-only`
+### `discord-enterprise settings update-remote-servers-only`
 
 Calls `POST /api/trpc/settings.updateRemoteServersOnly`.
 
 ```bash
-astron-collection settings update-remote-servers-only --remoteServersOnly [options]
+discord-enterprise settings update-remote-servers-only --remoteServersOnly [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -650,24 +650,24 @@ astron-collection settings update-remote-servers-only --remoteServersOnly [optio
 | `--remoteServersOnly [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-server`
+### `discord-enterprise settings update-server`
 
 Calls `POST /api/trpc/settings.updateServer`.
 
 ```bash
-astron-collection settings update-server [options]
+discord-enterprise settings update-server [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-server-ip`
+### `discord-enterprise settings update-server-ip`
 
 Calls `POST /api/trpc/settings.updateServerIp`.
 
 ```bash
-astron-collection settings update-server-ip --serverIp <value> [options]
+discord-enterprise settings update-server-ip --serverIp <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -675,12 +675,12 @@ astron-collection settings update-server-ip --serverIp <value> [options]
 | `--serverIp <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-traefik-config`
+### `discord-enterprise settings update-traefik-config`
 
 Calls `POST /api/trpc/settings.updateTraefikConfig`.
 
 ```bash
-astron-collection settings update-traefik-config --traefikConfig <value> [options]
+discord-enterprise settings update-traefik-config --traefikConfig <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -688,12 +688,12 @@ astron-collection settings update-traefik-config --traefikConfig <value> [option
 | `--traefikConfig <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-traefik-file`
+### `discord-enterprise settings update-traefik-file`
 
 Calls `POST /api/trpc/settings.updateTraefikFile`.
 
 ```bash
-astron-collection settings update-traefik-file --path <value> --traefikConfig <value> [options]
+discord-enterprise settings update-traefik-file --path <value> --traefikConfig <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -703,12 +703,12 @@ astron-collection settings update-traefik-file --path <value> --traefikConfig <v
 | `--serverId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-traefik-ports`
+### `discord-enterprise settings update-traefik-ports`
 
 Calls `POST /api/trpc/settings.updateTraefikPorts`.
 
 ```bash
-astron-collection settings update-traefik-ports --additionalPorts <json> [options]
+discord-enterprise settings update-traefik-ports --additionalPorts <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -717,12 +717,12 @@ astron-collection settings update-traefik-ports --additionalPorts <json> [option
 | `--additionalPorts <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings update-web-server-traefik-config`
+### `discord-enterprise settings update-web-server-traefik-config`
 
 Calls `POST /api/trpc/settings.updateWebServerTraefikConfig`.
 
 ```bash
-astron-collection settings update-web-server-traefik-config --traefikConfig <value> [options]
+discord-enterprise settings update-web-server-traefik-config --traefikConfig <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -730,12 +730,12 @@ astron-collection settings update-web-server-traefik-config --traefikConfig <val
 | `--traefikConfig <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection settings write-traefik-env`
+### `discord-enterprise settings write-traefik-env`
 
 Calls `POST /api/trpc/settings.writeTraefikEnv`.
 
 ```bash
-astron-collection settings write-traefik-env --env <value> [options]
+discord-enterprise settings write-traefik-env --env <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

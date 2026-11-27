@@ -11,7 +11,7 @@ import type {
 	CommunityContributionKind,
 	CommunityEventType,
 	CommunityHealthProfile,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 
 /* -------------------------------------------------------------------------- */
 /* Attention rules                                                            */

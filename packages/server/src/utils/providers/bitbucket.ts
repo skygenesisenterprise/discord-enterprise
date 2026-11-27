@@ -1,14 +1,14 @@
 import { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import type {
 	apiBitbucketTestConnection,
 	apiFindBitbucketBranches,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import {
 	type Bitbucket,
 	findBitbucketById,
-} from "@astron-collection/server/services/bitbucket";
-import type { InferResultType } from "@astron-collection/server/types/with";
+} from "@discord-enterprise/server/services/bitbucket";
+import type { InferResultType } from "@discord-enterprise/server/types/with";
 import { TRPCError } from "@trpc/server";
 import { quote } from "shell-quote";
 import type { z } from "zod";
@@ -292,7 +292,7 @@ export const testBitbucketConnection = async (
  *
  * Bitbucket has no application-install model, so the connection is a static
  * Atlassian API token (or an app password) plus the workspace to act in. That
- * has two consequences the rest of Astron Collection has to know about: the identity is
+ * has two consequences the rest of Discord Enterprise has to know about: the identity is
  * the Atlassian account, and repositories are always scoped to a workspace —
  * which is why `organizations` and `webhooks` are reported as unsupported.
  */

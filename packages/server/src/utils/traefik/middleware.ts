@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import type { Domain } from "@astron-collection/server/services/domain";
+import { paths } from "@discord-enterprise/server/constants";
+import type { Domain } from "@discord-enterprise/server/services/domain";
 import { parse, stringify } from "yaml";
 import type { ApplicationNested } from "../builders";
 import { execAsyncRemote } from "../process/execAsync";

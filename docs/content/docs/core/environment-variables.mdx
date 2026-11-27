@@ -1,11 +1,11 @@
 ---
 title: Configuration & environment variables
-description: "Environment variables that configure a Astron Collection installation."
+description: "Environment variables that configure a Discord Enterprise installation."
 ---
 
-**Purpose** — Reference the environment variables that configure the Astron Collection stack itself (the control plane), as opposed to the variables you give your own services. For your services' variables, see [Environment variables](/docs/core/variables).
+**Purpose** — Reference the environment variables that configure the Discord Enterprise stack itself (the control plane), as opposed to the variables you give your own services. For your services' variables, see [Environment variables](/docs/core/variables).
 
-These variables are read from the `.env` file used by the Docker Compose stack. Copy [`.env.example`](https://github.com/skygenesisenterprise/astron-collection/blob/master/.env.example) to `.env` and set every placeholder **before** exposing the instance.
+These variables are read from the `.env` file used by the Docker Compose stack. Copy [`.env.example`](https://github.com/skygenesisenterprise/discord-enterprise/blob/master/.env.example) to `.env` and set every placeholder **before** exposing the instance.
 
 <Callout type="warn" title="Defaults are not safe for production">
 The defaults exist only so `docker compose config` works out of the box. Generate unique values
@@ -16,38 +16,38 @@ for every secret, for example with `openssl rand -hex 32`.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `ASTRON_COLLECTION_FLAVOR` | `selfhosted` | Selects the build context: `selfhosted` or `cloud`. Both use the same `astron-manager` image. |
-| `ASTRON_COLLECTION_IMAGE` | `ghcr.io/skygenesisenterprise/astron-manager` | Image reference; override for a mirror. |
-| `ASTRON_COLLECTION_VERSION` | `latest` | Image tag to run. |
+| `DISCORD_ENTERPRISE_FLAVOR` | `selfhosted` | Selects the build context: `selfhosted` or `cloud`. Both use the same `discord-enterprise-manager` image. |
+| `DISCORD_ENTERPRISE_IMAGE` | `ghcr.io/skygenesisenterprise/discord-enterprise-manager` | Image reference; override for a mirror. |
+| `DISCORD_ENTERPRISE_VERSION` | `latest` | Image tag to run. |
 | `IS_CLOUD` | `false` | Switches the app to cloud behaviour (managed queue, billing). Set automatically for `cloud`. |
-| `ASTRON_COLLECTION_PRODUCT` | _(derived)_ | Explicit product override (`self` or `cloud`). Cloud requires a **signed entitlement**. |
+| `DISCORD_ENTERPRISE_PRODUCT` | _(derived)_ | Explicit product override (`self` or `cloud`). Cloud requires a **signed entitlement**. |
 
 ## Networking
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `ASTRON_COLLECTION_PORT` | `3000` | Host port for the dashboard. |
-| `ASTRON_COLLECTION_DNS_HOST_PORT` | `53` | Host port for the Astron Collection DNS server (the container listens on `53`). Must be free — `systemd-resolved`, `dnsmasq` or Pi-hole commonly occupy `53`. |
+| `DISCORD_ENTERPRISE_PORT` | `3000` | Host port for the dashboard. |
+| `DISCORD_ENTERPRISE_DNS_HOST_PORT` | `53` | Host port for the Discord Enterprise DNS server (the container listens on `53`). Must be free — `systemd-resolved`, `dnsmasq` or Pi-hole commonly occupy `53`. |
 
-## Astron Collection Cloud generated domains
+## Discord Enterprise Cloud generated domains
 
-Managed Cloud assigns a public `<application>.astron-collection.app` hostname after a successful deployment. See [Cloud generated domains](/docs/core/cloud-domains) for the lifecycle and routing model. Self-hosted and console instances never allocate these hostnames.
+Managed Cloud assigns a public `<application>.discord-enterprise.app` hostname after a successful deployment. See [Cloud generated domains](/docs/core/cloud-domains) for the lifecycle and routing model. Self-hosted and console instances never allocate these hostnames.
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `ASTRON_COLLECTION_CLOUD_DOMAIN` | `astron-collection.app` on managed Cloud | Wildcard zone used for generated hostnames. Set it to an empty value to disable allocation. |
+| `DISCORD_ENTERPRISE_CLOUD_DOMAIN` | `discord-enterprise.app` on managed Cloud | Wildcard zone used for generated hostnames. Set it to an empty value to disable allocation. |
 | `CLOUDFLARE_API_TOKEN` | _(unset)_ | Scoped token (`Zone:Read` + `DNS:Edit` on the wildcard zone) used to create the `*.<zone>` record. Without it, DNS provisioning is skipped and the wildcard is assumed to be managed elsewhere. |
-| `ASTRON_COLLECTION_CLOUD_INGRESS_TARGET` | _(unset)_ | IP (A/AAAA) or hostname (CNAME) the wildcard record points at. Required, with the token, to enable Cloudflare provisioning. |
-| `ASTRON_COLLECTION_CLOUD_DNS_ZONE_ID` | _(auto)_ | Pins the Cloudflare zone id instead of resolving it from the zone list. Useful when the token can see several zones. |
-| `ASTRON_COLLECTION_CLOUD_DNS_PROXIED` | `true` | Proxied through Cloudflare, which terminates TLS at the edge for the wildcard. Set to `false` for a DNS-only setup where Traefik issues a certificate per hostname. |
-| `ASTRON_COLLECTION_CLOUD_CERT_RESOLVER` | _(unset)_ | Traefik certificate resolver to use when a wildcard certificate is pre-provisioned. Defaults to per-host Let's Encrypt certificates. |
+| `DISCORD_ENTERPRISE_CLOUD_INGRESS_TARGET` | _(unset)_ | IP (A/AAAA) or hostname (CNAME) the wildcard record points at. Required, with the token, to enable Cloudflare provisioning. |
+| `DISCORD_ENTERPRISE_CLOUD_DNS_ZONE_ID` | _(auto)_ | Pins the Cloudflare zone id instead of resolving it from the zone list. Useful when the token can see several zones. |
+| `DISCORD_ENTERPRISE_CLOUD_DNS_PROXIED` | `true` | Proxied through Cloudflare, which terminates TLS at the edge for the wildcard. Set to `false` for a DNS-only setup where Traefik issues a certificate per hostname. |
+| `DISCORD_ENTERPRISE_CLOUD_CERT_RESOLVER` | _(unset)_ | Traefik certificate resolver to use when a wildcard certificate is pre-provisioned. Defaults to per-host Let's Encrypt certificates. |
 
 ## Database
 
 | Variable | Default | Description |
 | --- | --- | --- |
-| `POSTGRES_USER` | `astron-collection` | Database user. |
-| `POSTGRES_DB` | `astron-collection` | Database name. |
+| `POSTGRES_USER` | `discord-enterprise` | Database user. |
+| `POSTGRES_DB` | `discord-enterprise` | Database name. |
 | `POSTGRES_PASSWORD` | `change-me…` | **Change this.** Generate with `openssl rand -base64 32`. |
 
 ## Authentication
@@ -71,9 +71,9 @@ When running the application directly rather than the container stack:
 | `DATABASE_URL` | PostgreSQL connection string. |
 | `PORT` | Port the application listens on (default `3000`). |
 | `NODE_ENV` | `development` or `production`. |
-| `ASTRON_COLLECTION_TEMPLATES_DIR` | Optional absolute path to template blueprints. Auto-detected in a repository checkout. |
-| `ASTRON_COLLECTION_TEMPLATES_ENABLED` | Legacy Templates gallery inherited from Notploy. `false` by default; set to `true` to re-enable the API. |
-| `NEXT_PUBLIC_ASTRON_COLLECTION_TEMPLATES_ENABLED` | Dashboard visibility of the legacy Templates gallery. `false` by default; set to `true` together with the server flag to re-enable it. |
+| `DISCORD_ENTERPRISE_TEMPLATES_DIR` | Optional absolute path to template blueprints. Auto-detected in a repository checkout. |
+| `DISCORD_ENTERPRISE_TEMPLATES_ENABLED` | Legacy Templates gallery inherited from Notploy. `false` by default; set to `true` to re-enable the API. |
+| `NEXT_PUBLIC_DISCORD_ENTERPRISE_TEMPLATES_ENABLED` | Dashboard visibility of the legacy Templates gallery. `false` by default; set to `true` together with the server flag to re-enable it. |
 
 ## Related
 

@@ -1,39 +1,39 @@
 ---
 title: "Notifications"
-description: "Notification channels — Slack, Discord, Telegram, email and others — plus test deliveries. Generated from the `astron-collection` command surface."
+description: "Notification channels — Slack, Discord, Telegram, email and others — plus test deliveries. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Notification channels — Slack, Discord, Telegram, email and others — plus test deliveries.
 
-`astron-collection notification` exposes **41 commands**. They map one-to-one onto the `notification.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise notification` exposes **41 commands**. They map one-to-one onto the `notification.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection notification --help` to list these commands in your terminal, or
-	`astron-collection notification <command> --help` for a single command.
+	Run `discord-enterprise notification --help` to list these commands in your terminal, or
+	`discord-enterprise notification <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection notification all`
+### `discord-enterprise notification all`
 
 Calls `GET /api/trpc/notification.all`.
 
 ```bash
-astron-collection notification all [options]
+discord-enterprise notification all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-custom`
+### `discord-enterprise notification create-custom`
 
 Calls `POST /api/trpc/notification.createCustom`.
 
 ```bash
-astron-collection notification create-custom --name <value> --endpoint <value> [options]
+discord-enterprise notification create-custom --name <value> --endpoint <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -42,12 +42,12 @@ astron-collection notification create-custom --name <value> --endpoint <value> [
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -59,21 +59,21 @@ astron-collection notification create-custom --name <value> --endpoint <value> [
 | `--headers <json>` | object | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-discord`
+### `discord-enterprise notification create-discord`
 
 Calls `POST /api/trpc/notification.createDiscord`.
 
 ```bash
-astron-collection notification create-discord --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> --decoration [options]
+discord-enterprise notification create-discord --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> --decoration [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -82,21 +82,21 @@ astron-collection notification create-discord --appBuildError --databaseBackup -
 | `--decoration [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-email`
+### `discord-enterprise notification create-email`
 
 Calls `POST /api/trpc/notification.createEmail`.
 
 ```bash
-astron-collection notification create-email --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --smtpServer <value> --smtpPort <value> --username <value> --password <value> --fromAddress <value> --toAddresses <json> [options]
+discord-enterprise notification create-email --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --smtpServer <value> --smtpPort <value> --username <value> --password <value> --fromAddress <value> --toAddresses <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -109,21 +109,21 @@ astron-collection notification create-email --appBuildError --databaseBackup --a
 | `--toAddresses <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-gotify`
+### `discord-enterprise notification create-gotify`
 
 Calls `POST /api/trpc/notification.createGotify`.
 
 ```bash
-astron-collection notification create-gotify --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --serverUrl <value> --appToken <value> --priority <value> --decoration [options]
+discord-enterprise notification create-gotify --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --serverUrl <value> --appToken <value> --priority <value> --decoration [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -134,21 +134,21 @@ astron-collection notification create-gotify --appBuildError --databaseBackup --
 | `--decoration [boolean]` | boolean | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-lark`
+### `discord-enterprise notification create-lark`
 
 Calls `POST /api/trpc/notification.createLark`.
 
 ```bash
-astron-collection notification create-lark --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
+discord-enterprise notification create-lark --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -156,21 +156,21 @@ astron-collection notification create-lark --appBuildError --databaseBackup --as
 | `--webhookUrl <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-mattermost`
+### `discord-enterprise notification create-mattermost`
 
 Calls `POST /api/trpc/notification.createMattermost`.
 
 ```bash
-astron-collection notification create-mattermost --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
+discord-enterprise notification create-mattermost --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -180,21 +180,21 @@ astron-collection notification create-mattermost --appBuildError --databaseBacku
 | `--username <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-ntfy`
+### `discord-enterprise notification create-ntfy`
 
 Calls `POST /api/trpc/notification.createNtfy`.
 
 ```bash
-astron-collection notification create-ntfy --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --serverUrl <value> --topic <value> --accessToken <value> --priority <value> [options]
+discord-enterprise notification create-ntfy --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --serverUrl <value> --topic <value> --accessToken <value> --priority <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -205,12 +205,12 @@ astron-collection notification create-ntfy --appBuildError --databaseBackup --as
 | `--priority <value>` | number | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-pushover`
+### `discord-enterprise notification create-pushover`
 
 Calls `POST /api/trpc/notification.createPushover`.
 
 ```bash
-astron-collection notification create-pushover --name <value> --userKey <value> --apiToken <value> [options]
+discord-enterprise notification create-pushover --name <value> --userKey <value> --apiToken <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -219,12 +219,12 @@ astron-collection notification create-pushover --name <value> --userKey <value> 
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -239,21 +239,21 @@ astron-collection notification create-pushover --name <value> --userKey <value> 
 | `--expire <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-resend`
+### `discord-enterprise notification create-resend`
 
 Calls `POST /api/trpc/notification.createResend`.
 
 ```bash
-astron-collection notification create-resend --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --apiKey <value> --fromAddress <value> --toAddresses <json> [options]
+discord-enterprise notification create-resend --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --apiKey <value> --fromAddress <value> --toAddresses <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -263,21 +263,21 @@ astron-collection notification create-resend --appBuildError --databaseBackup --
 | `--toAddresses <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-slack`
+### `discord-enterprise notification create-slack`
 
 Calls `POST /api/trpc/notification.createSlack`.
 
 ```bash
-astron-collection notification create-slack --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> --channel <value> [options]
+discord-enterprise notification create-slack --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> --channel <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -286,21 +286,21 @@ astron-collection notification create-slack --appBuildError --databaseBackup --a
 | `--channel <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-teams`
+### `discord-enterprise notification create-teams`
 
 Calls `POST /api/trpc/notification.createTeams`.
 
 ```bash
-astron-collection notification create-teams --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
+discord-enterprise notification create-teams --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -308,21 +308,21 @@ astron-collection notification create-teams --appBuildError --databaseBackup --a
 | `--webhookUrl <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification create-telegram`
+### `discord-enterprise notification create-telegram`
 
 Calls `POST /api/trpc/notification.createTelegram`.
 
 ```bash
-astron-collection notification create-telegram --appBuildError --databaseBackup --astronCollectionBackup --volumeBackup --astronCollectionRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --botToken <value> --chatId <value> --messageThreadId <value> [options]
+discord-enterprise notification create-telegram --appBuildError --databaseBackup --discordEnterpriseBackup --volumeBackup --discordEnterpriseRestart --name <value> --appDeploy --dockerCleanup --serverThreshold --botToken <value> --chatId <value> --messageThreadId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--appBuildError [boolean]` | boolean | Yes | — |
 | `--databaseBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionBackup [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | Yes | — |
 | `--volumeBackup [boolean]` | boolean | Yes | — |
-| `--astronCollectionRestart [boolean]` | boolean | Yes | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | Yes | — |
 | `--name <value>` | string | Yes | — |
 | `--appDeploy [boolean]` | boolean | Yes | — |
 | `--dockerCleanup [boolean]` | boolean | Yes | — |
@@ -332,24 +332,24 @@ astron-collection notification create-telegram --appBuildError --databaseBackup 
 | `--messageThreadId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification get-email-providers`
+### `discord-enterprise notification get-email-providers`
 
 Calls `GET /api/trpc/notification.getEmailProviders`.
 
 ```bash
-astron-collection notification get-email-providers [options]
+discord-enterprise notification get-email-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification one`
+### `discord-enterprise notification one`
 
 Calls `GET /api/trpc/notification.one`.
 
 ```bash
-astron-collection notification one --notificationId <value> [options]
+discord-enterprise notification one --notificationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -357,17 +357,17 @@ astron-collection notification one --notificationId <value> [options]
 | `--notificationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification receive-notification`
+### `discord-enterprise notification receive-notification`
 
 Calls `POST /api/trpc/notification.receiveNotification`.
 
 ```bash
-astron-collection notification receive-notification --Type <value> --Value <value> --Threshold <value> --Message <value> --Timestamp <value> --Token <value> [options]
+discord-enterprise notification receive-notification --Type <value> --Value <value> --Threshold <value> --Message <value> --Timestamp <value> --Token <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
-| `--ServerType <value>` | string | No | `Astron Collection`, `Remote` |
+| `--ServerType <value>` | string | No | `Discord Enterprise`, `Remote` |
 | `--Type <value>` | string | Yes | `Memory`, `CPU` |
 | `--Value <value>` | number | Yes | — |
 | `--Threshold <value>` | number | Yes | — |
@@ -376,12 +376,12 @@ astron-collection notification receive-notification --Type <value> --Value <valu
 | `--Token <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification remove`
+### `discord-enterprise notification remove`
 
 Calls `POST /api/trpc/notification.remove`.
 
 ```bash
-astron-collection notification remove --notificationId <value> [options]
+discord-enterprise notification remove --notificationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -389,12 +389,12 @@ astron-collection notification remove --notificationId <value> [options]
 | `--notificationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-custom-connection`
+### `discord-enterprise notification test-custom-connection`
 
 Calls `POST /api/trpc/notification.testCustomConnection`.
 
 ```bash
-astron-collection notification test-custom-connection --endpoint <value> [options]
+discord-enterprise notification test-custom-connection --endpoint <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -403,12 +403,12 @@ astron-collection notification test-custom-connection --endpoint <value> [option
 | `--headers <json>` | object | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-discord-connection`
+### `discord-enterprise notification test-discord-connection`
 
 Calls `POST /api/trpc/notification.testDiscordConnection`.
 
 ```bash
-astron-collection notification test-discord-connection --webhookUrl <value> [options]
+discord-enterprise notification test-discord-connection --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -418,12 +418,12 @@ astron-collection notification test-discord-connection --webhookUrl <value> [opt
 | `--no-decoration` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-email-connection`
+### `discord-enterprise notification test-email-connection`
 
 Calls `POST /api/trpc/notification.testEmailConnection`.
 
 ```bash
-astron-collection notification test-email-connection --smtpServer <value> --smtpPort <value> --username <value> --password <value> --toAddresses <json> --fromAddress <value> [options]
+discord-enterprise notification test-email-connection --smtpServer <value> --smtpPort <value> --username <value> --password <value> --toAddresses <json> --fromAddress <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -436,12 +436,12 @@ astron-collection notification test-email-connection --smtpServer <value> --smtp
 | `--fromAddress <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-gotify-connection`
+### `discord-enterprise notification test-gotify-connection`
 
 Calls `POST /api/trpc/notification.testGotifyConnection`.
 
 ```bash
-astron-collection notification test-gotify-connection --serverUrl <value> --appToken <value> --priority <value> [options]
+discord-enterprise notification test-gotify-connection --serverUrl <value> --appToken <value> --priority <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -453,12 +453,12 @@ astron-collection notification test-gotify-connection --serverUrl <value> --appT
 | `--no-decoration` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-lark-connection`
+### `discord-enterprise notification test-lark-connection`
 
 Calls `POST /api/trpc/notification.testLarkConnection`.
 
 ```bash
-astron-collection notification test-lark-connection --webhookUrl <value> [options]
+discord-enterprise notification test-lark-connection --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -466,12 +466,12 @@ astron-collection notification test-lark-connection --webhookUrl <value> [option
 | `--webhookUrl <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-mattermost-connection`
+### `discord-enterprise notification test-mattermost-connection`
 
 Calls `POST /api/trpc/notification.testMattermostConnection`.
 
 ```bash
-astron-collection notification test-mattermost-connection --webhookUrl <value> [options]
+discord-enterprise notification test-mattermost-connection --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -481,12 +481,12 @@ astron-collection notification test-mattermost-connection --webhookUrl <value> [
 | `--username <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-ntfy-connection`
+### `discord-enterprise notification test-ntfy-connection`
 
 Calls `POST /api/trpc/notification.testNtfyConnection`.
 
 ```bash
-astron-collection notification test-ntfy-connection --serverUrl <value> --topic <value> --accessToken <value> --priority <value> [options]
+discord-enterprise notification test-ntfy-connection --serverUrl <value> --topic <value> --accessToken <value> --priority <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -497,12 +497,12 @@ astron-collection notification test-ntfy-connection --serverUrl <value> --topic 
 | `--priority <value>` | number | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-pushover-connection`
+### `discord-enterprise notification test-pushover-connection`
 
 Calls `POST /api/trpc/notification.testPushoverConnection`.
 
 ```bash
-astron-collection notification test-pushover-connection --userKey <value> --apiToken <value> --priority <value> [options]
+discord-enterprise notification test-pushover-connection --userKey <value> --apiToken <value> --priority <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -514,12 +514,12 @@ astron-collection notification test-pushover-connection --userKey <value> --apiT
 | `--expire <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-resend-connection`
+### `discord-enterprise notification test-resend-connection`
 
 Calls `POST /api/trpc/notification.testResendConnection`.
 
 ```bash
-astron-collection notification test-resend-connection --apiKey <value> --fromAddress <value> --toAddresses <json> [options]
+discord-enterprise notification test-resend-connection --apiKey <value> --fromAddress <value> --toAddresses <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -529,12 +529,12 @@ astron-collection notification test-resend-connection --apiKey <value> --fromAdd
 | `--toAddresses <json>` | array | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-slack-connection`
+### `discord-enterprise notification test-slack-connection`
 
 Calls `POST /api/trpc/notification.testSlackConnection`.
 
 ```bash
-astron-collection notification test-slack-connection --webhookUrl <value> --channel <value> [options]
+discord-enterprise notification test-slack-connection --webhookUrl <value> --channel <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -543,12 +543,12 @@ astron-collection notification test-slack-connection --webhookUrl <value> --chan
 | `--channel <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-teams-connection`
+### `discord-enterprise notification test-teams-connection`
 
 Calls `POST /api/trpc/notification.testTeamsConnection`.
 
 ```bash
-astron-collection notification test-teams-connection --webhookUrl <value> [options]
+discord-enterprise notification test-teams-connection --webhookUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -556,12 +556,12 @@ astron-collection notification test-teams-connection --webhookUrl <value> [optio
 | `--webhookUrl <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification test-telegram-connection`
+### `discord-enterprise notification test-telegram-connection`
 
 Calls `POST /api/trpc/notification.testTelegramConnection`.
 
 ```bash
-astron-collection notification test-telegram-connection --botToken <value> --chatId <value> --messageThreadId <value> [options]
+discord-enterprise notification test-telegram-connection --botToken <value> --chatId <value> --messageThreadId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -571,12 +571,12 @@ astron-collection notification test-telegram-connection --botToken <value> --cha
 | `--messageThreadId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-custom`
+### `discord-enterprise notification update-custom`
 
 Calls `POST /api/trpc/notification.updateCustom`.
 
 ```bash
-astron-collection notification update-custom --notificationId <value> --customId <value> [options]
+discord-enterprise notification update-custom --notificationId <value> --customId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -585,12 +585,12 @@ astron-collection notification update-custom --notificationId <value> --customId
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -605,12 +605,12 @@ astron-collection notification update-custom --notificationId <value> --customId
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-discord`
+### `discord-enterprise notification update-discord`
 
 Calls `POST /api/trpc/notification.updateDiscord`.
 
 ```bash
-astron-collection notification update-discord --notificationId <value> --discordId <value> [options]
+discord-enterprise notification update-discord --notificationId <value> --discordId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -619,12 +619,12 @@ astron-collection notification update-discord --notificationId <value> --discord
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -640,12 +640,12 @@ astron-collection notification update-discord --notificationId <value> --discord
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-email`
+### `discord-enterprise notification update-email`
 
 Calls `POST /api/trpc/notification.updateEmail`.
 
 ```bash
-astron-collection notification update-email --notificationId <value> --emailId <value> [options]
+discord-enterprise notification update-email --notificationId <value> --emailId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -654,12 +654,12 @@ astron-collection notification update-email --notificationId <value> --emailId <
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -678,12 +678,12 @@ astron-collection notification update-email --notificationId <value> --emailId <
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-gotify`
+### `discord-enterprise notification update-gotify`
 
 Calls `POST /api/trpc/notification.updateGotify`.
 
 ```bash
-astron-collection notification update-gotify --notificationId <value> --gotifyId <value> [options]
+discord-enterprise notification update-gotify --notificationId <value> --gotifyId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -692,12 +692,12 @@ astron-collection notification update-gotify --notificationId <value> --gotifyId
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -715,12 +715,12 @@ astron-collection notification update-gotify --notificationId <value> --gotifyId
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-lark`
+### `discord-enterprise notification update-lark`
 
 Calls `POST /api/trpc/notification.updateLark`.
 
 ```bash
-astron-collection notification update-lark --notificationId <value> --larkId <value> [options]
+discord-enterprise notification update-lark --notificationId <value> --larkId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -729,12 +729,12 @@ astron-collection notification update-lark --notificationId <value> --larkId <va
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -748,12 +748,12 @@ astron-collection notification update-lark --notificationId <value> --larkId <va
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-mattermost`
+### `discord-enterprise notification update-mattermost`
 
 Calls `POST /api/trpc/notification.updateMattermost`.
 
 ```bash
-astron-collection notification update-mattermost --notificationId <value> --mattermostId <value> [options]
+discord-enterprise notification update-mattermost --notificationId <value> --mattermostId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -762,12 +762,12 @@ astron-collection notification update-mattermost --notificationId <value> --matt
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -783,12 +783,12 @@ astron-collection notification update-mattermost --notificationId <value> --matt
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-ntfy`
+### `discord-enterprise notification update-ntfy`
 
 Calls `POST /api/trpc/notification.updateNtfy`.
 
 ```bash
-astron-collection notification update-ntfy --notificationId <value> --ntfyId <value> [options]
+discord-enterprise notification update-ntfy --notificationId <value> --ntfyId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -797,12 +797,12 @@ astron-collection notification update-ntfy --notificationId <value> --ntfyId <va
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -819,12 +819,12 @@ astron-collection notification update-ntfy --notificationId <value> --ntfyId <va
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-pushover`
+### `discord-enterprise notification update-pushover`
 
 Calls `POST /api/trpc/notification.updatePushover`.
 
 ```bash
-astron-collection notification update-pushover --notificationId <value> --pushoverId <value> [options]
+discord-enterprise notification update-pushover --notificationId <value> --pushoverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -841,12 +841,12 @@ astron-collection notification update-pushover --notificationId <value> --pushov
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -856,12 +856,12 @@ astron-collection notification update-pushover --notificationId <value> --pushov
 | `--no-serverThreshold` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-resend`
+### `discord-enterprise notification update-resend`
 
 Calls `POST /api/trpc/notification.updateResend`.
 
 ```bash
-astron-collection notification update-resend --notificationId <value> --resendId <value> [options]
+discord-enterprise notification update-resend --notificationId <value> --resendId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -870,12 +870,12 @@ astron-collection notification update-resend --notificationId <value> --resendId
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -891,12 +891,12 @@ astron-collection notification update-resend --notificationId <value> --resendId
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-slack`
+### `discord-enterprise notification update-slack`
 
 Calls `POST /api/trpc/notification.updateSlack`.
 
 ```bash
-astron-collection notification update-slack --notificationId <value> --slackId <value> [options]
+discord-enterprise notification update-slack --notificationId <value> --slackId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -905,12 +905,12 @@ astron-collection notification update-slack --notificationId <value> --slackId <
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -925,12 +925,12 @@ astron-collection notification update-slack --notificationId <value> --slackId <
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-teams`
+### `discord-enterprise notification update-teams`
 
 Calls `POST /api/trpc/notification.updateTeams`.
 
 ```bash
-astron-collection notification update-teams --notificationId <value> --teamsId <value> [options]
+discord-enterprise notification update-teams --notificationId <value> --teamsId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -939,12 +939,12 @@ astron-collection notification update-teams --notificationId <value> --teamsId <
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |
@@ -958,12 +958,12 @@ astron-collection notification update-teams --notificationId <value> --teamsId <
 | `--organizationId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection notification update-telegram`
+### `discord-enterprise notification update-telegram`
 
 Calls `POST /api/trpc/notification.updateTelegram`.
 
 ```bash
-astron-collection notification update-telegram --notificationId <value> --telegramId <value> [options]
+discord-enterprise notification update-telegram --notificationId <value> --telegramId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -972,12 +972,12 @@ astron-collection notification update-telegram --notificationId <value> --telegr
 | `--no-appBuildError` | boolean | No | — |
 | `--databaseBackup [boolean]` | boolean | No | — |
 | `--no-databaseBackup` | boolean | No | — |
-| `--astronCollectionBackup [boolean]` | boolean | No | — |
-| `--no-astronCollectionBackup` | boolean | No | — |
+| `--discordEnterpriseBackup [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseBackup` | boolean | No | — |
 | `--volumeBackup [boolean]` | boolean | No | — |
 | `--no-volumeBackup` | boolean | No | — |
-| `--astronCollectionRestart [boolean]` | boolean | No | — |
-| `--no-astronCollectionRestart` | boolean | No | — |
+| `--discordEnterpriseRestart [boolean]` | boolean | No | — |
+| `--no-discordEnterpriseRestart` | boolean | No | — |
 | `--name <value>` | string | No | — |
 | `--appDeploy [boolean]` | boolean | No | — |
 | `--no-appDeploy` | boolean | No | — |

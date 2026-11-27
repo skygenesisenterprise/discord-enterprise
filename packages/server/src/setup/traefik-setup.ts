@@ -41,7 +41,7 @@ export const initializeStandaloneTraefik = async ({
 }: TraefikOptions = {}) => {
 	const { MAIN_TRAEFIK_PATH, DYNAMIC_TRAEFIK_PATH } = paths(!!serverId);
 	const imageName = `traefik:v${TRAEFIK_VERSION}`;
-	const containerName = "astron-collection-traefik";
+	const containerName = "discord-enterprise-traefik";
 
 	const exposedPorts: Record<string, {}> = {
 		[`${TRAEFIK_PORT}/tcp`]: {},
@@ -77,7 +77,7 @@ export const initializeStandaloneTraefik = async ({
 		Image: imageName,
 		NetworkingConfig: {
 			EndpointsConfig: {
-				"astron-collection-network": {},
+				"discord-enterprise-network": {},
 			},
 		},
 		ExposedPorts: exposedPorts,
@@ -87,7 +87,7 @@ export const initializeStandaloneTraefik = async ({
 			},
 			Binds: [
 				`${MAIN_TRAEFIK_PATH}/traefik.yml:/etc/traefik/traefik.yml`,
-				`${DYNAMIC_TRAEFIK_PATH}:/etc/astron-collection/traefik/dynamic`,
+				`${DYNAMIC_TRAEFIK_PATH}:/etc/discord-enterprise/traefik/dynamic`,
 				"/var/run/docker.sock:/var/run/docker.sock",
 			],
 			PortBindings: portBindings,
@@ -129,7 +129,7 @@ export const initializeTraefikService = async ({
 }: TraefikOptions) => {
 	const { MAIN_TRAEFIK_PATH, DYNAMIC_TRAEFIK_PATH } = paths(!!serverId);
 	const imageName = `traefik:v${TRAEFIK_VERSION}`;
-	const appName = "astron-collection-traefik";
+	const appName = "discord-enterprise-traefik";
 
 	const settings: CreateServiceOptions = {
 		Name: appName,
@@ -146,7 +146,7 @@ export const initializeTraefikService = async ({
 					{
 						Type: "bind",
 						Source: DYNAMIC_TRAEFIK_PATH,
-						Target: "/etc/astron-collection/traefik/dynamic",
+						Target: "/etc/discord-enterprise/traefik/dynamic",
 					},
 					{
 						Type: "bind",
@@ -155,7 +155,7 @@ export const initializeTraefikService = async ({
 					},
 				],
 			},
-			Networks: [{ Target: "astron-collection-network" }],
+			Networks: [{ Target: "discord-enterprise-network" }],
 			Placement: {
 				Constraints: ["node.role==manager"],
 			},
@@ -220,14 +220,14 @@ export const initializeTraefikService = async ({
 
 export const createDefaultServerTraefikConfig = () => {
 	const { DYNAMIC_TRAEFIK_PATH } = paths();
-	const configFilePath = path.join(DYNAMIC_TRAEFIK_PATH, "astron-collection.yml");
+	const configFilePath = path.join(DYNAMIC_TRAEFIK_PATH, "discord-enterprise.yml");
 
 	if (existsSync(configFilePath)) {
 		console.log("Default traefik config already exists");
 		return;
 	}
 
-	const appName = "astron-collection";
+	const appName = "discord-enterprise";
 	const serviceURLDefault = `http://${appName}:${process.env.PORT || 3000}`;
 	const config: FileConfig = {
 		http: {
@@ -279,11 +279,11 @@ export const getDefaultTraefikConfig = () => {
 						docker: {
 							exposedByDefault: false,
 							watch: true,
-							network: "astron-collection-network",
+							network: "discord-enterprise-network",
 						},
 					}),
 			file: {
-				directory: "/etc/astron-collection/traefik/dynamic",
+				directory: "/etc/discord-enterprise/traefik/dynamic",
 				watch: true,
 			},
 		},
@@ -313,7 +313,7 @@ export const getDefaultTraefikConfig = () => {
 				letsencrypt: {
 					acme: {
 						email: "test@localhost.com",
-						storage: "/etc/astron-collection/traefik/dynamic/acme.json",
+						storage: "/etc/discord-enterprise/traefik/dynamic/acme.json",
 						httpChallenge: {
 							entryPoint: "web",
 						},
@@ -338,10 +338,10 @@ export const getDefaultServerTraefikConfig = () => {
 			docker: {
 				exposedByDefault: false,
 				watch: true,
-				network: "astron-collection-network",
+				network: "discord-enterprise-network",
 			},
 			file: {
-				directory: "/etc/astron-collection/traefik/dynamic",
+				directory: "/etc/discord-enterprise/traefik/dynamic",
 				watch: true,
 			},
 		},
@@ -368,7 +368,7 @@ export const getDefaultServerTraefikConfig = () => {
 			letsencrypt: {
 				acme: {
 					email: "test@localhost.com",
-					storage: "/etc/astron-collection/traefik/dynamic/acme.json",
+					storage: "/etc/discord-enterprise/traefik/dynamic/acme.json",
 					httpChallenge: {
 						entryPoint: "web",
 					},

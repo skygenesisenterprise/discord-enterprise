@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateNetworkProvider,
 	type NetworkPeerInput,
@@ -6,12 +6,12 @@ import {
 	networkPeer,
 	networkProvider,
 	networkProviderTypes,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import {
 	getNetworkCapabilities,
 	getNetworkProviderCategory,
-} from "@astron-collection/server/utils/network";
-import { isValidCidr } from "@astron-collection/server/utils/network/cidr";
+} from "@discord-enterprise/server/utils/network";
+import { isValidCidr } from "@discord-enterprise/server/utils/network/cidr";
 import { TRPCError } from "@trpc/server";
 import { asc, eq } from "drizzle-orm";
 import type { z } from "zod";

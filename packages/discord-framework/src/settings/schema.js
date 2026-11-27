@@ -185,7 +185,7 @@ export function botCredentialVariables(bot) {
   return [
     {
       key: "token",
-      env: [`ASTRON_${prefix}_DISCORD_TOKEN`, "DISCORD_TOKEN"],
+      env: [`DISCORD_ENTERPRISE_${prefix}_DISCORD_TOKEN`, "DISCORD_TOKEN"],
       required: true,
       secret: true,
       description: "This bot's Discord application token.",
@@ -193,8 +193,8 @@ export function botCredentialVariables(bot) {
     {
       key: "clientId",
       env: [
-        `ASTRON_${prefix}_DISCORD_CLIENT_ID`,
-        `ASTRON_${prefix}_DISCORD_APPLICATION_ID`,
+        `DISCORD_ENTERPRISE_${prefix}_DISCORD_CLIENT_ID`,
+        `DISCORD_ENTERPRISE_${prefix}_DISCORD_APPLICATION_ID`,
         "DISCORD_CLIENT_ID",
         "DISCORD_APPLICATION_ID",
       ],
@@ -206,20 +206,20 @@ export function botCredentialVariables(bot) {
 
 /** Variables every bot needs, independent of its domain. */
 export function runtimeVariables({
-  eventUrlEnv = ["ASTRON_EVENT_URL"],
-  eventSecretEnv = ["ASTRON_EVENT_SECRET"],
+  eventUrlEnv = ["DISCORD_ENTERPRISE_EVENT_URL"],
+  eventSecretEnv = ["DISCORD_ENTERPRISE_EVENT_SECRET"],
 } = {}) {
   return [
     {
       key: "logLevel",
-      env: ["ASTRON_LOG_LEVEL", "LOG_LEVEL"],
+      env: ["DISCORD_ENTERPRISE_LOG_LEVEL", "LOG_LEVEL"],
       type: "enum",
       values: LOG_LEVELS,
       default: "info",
     },
     {
       key: "healthPort",
-      env: ["ASTRON_HEALTH_PORT"],
+      env: ["DISCORD_ENTERPRISE_HEALTH_PORT"],
       type: "integer",
       default: DEFAULT_HEALTH_PORT,
       min: 1,
@@ -227,9 +227,9 @@ export function runtimeVariables({
     },
     { key: "environment", env: ["NODE_ENV"], default: "development" },
     { key: "version", env: ["APP_VERSION"], default: "2.0.0" },
-    { key: "commandScope", env: ["ASTRON_COMMAND_SCOPE"], type: "enum", values: ["global", "guild", "none"], default: "global" },
-    { key: "commandGuildId", env: ["ASTRON_COMMAND_GUILD_ID"], default: "" },
-    { key: "dataDir", env: ["ASTRON_DATA_DIR"], default: "" },
+    { key: "commandScope", env: ["DISCORD_ENTERPRISE_COMMAND_SCOPE"], type: "enum", values: ["global", "guild", "none"], default: "global" },
+    { key: "commandGuildId", env: ["DISCORD_ENTERPRISE_COMMAND_GUILD_ID"], default: "" },
+    { key: "dataDir", env: ["DISCORD_ENTERPRISE_DATA_DIR"], default: "" },
     { key: "eventUrl", env: eventUrlEnv, default: "" },
     {
       key: "eventSecret",
@@ -238,7 +238,7 @@ export function runtimeVariables({
       secret: true,
       description: "HMAC secret shared with the event consumer.",
     },
-    { key: "eventSource", env: ["ASTRON_EVENT_SOURCE"], default: "" },
+    { key: "eventSource", env: ["DISCORD_ENTERPRISE_EVENT_SOURCE"], default: "" },
   ];
 }
 

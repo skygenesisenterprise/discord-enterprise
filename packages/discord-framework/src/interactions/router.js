@@ -12,7 +12,7 @@
 import { createCooldownStore } from "../cooldown.js";
 import {
   ERROR_CODES,
-  AstronError,
+  DiscordEnterpriseError,
   InteractionExpiredError,
   normalizeError,
   userMessageFor,
@@ -255,4 +255,4 @@ export function createInteractionRouter({
   return { bot, handle, cooldowns, reply };
 }
 
-export { AstronError };
+export { DiscordEnterpriseError };

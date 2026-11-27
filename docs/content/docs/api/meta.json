@@ -1,6 +1,6 @@
 {
 	"title": "API",
-	"description": "RESTful API reference for programmatic access to Astron Collection.",
+	"description": "RESTful API reference for programmatic access to Discord Enterprise.",
 	"icon": "Code",
 	"root": true,
 	"pages": [

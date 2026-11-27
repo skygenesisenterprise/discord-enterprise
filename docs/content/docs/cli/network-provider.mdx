@@ -1,39 +1,39 @@
 ---
 title: "Network providers"
-description: "External network providers (overlay networks and peers) plus their health checks. Generated from the `astron-collection` command surface."
+description: "External network providers (overlay networks and peers) plus their health checks. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 External network providers (overlay networks and peers) plus their health checks.
 
-`astron-collection network-provider` exposes **9 commands**. They map one-to-one onto the `network-provider.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise network-provider` exposes **9 commands**. They map one-to-one onto the `network-provider.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection network-provider --help` to list these commands in your terminal, or
-	`astron-collection network-provider <command> --help` for a single command.
+	Run `discord-enterprise network-provider --help` to list these commands in your terminal, or
+	`discord-enterprise network-provider <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection network-provider all`
+### `discord-enterprise network-provider all`
 
 Calls `GET /api/trpc/networkProvider.all`.
 
 ```bash
-astron-collection network-provider all [options]
+discord-enterprise network-provider all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider create`
+### `discord-enterprise network-provider create`
 
 Calls `POST /api/trpc/networkProvider.create`.
 
 ```bash
-astron-collection network-provider create --name <value> --config <json> [options]
+discord-enterprise network-provider create --name <value> --config <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -43,24 +43,24 @@ astron-collection network-provider create --name <value> --config <json> [option
 | `--peers <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider descriptors`
+### `discord-enterprise network-provider descriptors`
 
 Calls `GET /api/trpc/networkProvider.descriptors`.
 
 ```bash
-astron-collection network-provider descriptors [options]
+discord-enterprise network-provider descriptors [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider health`
+### `discord-enterprise network-provider health`
 
 Calls `GET /api/trpc/networkProvider.health`.
 
 ```bash
-astron-collection network-provider health --networkProviderId <value> [options]
+discord-enterprise network-provider health --networkProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -68,12 +68,12 @@ astron-collection network-provider health --networkProviderId <value> [options]
 | `--networkProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider one`
+### `discord-enterprise network-provider one`
 
 Calls `GET /api/trpc/networkProvider.one`.
 
 ```bash
-astron-collection network-provider one --networkProviderId <value> [options]
+discord-enterprise network-provider one --networkProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -81,12 +81,12 @@ astron-collection network-provider one --networkProviderId <value> [options]
 | `--networkProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider peers`
+### `discord-enterprise network-provider peers`
 
 Calls `GET /api/trpc/networkProvider.peers`.
 
 ```bash
-astron-collection network-provider peers --networkProviderId <value> [options]
+discord-enterprise network-provider peers --networkProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -94,12 +94,12 @@ astron-collection network-provider peers --networkProviderId <value> [options]
 | `--networkProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider remove`
+### `discord-enterprise network-provider remove`
 
 Calls `POST /api/trpc/networkProvider.remove`.
 
 ```bash
-astron-collection network-provider remove --networkProviderId <value> [options]
+discord-enterprise network-provider remove --networkProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -107,12 +107,12 @@ astron-collection network-provider remove --networkProviderId <value> [options]
 | `--networkProviderId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider test-connection`
+### `discord-enterprise network-provider test-connection`
 
 Calls `POST /api/trpc/networkProvider.testConnection`.
 
 ```bash
-astron-collection network-provider test-connection [options]
+discord-enterprise network-provider test-connection [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -122,12 +122,12 @@ astron-collection network-provider test-connection [options]
 | `--peers <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection network-provider update`
+### `discord-enterprise network-provider update`
 
 Calls `POST /api/trpc/networkProvider.update`.
 
 ```bash
-astron-collection network-provider update --networkProviderId <value> --name <value> --config <json> [options]
+discord-enterprise network-provider update --networkProviderId <value> --name <value> --config <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |

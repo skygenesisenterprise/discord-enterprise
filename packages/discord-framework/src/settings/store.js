@@ -7,7 +7,7 @@
  * instead of an optional filter.
  */
 
-import { ERROR_CODES, AstronError } from "../errors.js";
+import { ERROR_CODES, DiscordEnterpriseError } from "../errors.js";
 import { nowIso } from "../storage/values.js";
 
 const MAX_GUILD_ID_LENGTH = 32;
@@ -27,7 +27,7 @@ export function ensureSettingsSchema(db, table = "bot_settings") {
 
 function assertGuildId(guildId) {
   if (typeof guildId !== "string" || guildId.length === 0 || guildId.length > MAX_GUILD_ID_LENGTH) {
-    throw new AstronError("A guild id is required for every settings access.", {
+    throw new DiscordEnterpriseError("A guild id is required for every settings access.", {
       code: ERROR_CODES.GUILD_ONLY,
       expected: true,
     });
@@ -40,7 +40,7 @@ function validateValue(validator, value, key) {
   try {
     result = validator(value);
   } catch (error) {
-    throw new AstronError(`Invalid value for '${key}': ${error.message}`, {
+    throw new DiscordEnterpriseError(`Invalid value for '${key}': ${error.message}`, {
       code: ERROR_CODES.COMMAND_INVALID,
       expected: true,
       userMessage: `Invalid value for '${key}'.`,
@@ -49,7 +49,7 @@ function validateValue(validator, value, key) {
   if (result === true || result === undefined) return;
   if (result && typeof result === "object" && result.ok === true) return;
   const detail = result && typeof result === "object" ? result.error ?? result.reason : String(result);
-  throw new AstronError(`Invalid value for '${key}': ${detail}`, {
+  throw new DiscordEnterpriseError(`Invalid value for '${key}': ${detail}`, {
     code: ERROR_CODES.COMMAND_INVALID,
     expected: true,
     userMessage: `Invalid value for '${key}': ${detail}`,
@@ -86,7 +86,7 @@ export function createSettingsStore({
 
   function assertKey(key) {
     if (!keys.has(key)) {
-      throw new AstronError(`Unknown setting '${key}' for bot '${bot}'.`, {
+      throw new DiscordEnterpriseError(`Unknown setting '${key}' for bot '${bot}'.`, {
         code: ERROR_CODES.COMMAND_INVALID,
         expected: true,
       });

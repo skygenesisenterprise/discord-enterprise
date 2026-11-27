@@ -1,6 +1,6 @@
-import { db } from "@astron-collection/server/db";
-import { notifications } from "@astron-collection/server/db/schema";
-import AstronCollectionRestartEmail from "@astron-collection/server/emails/emails/astron-collection-restart";
+import { db } from "@discord-enterprise/server/db";
+import { notifications } from "@discord-enterprise/server/db/schema";
+import DiscordEnterpriseRestartEmail from "@discord-enterprise/server/emails/emails/discord-enterprise-restart";
 import { render } from "@react-email/components";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
@@ -19,12 +19,12 @@ import {
 	sendTelegramNotification,
 } from "./utils";
 
-export const sendAstronCollectionRestartNotifications = async () => {
+export const sendDiscordEnterpriseRestartNotifications = async () => {
 	try {
 		const date = new Date();
 		const unixDate = ~~(Number(date) / 1000);
 		const notificationList = await db.query.notifications.findMany({
-			where: eq(notifications.astronCollectionRestart, true),
+			where: eq(notifications.discordEnterpriseRestart, true),
 			with: {
 				email: true,
 				discord: true,
@@ -60,13 +60,13 @@ export const sendAstronCollectionRestartNotifications = async () => {
 			try {
 				if (email || resend) {
 					const template = await render(
-						AstronCollectionRestartEmail({ date: date.toLocaleString() }),
+						DiscordEnterpriseRestartEmail({ date: date.toLocaleString() }),
 					).catch();
 
 					if (email) {
 						await sendEmailNotification(
 							email,
-							"Astron Collection Server Restarted",
+							"Discord Enterprise Server Restarted",
 							template,
 						);
 					}
@@ -74,7 +74,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 					if (resend) {
 						await sendResendNotification(
 							resend,
-							"Astron Collection Server Restarted",
+							"Discord Enterprise Server Restarted",
 							template,
 						);
 					}
@@ -85,7 +85,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 						`${discord.decoration ? decoration : ""} ${text}`.trim();
 
 					await sendDiscordNotification(discord, {
-						title: decorate(">", "`✅` Astron Collection Server Restarted"),
+						title: decorate(">", "`✅` Discord Enterprise Server Restarted"),
 						color: 0x57f287,
 						fields: [
 							{
@@ -106,7 +106,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 						],
 						timestamp: date.toISOString(),
 						footer: {
-							text: "Astron Collection Restart Notification",
+							text: "Discord Enterprise Restart Notification",
 						},
 					});
 				}
@@ -116,7 +116,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 						`${gotify.decoration ? decoration : ""} ${text}\n`;
 					await sendGotifyNotification(
 						gotify,
-						decorate("✅", "Astron Collection Server Restarted"),
+						decorate("✅", "Discord Enterprise Server Restarted"),
 						`${decorate("🕒", `Date: ${date.toLocaleString()}`)}`,
 					);
 				}
@@ -124,7 +124,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 				if (ntfy) {
 					await sendNtfyNotification(
 						ntfy,
-						"Astron Collection Server Restarted",
+						"Discord Enterprise Server Restarted",
 						"white_check_mark",
 						"",
 						`🕒Date: ${date.toLocaleString()}`,
@@ -134,7 +134,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 				if (telegram) {
 					await sendTelegramNotification(
 						telegram,
-						`<b>✅ Astron Collection Server Restarted</b>\n\n<b>Date:</b> ${format(
+						`<b>✅ Discord Enterprise Server Restarted</b>\n\n<b>Date:</b> ${format(
 							date,
 							"PP",
 						)}\n<b>Time:</b> ${format(date, "pp")}`,
@@ -148,7 +148,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 						attachments: [
 							{
 								color: "#00FF00",
-								pretext: ":white_check_mark: *Astron Collection Server Restarted*",
+								pretext: ":white_check_mark: *Discord Enterprise Server Restarted*",
 								fields: [
 									{
 										title: "Time",
@@ -163,21 +163,21 @@ export const sendAstronCollectionRestartNotifications = async () => {
 
 				if (mattermost) {
 					await sendMattermostNotification(mattermost, {
-						text: `**✅ Astron Collection Server Restarted**\n\n**Date:** ${format(date, "PP")}\n**Time:** ${format(date, "pp")}`,
+						text: `**✅ Discord Enterprise Server Restarted**\n\n**Date:** ${format(date, "PP")}\n**Time:** ${format(date, "pp")}`,
 						channel: mattermost.channel,
-						username: mattermost.username || "Astron Collection",
+						username: mattermost.username || "Discord Enterprise",
 					});
 				}
 
 				if (custom) {
 					try {
 						await sendCustomNotification(custom, {
-							title: "Astron Collection Server Restarted",
-							message: "Astron Collection server has been restarted successfully",
+							title: "Discord Enterprise Server Restarted",
+							message: "Discord Enterprise server has been restarted successfully",
 							timestamp: date.toISOString(),
 							date: date.toLocaleString(),
 							status: "success",
-							type: "astron-collection-restart",
+							type: "discord-enterprise-restart",
 						});
 					} catch (error) {
 						console.log(error);
@@ -204,7 +204,7 @@ export const sendAstronCollectionRestartNotifications = async () => {
 							header: {
 								title: {
 									tag: "plain_text",
-									content: "✅ Astron Collection Server Restarted",
+									content: "✅ Discord Enterprise Server Restarted",
 								},
 								subtitle: {
 									tag: "plain_text",
@@ -262,14 +262,14 @@ export const sendAstronCollectionRestartNotifications = async () => {
 				if (pushover) {
 					await sendPushoverNotification(
 						pushover,
-						"Astron Collection Server Restarted",
+						"Discord Enterprise Server Restarted",
 						`Date: ${date.toLocaleString()}`,
 					);
 				}
 
 				if (teams) {
 					await sendTeamsNotification(teams, {
-						title: "✅ Astron Collection Server Restarted",
+						title: "✅ Discord Enterprise Server Restarted",
 						facts: [
 							{ name: "Status", value: "Successful" },
 							{ name: "Restart Time", value: format(date, "PP pp") },
@@ -281,6 +281,6 @@ export const sendAstronCollectionRestartNotifications = async () => {
 			}
 		}
 	} catch (error) {
-		console.error("[Astron Collection] Restart notifications failed:", error);
+		console.error("[Discord Enterprise] Restart notifications failed:", error);
 	}
 };

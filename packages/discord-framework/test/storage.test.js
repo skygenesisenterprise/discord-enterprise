@@ -51,7 +51,7 @@ describe("database", () => {
 });
 
 describe("migrations", () => {
-  const dir = mkdtempSync(path.join(os.tmpdir(), "astron-migrations-"));
+  const dir = mkdtempSync(path.join(os.tmpdir(), "discord-enterprise-migrations-"));
   writeFileSync(
     path.join(dir, "001_init.sql"),
     "CREATE TABLE items (id INTEGER PRIMARY KEY, name TEXT NOT NULL);\n",

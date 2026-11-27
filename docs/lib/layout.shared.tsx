@@ -8,12 +8,12 @@ export function baseOptions(): BaseLayoutProps {
 			title: (
 				<div className="flex items-center gap-2">
 					<Logo />
-					<span>Astron Collection</span>
+					<span>Discord Enterprise</span>
 				</div>
 			),
-			url: "https://astron-collection.com",
+			url: "https://discord-enterprise.com",
 			children: <NavLinks />,
 		},
-		githubUrl: "https://github.com/skygenesisenterprise/astron-collection",
+		githubUrl: "https://github.com/skygenesisenterprise/discord-enterprise",
 	};
 }

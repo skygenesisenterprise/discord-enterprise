@@ -1,4 +1,4 @@
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import { relations, sql } from "drizzle-orm";
 import {
 	boolean,

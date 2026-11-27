@@ -1,8 +1,8 @@
 import {
 	type EntitlementPayload,
-	isAstronCollectionCapability,
-	type AstronCollectionCapability,
-	type AstronCollectionProduct,
+	isDiscordEnterpriseCapability,
+	type DiscordEnterpriseCapability,
+	type DiscordEnterpriseProduct,
 	productCapabilities,
 	protectedProducts,
 } from "./types";
@@ -17,12 +17,12 @@ import {
  *
  *   installation.hasCapability("cloud.fleet")
  *
- * Legacy `ASTRON_COLLECTION_FLAVOR` / `IS_CLOUD` values are only ever *hints*: a protected
+ * Legacy `DISCORD_ENTERPRISE_FLAVOR` / `IS_CLOUD` values are only ever *hints*: a protected
  * product's capabilities come from a signed entitlement, never from the
  * environment.
  */
 
-export const capabilityLabels: Record<AstronCollectionCapability, string> = {
+export const capabilityLabels: Record<DiscordEnterpriseCapability, string> = {
 	"self.hosted": "Self-hosted",
 	"self.local-registry": "Local registry",
 	"self.offline": "Offline operation",
@@ -34,28 +34,28 @@ export const capabilityLabels: Record<AstronCollectionCapability, string> = {
 	"console.remote-management": "Remote management",
 };
 
-export const capabilityDescriptions: Record<AstronCollectionCapability, string> = {
-	"self.hosted": "Run the full Astron Collection control plane on your own host.",
+export const capabilityDescriptions: Record<DiscordEnterpriseCapability, string> = {
+	"self.hosted": "Run the full Discord Enterprise control plane on your own host.",
 	"self.local-registry":
 		"Host and serve container images from a registry on the instance.",
 	"self.offline":
-		"Operate without any permanent connectivity to Astron Collection services.",
-	"cloud.control-plane": "Run the managed Astron Collection Cloud control plane.",
+		"Operate without any permanent connectivity to Discord Enterprise services.",
+	"cloud.control-plane": "Run the managed Discord Enterprise Cloud control plane.",
 	"cloud.managed-services":
-		"Offer Astron Collection-operated managed services to tenants.",
-	"cloud.fleet": "Manage a fleet of Astron Collection instances from the cloud.",
-	"console.instance-management": "Manage individual Astron Collection instances.",
+		"Offer Discord Enterprise-operated managed services to tenants.",
+	"cloud.fleet": "Manage a fleet of Discord Enterprise instances from the cloud.",
+	"console.instance-management": "Manage individual Discord Enterprise instances.",
 	"console.fleet": "Manage groups of instances from the Console.",
 	"console.remote-management":
 		"Perform privileged remote operations on managed instances.",
 };
 
 export interface CapabilityEvaluation {
-	product: AstronCollectionProduct;
+	product: DiscordEnterpriseProduct;
 	/** Effective capabilities the instance may use. */
-	capabilities: AstronCollectionCapability[];
+	capabilities: DiscordEnterpriseCapability[];
 	/** Capabilities of the product that were not granted. */
-	missingCapabilities: AstronCollectionCapability[];
+	missingCapabilities: DiscordEnterpriseCapability[];
 	/** Whether the product requires a signed entitlement to be usable. */
 	requiresEntitlement: boolean;
 	/** True when a protected product is missing its entitlement. */
@@ -70,7 +70,7 @@ export interface CapabilityEvaluation {
  * declared for the product are refused even when an entitlement claims them.
  */
 export const evaluateCapabilities = (options: {
-	product: AstronCollectionProduct;
+	product: DiscordEnterpriseProduct;
 	entitlement?: EntitlementPayload | null;
 	/** Self-hosted keeps its built-in capabilities even without an entitlement. */
 	allowProductDefaults?: boolean;
@@ -81,8 +81,8 @@ export const evaluateCapabilities = (options: {
 	const declared = productCapabilities[options.product];
 	const grantedByEntitlement = options.entitlement?.capabilities ?? [];
 	const granted = allowDefaults
-		? new Set<AstronCollectionCapability>([...declared, ...grantedByEntitlement])
-		: new Set<AstronCollectionCapability>(grantedByEntitlement);
+		? new Set<DiscordEnterpriseCapability>([...declared, ...grantedByEntitlement])
+		: new Set<DiscordEnterpriseCapability>(grantedByEntitlement);
 
 	// Never hand out a capability that is not part of the product's declared set.
 	const capabilities = declared.filter((capability) => granted.has(capability));
@@ -106,10 +106,10 @@ export const evaluateCapabilities = (options: {
  * an unknown id is always false so a typo cannot grant access by accident.
  */
 export const hasCapability = (
-	capabilities: readonly AstronCollectionCapability[],
+	capabilities: readonly DiscordEnterpriseCapability[],
 	capability: string,
 ): boolean =>
-	isAstronCollectionCapability(capability) && capabilities.includes(capability);
+	isDiscordEnterpriseCapability(capability) && capabilities.includes(capability);
 
 /**
  * Maps legacy flavour signals to a product. This is a *hint* only and must never
@@ -117,11 +117,11 @@ export const hasCapability = (
  * is authoritative.
  */
 export const resolveProductHint = (options: {
-	/** Explicit product override (ASTRON_COLLECTION_PRODUCT); wins over every hint. */
+	/** Explicit product override (DISCORD_ENTERPRISE_PRODUCT); wins over every hint. */
 	product?: string | null;
 	flavor?: string | null;
 	isCloud?: boolean;
-}): AstronCollectionProduct => {
+}): DiscordEnterpriseProduct => {
 	const explicit = (options.product ?? "").toLowerCase();
 	if (explicit === "cloud") return "cloud";
 	if (explicit === "console") return "console";

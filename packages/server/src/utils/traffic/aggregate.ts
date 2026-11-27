@@ -1,4 +1,4 @@
-import type { TrafficStatusClass } from "@astron-collection/server/db/schema/traffic";
+import type { TrafficStatusClass } from "@discord-enterprise/server/db/schema/traffic";
 import {
 	bucketStartFor,
 	DEFAULT_BUCKET_SECONDS,

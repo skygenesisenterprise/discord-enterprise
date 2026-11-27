@@ -1,38 +1,38 @@
-import { docker } from "@astron-collection/server/constants";
-import { db } from "@astron-collection/server/db";
+import { docker } from "@discord-enterprise/server/constants";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateApplication,
 	applications,
 	buildAppName,
-} from "@astron-collection/server/db/schema";
-import { getAdvancedStats } from "@astron-collection/server/monitoring/utils";
+} from "@discord-enterprise/server/db/schema";
+import { getAdvancedStats } from "@discord-enterprise/server/monitoring/utils";
 import {
 	getBuildCommand,
 	mechanizeDockerContainer,
-} from "@astron-collection/server/utils/builders";
-import { sendBuildErrorNotifications } from "@astron-collection/server/utils/notifications/build-error";
-import { sendBuildSuccessNotifications } from "@astron-collection/server/utils/notifications/build-success";
+} from "@discord-enterprise/server/utils/builders";
+import { sendBuildErrorNotifications } from "@discord-enterprise/server/utils/notifications/build-error";
+import { sendBuildSuccessNotifications } from "@discord-enterprise/server/utils/notifications/build-success";
 import {
 	ExecError,
 	execAsync,
 	execAsyncRemote,
-} from "@astron-collection/server/utils/process/execAsync";
-import { cloneBitbucketRepository } from "@astron-collection/server/utils/providers/bitbucket";
-import { buildRemoteDocker } from "@astron-collection/server/utils/providers/docker";
+} from "@discord-enterprise/server/utils/process/execAsync";
+import { cloneBitbucketRepository } from "@discord-enterprise/server/utils/providers/bitbucket";
+import { buildRemoteDocker } from "@discord-enterprise/server/utils/providers/docker";
 import {
 	cloneGitRepository,
 	getGitCommitInfo,
-} from "@astron-collection/server/utils/providers/git";
-import { cloneGiteaRepository } from "@astron-collection/server/utils/providers/gitea";
-import { cloneGithubRepository } from "@astron-collection/server/utils/providers/github";
-import { cloneGitlabRepository } from "@astron-collection/server/utils/providers/gitlab";
-import { redactSecrets } from "@astron-collection/server/utils/security/redact";
-import { createTraefikConfig } from "@astron-collection/server/utils/traefik/application";
+} from "@discord-enterprise/server/utils/providers/git";
+import { cloneGiteaRepository } from "@discord-enterprise/server/utils/providers/gitea";
+import { cloneGithubRepository } from "@discord-enterprise/server/utils/providers/github";
+import { cloneGitlabRepository } from "@discord-enterprise/server/utils/providers/gitlab";
+import { redactSecrets } from "@discord-enterprise/server/utils/security/redact";
+import { createTraefikConfig } from "@discord-enterprise/server/utils/traefik/application";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";
 import { encodeBase64 } from "../utils/docker/utils";
-import { getAstronCollectionUrl } from "./admin";
+import { getDiscordEnterpriseUrl } from "./admin";
 import {
 	createDeployment,
 	createDeploymentPreview,
@@ -194,7 +194,7 @@ export const updateApplicationStatus = async (
 };
 
 /**
- * Astron Collection Cloud: assign and provision the generated *.astron-collection.app hostname
+ * Discord Enterprise Cloud: assign and provision the generated *.discord-enterprise.app hostname
  * once a deployment is live. Imported lazily because `cloud-domain` imports
  * this module; the cycle stays safe, and domain provisioning must never turn a
  * successful deployment into a failure (the ledger records the error instead).
@@ -239,7 +239,7 @@ export const deployApplication = async ({
 		serverId: serverId,
 	};
 
-	const buildLink = `${await getAstronCollectionUrl()}/dashboard/project/${application.environment.projectId}/environment/${application.environmentId}/services/application/${application.applicationId}?tab=deployments`;
+	const buildLink = `${await getDiscordEnterpriseUrl()}/dashboard/project/${application.environment.projectId}/environment/${application.environmentId}/services/application/${application.applicationId}?tab=deployments`;
 	const deployment = deploymentId
 		? await findDeploymentById(deploymentId)
 		: await createDeployment({
@@ -358,7 +358,7 @@ export const rebuildApplication = async ({
 }) => {
 	const application = await findApplicationById(applicationId);
 	const serverId = application.buildServerId || application.serverId;
-	const buildLink = `${await getAstronCollectionUrl()}/dashboard/project/${application.environment.projectId}/environment/${application.environmentId}/services/application/${application.applicationId}?tab=deployments`;
+	const buildLink = `${await getDiscordEnterpriseUrl()}/dashboard/project/${application.environment.projectId}/environment/${application.environmentId}/services/application/${application.applicationId}?tab=deployments`;
 
 	const deployment = await createDeployment({
 		applicationId: applicationId,
@@ -477,12 +477,12 @@ export const deployPreviewApplication = async ({
 		);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${buildingComment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${buildingComment}`,
 		});
 		application.appName = previewDeployment.appName;
-		application.env = `${application.previewEnv}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
-		application.buildArgs = `${application.previewBuildArgs}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
-		application.buildSecrets = `${application.previewBuildSecrets}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.env = `${application.previewEnv}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.buildArgs = `${application.previewBuildArgs}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.buildSecrets = `${application.previewBuildSecrets}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
 		application.rollbackActive = false;
 		application.buildRegistry = null;
 		application.rollbackRegistry = null;
@@ -512,7 +512,7 @@ export const deployPreviewApplication = async ({
 		);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${successComment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${successComment}`,
 		});
 		await updateDeploymentStatus(deployment.deploymentId, "done");
 		await updatePreviewDeployment(previewDeploymentId, {
@@ -522,7 +522,7 @@ export const deployPreviewApplication = async ({
 		const comment = getIssueComment(application.name, "error", previewDomain);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${comment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${comment}`,
 		});
 		await updateDeploymentStatus(deployment.deploymentId, "error");
 		await updatePreviewDeployment(previewDeploymentId, {
@@ -594,14 +594,14 @@ export const rebuildPreviewApplication = async ({
 		);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${buildingComment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${buildingComment}`,
 		});
 
 		// Set application properties for preview deployment
 		application.appName = previewDeployment.appName;
-		application.env = `${application.previewEnv}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
-		application.buildArgs = `${application.previewBuildArgs}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
-		application.buildSecrets = `${application.previewBuildSecrets}\nASTRON_COLLECTION_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.env = `${application.previewEnv}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.buildArgs = `${application.previewBuildArgs}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
+		application.buildSecrets = `${application.previewBuildSecrets}\nDISCORD_ENTERPRISE_DEPLOY_URL=${previewDeployment?.domain?.host}`;
 		application.rollbackActive = false;
 		application.buildRegistry = null;
 		application.rollbackRegistry = null;
@@ -626,7 +626,7 @@ export const rebuildPreviewApplication = async ({
 		);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${successComment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${successComment}`,
 		});
 		await updateDeploymentStatus(deployment.deploymentId, "done");
 		await updatePreviewDeployment(previewDeploymentId, {
@@ -653,7 +653,7 @@ export const rebuildPreviewApplication = async ({
 		const comment = getIssueComment(application.name, "error", previewDomain);
 		await updateIssueComment({
 			...issueParams,
-			body: `### Astron Collection Preview Deployment\n\n${comment}`,
+			body: `### Discord Enterprise Preview Deployment\n\n${comment}`,
 		});
 		await updateDeploymentStatus(deployment.deploymentId, "error");
 		await updatePreviewDeployment(previewDeploymentId, {
@@ -666,7 +666,7 @@ export const rebuildPreviewApplication = async ({
 };
 
 export const getApplicationStats = async (appName: string) => {
-	if (appName === "astron-collection") {
+	if (appName === "discord-enterprise") {
 		return await getAdvancedStats(appName);
 	}
 	const filter = {

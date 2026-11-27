@@ -37,7 +37,7 @@ import { webauthnTwoFactor } from "./plugins/webauthn-two-factor";
 /**
  * Better Auth calls a dynamic `trustedOrigins` function with the raw `Request`
  * (and some internal paths pass a `{ request }` wrapper). Accept both shapes so
- * a proxied dashboard host such as `dash.astron-collection.localhost` is
+ * a proxied dashboard host such as `dash.discord-enterprise.localhost` is
  * actually seen by the resolver.
  */
 type TrustedOriginInput = Request | { request?: Request };
@@ -133,7 +133,7 @@ const resolveTrustedOrigins = async (input?: TrustedOriginInput) => {
 /**
  * Auth callbacks and state cookies must use the exact host the browser is on.
  * A static `BETTER_AUTH_URL` of `localhost:3000` breaks the OAuth state cookie
- * when the panel is opened at `dash.astron-collection.localhost`: Discord
+ * when the panel is opened at `dash.discord-enterprise.localhost`: Discord
  * redirects to `localhost`, which is a different cookie host.
  *
  * Self-hosted installs therefore derive the base URL from the request while
@@ -202,7 +202,7 @@ const createBetterAuth = () =>
 				allowDifferentEmails: true,
 			},
 		},
-		appName: "Astron Collection",
+		appName: "Discord Enterprise",
 		// Only register a social provider when its credentials are configured:
 		// an entry with missing env vars makes better-auth warn on every boot
 		// and offers a sign-in path that can never succeed.
@@ -332,12 +332,12 @@ const createBetterAuth = () =>
 							return { data: { emailVerified: true } };
 						}
 						if (!IS_CLOUD) {
-							const xAstronCollectionToken =
-								context?.request?.headers?.get("x-astron-collection-token");
-							if (xAstronCollectionToken) {
+							const xDiscordEnterpriseToken =
+								context?.request?.headers?.get("x-discord-enterprise-token");
+							if (xDiscordEnterpriseToken) {
 								let invitation: Awaited<ReturnType<typeof getUserByToken>>;
 								try {
-									invitation = await getUserByToken(xAstronCollectionToken);
+									invitation = await getUserByToken(xDiscordEnterpriseToken);
 								} catch {
 									throw new APIError("BAD_REQUEST", {
 										message: "Invalid invitation token",
@@ -677,7 +677,7 @@ export interface RequestApiKey {
 /**
  * Reads the API key from a request.
  *
- * `x-api-key` is Astron Collection's own header and stays the documented one, but CI
+ * `x-api-key` is Discord Enterprise's own header and stays the documented one, but CI
  * clients (GitHub Actions included) speak `Authorization: Bearer <token>`, so
  * both are accepted rather than forcing every action to build a custom header.
  */

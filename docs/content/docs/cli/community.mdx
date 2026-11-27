@@ -1,27 +1,27 @@
 ---
 title: "Community"
-description: "Community sources, repositories, releases and the health report of the instance's community presence. Generated from the `astron-collection` command surface."
+description: "Community sources, repositories, releases and the health report of the instance's community presence. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Community sources, repositories, releases and the health report of the instance's community presence.
 
-`astron-collection community` exposes **14 commands**. They map one-to-one onto the `community.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise community` exposes **14 commands**. They map one-to-one onto the `community.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection community --help` to list these commands in your terminal, or
-	`astron-collection community <command> --help` for a single command.
+	Run `discord-enterprise community --help` to list these commands in your terminal, or
+	`discord-enterprise community <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection community activity`
+### `discord-enterprise community activity`
 
 Calls `GET /api/trpc/community.activity`.
 
 ```bash
-astron-collection community activity [options]
+discord-enterprise community activity [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -35,12 +35,12 @@ astron-collection community activity [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community attention`
+### `discord-enterprise community attention`
 
 Calls `GET /api/trpc/community.attention`.
 
 ```bash
-astron-collection community attention [options]
+discord-enterprise community attention [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -49,12 +49,12 @@ astron-collection community attention [options]
 | `--limit <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community available-repositories`
+### `discord-enterprise community available-repositories`
 
 Calls `GET /api/trpc/community.availableRepositories`.
 
 ```bash
-astron-collection community available-repositories --sourceId <value> [options]
+discord-enterprise community available-repositories --sourceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -62,12 +62,12 @@ astron-collection community available-repositories --sourceId <value> [options]
 | `--sourceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community create-source`
+### `discord-enterprise community create-source`
 
 Calls `POST /api/trpc/community.createSource`.
 
 ```bash
-astron-collection community create-source --gitProviderId <value> --owner <value> [options]
+discord-enterprise community create-source --gitProviderId <value> --owner <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -76,12 +76,12 @@ astron-collection community create-source --gitProviderId <value> --owner <value
 | `--owner <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community health`
+### `discord-enterprise community health`
 
 Calls `GET /api/trpc/community.health`.
 
 ```bash
-astron-collection community health [options]
+discord-enterprise community health [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -89,12 +89,12 @@ astron-collection community health [options]
 | `--repositoryIds <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community overview`
+### `discord-enterprise community overview`
 
 Calls `GET /api/trpc/community.overview`.
 
 ```bash
-astron-collection community overview [options]
+discord-enterprise community overview [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -105,12 +105,12 @@ astron-collection community overview [options]
 | `--repositoryIds <json>` | array | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community releases`
+### `discord-enterprise community releases`
 
 Calls `GET /api/trpc/community.releases`.
 
 ```bash
-astron-collection community releases [options]
+discord-enterprise community releases [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -119,12 +119,12 @@ astron-collection community releases [options]
 | `--limit <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community remove-source`
+### `discord-enterprise community remove-source`
 
 Calls `POST /api/trpc/community.removeSource`.
 
 ```bash
-astron-collection community remove-source --sourceId <value> [options]
+discord-enterprise community remove-source --sourceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -132,12 +132,12 @@ astron-collection community remove-source --sourceId <value> [options]
 | `--sourceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community repositories`
+### `discord-enterprise community repositories`
 
 Calls `GET /api/trpc/community.repositories`.
 
 ```bash
-astron-collection community repositories [options]
+discord-enterprise community repositories [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -146,24 +146,24 @@ astron-collection community repositories [options]
 | `--search <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community sources`
+### `discord-enterprise community sources`
 
 Calls `GET /api/trpc/community.sources`.
 
 ```bash
-astron-collection community sources [options]
+discord-enterprise community sources [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community sync-now`
+### `discord-enterprise community sync-now`
 
 Calls `POST /api/trpc/community.syncNow`.
 
 ```bash
-astron-collection community sync-now --sourceId <value> [options]
+discord-enterprise community sync-now --sourceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -172,12 +172,12 @@ astron-collection community sync-now --sourceId <value> [options]
 | `--repositoryId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community track-repository`
+### `discord-enterprise community track-repository`
 
 Calls `POST /api/trpc/community.trackRepository`.
 
 ```bash
-astron-collection community track-repository --sourceId <value> --fullName <value> [options]
+discord-enterprise community track-repository --sourceId <value> --fullName <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -186,12 +186,12 @@ astron-collection community track-repository --sourceId <value> --fullName <valu
 | `--fullName <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community untrack-repository`
+### `discord-enterprise community untrack-repository`
 
 Calls `POST /api/trpc/community.untrackRepository`.
 
 ```bash
-astron-collection community untrack-repository --repositoryId <value> [options]
+discord-enterprise community untrack-repository --repositoryId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -199,12 +199,12 @@ astron-collection community untrack-repository --repositoryId <value> [options]
 | `--repositoryId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection community update-source`
+### `discord-enterprise community update-source`
 
 Calls `POST /api/trpc/community.updateSource`.
 
 ```bash
-astron-collection community update-source --sourceId <value> [options]
+discord-enterprise community update-source --sourceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

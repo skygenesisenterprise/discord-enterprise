@@ -1,0 +1,13 @@
+http:
+  routers:
+    discord-enterprise-router-app:
+      rule: Host(`discord-enterprise.docker.localhost`) && PathPrefix(`/`)
+      service: discord-enterprise-service-app
+      entryPoints:
+        - web
+  services:
+    discord-enterprise-service-app:
+      loadBalancer:
+        servers:
+          - url: http://discord-enterprise:3000
+        passHostHeader: true

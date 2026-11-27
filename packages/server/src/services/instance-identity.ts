@@ -2,10 +2,10 @@ import fs from "node:fs";
 import {
 	allowUnlicensedDevInstance,
 	IS_CLOUD,
-	ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY,
-	ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE,
-	ASTRON_COLLECTION_FLAVOR,
-	ASTRON_COLLECTION_PRODUCT,
+	DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY,
+	DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE,
+	DISCORD_ENTERPRISE_FLAVOR,
+	DISCORD_ENTERPRISE_PRODUCT,
 	paths,
 } from "../constants/index";
 import {
@@ -25,15 +25,15 @@ import {
 	type EntitlementPayload,
 	type IdentityDiagnostic,
 	type InstanceIdentity,
-	type AstronCollectionCapability,
-	type AstronCollectionProduct,
+	type DiscordEnterpriseCapability,
+	type DiscordEnterpriseProduct,
 	protectedProducts,
 } from "../utils/pki/types";
 
 /**
  * Runtime installation identity (issue #75 §1, §5, §6).
  *
- * Assembles the locally stored identity, the verified Astron Collection entitlement and
+ * Assembles the locally stored identity, the verified Discord Enterprise entitlement and
  * the centralized capability evaluation into one `Installation` object. Both the
  * runtime and the UI query capabilities through `installation.hasCapability`,
  * so product authorization has a single source of truth.
@@ -41,13 +41,13 @@ import {
 
 export interface Installation {
 	/** Effective product, derived from the identity and entitlement. */
-	product: AstronCollectionProduct;
-	/** Legacy flavour hint (ASTRON_COLLECTION_FLAVOR / IS_CLOUD), never authoritative. */
-	productHint: AstronCollectionProduct;
+	product: DiscordEnterpriseProduct;
+	/** Legacy flavour hint (DISCORD_ENTERPRISE_FLAVOR / IS_CLOUD), never authoritative. */
+	productHint: DiscordEnterpriseProduct;
 	/** Effective capabilities after evaluation. */
-	capabilities: AstronCollectionCapability[];
+	capabilities: DiscordEnterpriseCapability[];
 	/** Product capabilities that were not authorized. */
-	missingCapabilities: AstronCollectionCapability[];
+	missingCapabilities: DiscordEnterpriseCapability[];
 	identity: InstanceIdentity | null;
 	/** Verified entitlement, if one was present and valid. */
 	entitlement: EntitlementPayload | null;
@@ -58,14 +58,14 @@ export interface Installation {
 
 /** Resolves the entitlement public key from config, file or nothing. */
 export const getEntitlementPublicKey = (): string => {
-	if (ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE) {
+	if (DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE) {
 		try {
-			return fs.readFileSync(ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE, "utf8");
+			return fs.readFileSync(DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE, "utf8");
 		} catch {
 			return "";
 		}
 	}
-	return ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY;
+	return DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY;
 };
 
 export interface GetInstallationOptions {
@@ -80,7 +80,7 @@ export interface GetInstallationOptions {
 	allowUnlicensed?: boolean;
 }
 
-const isProtected = (product: AstronCollectionProduct) =>
+const isProtected = (product: DiscordEnterpriseProduct) =>
 	protectedProducts.includes(product);
 
 const defaultIdentityDir = () => paths().IDENTITY_PATH;
@@ -88,17 +88,17 @@ const defaultIdentityDir = () => paths().IDENTITY_PATH;
 /**
  * Product this instance was launched as (`self`, `cloud` or `console`).
  *
- * Resolved from the launcher (`ASTRON_COLLECTION_PRODUCT`, then `ASTRON_COLLECTION_FLAVOR`, then
+ * Resolved from the launcher (`DISCORD_ENTERPRISE_PRODUCT`, then `DISCORD_ENTERPRISE_FLAVOR`, then
  * `IS_CLOUD`) and used for display decisions such as the UI surface and the
  * product name. It is deliberately distinct from `getInstallation().product`,
  * which is authoritative for *authorization* but can differ: the persisted
  * instance identity is reused while coherent, even when the instance is started
  * under another product.
  */
-export const getConfiguredProduct = (): AstronCollectionProduct =>
+export const getConfiguredProduct = (): DiscordEnterpriseProduct =>
 	resolveProductHint({
-		product: ASTRON_COLLECTION_PRODUCT,
-		flavor: ASTRON_COLLECTION_FLAVOR,
+		product: DISCORD_ENTERPRISE_PRODUCT,
+		flavor: DISCORD_ENTERPRISE_FLAVOR,
 		isCloud: IS_CLOUD,
 	});
 
@@ -150,9 +150,9 @@ export const getInstallation = (
 				code: "entitlement.invalid",
 				severity: "error",
 				message:
-					"An entitlement token is present but no Astron Collection entitlement public key is configured",
+					"An entitlement token is present but no Discord Enterprise entitlement public key is configured",
 				remediation:
-					"Set ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY or ASTRON_COLLECTION_ENTITLEMENT_PUBLIC_KEY_FILE to Astron Collection's public key.",
+					"Set DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY or DISCORD_ENTERPRISE_ENTITLEMENT_PUBLIC_KEY_FILE to Discord Enterprise's public key.",
 			});
 		} else {
 			const verified = verifyEntitlementForInstance(
@@ -173,14 +173,14 @@ export const getInstallation = (
 					severity: "error",
 					message: verified.reason,
 					remediation:
-						"Request a new entitlement for this instance from Astron Collection and place it in entitlement.token.",
+						"Request a new entitlement for this instance from Discord Enterprise and place it in entitlement.token.",
 				});
 			}
 		}
 	}
 
 	const productHint = resolveProductHint({
-		flavor: ASTRON_COLLECTION_FLAVOR,
+		flavor: DISCORD_ENTERPRISE_FLAVOR,
 		isCloud: IS_CLOUD,
 	});
 
@@ -231,9 +231,9 @@ export const getInstallation = (
 		diagnostics.push({
 			code: "entitlement.missing",
 			severity: allowUnlicensed ? "warning" : "error",
-			message: `Product "${product}" requires a Astron Collection-signed entitlement`,
+			message: `Product "${product}" requires a Discord Enterprise-signed entitlement`,
 			remediation: allowUnlicensed
-				? "Running unlicensed is allowed only in development (ASTRON_COLLECTION_ALLOW_UNLICENSED_DEV). Enroll this instance with a signed entitlement before deploying."
+				? "Running unlicensed is allowed only in development (DISCORD_ENTERPRISE_ALLOW_UNLICENSED_DEV). Enroll this instance with a signed entitlement before deploying."
 				: "Enroll this instance with a signed entitlement; a local installer flag is not a security boundary.",
 		});
 	}
@@ -264,7 +264,7 @@ export const getInstallation = (
 export interface InstallationValidation {
 	/** False when any diagnostic is an error. */
 	healthy: boolean;
-	product: AstronCollectionProduct;
+	product: DiscordEnterpriseProduct;
 	diagnostics: IdentityDiagnostic[];
 }
 
@@ -289,10 +289,10 @@ export const validateInstallation = (
 
 export interface InitializeInstallationOptions {
 	identityDir?: string;
-	product?: AstronCollectionProduct;
+	product?: DiscordEnterpriseProduct;
 	instanceId?: string;
 	subjectAltNames?: string[];
-	/** Astron Collection-signed entitlement required for cloud/console. */
+	/** Discord Enterprise-signed entitlement required for cloud/console. */
 	entitlementToken?: string;
 	/** Overrides the configured entitlement public key (tests, tooling). */
 	entitlementPublicKey?: string;
@@ -313,7 +313,7 @@ export const initializeInstallationIdentity = (
 	const identityDir = options.identityDir ?? defaultIdentityDir();
 	const product =
 		options.product ??
-		resolveProductHint({ flavor: ASTRON_COLLECTION_FLAVOR, isCloud: IS_CLOUD });
+		resolveProductHint({ flavor: DISCORD_ENTERPRISE_FLAVOR, isCloud: IS_CLOUD });
 
 	if (isProtected(product) && !options.entitlementToken) {
 		throw new Error(

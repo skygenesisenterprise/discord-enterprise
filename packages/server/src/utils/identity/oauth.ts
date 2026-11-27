@@ -12,7 +12,7 @@
 import {
 	type IdentityOauthConfig,
 	identityOauthConfigSchema,
-} from "@astron-collection/server/db/schema/sso";
+} from "@discord-enterprise/server/db/schema/sso";
 
 export type { IdentityOauthConfig };
 

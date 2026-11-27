@@ -17,7 +17,7 @@ build({
 	format: "esm",
 	plugins: [
 		alias({
-			"@astron-collection/server": path.resolve(__dirname, "src"),
+			"@discord-enterprise/server": path.resolve(__dirname, "src"),
 		}),
 	],
 	packages: "external",

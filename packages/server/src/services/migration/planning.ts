@@ -117,7 +117,7 @@ function statusForResource(
     default:
       break;
   }
-  if (direction === "astron-collection-to-dokploy") {
+  if (direction === "discord-enterprise-to-dokploy") {
     return {
       status: "to-verify",
       reason: "Export equivalence must be verified against declared Dokploy version.",

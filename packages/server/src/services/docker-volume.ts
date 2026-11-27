@@ -1,7 +1,7 @@
 import {
 	execAsync,
 	execAsyncRemote,
-} from "@astron-collection/server/utils/process/execAsync";
+} from "@discord-enterprise/server/utils/process/execAsync";
 import { quote } from "shell-quote";
 import { CONTAINER_FILE_SIZE_LIMIT } from "./docker";
 

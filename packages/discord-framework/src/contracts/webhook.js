@@ -9,11 +9,11 @@
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-export const SIGNATURE_HEADER = "x-astron-signature";
-export const TIMESTAMP_HEADER = "x-astron-timestamp";
-export const EVENT_HEADER = "x-astron-event";
-export const SOURCE_HEADER = "x-astron-source";
-export const VERSION_HEADER = "x-astron-contract-version";
+export const SIGNATURE_HEADER = "x-discord-enterprise-signature";
+export const TIMESTAMP_HEADER = "x-discord-enterprise-timestamp";
+export const EVENT_HEADER = "x-discord-enterprise-event";
+export const SOURCE_HEADER = "x-discord-enterprise-source";
+export const VERSION_HEADER = "x-discord-enterprise-contract-version";
 
 export const DEFAULT_TOLERANCE_MS = 5 * 60 * 1000;
 const MIN_SECRET_LENGTH = 16;

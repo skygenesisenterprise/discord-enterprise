@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 
-import { defineCommand } from "@astron-collection/discord-framework";
-import { infoEmbed } from "@astron-collection/discord-framework/ui";
+import { defineCommand } from "@discord-enterprise/discord-framework";
+import { infoEmbed } from "@discord-enterprise/discord-framework/ui";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
@@ -20,7 +20,7 @@ export default defineCommand({
 
     await interaction.reply({
       embeds: [
-        infoEmbed("Invite Astron", "The link requests only the permissions Astron needs.", {
+        infoEmbed("Invite Discord Enterprise", "The link requests only the permissions Discord Enterprise needs.", {
           fields: [
             { name: "Permissions bitmask", value: permissions, inline: true },
             { name: "Invite link", value: url, inline: false },

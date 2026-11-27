@@ -69,7 +69,7 @@ describe("discord bot permissions", () => {
   });
 });
 
-describe("astron business policy", () => {
+describe("discord-enterprise business policy", () => {
   it("allows an explicit approval and denies a refusal", async () => {
     const command = testCommand();
 

@@ -18,7 +18,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import { validateCommand } from "../commands/contract.js";
-import { ERROR_CODES, AstronError, ConfigurationError } from "../errors.js";
+import { ERROR_CODES, DiscordEnterpriseError, ConfigurationError } from "../errors.js";
 
 export const DEPLOYMENT_SCOPES = Object.freeze(["global", "guild", "none"]);
 
@@ -98,7 +98,7 @@ export async function deployCommands({
   }
 
   if (!DEPLOYMENT_SCOPES.includes(scope)) {
-    throw new AstronError(`Unknown command scope '${scope}'.`, {
+    throw new DiscordEnterpriseError(`Unknown command scope '${scope}'.`, {
       code: ERROR_CODES.DEPLOY_SCOPE_INVALID,
       expected: true,
       meta: { bot, scope },
@@ -109,7 +109,7 @@ export async function deployCommands({
   const validationErrors = validateCatalogue(commands ?? []);
 
   if (validationErrors.length) {
-    throw new AstronError(`Invalid command catalogue: ${validationErrors.join("; ")}`, {
+    throw new DiscordEnterpriseError(`Invalid command catalogue: ${validationErrors.join("; ")}`, {
       code: ERROR_CODES.COMMAND_INVALID,
       expected: true,
       meta: { bot, errors: validationErrors },
@@ -125,7 +125,7 @@ export async function deployCommands({
   }
 
   if (scope === "guild" && !guildId) {
-    throw new AstronError("Guild command scope requires ASTRON_COMMAND_GUILD_ID.", {
+    throw new DiscordEnterpriseError("Guild command scope requires DISCORD_ENTERPRISE_COMMAND_GUILD_ID.", {
       code: ERROR_CODES.DEPLOY_SCOPE_INVALID,
       expected: true,
       meta: { bot },
@@ -135,7 +135,7 @@ export async function deployCommands({
   const state = (await readState(statePath)) ?? {};
 
   if (state.applicationId && state.applicationId !== clientId) {
-    throw new AstronError(
+    throw new DiscordEnterpriseError(
       `Deployment state belongs to application ${state.applicationId}, refusing to overwrite the catalogue of application ${clientId}.`,
       {
         code: ERROR_CODES.DEPLOY_APPLICATION_MISMATCH,

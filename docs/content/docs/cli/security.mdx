@@ -1,27 +1,27 @@
 ---
 title: "Security"
-description: "Per-application HTTP basic auth and response security headers. Generated from the `astron-collection` command surface."
+description: "Per-application HTTP basic auth and response security headers. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Per-application HTTP basic auth and response security headers.
 
-`astron-collection security` exposes **4 commands**. They map one-to-one onto the `security.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise security` exposes **4 commands**. They map one-to-one onto the `security.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection security --help` to list these commands in your terminal, or
-	`astron-collection security <command> --help` for a single command.
+	Run `discord-enterprise security --help` to list these commands in your terminal, or
+	`discord-enterprise security <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection security create`
+### `discord-enterprise security create`
 
 Calls `POST /api/trpc/security.create`.
 
 ```bash
-astron-collection security create --applicationId <value> --username <value> --password <value> [options]
+discord-enterprise security create --applicationId <value> --username <value> --password <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -31,12 +31,12 @@ astron-collection security create --applicationId <value> --username <value> --p
 | `--password <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection security delete`
+### `discord-enterprise security delete`
 
 Calls `POST /api/trpc/security.delete`.
 
 ```bash
-astron-collection security delete --securityId <value> [options]
+discord-enterprise security delete --securityId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -44,12 +44,12 @@ astron-collection security delete --securityId <value> [options]
 | `--securityId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection security one`
+### `discord-enterprise security one`
 
 Calls `GET /api/trpc/security.one`.
 
 ```bash
-astron-collection security one --securityId <value> [options]
+discord-enterprise security one --securityId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -57,12 +57,12 @@ astron-collection security one --securityId <value> [options]
 | `--securityId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection security update`
+### `discord-enterprise security update`
 
 Calls `POST /api/trpc/security.update`.
 
 ```bash
-astron-collection security update --securityId <value> --username <value> --password <value> [options]
+discord-enterprise security update --securityId <value> --username <value> --password <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

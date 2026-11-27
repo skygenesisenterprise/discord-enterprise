@@ -1,27 +1,27 @@
 ---
 title: "Forward auth"
-description: "Deploy an authentication proxy in front of applications and manage its domains. Generated from the `astron-collection` command surface."
+description: "Deploy an authentication proxy in front of applications and manage its domains. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Deploy an authentication proxy in front of applications and manage its domains.
 
-`astron-collection forward-auth` exposes **10 commands**. They map one-to-one onto the `forward-auth.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise forward-auth` exposes **10 commands**. They map one-to-one onto the `forward-auth.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection forward-auth --help` to list these commands in your terminal, or
-	`astron-collection forward-auth <command> --help` for a single command.
+	Run `discord-enterprise forward-auth --help` to list these commands in your terminal, or
+	`discord-enterprise forward-auth <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection forward-auth deploy-on-server`
+### `discord-enterprise forward-auth deploy-on-server`
 
 Calls `POST /api/trpc/forwardAuth.deployOnServer`.
 
 ```bash
-astron-collection forward-auth deploy-on-server --serverId <value> --providerId <value> [options]
+discord-enterprise forward-auth deploy-on-server --serverId <value> --providerId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -30,12 +30,12 @@ astron-collection forward-auth deploy-on-server --serverId <value> --providerId 
 | `--providerId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth disable`
+### `discord-enterprise forward-auth disable`
 
 Calls `POST /api/trpc/forwardAuth.disable`.
 
 ```bash
-astron-collection forward-auth disable --domainId <value> [options]
+discord-enterprise forward-auth disable --domainId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -43,12 +43,12 @@ astron-collection forward-auth disable --domainId <value> [options]
 | `--domainId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth enable`
+### `discord-enterprise forward-auth enable`
 
 Calls `POST /api/trpc/forwardAuth.enable`.
 
 ```bash
-astron-collection forward-auth enable --domainId <value> [options]
+discord-enterprise forward-auth enable --domainId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -56,12 +56,12 @@ astron-collection forward-auth enable --domainId <value> [options]
 | `--domainId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth get-auth-domain`
+### `discord-enterprise forward-auth get-auth-domain`
 
 Calls `GET /api/trpc/forwardAuth.getAuthDomain`.
 
 ```bash
-astron-collection forward-auth get-auth-domain --serverId <value> [options]
+discord-enterprise forward-auth get-auth-domain --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -69,24 +69,24 @@ astron-collection forward-auth get-auth-domain --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth list-providers`
+### `discord-enterprise forward-auth list-providers`
 
 Calls `GET /api/trpc/forwardAuth.listProviders`.
 
 ```bash
-astron-collection forward-auth list-providers [options]
+discord-enterprise forward-auth list-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth remove-auth-domain`
+### `discord-enterprise forward-auth remove-auth-domain`
 
 Calls `POST /api/trpc/forwardAuth.removeAuthDomain`.
 
 ```bash
-astron-collection forward-auth remove-auth-domain --serverId <value> [options]
+discord-enterprise forward-auth remove-auth-domain --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -94,12 +94,12 @@ astron-collection forward-auth remove-auth-domain --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth remove-on-server`
+### `discord-enterprise forward-auth remove-on-server`
 
 Calls `POST /api/trpc/forwardAuth.removeOnServer`.
 
 ```bash
-astron-collection forward-auth remove-on-server --serverId <value> [options]
+discord-enterprise forward-auth remove-on-server --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -107,24 +107,24 @@ astron-collection forward-auth remove-on-server --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth server-status`
+### `discord-enterprise forward-auth server-status`
 
 Calls `GET /api/trpc/forwardAuth.serverStatus`.
 
 ```bash
-astron-collection forward-auth server-status [options]
+discord-enterprise forward-auth server-status [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth set-auth-domain`
+### `discord-enterprise forward-auth set-auth-domain`
 
 Calls `POST /api/trpc/forwardAuth.setAuthDomain`.
 
 ```bash
-astron-collection forward-auth set-auth-domain --serverId <value> --authDomain <value> [options]
+discord-enterprise forward-auth set-auth-domain --serverId <value> --authDomain <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -137,12 +137,12 @@ astron-collection forward-auth set-auth-domain --serverId <value> --authDomain <
 | `--customCertResolver <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection forward-auth status`
+### `discord-enterprise forward-auth status`
 
 Calls `GET /api/trpc/forwardAuth.status`.
 
 ```bash
-astron-collection forward-auth status --domainId <value> [options]
+discord-enterprise forward-auth status --domainId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

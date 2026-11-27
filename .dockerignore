@@ -8,11 +8,11 @@ node_modules
 coverage
 
 # Runtime state written by the API into the bind-mounted source tree (Traefik
-# config, logs, SSH keys). The dev container creates `apps/astron/.docker/ssh`
+# config, logs, SSH keys). The dev container creates `apps/discord-enterprise/.docker/ssh`
 # as root with 0700, which otherwise makes `docker build` fail with
 # "open .../ssh: permission denied" while loading the build context.
-apps/astron/.docker
-apps/astron/.docker/**
+apps/discord-enterprise/.docker
+apps/discord-enterprise/.docker/**
 **/.docker
 **/.docker/**
 
@@ -25,10 +25,10 @@ packages/status/data
 
 # Desktop (Electron) and website packaging artifacts: several GB of local build
 # output that the server image never needs. Without these the build context is
-# ~2.4GB instead of a few MB. The desktop client now lives inside the Astron Collection
-# app package, under `apps/astron-collection/electron/`.
-apps/astron-collection/electron/release
-apps/astron-collection/electron/out
+# ~2.4GB instead of a few MB. The desktop client now lives inside the Discord Enterprise
+# app package, under `apps/discord-enterprise/electron/`.
+apps/discord-enterprise/electron/release
+apps/discord-enterprise/electron/out
 web/apps/docs/out
 web/apps/website/.next
 

@@ -3,8 +3,8 @@ import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import {
   defineCommand,
   EPHEMERAL,
-} from "@astron-collection/discord-framework";
-import { successEmbed } from "@astron-collection/discord-framework/ui";
+} from "@discord-enterprise/discord-framework";
+import { successEmbed } from "@discord-enterprise/discord-framework/ui";
 
 export default defineCommand({
   data: new SlashCommandBuilder()
@@ -41,8 +41,8 @@ export default defineCommand({
         successEmbed(
           locale === "fr" ? "Langue mise à jour" : "Language updated",
           locale === "fr"
-            ? "Les réponses d'Astron utiliseront le français sur ce serveur."
-            : "Astron will answer in English on this server.",
+            ? "Les réponses d'Discord Enterprise utiliseront le français sur ce serveur."
+            : "Discord Enterprise will answer in English on this server.",
         ),
       ],
       flags: EPHEMERAL,

@@ -9,7 +9,7 @@
 
 import { randomUUID } from "node:crypto";
 
-import { ERROR_CODES, AstronError } from "../errors.js";
+import { ERROR_CODES, DiscordEnterpriseError } from "../errors.js";
 
 export const CONTRACT_VERSION = 1;
 
@@ -333,28 +333,28 @@ export function createEvent({
   const contract = EVENT_CONTRACTS[type];
 
   if (!contract) {
-    throw new AstronError(`Unknown event contract '${type}'.`, {
+    throw new DiscordEnterpriseError(`Unknown event contract '${type}'.`, {
       code: ERROR_CODES.EVENT_UNKNOWN_CONTRACT,
       expected: true,
       meta: { type },
     });
   }
   if (version !== CONTRACT_VERSION) {
-    throw new AstronError(`Contract '${type}' has no version ${version}.`, {
+    throw new DiscordEnterpriseError(`Contract '${type}' has no version ${version}.`, {
       code: ERROR_CODES.EVENT_UNKNOWN_CONTRACT,
       expected: true,
       meta: { type, version },
     });
   }
   if (!SOURCE.test(String(source ?? ""))) {
-    throw new AstronError("Event source must be a lowercase bot name.", {
+    throw new DiscordEnterpriseError("Event source must be a lowercase bot name.", {
       code: ERROR_CODES.EVENT_PAYLOAD_INVALID,
       expected: true,
       meta: { source },
     });
   }
   if (!SNOWFLAKE.test(String(guildId ?? ""))) {
-    throw new AstronError("Event guildId must be a Discord guild id.", {
+    throw new DiscordEnterpriseError("Event guildId must be a Discord guild id.", {
       code: ERROR_CODES.EVENT_PAYLOAD_INVALID,
       expected: true,
       meta: { guildId },
@@ -363,7 +363,7 @@ export function createEvent({
 
   const payloadErrors = validatePayload(data, contract.schema);
   if (payloadErrors.length > 0) {
-    throw new AstronError(`Invalid payload for '${type}': ${payloadErrors.join("; ")}`, {
+    throw new DiscordEnterpriseError(`Invalid payload for '${type}': ${payloadErrors.join("; ")}`, {
       code: ERROR_CODES.EVENT_PAYLOAD_INVALID,
       expected: true,
       meta: { type, errors: payloadErrors },
@@ -371,13 +371,13 @@ export function createEvent({
   }
 
   if (typeof id !== "string" || id.trim() === "") {
-    throw new AstronError("Event id must be a non-empty string.", {
+    throw new DiscordEnterpriseError("Event id must be a non-empty string.", {
       code: ERROR_CODES.EVENT_PAYLOAD_INVALID,
       expected: true,
     });
   }
   if (!ISO_DATE.test(occurredAt)) {
-    throw new AstronError("Event occurredAt must be an ISO-8601 timestamp.", {
+    throw new DiscordEnterpriseError("Event occurredAt must be an ISO-8601 timestamp.", {
       code: ERROR_CODES.EVENT_PAYLOAD_INVALID,
       expected: true,
     });

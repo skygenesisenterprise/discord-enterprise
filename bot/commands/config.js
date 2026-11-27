@@ -7,8 +7,8 @@ import {
 import {
   defineCommand,
   EPHEMERAL,
-} from "@astron-collection/discord-framework";
-import { infoEmbed, successEmbed } from "@astron-collection/discord-framework/ui";
+} from "@discord-enterprise/discord-framework";
+import { infoEmbed, successEmbed } from "@discord-enterprise/discord-framework/ui";
 
 const OPTION_KEYS = {
   locale: "locale",
@@ -21,8 +21,8 @@ const OPTION_KEYS = {
 export default defineCommand({
   data: new SlashCommandBuilder()
     .setName("config")
-    .setDescription("View or change this server's Astron configuration.")
-    .setDescriptionLocalizations({ fr: "Voir ou modifier la configuration d'Astron pour ce serveur." })
+    .setDescription("View or change this server's Discord Enterprise configuration.")
+    .setDescriptionLocalizations({ fr: "Voir ou modifier la configuration d'Discord Enterprise pour ce serveur." })
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false)
     .addSubcommand((subcommand) =>
@@ -53,14 +53,14 @@ export default defineCommand({
         .addRoleOption((option) =>
           option
             .setName("staff-role")
-            .setDescription("Role considered staff by Astron")
-            .setDescriptionLocalizations({ fr: "Rôle considéré comme staff par Astron" }),
+            .setDescription("Role considered staff by Discord Enterprise")
+            .setDescriptionLocalizations({ fr: "Rôle considéré comme staff par Discord Enterprise" }),
         )
         .addChannelOption((option) =>
           option
             .setName("announcements-channel")
-            .setDescription("Channel used for Astron announcements")
-            .setDescriptionLocalizations({ fr: "Salon utilisé pour les annonces d'Astron" })
+            .setDescription("Channel used for Discord Enterprise announcements")
+            .setDescriptionLocalizations({ fr: "Salon utilisé pour les annonces d'Discord Enterprise" })
             .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement),
         )
         .addBooleanOption((option) =>
@@ -111,7 +111,7 @@ export default defineCommand({
     if (subcommand === "reset") {
       services.settings.reset(guildId);
       await interaction.reply({
-        embeds: [successEmbed("Configuration reset", "All Astron settings are back to their defaults.")],
+        embeds: [successEmbed("Configuration reset", "All Discord Enterprise settings are back to their defaults.")],
         flags: EPHEMERAL,
       });
       return;

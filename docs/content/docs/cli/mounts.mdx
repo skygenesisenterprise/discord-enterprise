@@ -1,27 +1,27 @@
 ---
 title: "Mounts"
-description: "Bind mounts and named volumes attached to applications and Compose services. Generated from the `astron-collection` command surface."
+description: "Bind mounts and named volumes attached to applications and Compose services. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Bind mounts and named volumes attached to applications and Compose services.
 
-`astron-collection mounts` exposes **6 commands**. They map one-to-one onto the `mounts.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise mounts` exposes **6 commands**. They map one-to-one onto the `mounts.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection mounts --help` to list these commands in your terminal, or
-	`astron-collection mounts <command> --help` for a single command.
+	Run `discord-enterprise mounts --help` to list these commands in your terminal, or
+	`discord-enterprise mounts <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection mounts all-named-by-application-id`
+### `discord-enterprise mounts all-named-by-application-id`
 
 Calls `GET /api/trpc/mounts.allNamedByApplicationId`.
 
 ```bash
-astron-collection mounts all-named-by-application-id --applicationId <value> [options]
+discord-enterprise mounts all-named-by-application-id --applicationId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -29,12 +29,12 @@ astron-collection mounts all-named-by-application-id --applicationId <value> [op
 | `--applicationId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection mounts create`
+### `discord-enterprise mounts create`
 
 Calls `POST /api/trpc/mounts.create`.
 
 ```bash
-astron-collection mounts create --type <value> --mountPath <value> --serviceId <value> [options]
+discord-enterprise mounts create --type <value> --mountPath <value> --serviceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -49,12 +49,12 @@ astron-collection mounts create --type <value> --mountPath <value> --serviceId <
 | `--serviceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection mounts list-by-service-id`
+### `discord-enterprise mounts list-by-service-id`
 
 Calls `GET /api/trpc/mounts.listByServiceId`.
 
 ```bash
-astron-collection mounts list-by-service-id --serviceType <value> --serviceId <value> [options]
+discord-enterprise mounts list-by-service-id --serviceType <value> --serviceId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -63,12 +63,12 @@ astron-collection mounts list-by-service-id --serviceType <value> --serviceId <v
 | `--serviceId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection mounts one`
+### `discord-enterprise mounts one`
 
 Calls `GET /api/trpc/mounts.one`.
 
 ```bash
-astron-collection mounts one --mountId <value> [options]
+discord-enterprise mounts one --mountId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -76,12 +76,12 @@ astron-collection mounts one --mountId <value> [options]
 | `--mountId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection mounts remove`
+### `discord-enterprise mounts remove`
 
 Calls `POST /api/trpc/mounts.remove`.
 
 ```bash
-astron-collection mounts remove --mountId <value> [options]
+discord-enterprise mounts remove --mountId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -89,12 +89,12 @@ astron-collection mounts remove --mountId <value> [options]
 | `--mountId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection mounts update`
+### `discord-enterprise mounts update`
 
 Calls `POST /api/trpc/mounts.update`.
 
 ```bash
-astron-collection mounts update --mountId <value> [options]
+discord-enterprise mounts update --mountId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

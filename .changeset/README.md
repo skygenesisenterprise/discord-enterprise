@@ -28,16 +28,16 @@ version and publish the packages in the pnpm workspace.
 
 Published to npmjs (public):
 
-- `@astron-collection/cli`
-- `@astron-collection/sdk`
-- `@astron-collection/trpc-openapi`
+- `@discord-enterprise/cli`
+- `@discord-enterprise/sdk`
+- `@discord-enterprise/trpc-openapi`
 
 Other workspace packages are not published by this workflow. Some may be
 versioned by Changesets or shipped as containers:
 
-- `@astron-collection/app` (the dashboard/server, shipped as a Docker image)
-- `@astron-collection/docs`, `@astron-collection/website` (deployed to GitHub Pages and Docker)
-- `@astron-collection/api`, `@astron-collection/schedules` (internal services, ignored by changesets)
+- `@discord-enterprise/app` (the dashboard/server, shipped as a Docker image)
+- `@discord-enterprise/docs`, `@discord-enterprise/website` (deployed to GitHub Pages and Docker)
+- `@discord-enterprise/api`, `@discord-enterprise/schedules` (internal services, ignored by changesets)
 
 ## Common commands
 

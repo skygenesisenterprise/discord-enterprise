@@ -1,27 +1,27 @@
 ---
 title: "GitLab"
-description: "GitLab connections, plus branch and repository lookups. Generated from the `astron-collection` command surface."
+description: "GitLab connections, plus branch and repository lookups. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 GitLab connections, plus branch and repository lookups.
 
-`astron-collection gitlab` exposes **7 commands**. They map one-to-one onto the `gitlab.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise gitlab` exposes **7 commands**. They map one-to-one onto the `gitlab.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection gitlab --help` to list these commands in your terminal, or
-	`astron-collection gitlab <command> --help` for a single command.
+	Run `discord-enterprise gitlab --help` to list these commands in your terminal, or
+	`discord-enterprise gitlab <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection gitlab create`
+### `discord-enterprise gitlab create`
 
 Calls `POST /api/trpc/gitlab.create`.
 
 ```bash
-astron-collection gitlab create --authId <value> --name <value> --gitlabUrl <value> [options]
+discord-enterprise gitlab create --authId <value> --name <value> --gitlabUrl <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -37,12 +37,12 @@ astron-collection gitlab create --authId <value> --name <value> --gitlabUrl <val
 | `--gitlabInternalUrl <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab get-gitlab-branches`
+### `discord-enterprise gitlab get-gitlab-branches`
 
 Calls `GET /api/trpc/gitlab.getGitlabBranches`.
 
 ```bash
-astron-collection gitlab get-gitlab-branches --owner <value> --repo <value> [options]
+discord-enterprise gitlab get-gitlab-branches --owner <value> --repo <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -53,12 +53,12 @@ astron-collection gitlab get-gitlab-branches --owner <value> --repo <value> [opt
 | `--gitlabId <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab get-gitlab-repositories`
+### `discord-enterprise gitlab get-gitlab-repositories`
 
 Calls `GET /api/trpc/gitlab.getGitlabRepositories`.
 
 ```bash
-astron-collection gitlab get-gitlab-repositories --gitlabId <value> [options]
+discord-enterprise gitlab get-gitlab-repositories --gitlabId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -66,24 +66,24 @@ astron-collection gitlab get-gitlab-repositories --gitlabId <value> [options]
 | `--gitlabId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab gitlab-providers`
+### `discord-enterprise gitlab gitlab-providers`
 
 Calls `GET /api/trpc/gitlab.gitlabProviders`.
 
 ```bash
-astron-collection gitlab gitlab-providers [options]
+discord-enterprise gitlab gitlab-providers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab one`
+### `discord-enterprise gitlab one`
 
 Calls `GET /api/trpc/gitlab.one`.
 
 ```bash
-astron-collection gitlab one --gitlabId <value> [options]
+discord-enterprise gitlab one --gitlabId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -91,12 +91,12 @@ astron-collection gitlab one --gitlabId <value> [options]
 | `--gitlabId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab test-connection`
+### `discord-enterprise gitlab test-connection`
 
 Calls `POST /api/trpc/gitlab.testConnection`.
 
 ```bash
-astron-collection gitlab test-connection --gitlabId <value> [options]
+discord-enterprise gitlab test-connection --gitlabId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -105,12 +105,12 @@ astron-collection gitlab test-connection --gitlabId <value> [options]
 | `--groupName <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection gitlab update`
+### `discord-enterprise gitlab update`
 
 Calls `POST /api/trpc/gitlab.update`.
 
 ```bash
-astron-collection gitlab update --name <value> --gitlabId <value> --gitlabUrl <value> --gitProviderId <value> [options]
+discord-enterprise gitlab update --name <value> --gitlabId <value> --gitlabUrl <value> --gitProviderId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |

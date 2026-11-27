@@ -1,4 +1,4 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type TrafficSource,
 	trafficAudienceAggregates,
@@ -6,11 +6,11 @@ import {
 	trafficAudienceSessions,
 	trafficHttpAggregates,
 	trafficHttpRoutes,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import {
 	LATENCY_BUCKET_COUNT,
 	percentileFromHistogram,
-} from "@astron-collection/server/utils/traffic/aggregate";
+} from "@discord-enterprise/server/utils/traffic/aggregate";
 import { and, asc, desc, gte, inArray, lt, type SQL, sql } from "drizzle-orm";
 import {
 	AUDIENCE_BUCKET_SECONDS,

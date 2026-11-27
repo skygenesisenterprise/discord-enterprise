@@ -15,9 +15,9 @@
  * - every significant operation is auditable without sensitive data.
  */
 
-export type MigrationDirection = "dokploy-to-astron-collection" | "astron-collection-to-dokploy";
+export type MigrationDirection = "dokploy-to-discord-enterprise" | "discord-enterprise-to-dokploy";
 
-export type InstallationProduct = "dokploy" | "astron-collection" | "unknown";
+export type InstallationProduct = "dokploy" | "discord-enterprise" | "unknown";
 
 export type InstallationType = "swarm" | "compose" | "docker" | "unknown";
 

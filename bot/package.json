@@ -1,9 +1,9 @@
 {
-  "name": "@astron-collection/astron",
+  "name": "@discord-enterprise/discord-enterprise",
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "Astron — the generalist Discord bot: server and user information, utilities, help, documentation and general configuration.",
+  "description": "Discord Enterprise — the generalist Discord bot: server and user information, utilities, help, documentation and general configuration.",
   "main": "index.js",
   "scripts": {
     "start": "node --disable-warning=ExperimentalWarning index.js",
@@ -13,7 +13,7 @@
     "typecheck": "node --check index.js"
   },
   "dependencies": {
-    "@astron-collection/discord-framework": "file:../../packages/discord-framework",
+    "@discord-enterprise/discord-framework": "file:../../packages/discord-framework",
     "discord.js": "^14.27.0",
     "dotenv": "^17.2.3"
   },

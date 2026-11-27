@@ -1,6 +1,6 @@
-# Astron Collection Documentation (New)
+# Discord Enterprise Documentation (New)
 
-This is a fresh Fumadocs project with the complete Astron Collection documentation migrated from the old docs project.
+This is a fresh Fumadocs project with the complete Discord Enterprise documentation migrated from the old docs project.
 
 ## Features
 

@@ -12,14 +12,14 @@ import { logger } from "../../lib/logger";
 import { redactSecrets } from "../../utils/security/redact";
 import {
 	DISCORD_PROVIDER_ID,
-	type AstronProductId,
+	type DiscordEnterpriseProductId,
 	type DiscordConnectionStatus,
 	type DiscordGuildListResult,
 	type DiscordGuildSyncStatus,
 	type DiscordServerItem,
 	type DiscordServerProduct,
 	type DiscordSyncResult,
-	isAstronProductId,
+	isDiscordEnterpriseProductId,
 } from "./contracts";
 import {
 	DiscordApiError,
@@ -561,8 +561,8 @@ export function mapGuildMembershipToServerItem(input: {
 	const canManage = input.canManage || evaluation.canManage;
 	const products = input.installations.map((installation) => ({
 		id: installation.productId,
-		name: isAstronProductId(installation.productId)
-			? (installation.productId as AstronProductId).charAt(0).toUpperCase() +
+		name: isDiscordEnterpriseProductId(installation.productId)
+			? (installation.productId as DiscordEnterpriseProductId).charAt(0).toUpperCase() +
 				installation.productId.slice(1)
 			: installation.productId,
 		enabled: installation.installed,
@@ -702,7 +702,7 @@ export async function getInstalledProductIds(guildId: string): Promise<string[]>
 	return rows
 		.filter((row) => row.installed)
 		.map((row) => row.productId)
-		.filter(isAstronProductId);
+		.filter(isDiscordEnterpriseProductId);
 }
 
 export interface GuildWorkspaceAuthorization {
@@ -717,7 +717,7 @@ export interface GuildWorkspaceAuthorization {
  * A stale cached membership is not enough when Discord has told us the OAuth
  * grant is gone: reconnecting is required before any server-scoped operation is
  * allowed again. A transient Discord outage keeps the last known membership so
- * a provider incident cannot lock every user out of Astron.
+ * a provider incident cannot lock every user out of Discord Enterprise.
  */
 export async function authorizeGuildWorkspace(
 	userId: string,
@@ -764,7 +764,7 @@ export async function authorizeProductWorkspace(
 	if (authorized.reason || !authorized.guild) {
 		return { ...base, reason: authorized.reason ?? "forbidden" };
 	}
-	if (!isAstronProductId(productId)) {
+	if (!isDiscordEnterpriseProductId(productId)) {
 		return { ...base, reason: "invalid-product" };
 	}
 	const product =

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { createCommandRegistry } from "../src/commands/registry.js";
-import { AstronError, ERROR_CODES } from "../src/errors.js";
+import { DiscordEnterpriseError, ERROR_CODES } from "../src/errors.js";
 import { createComponentRegistry } from "../src/interactions/components.js";
 import {
   CUSTOM_ID_VERSION,
@@ -31,7 +31,7 @@ function buildRouter({ commands = [], components, policy, logger, cooldowns } = 
 describe("custom ids", () => {
   it("builds and parses a versioned id", () => {
     const id = encodeCustomId({ namespace: "poll", action: "vote", value: "42" });
-    assert.equal(id, `${"astron"}:${CUSTOM_ID_VERSION}:poll:vote:42`);
+    assert.equal(id, `${"discord-enterprise"}:${CUSTOM_ID_VERSION}:poll:vote:42`);
     assert.deepEqual(parseCustomId(id), {
       version: CUSTOM_ID_VERSION,
       namespace: "poll",
@@ -43,14 +43,14 @@ describe("custom ids", () => {
   });
 
   it("refuses malformed, unknown and oversized ids", () => {
-    for (const id of ["", "poll:vote", "other:v1:poll:vote", "astron:v1:Poll:vote", "astron:v1:poll", "astron:v1:poll:vote:a:b:c"]) {
+    for (const id of ["", "poll:vote", "other:v1:poll:vote", "discord-enterprise:v1:Poll:vote", "discord-enterprise:v1:poll", "discord-enterprise:v1:poll:vote:a:b:c"]) {
       assert.equal(parseCustomId(id), null, `expected '${id}' to be refused`);
     }
   });
 
   it("refuses secrets and unsafe values", () => {
     assert.throws(() => encodeCustomId({ namespace: "poll", action: "vote", value: "abc=def" }));
-    assert.throws(() => encodeCustomId({ namespace: "astron", action: "vote" }));
+    assert.throws(() => encodeCustomId({ namespace: "discord-enterprise", action: "vote" }));
     assert.throws(() =>
       encodeCustomId({ namespace: "poll", action: "vote", value: "x".repeat(120) }),
     );
@@ -273,7 +273,7 @@ describe("interaction router", () => {
 
   it("refuses a custom id from another version", async () => {
     const router = buildRouter();
-    const interaction = componentInteraction("button", "astron:v0:poll:vote");
+    const interaction = componentInteraction("button", "discord-enterprise:v0:poll:vote");
 
     const result = await router.handle(interaction);
 
@@ -309,7 +309,7 @@ describe("interaction router", () => {
         testCommand({
           name: "limited",
           execute: async () => {
-            throw new AstronError("quota exceeded", {
+            throw new DiscordEnterpriseError("quota exceeded", {
               code: "QUOTA",
               expected: true,
               userMessage: "Votre quota est atteint.",

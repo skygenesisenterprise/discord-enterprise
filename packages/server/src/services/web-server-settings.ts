@@ -1,5 +1,5 @@
-import { db } from "@astron-collection/server/db";
-import { webServerSettings } from "@astron-collection/server/db/schema";
+import { db } from "@discord-enterprise/server/db";
+import { webServerSettings } from "@discord-enterprise/server/db/schema";
 import { eq } from "drizzle-orm";
 
 /**

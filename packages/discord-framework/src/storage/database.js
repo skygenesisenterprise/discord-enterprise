@@ -95,7 +95,7 @@ export function createDatabase({ file, busyTimeoutMs = DEFAULT_BUSY_TIMEOUT_MS, 
      */
     transaction(fn) {
       assertOpen();
-      const savepoint = depth > 0 ? `astron_sp_${depth}` : null;
+      const savepoint = depth > 0 ? `discord_enterprise_sp_${depth}` : null;
       if (savepoint) raw.exec(`SAVEPOINT ${savepoint};`);
       else raw.exec("BEGIN IMMEDIATE;");
       depth += 1;

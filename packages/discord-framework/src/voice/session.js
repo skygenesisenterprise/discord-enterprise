@@ -2,7 +2,7 @@
  * Voice session coordination.
  *
  * The official presence is a *connection state*, not an audio player. A bot that
- * actually needs audio (Astron Player) takes a lease over the guild's connection:
+ * actually needs audio (Discord Enterprise Player) takes a lease over the guild's connection:
  * the presence manager then adopts that connection instead of joining a second
  * one, and never destroys it while the lease is held.
  *

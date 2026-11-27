@@ -1,27 +1,27 @@
 ---
 title: "Audit log"
-description: "Every recorded action performed in the organization. Generated from the `astron-collection` command surface."
+description: "Every recorded action performed in the organization. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Every recorded action performed in the organization.
 
-`astron-collection audit-log` exposes **1 command**. They map one-to-one onto the `audit-log.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise audit-log` exposes **1 command**. They map one-to-one onto the `audit-log.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection audit-log --help` to list these commands in your terminal, or
-	`astron-collection audit-log <command> --help` for a single command.
+	Run `discord-enterprise audit-log --help` to list these commands in your terminal, or
+	`discord-enterprise audit-log <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection audit-log all`
+### `discord-enterprise audit-log all`
 
 Calls `GET /api/trpc/auditLog.all`.
 
 ```bash
-astron-collection audit-log all [options]
+discord-enterprise audit-log all [options]
 ```
 
 | Option | Type | Required | Allowed values |

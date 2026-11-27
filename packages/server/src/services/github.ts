@@ -1,9 +1,9 @@
-import { db } from "@astron-collection/server/db";
+import { db } from "@discord-enterprise/server/db";
 import {
 	type apiCreateGithub,
 	github,
 	gitProvider,
-} from "@astron-collection/server/db/schema";
+} from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import type { z } from "zod";
@@ -186,7 +186,7 @@ export const createPreviewDeploymentComment = async ({
 		owner: owner || "",
 		repo: repository || "",
 		issue_number: Number.parseInt(issue_number),
-		body: `### Astron Collection Preview Deployment\n\n${runningComment}`,
+		body: `### Discord Enterprise Preview Deployment\n\n${runningComment}`,
 	});
 
 	return await updatePreviewDeployment(previewDeploymentId, {

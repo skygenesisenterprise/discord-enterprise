@@ -12,7 +12,7 @@
 		"rootDir": "./src",
 		"jsx": "react-jsx",
 		"paths": {
-			"@astron-collection/server/*": ["./src/*"]
+			"@discord-enterprise/server/*": ["./src/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "./src/**/*"],

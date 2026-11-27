@@ -1,5 +1,5 @@
 /**
- * Astron's help catalogue, derived from its own registry.
+ * Discord Enterprise's help catalogue, derived from its own registry.
  *
  * It never reads another bot's catalogue: the six bots are independent
  * applications, and an operator discovers them from the ecosystem section.

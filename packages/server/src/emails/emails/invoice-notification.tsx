@@ -34,7 +34,7 @@ export const InvoiceNotificationEmail = ({
 	date = "2024-01-01",
 	hostedInvoiceUrl = "https://invoice.stripe.com/example",
 }: TemplateProps) => {
-	const previewText = `Your Astron Collection invoice ${invoiceNumber} for ${amountPaid} is ready`;
+	const previewText = `Your Discord Enterprise invoice ${invoiceNumber} for ${amountPaid} is ready`;
 	return (
 		<Html>
 			<Head />
@@ -45,10 +45,10 @@ export const InvoiceNotificationEmail = ({
 						{/* Header */}
 						<Section className="bg-[#09090b] rounded-t-xl px-[40px] py-[32px] text-center">
 							<Img
-								src="https://raw.githubusercontent.com/skygenesisenterprise/astron-collection/refs/heads/master/web/apps/docs/public/logo-astron-collection-blackpng.png"
+								src="https://raw.githubusercontent.com/skygenesisenterprise/discord-enterprise/refs/heads/master/web/apps/docs/public/logo-discord-enterprise-blackpng.png"
 								width="190"
 								height="120"
-								alt="Astron Collection"
+								alt="Discord Enterprise"
 								className="my-0 mx-auto"
 							/>
 						</Section>
@@ -136,10 +136,10 @@ export const InvoiceNotificationEmail = ({
 							<Text className="text-[#a1a1aa] text-[12px] leading-[18px] m-0">
 								This is an automated email from{" "}
 								<Link
-									href="https://astron-collection.com"
+									href="https://discord-enterprise.com"
 									className="text-[#71717a] underline"
 								>
-									Astron Collection Cloud
+									Discord Enterprise Cloud
 								</Link>
 								. If you have any questions about your billing, please contact
 								our{" "}

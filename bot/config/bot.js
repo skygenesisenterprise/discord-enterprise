@@ -1,9 +1,9 @@
-/** Astron — generalist bot constants. */
+/** Discord Enterprise — generalist bot constants. */
 
-export const BOT = "astron";
+export const BOT = "discord-enterprise";
 
 /**
- * Least privilege: Astron reads no message content, runs no moderation and
+ * Least privilege: Discord Enterprise reads no message content, runs no moderation and
  * holds no voice state. Guild members are needed for information commands.
  */
 export const INTENTS = ["Guilds", "GuildMembers"];
@@ -36,7 +36,7 @@ export const SETTINGS_VALIDATORS = Object.freeze({
 });
 
 export const LINKS = Object.freeze({
-  repository: "https://github.com/skygenesisenterprise/astron-collection",
-  issues: "https://github.com/skygenesisenterprise/astron-collection/issues",
-  docs: "https://github.com/skygenesisenterprise/astron-collection/tree/master/bot",
+  repository: "https://github.com/skygenesisenterprise/discord-enterprise",
+  issues: "https://github.com/skygenesisenterprise/discord-enterprise/issues",
+  docs: "https://github.com/skygenesisenterprise/discord-enterprise/tree/master/bot",
 });

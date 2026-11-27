@@ -1,8 +1,8 @@
 import path from "node:path";
-import { paths } from "@astron-collection/server/constants";
-import { findComposeById } from "@astron-collection/server/services/compose";
-import { findDestinationById } from "@astron-collection/server/services/destination";
-import type { findVolumeBackupById } from "@astron-collection/server/services/volume-backups";
+import { paths } from "@discord-enterprise/server/constants";
+import { findComposeById } from "@discord-enterprise/server/services/compose";
+import { findDestinationById } from "@discord-enterprise/server/services/destination";
+import type { findVolumeBackupById } from "@discord-enterprise/server/services/volume-backups";
 import {
 	getBackupTimestamp,
 	getS3Credentials,
@@ -27,21 +27,21 @@ export const createRestartSafeBackupCommand = ({
 	(
 		${backupCommand}
 	)
-	ASTRON_COLLECTION_VOLUME_BACKUP_STATUS=$?
+	DISCORD_ENTERPRISE_VOLUME_BACKUP_STATUS=$?
 	(
 		set -e
 		${startCommand}
 	)
-	ASTRON_COLLECTION_VOLUME_RESTART_STATUS=$?
+	DISCORD_ENTERPRISE_VOLUME_RESTART_STATUS=$?
 	set -e
-	if [ "$ASTRON_COLLECTION_VOLUME_BACKUP_STATUS" -ne 0 ]; then
-		if [ "$ASTRON_COLLECTION_VOLUME_RESTART_STATUS" -ne 0 ]; then
-			echo "Service restart also failed with exit code $ASTRON_COLLECTION_VOLUME_RESTART_STATUS"
+	if [ "$DISCORD_ENTERPRISE_VOLUME_BACKUP_STATUS" -ne 0 ]; then
+		if [ "$DISCORD_ENTERPRISE_VOLUME_RESTART_STATUS" -ne 0 ]; then
+			echo "Service restart also failed with exit code $DISCORD_ENTERPRISE_VOLUME_RESTART_STATUS"
 		fi
-		exit "$ASTRON_COLLECTION_VOLUME_BACKUP_STATUS"
+		exit "$DISCORD_ENTERPRISE_VOLUME_BACKUP_STATUS"
 	fi
-	if [ "$ASTRON_COLLECTION_VOLUME_RESTART_STATUS" -ne 0 ]; then
-		exit "$ASTRON_COLLECTION_VOLUME_RESTART_STATUS"
+	if [ "$DISCORD_ENTERPRISE_VOLUME_RESTART_STATUS" -ne 0 ]; then
+		exit "$DISCORD_ENTERPRISE_VOLUME_RESTART_STATUS"
 	fi
 	${uploadCommand}
 `;

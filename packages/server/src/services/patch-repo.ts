@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { paths } from "@astron-collection/server/constants";
+import { paths } from "@discord-enterprise/server/constants";
 import { TRPCError } from "@trpc/server";
 import { quote } from "shell-quote";
 import { execAsync, execAsyncRemote } from "../utils/process/execAsync";

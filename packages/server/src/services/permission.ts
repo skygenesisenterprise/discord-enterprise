@@ -1,5 +1,5 @@
-import { db } from "@astron-collection/server/db";
-import { member, organizationRole } from "@astron-collection/server/db/schema";
+import { db } from "@discord-enterprise/server/db";
+import { member, organizationRole } from "@discord-enterprise/server/db/schema";
 import { TRPCError } from "@trpc/server";
 import { and, eq, sql } from "drizzle-orm";
 import {

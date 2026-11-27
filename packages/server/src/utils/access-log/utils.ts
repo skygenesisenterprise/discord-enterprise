@@ -24,7 +24,7 @@ export function processLogs(
 		.map((entry) => {
 			try {
 				const log: LogEntry = JSON.parse(entry);
-				if (log.ServiceName === "astron-collection-service-app@file") {
+				if (log.ServiceName === "discord-enterprise-service-app@file") {
 					return null;
 				}
 				const date = new Date(log.StartUTC);
@@ -99,9 +99,9 @@ export function parseRawConfig(
 			.compact()
 			.value();
 
-		// Filter out Astron Collection dashboard requests
+		// Filter out Discord Enterprise dashboard requests
 		parsedLogs = parsedLogs.filter(
-			(log) => log.ServiceName !== "astron-collection-service-app@file",
+			(log) => log.ServiceName !== "discord-enterprise-service-app@file",
 		);
 
 		// Apply date range filter if provided

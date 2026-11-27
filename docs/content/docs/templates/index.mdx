@@ -9,8 +9,8 @@ import { Callout } from 'fumadocs-ui/components/callout';
 <Callout type="warning">
 The Templates gallery inherited from Notploy is **disabled by default**. The
 code is kept in the tree, but the API procedures, the logo route and the
-dashboard entry point are unreachable until `ASTRON_COLLECTION_TEMPLATES_ENABLED`
-and `NEXT_PUBLIC_ASTRON_COLLECTION_TEMPLATES_ENABLED` are both set to `true`.
+dashboard entry point are unreachable until `DISCORD_ENTERPRISE_TEMPLATES_ENABLED`
+and `NEXT_PUBLIC_DISCORD_ENTERPRISE_TEMPLATES_ENABLED` are both set to `true`.
 Framework examples below are unaffected.
 </Callout>
 
@@ -25,12 +25,12 @@ Framework examples below are unaffected.
 
 ## Templates gallery
 
-The [Astron Collection Templates gallery](https://templates.astron-collection.com) is a catalogue of more than 500 one-click open-source blueprints. Each blueprint ships a Docker Compose definition plus a small configuration that tells Astron Collection which secrets to generate, which domains to route and which files to mount, so you can stand up a service without authoring the compose file yourself.
+The [Discord Enterprise Templates gallery](https://templates.discord-enterprise.com) is a catalogue of more than 500 one-click open-source blueprints. Each blueprint ships a Docker Compose definition plus a small configuration that tells Discord Enterprise which secrets to generate, which domains to route and which files to mount, so you can stand up a service without authoring the compose file yourself.
 
 Deploy one straight from a project environment:
 
 1. **Create Service → Template** — search the catalogue.
-2. **Create** — Astron Collection builds a Compose service from the blueprint.
+2. **Create** — Discord Enterprise builds a Compose service from the blueprint.
 3. **Deploy** — open the generated domain.
 
 → Full walkthrough in [Templates gallery](/docs/templates/gallery)
@@ -42,11 +42,11 @@ any other Compose stack — you can edit the compose file, set variables and add
 
 ## Anatomy of a blueprint
 
-Every blueprint is a self-contained folder under `templates/blueprints/` in the Astron Collection repository. Four pieces make it work:
+Every blueprint is a self-contained folder under `templates/blueprints/` in the Discord Enterprise repository. Four pieces make it work:
 
 | Piece | Role |
 | --- | --- |
-| `docker-compose.yml` | The stack Astron Collection deploys. |
+| `docker-compose.yml` | The stack Discord Enterprise deploys. |
 | `template.toml` | Variables, environment, domains and file mounts resolved when the service is created. |
 | `meta.json` + logo | Catalogue metadata: name, version, description, links and tags. |
 | `instructions.md` | Optional setup guide shown in the gallery. |
@@ -59,7 +59,7 @@ Every blueprint is a self-contained folder under `templates/blueprints/` in the 
 
 ## Framework examples
 
-Examples show how to deploy common frameworks on Astron Collection, including the recommended **build type** and any framework-specific settings (for example the port to expose, or a build command). They are reference pages, not files you deploy directly.
+Examples show how to deploy common frameworks on Discord Enterprise, including the recommended **build type** and any framework-specific settings (for example the port to expose, or a build command). They are reference pages, not files you deploy directly.
 
 <Cards>
   <Card href="/docs/templates/examples/nextjs" title="Next.js" />

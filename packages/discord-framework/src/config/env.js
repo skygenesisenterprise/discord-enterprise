@@ -1,5 +1,5 @@
 /**
- * Environment contract for every Astron bot.
+ * Environment contract for every Discord Enterprise bot.
  *
  * Parsing is pure: the bot reads its own `.env` files (it owns `dotenv`) and
  * hands `process.env` to `parseBotConfig`. Invalid optional values fall back to
@@ -58,10 +58,10 @@ export function toEnvPrefix(bot) {
 export function credentialEnvKeys(bot) {
   const prefix = toEnvPrefix(bot);
   return {
-    token: [`ASTRON_${prefix}_DISCORD_TOKEN`, "DISCORD_TOKEN"],
+    token: [`DISCORD_ENTERPRISE_${prefix}_DISCORD_TOKEN`, "DISCORD_TOKEN"],
     clientId: [
-      `ASTRON_${prefix}_DISCORD_CLIENT_ID`,
-      `ASTRON_${prefix}_DISCORD_APPLICATION_ID`,
+      `DISCORD_ENTERPRISE_${prefix}_DISCORD_CLIENT_ID`,
+      `DISCORD_ENTERPRISE_${prefix}_DISCORD_APPLICATION_ID`,
       "DISCORD_CLIENT_ID",
       "DISCORD_APPLICATION_ID",
     ],
@@ -106,34 +106,34 @@ export function parseBotConfig(source = process.env, { bot = "unknown", required
 
   let commandScope = readString(
     source,
-    ["ASTRON_COMMAND_SCOPE", "DISCORD_COMMAND_SCOPE"],
+    ["DISCORD_ENTERPRISE_COMMAND_SCOPE", "DISCORD_COMMAND_SCOPE"],
     DEFAULT_COMMAND_SCOPE,
   ).toLowerCase();
 
   if (!COMMAND_SCOPES.includes(commandScope)) {
-    warn("ASTRON_COMMAND_SCOPE", `unknown scope; expected ${COMMAND_SCOPES.join(", ")}`);
+    warn("DISCORD_ENTERPRISE_COMMAND_SCOPE", `unknown scope; expected ${COMMAND_SCOPES.join(", ")}`);
     commandScope = DEFAULT_COMMAND_SCOPE;
   }
 
-  const commandGuildId = readString(source, ["ASTRON_COMMAND_GUILD_ID", "DISCORD_COMMAND_GUILD_ID"]);
+  const commandGuildId = readString(source, ["DISCORD_ENTERPRISE_COMMAND_GUILD_ID", "DISCORD_COMMAND_GUILD_ID"]);
 
   if (commandScope === "guild" && commandGuildId === "") {
-    warn("ASTRON_COMMAND_GUILD_ID", "guild scope selected without a guild id; deployment will be skipped");
+    warn("DISCORD_ENTERPRISE_COMMAND_GUILD_ID", "guild scope selected without a guild id; deployment will be skipped");
   }
 
-  const logLevel = readString(source, ["ASTRON_LOG_LEVEL", "LOG_LEVEL"], "info").toLowerCase();
+  const logLevel = readString(source, ["DISCORD_ENTERPRISE_LOG_LEVEL", "LOG_LEVEL"], "info").toLowerCase();
   if (!isLogLevel(logLevel) || logLevel === "silent") {
-    warn("ASTRON_LOG_LEVEL", `unknown level; expected ${LOG_LEVELS.join(", ")}`);
+    warn("DISCORD_ENTERPRISE_LOG_LEVEL", `unknown level; expected ${LOG_LEVELS.join(", ")}`);
   }
 
-  const voicePresenceEnabled = parseBoolean(source.ASTRON_VOICE_PRESENCE_ENABLED, true);
+  const voicePresenceEnabled = parseBoolean(source.DISCORD_ENTERPRISE_VOICE_PRESENCE_ENABLED, true);
 
   const voice = {
     enabled: voicePresenceEnabled,
-    officialGuildId: readString(source, ["ASTRON_OFFICIAL_GUILD_ID"]),
+    officialGuildId: readString(source, ["DISCORD_ENTERPRISE_OFFICIAL_GUILD_ID"]),
     presenceChannelId: readString(
       source,
-      ["ASTRON_PRESENCE_VOICE_CHANNEL_ID"],
+      ["DISCORD_ENTERPRISE_PRESENCE_VOICE_CHANNEL_ID"],
       OFFICIAL_PRESENCE_CHANNEL_ID,
     ),
   };
@@ -170,7 +170,7 @@ export function parseBotConfig(source = process.env, { bot = "unknown", required
   };
 
   if (config.voicePresence.reason && voicePresenceEnabled) {
-    warn("ASTRON_VOICE_PRESENCE_ENABLED", `voice presence disabled: ${config.voicePresence.reason}`);
+    warn("DISCORD_ENTERPRISE_VOICE_PRESENCE_ENABLED", `voice presence disabled: ${config.voicePresence.reason}`);
   }
 
 

@@ -1,27 +1,27 @@
-import { findServerById } from "@astron-collection/server/services/server";
-import { getWebServerSettings } from "@astron-collection/server/services/web-server-settings";
+import { findServerById } from "@discord-enterprise/server/services/server";
+import { getWebServerSettings } from "@discord-enterprise/server/services/web-server-settings";
 import type { CreateServiceOptions } from "dockerode";
-import { getAstronCollectionImageTag } from "../services/settings";
+import { getDiscordEnterpriseImageTag } from "../services/settings";
 import { isManagedCloud } from "../services/instance-identity";
 import { pullImage, pullRemoteImage } from "../utils/docker/utils";
 import { execAsync, execAsyncRemote } from "../utils/process/execAsync";
 import { getRemoteDocker } from "../utils/servers/remote-docker";
 
 const getMonitoringImage = () => {
-	let imageName = "astron-collection/monitoring:latest";
+	let imageName = "discord-enterprise/monitoring:latest";
 
 	if (
-		(getAstronCollectionImageTag() !== "latest" ||
+		(getDiscordEnterpriseImageTag() !== "latest" ||
 			process.env.NODE_ENV === "development") &&
 		!isManagedCloud()
 	) {
-		imageName = "astron-collection/monitoring:canary";
+		imageName = "discord-enterprise/monitoring:canary";
 	}
 
 	return imageName;
 };
 
-// Swarm tasks are astron-collection-monitoring.<slot>.<id>, so this only matches the
+// Swarm tasks are discord-enterprise-monitoring.<slot>.<id>, so this only matches the
 // pre-v0.30.0 standalone container. A cleanup failure must not block the deploy.
 const removeLegacyContainer = async (
 	docker: Awaited<ReturnType<typeof getRemoteDocker>>,
@@ -70,7 +70,7 @@ const deployMonitoringService = async (
 export const setupMonitoring = async (serverId: string) => {
 	const server = await findServerById(serverId);
 
-	const serviceName = "astron-collection-monitoring";
+	const serviceName = "discord-enterprise-monitoring";
 	const imageName = getMonitoringImage();
 
 	const settings: CreateServiceOptions = {
@@ -106,7 +106,7 @@ export const setupMonitoring = async (serverId: string) => {
 					},
 					{
 						Type: "bind",
-						Source: "/etc/astron-collection/monitoring/monitoring.db",
+						Source: "/etc/discord-enterprise/monitoring/monitoring.db",
 						Target: "/app/monitoring.db",
 					},
 				],
@@ -127,7 +127,7 @@ export const setupMonitoring = async (serverId: string) => {
 
 	await execAsyncRemote(
 		serverId,
-		"mkdir -p /etc/astron-collection/monitoring && touch /etc/astron-collection/monitoring/monitoring.db",
+		"mkdir -p /etc/discord-enterprise/monitoring && touch /etc/discord-enterprise/monitoring/monitoring.db",
 	);
 	await pullRemoteImage(imageName, serverId);
 	await deployMonitoringService(docker, serviceName, settings);
@@ -136,7 +136,7 @@ export const setupMonitoring = async (serverId: string) => {
 export const setupWebMonitoring = async () => {
 	const webServerSettings = await getWebServerSettings();
 
-	const serviceName = "astron-collection-monitoring";
+	const serviceName = "discord-enterprise-monitoring";
 	const imageName = getMonitoringImage();
 	const port = webServerSettings?.metricsConfig?.server?.port;
 
@@ -175,7 +175,7 @@ export const setupWebMonitoring = async () => {
 					},
 					{
 						Type: "bind",
-						Source: "/etc/astron-collection/monitoring/monitoring.db",
+						Source: "/etc/discord-enterprise/monitoring/monitoring.db",
 						Target: "/app/monitoring.db",
 					},
 				],
@@ -204,7 +204,7 @@ export const setupWebMonitoring = async () => {
 	const docker = await getRemoteDocker();
 
 	await execAsync(
-		"mkdir -p /etc/astron-collection/monitoring && touch /etc/astron-collection/monitoring/monitoring.db",
+		"mkdir -p /etc/discord-enterprise/monitoring && touch /etc/discord-enterprise/monitoring/monitoring.db",
 	);
 	await pullImage(imageName);
 	await deployMonitoringService(docker, serviceName, settings);

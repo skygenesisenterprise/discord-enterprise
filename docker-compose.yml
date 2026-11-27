@@ -1,61 +1,61 @@
-# Astron — one image, one process, one volume. No Redis, no shared database.
-# Works from its own directory: docker compose up -d --build
-name: astron-astron
+# Discord Enterprise bot — standalone stack.
+# Run from the repository root: docker compose up -d --build
+name: discord-enterprise
 
 services:
-  astron:
+  discord-enterprise:
     build:
-      context: ../..
-      dockerfile: bot/astron/Dockerfile
+      context: .
+      dockerfile: Dockerfile
       args:
-        ASTRON_COLLECTION_VERSION: ${ASTRON_COLLECTION_VERSION:-2.0.0}
-    image: ${ASTRON_BOT_IMAGE:-ghcr.io/skygenesisenterprise/astron}:${ASTRON_BOT_VERSION:-latest}
-    container_name: astron-bot
+        DISCORD_ENTERPRISE_VERSION: ${DISCORD_ENTERPRISE_VERSION:-2.0.0}
+    image: ${DISCORD_ENTERPRISE_BOT_IMAGE:-ghcr.io/skygenesisenterprise/discord-enterprise}:${DISCORD_ENTERPRISE_BOT_VERSION:-latest}
+    container_name: discord-enterprise-bot
     restart: unless-stopped
-    # `.env` is optional so credentials can also come from the shell.
+    # The bot's own .env lives next to its source, not at the repository root.
     env_file:
-      - path: .env
+      - path: bot/.env
         required: false
     environment:
       NODE_ENV: ${NODE_ENV:-production}
-      APP_VERSION: ${ASTRON_COLLECTION_VERSION:-2.0.0}
+      APP_VERSION: ${DISCORD_ENTERPRISE_VERSION:-2.0.0}
       DISCORD_TOKEN: ${DISCORD_TOKEN:-}
       DISCORD_APPLICATION_ID: ${DISCORD_APPLICATION_ID:-}
       DISCORD_GUILD_ID: ${DISCORD_GUILD_ID:-}
-      ASTRON_LOG_LEVEL: ${ASTRON_LOG_LEVEL:-info}
-      ASTRON_DATA_DIR: /app/bot/astron/data
-      ASTRON_DATABASE_PATH: /app/bot/astron/data/astron.sqlite3
-      ASTRON_HEALTH_PORT: "3010"
-      ASTRON_DEPLOY_COMMANDS: ${ASTRON_DEPLOY_COMMANDS:-false}
-      ASTRON_DOCS_URL: ${ASTRON_DOCS_URL:-https://docs.astron-collection.com}
-      ASTRON_SUPPORT_URL: ${ASTRON_SUPPORT_URL:-https://github.com/SkyGenesisEnterprise/astron-collection/issues}
+      DISCORD_ENTERPRISE_LOG_LEVEL: ${DISCORD_ENTERPRISE_LOG_LEVEL:-info}
+      DISCORD_ENTERPRISE_DATA_DIR: /app/bot/data
+      DISCORD_ENTERPRISE_DATABASE_PATH: /app/bot/data/discord-enterprise.sqlite3
+      DISCORD_ENTERPRISE_HEALTH_PORT: ${DISCORD_ENTERPRISE_HEALTH_PORT:-3010}
+      DISCORD_ENTERPRISE_DEPLOY_COMMANDS: ${DISCORD_ENTERPRISE_DEPLOY_COMMANDS:-false}
+      DISCORD_ENTERPRISE_DOCS_URL: ${DISCORD_ENTERPRISE_DOCS_URL:-https://docs.discord-enterprise.com}
+      DISCORD_ENTERPRISE_SUPPORT_URL: ${DISCORD_ENTERPRISE_SUPPORT_URL:-https://github.com/SkyGenesisEnterprise/discord-enterprise/issues}
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     ports:
-      - "3010:3010"
+      - "${DISCORD_ENTERPRISE_HEALTH_PORT:-3010}:${DISCORD_ENTERPRISE_HEALTH_PORT:-3010}"
     develop:
       watch:
         - action: sync
-          path: .
-          target: /app/bot/astron
+          path: ./bot
+          target: /app/bot
           ignore:
             - .env
             - data/
             - node_modules/
         - action: rebuild
-          path: ../../packages/discord-framework
+          path: ./packages/discord-framework
     volumes:
-      - astron-data:/app/bot/astron/data
+      - discord-enterprise-data:/app/bot/data
     healthcheck:
       test:
         - CMD
         - node
         - -e
-        - "fetch('http://127.0.0.1:3010/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+        - "fetch('http://127.0.0.1:'+(process.env.DISCORD_ENTERPRISE_HEALTH_PORT||3010)+'/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 20s
 
 volumes:
-  astron-data:
+  discord-enterprise-data:

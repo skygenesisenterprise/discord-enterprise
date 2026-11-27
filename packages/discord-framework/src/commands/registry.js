@@ -7,7 +7,7 @@
  * is pointed at.
  */
 
-import { ERROR_CODES, AstronError } from "../errors.js";
+import { ERROR_CODES, DiscordEnterpriseError } from "../errors.js";
 import { validateCommand } from "./contract.js";
 
 export function createCommandRegistry({ bot } = {}) {
@@ -23,7 +23,7 @@ export function createCommandRegistry({ bot } = {}) {
   function register(command) {
     const check = validateCommand(command);
     if (!check.ok) {
-      throw new AstronError(`Invalid command '${command?.name ?? "?"}': ${check.errors.join("; ")}`, {
+      throw new DiscordEnterpriseError(`Invalid command '${command?.name ?? "?"}': ${check.errors.join("; ")}`, {
         code: ERROR_CODES.COMMAND_INVALID,
         expected: true,
         meta: { bot, command: command?.name, errors: check.errors },
@@ -32,7 +32,7 @@ export function createCommandRegistry({ bot } = {}) {
 
     const owner = command.metadata?.bot;
     if (owner && owner !== bot) {
-      throw new AstronError(
+      throw new DiscordEnterpriseError(
         `Bot '${bot}' cannot register command '${command.name}' owned by '${owner}'.`,
         {
           code: ERROR_CODES.COMMAND_FOREIGN_BOT,
@@ -44,7 +44,7 @@ export function createCommandRegistry({ bot } = {}) {
 
     const key = keyOf(command.definition);
     if (byKey.has(key)) {
-      throw new AstronError(
+      throw new DiscordEnterpriseError(
         `Duplicate command '${command.definition.name}' (type ${command.definition.type ?? 1}) in bot '${bot}'.`,
         {
           code: ERROR_CODES.COMMAND_DUPLICATE,

@@ -1,4 +1,4 @@
-import type { powerdnsDnsConfigSchema } from "@astron-collection/server/db/schema";
+import type { powerdnsDnsConfigSchema } from "@discord-enterprise/server/db/schema";
 import type { z } from "zod";
 import { type DnsClient, dnsFetch } from "./types";
 

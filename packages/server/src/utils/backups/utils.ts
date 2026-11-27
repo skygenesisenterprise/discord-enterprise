@@ -1,6 +1,6 @@
-import { logger } from "@astron-collection/server/lib/logger";
-import type { BackupSchedule } from "@astron-collection/server/services/backup";
-import type { Destination } from "@astron-collection/server/services/destination";
+import { logger } from "@discord-enterprise/server/lib/logger";
+import type { BackupSchedule } from "@discord-enterprise/server/services/backup";
+import type { Destination } from "@discord-enterprise/server/services/destination";
 import { scheduledJobs, scheduleJob } from "node-schedule";
 import { quote } from "shell-quote";
 import { keepLatestNBackups } from ".";

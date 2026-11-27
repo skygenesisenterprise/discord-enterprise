@@ -1,75 +1,75 @@
 ---
 title: "Servers"
-description: "Add remote servers over SSH, validate them and read their metrics and services. Generated from the `astron-collection` command surface."
+description: "Add remote servers over SSH, validate them and read their metrics and services. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Add remote servers over SSH, validate them and read their metrics and services.
 
-`astron-collection server` exposes **21 commands**. They map one-to-one onto the `server.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise server` exposes **21 commands**. They map one-to-one onto the `server.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection server --help` to list these commands in your terminal, or
-	`astron-collection server <command> --help` for a single command.
+	Run `discord-enterprise server --help` to list these commands in your terminal, or
+	`discord-enterprise server <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection server all`
+### `discord-enterprise server all`
 
 Calls `GET /api/trpc/server.all`.
 
 ```bash
-astron-collection server all [options]
+discord-enterprise server all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server all-for-permissions`
+### `discord-enterprise server all-for-permissions`
 
 Calls `GET /api/trpc/server.allForPermissions`.
 
 ```bash
-astron-collection server all-for-permissions [options]
+discord-enterprise server all-for-permissions [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server build-servers`
+### `discord-enterprise server build-servers`
 
 Calls `GET /api/trpc/server.buildServers`.
 
 ```bash
-astron-collection server build-servers [options]
+discord-enterprise server build-servers [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server count`
+### `discord-enterprise server count`
 
 Calls `GET /api/trpc/server.count`.
 
 ```bash
-astron-collection server count [options]
+discord-enterprise server count [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server create`
+### `discord-enterprise server create`
 
 Calls `POST /api/trpc/server.create`.
 
 ```bash
-astron-collection server create --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
+discord-enterprise server create --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -85,12 +85,12 @@ astron-collection server create --name <value> --description <value> --ipAddress
 | `--no-enableDockerCleanup` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server create-with-password`
+### `discord-enterprise server create-with-password`
 
 Calls `POST /api/trpc/server.createWithPassword`.
 
 ```bash
-astron-collection server create-with-password --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --serverType <value> --sshPassword <value> [options]
+discord-enterprise server create-with-password --name <value> --description <value> --ipAddress <value> --port <value> --username <value> --serverType <value> --sshPassword <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -106,12 +106,12 @@ astron-collection server create-with-password --name <value> --description <valu
 | `--sshPassword <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server get-default-command`
+### `discord-enterprise server get-default-command`
 
 Calls `GET /api/trpc/server.getDefaultCommand`.
 
 ```bash
-astron-collection server get-default-command --serverId <value> [options]
+discord-enterprise server get-default-command --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -119,24 +119,24 @@ astron-collection server get-default-command --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server get-monitoring-workspaces`
+### `discord-enterprise server get-monitoring-workspaces`
 
 Calls `GET /api/trpc/server.getMonitoringWorkspaces`.
 
 ```bash
-astron-collection server get-monitoring-workspaces [options]
+discord-enterprise server get-monitoring-workspaces [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server get-server-metrics`
+### `discord-enterprise server get-server-metrics`
 
 Calls `GET /api/trpc/server.getServerMetrics`.
 
 ```bash
-astron-collection server get-server-metrics --url <value> --token <value> --dataPoints <value> [options]
+discord-enterprise server get-server-metrics --url <value> --token <value> --dataPoints <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -146,24 +146,24 @@ astron-collection server get-server-metrics --url <value> --token <value> --data
 | `--dataPoints <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server get-server-time`
+### `discord-enterprise server get-server-time`
 
 Calls `GET /api/trpc/server.getServerTime`.
 
 ```bash
-astron-collection server get-server-time [options]
+discord-enterprise server get-server-time [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server get-services`
+### `discord-enterprise server get-services`
 
 Calls `GET /api/trpc/server.getServices`.
 
 ```bash
-astron-collection server get-services --serverId <value> [options]
+discord-enterprise server get-services --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -171,12 +171,12 @@ astron-collection server get-services --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server one`
+### `discord-enterprise server one`
 
 Calls `GET /api/trpc/server.one`.
 
 ```bash
-astron-collection server one --serverId <value> [options]
+discord-enterprise server one --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -184,24 +184,24 @@ astron-collection server one --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server public-ip`
+### `discord-enterprise server public-ip`
 
 Calls `GET /api/trpc/server.publicIp`.
 
 ```bash
-astron-collection server public-ip [options]
+discord-enterprise server public-ip [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server remove`
+### `discord-enterprise server remove`
 
 Calls `POST /api/trpc/server.remove`.
 
 ```bash
-astron-collection server remove --serverId <value> [options]
+discord-enterprise server remove --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -209,12 +209,12 @@ astron-collection server remove --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server security`
+### `discord-enterprise server security`
 
 Calls `GET /api/trpc/server.security`.
 
 ```bash
-astron-collection server security --serverId <value> [options]
+discord-enterprise server security --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -222,12 +222,12 @@ astron-collection server security --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server setup`
+### `discord-enterprise server setup`
 
 Calls `POST /api/trpc/server.setup`.
 
 ```bash
-astron-collection server setup --serverId <value> [options]
+discord-enterprise server setup --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -235,12 +235,12 @@ astron-collection server setup --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server setup-monitoring`
+### `discord-enterprise server setup-monitoring`
 
 Calls `POST /api/trpc/server.setupMonitoring`.
 
 ```bash
-astron-collection server setup-monitoring --serverId <value> --metricsConfig <json> [options]
+discord-enterprise server setup-monitoring --serverId <value> --metricsConfig <json> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -249,12 +249,12 @@ astron-collection server setup-monitoring --serverId <value> --metricsConfig <js
 | `--metricsConfig <json>` | object | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server update`
+### `discord-enterprise server update`
 
 Calls `POST /api/trpc/server.update`.
 
 ```bash
-astron-collection server update --name <value> --description <value> --serverId <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
+discord-enterprise server update --name <value> --description <value> --serverId <value> --ipAddress <value> --port <value> --username <value> --sshKeyId <value> --serverType <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -272,12 +272,12 @@ astron-collection server update --name <value> --description <value> --serverId 
 | `--command <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server update-builds-concurrency`
+### `discord-enterprise server update-builds-concurrency`
 
 Calls `POST /api/trpc/server.updateBuildsConcurrency`.
 
 ```bash
-astron-collection server update-builds-concurrency --serverId <value> --buildsConcurrency <value> [options]
+discord-enterprise server update-builds-concurrency --serverId <value> --buildsConcurrency <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -286,12 +286,12 @@ astron-collection server update-builds-concurrency --serverId <value> --buildsCo
 | `--buildsConcurrency <value>` | number | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server validate`
+### `discord-enterprise server validate`
 
 Calls `GET /api/trpc/server.validate`.
 
 ```bash
-astron-collection server validate --serverId <value> [options]
+discord-enterprise server validate --serverId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -299,12 +299,12 @@ astron-collection server validate --serverId <value> [options]
 | `--serverId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection server with-sshkey`
+### `discord-enterprise server with-sshkey`
 
 Calls `GET /api/trpc/server.withSSHKey`.
 
 ```bash
-astron-collection server with-sshkey [options]
+discord-enterprise server with-sshkey [options]
 ```
 
 | Option | Type | Required | Allowed values |

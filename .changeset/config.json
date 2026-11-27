@@ -2,7 +2,7 @@
 	"$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
 	"changelog": [
 		"@changesets/changelog-github",
-		{ "repo": "skygenesisenterprise/astron-collection" }
+		{ "repo": "skygenesisenterprise/discord-enterprise" }
 	],
 	"commit": false,
 	"fixed": [],
@@ -11,8 +11,8 @@
 	"baseBranch": "master",
 	"updateInternalDependencies": "patch",
 	"ignore": [
-		"@astron-collection/api",
-		"@astron-collection/schedules"
+		"@discord-enterprise/api",
+		"@discord-enterprise/schedules"
 	],
 	"privatePackages": {
 		"version": true,

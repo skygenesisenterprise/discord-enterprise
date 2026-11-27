@@ -1,5 +1,5 @@
-import { docker } from "@astron-collection/server/constants";
-import { findServerById } from "@astron-collection/server/services/server";
+import { docker } from "@discord-enterprise/server/constants";
+import { findServerById } from "@discord-enterprise/server/services/server";
 import Dockerode from "dockerode";
 
 export const getRemoteDocker = async (serverId?: string | null) => {

@@ -1,63 +1,63 @@
 ---
 title: "Projects"
-description: "Create, update, search and remove projects, and read the onboarding state of an instance. Generated from the `astron-collection` command surface."
+description: "Create, update, search and remove projects, and read the onboarding state of an instance. Generated from the `discord-enterprise` command surface."
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 Create, update, search and remove projects, and read the onboarding state of an instance.
 
-`astron-collection project` exposes **11 commands**. They map one-to-one onto the `project.*` API operations, so anything reachable from the dashboard is reachable from here.
+`discord-enterprise project` exposes **11 commands**. They map one-to-one onto the `project.*` API operations, so anything reachable from the dashboard is reachable from here.
 
 <Callout>
-	Run `astron-collection project --help` to list these commands in your terminal, or
-	`astron-collection project <command> --help` for a single command.
+	Run `discord-enterprise project --help` to list these commands in your terminal, or
+	`discord-enterprise project <command> --help` for a single command.
 </Callout>
 
 ## Commands
 
-### `astron-collection project all`
+### `discord-enterprise project all`
 
 Calls `GET /api/trpc/project.all`.
 
 ```bash
-astron-collection project all [options]
+discord-enterprise project all [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project all-for-permissions`
+### `discord-enterprise project all-for-permissions`
 
 Calls `GET /api/trpc/project.allForPermissions`.
 
 ```bash
-astron-collection project all-for-permissions [options]
+discord-enterprise project all-for-permissions [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project complete-onboarding`
+### `discord-enterprise project complete-onboarding`
 
 Calls `POST /api/trpc/project.completeOnboarding`.
 
 ```bash
-astron-collection project complete-onboarding [options]
+discord-enterprise project complete-onboarding [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project create`
+### `discord-enterprise project create`
 
 Calls `POST /api/trpc/project.create`.
 
 ```bash
-astron-collection project create --name <value> [options]
+discord-enterprise project create --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -67,12 +67,12 @@ astron-collection project create --name <value> [options]
 | `--env <value>` | string | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project duplicate`
+### `discord-enterprise project duplicate`
 
 Calls `POST /api/trpc/project.duplicate`.
 
 ```bash
-astron-collection project duplicate --sourceEnvironmentId <value> --name <value> [options]
+discord-enterprise project duplicate --sourceEnvironmentId <value> --name <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -87,36 +87,36 @@ astron-collection project duplicate --sourceEnvironmentId <value> --name <value>
 | `--no-duplicateInSameProject` | boolean | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project home-stats`
+### `discord-enterprise project home-stats`
 
 Calls `GET /api/trpc/project.homeStats`.
 
 ```bash
-astron-collection project home-stats [options]
+discord-enterprise project home-stats [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project onboarding-status`
+### `discord-enterprise project onboarding-status`
 
 Calls `GET /api/trpc/project.onboardingStatus`.
 
 ```bash
-astron-collection project onboarding-status [options]
+discord-enterprise project onboarding-status [options]
 ```
 
 | Option | Type | Required | Allowed values |
 | --- | --- | --- | --- |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project one`
+### `discord-enterprise project one`
 
 Calls `GET /api/trpc/project.one`.
 
 ```bash
-astron-collection project one --projectId <value> [options]
+discord-enterprise project one --projectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -124,12 +124,12 @@ astron-collection project one --projectId <value> [options]
 | `--projectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project remove`
+### `discord-enterprise project remove`
 
 Calls `POST /api/trpc/project.remove`.
 
 ```bash
-astron-collection project remove --projectId <value> [options]
+discord-enterprise project remove --projectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -137,12 +137,12 @@ astron-collection project remove --projectId <value> [options]
 | `--projectId <value>` | string | Yes | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project search`
+### `discord-enterprise project search`
 
 Calls `GET /api/trpc/project.search`.
 
 ```bash
-astron-collection project search [options]
+discord-enterprise project search [options]
 ```
 
 | Option | Type | Required | Allowed values |
@@ -154,12 +154,12 @@ astron-collection project search [options]
 | `--offset <value>` | number | No | — |
 | `--profile <name>` | string | No | — |
 
-### `astron-collection project update`
+### `discord-enterprise project update`
 
 Calls `POST /api/trpc/project.update`.
 
 ```bash
-astron-collection project update --projectId <value> [options]
+discord-enterprise project update --projectId <value> [options]
 ```
 
 | Option | Type | Required | Allowed values |
