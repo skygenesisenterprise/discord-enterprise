@@ -2,8 +2,8 @@
 	"name": "discord-enterprise",
 	"private": true,
 	"scripts": {
-		"dev": "pnpm --filter=@discord-enterprise/app run dev",
-		"start": "pnpm --filter=@discord-enterprise/app run start",
+		"dev": "pnpm --filter=@discord-enterprise/discord-enterprise run dev",
+		"start": "pnpm --filter=@discord-enterprise/discord-enterprise run start",
 		"setup": "pnpm --filter=@discord-enterprise/app run setup",
 		"build": "pnpm -r run build",
 		"build:app": "pnpm --filter=@discord-enterprise/app run build",

@@ -13,11 +13,24 @@ import {
 import { BOT, LINKS } from "./bot.js";
 
 const botRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const repositoryRoot = path.resolve(botRoot, "..", "..");
+// Sources live directly in `bot/`, so the repository root is one level up.
+const repositoryRoot = path.resolve(botRoot, "..");
 
-// The bot's own `.env` wins; the repository `.env` fills the gaps.
-for (const envFile of [path.join(botRoot, ".env"), path.join(repositoryRoot, ".env")]) {
-  if (fs.existsSync(envFile)) dotenv.config({ path: envFile, override: false });
+// One environment contract for the whole repository: `<root>/.env.example`.
+// Copy it to `<root>/.env` and fill in the credentials. Real process values
+// (Compose, secret store, shell) always win; `.env` fills the gaps. When `.env`
+// is absent, the template supplies only its non-empty documented defaults —
+// empty placeholders must not shadow a credential alias defined elsewhere.
+const envFile = path.join(repositoryRoot, ".env");
+if (fs.existsSync(envFile)) dotenv.config({ path: envFile, override: false });
+
+const templateFile = path.join(repositoryRoot, ".env.example");
+if (fs.existsSync(templateFile)) {
+  for (const [key, value] of Object.entries(
+    dotenv.parse(fs.readFileSync(templateFile, { encoding: "utf8" })),
+  )) {
+    if (value.trim() !== "" && process.env[key] === undefined) process.env[key] = value;
+  }
 }
 
 const schema = defineConfigSchema({

@@ -12,10 +12,8 @@ services:
     image: ${DISCORD_ENTERPRISE_BOT_IMAGE:-ghcr.io/skygenesisenterprise/discord-enterprise}:${DISCORD_ENTERPRISE_BOT_VERSION:-latest}
     container_name: discord-enterprise-bot
     restart: unless-stopped
-    # The bot's own .env lives next to its source, not at the repository root.
-    env_file:
-      - path: bot/.env
-        required: false
+    # No per-bot env file: the root `.env` (copied from `.env.example`) is the
+    # single source, read below by Compose interpolation.
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       APP_VERSION: ${DISCORD_ENTERPRISE_VERSION:-2.0.0}

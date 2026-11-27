@@ -178,8 +178,7 @@ discord-enterprise/
 | --- | --- | --- |
 | `bot/data/discord-enterprise.sqlite3` | Bot | Guild settings, guild join/leave history, migrations |
 | `discord-enterprise-data` volume | Container | Same SQLite file, persisted across restarts |
-| `bot/.env` | Operator | Discord token, application id, runtime settings |
-| `.env` | Operator | Root template values, never committed |
+| `.env` | Operator | Single source copied from `.env.example`: Discord credentials and runtime settings; never committed |
 
 ## 🤖 Commands
 
@@ -222,19 +221,20 @@ in a guild are rejected in DMs, and staff-only settings are fail-closed.
 ```bash
 git clone https://github.com/skygenesisenterprise/discord-enterprise.git
 cd discord-enterprise
-cp bot/.env.example bot/.env
+cp .env.example .env
 ```
 
 Fill in `DISCORD_TOKEN`, `DISCORD_APPLICATION_ID` and, for guild-scoped command
-deployment, `DISCORD_GUILD_ID`. Then:
+deployment, `DISCORD_ENTERPRISE_COMMAND_SCOPE=guild` plus
+`DISCORD_ENTERPRISE_COMMAND_GUILD_ID`. Then:
 
 ```bash
 make docker-up
 make docker-logs
 ```
 
-`make install` creates `bot/.env` from the template if it is missing, then runs
-the same stack. The Compose service publishes the health port `3010` and mounts
+`make install` creates the root `.env` from `.env.example` if it is missing, then
+runs the same stack. The bot reads that file through `bot/config/env.js`. The Compose service publishes the health port `3010` and mounts
 the named volume `discord-enterprise-data` at `/app/bot/data`.
 
 | Endpoint | URL |
@@ -321,15 +321,14 @@ make image-push      # push the local tags (docker login first)
 
 | Scope | Template | Required values |
 | --- | --- | --- |
-| Bot | `bot/.env.example` | `DISCORD_TOKEN`, `DISCORD_APPLICATION_ID` |
+| Bot and Compose | `.env.example` → `.env` at the repository root | `DISCORD_TOKEN`, `DISCORD_APPLICATION_ID` |
 | Container | `docker-compose.yml` | `DISCORD_ENTERPRISE_HEALTH_PORT`, optional image overrides |
 
 | Variable | Purpose |
 | --- | --- |
 | `DISCORD_TOKEN` / `DISCORD_APPLICATION_ID` | Bot credentials |
-| `DISCORD_GUILD_ID` | Guild used for scoped command deployment |
-| `DISCORD_ENTERPRISE_GUILD_DISCORD_TOKEN` etc. | Per-bot framework credential variables |
-| `DISCORD_ENTERPRISE_COMMAND_SCOPE` / `DISCORD_ENTERPRISE_COMMAND_GUILD_ID` | Global, guild or no command deployment |
+| `DISCORD_ENTERPRISE_COMMAND_SCOPE` / `DISCORD_ENTERPRISE_COMMAND_GUILD_ID` | Global, guild or no command deployment, and the target guild |
+| `DISCORD_ENTERPRISE_DISCORD_ENTERPRISE_DISCORD_TOKEN` / `..._APPLICATION_ID` | Optional bot-scoped credentials (this bot only) |
 | `DISCORD_ENTERPRISE_LOG_LEVEL` | `debug`, `info`, `warn` or `error` |
 | `DISCORD_ENTERPRISE_DATA_DIR` / `DISCORD_ENTERPRISE_DATABASE_PATH` | SQLite location inside the container |
 | `DISCORD_ENTERPRISE_HEALTH_PORT` | Health and metrics port (default `3010`) |
@@ -349,7 +348,7 @@ never committed.
   volume only when you intend to lose guild settings and history.
 - **Updates** — `make update` pulls the revision and restarts the bot.
 - **Checks** — `make doctor` verifies Docker, Compose, the stack files and
-  `bot/.env`.
+  root `.env`.
 - **Help** — `make help` lists every available target.
 
 ```bash
@@ -384,7 +383,7 @@ make docker-logs
 
 | Symptom | First place to look |
 | --- | --- |
-| The bot does not connect | `DISCORD_TOKEN` and `DISCORD_APPLICATION_ID` in `bot/.env` |
+| The bot does not connect | `DISCORD_TOKEN` and `DISCORD_APPLICATION_ID` in the root `.env` |
 | Slash commands are missing | Command scope, or `DISCORD_ENTERPRISE_DEPLOY_COMMANDS` was never enabled |
 | Settings are lost after restart | The `discord-enterprise-data` volume was removed |
 | `/help` looks outdated | Deploy the commands again after changing a definition |

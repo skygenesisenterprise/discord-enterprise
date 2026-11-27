@@ -93,8 +93,8 @@ docs-generate: ## Regenerate managed documentation regions
 # The container holds one process and one named data volume; no Redis, no
 # database service, no platform edition.
 # ---------------------------------------------------------------------------
-install: ## Create bot/.env from the template (if missing) and start the bot
-	@test -f bot/.env || { cp bot/.env.example bot/.env; echo "==> bot/.env created — fill in the credentials, then re-run"; exit 1; }
+install: ## Create the root .env from .env.example (if missing) and start the bot
+	@test -f .env || { cp .env.example .env; echo "==> .env created at the repository root — fill in the credentials, then re-run"; exit 1; }
 	@$(MAKE) docker-up
 
 docker-build: ## Build the bot image with the local tags
@@ -162,7 +162,7 @@ doctor: ## Check the local installation
 	@docker compose version >/dev/null 2>&1 && echo "✓ Docker Compose" || echo "✗ Docker Compose missing"
 	@docker buildx version >/dev/null 2>&1 && echo "✓ Docker Buildx" || echo "✗ Docker Buildx missing"
 	@test -f Dockerfile && test -f docker-compose.yml && test -f entrypoint.sh && echo "✓ Docker stack files" || echo "✗ Docker stack files missing"
-	@test -f bot/.env && echo "✓ bot/.env exists" || echo "✗ bot/.env missing (make install)"
+	@test -f .env && echo "✓ root .env exists" || echo "✗ root .env missing (make install)"
 	@$(COMPOSE) ps -a 2>&1 | tail -5
 
 update: ## Pull the latest revision and restart the bot
